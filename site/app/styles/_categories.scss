@@ -48,7 +48,7 @@ $color-weave-green: #0f9d58;
 
 @mixin codelab-card($categories, $color, $icon) {
   %bg-#{$color} {
-    background-color: $color;
+    background-color: $keptnBlue;
   }
 
   %border-#{$color} {
@@ -159,6 +159,8 @@ $color-google-blue, 'wear-os.svg');
   $color-google-blue, 'cloud-sql.svg');
 @include codelab-card(['cloud-web'],
   $color-google-blue, 'web.svg');
+@include codelab-card(['gke'],
+  $color-google-blue, 'gke.svg');
 
 @include codelab-card(['design'],
   $color-design-grey, 'design.svg');
@@ -199,3 +201,6 @@ $color-weave-green, 'weave.svg');
 
 @include codelab-card(['web'],
   $color-google-blue, 'web.svg');
+
+@include codelab-card(['gke'],
+  $color-google-blue, 'gke.svg');

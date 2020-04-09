@@ -1,9 +1,9 @@
 {
-  "environment": "eks",
+  "environment": "web",
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2020-04-09T09:53:30+02:00",
+  "updated": "2020-04-09T14:11:09+02:00",
   "id": "keptn-full-tour-dynatrace",
   "duration": 88,
   "title": "Keptn Full Tour on Dynatrace",
@@ -15,7 +15,14 @@
     "published"
   ],
   "category": [
-    "tutorial"
+    "dynatrace",
+    "aks",
+    "eks",
+    "gke",
+    "openshift",
+    "pks",
+    "minikube",
+    "full-tour"
   ],
   "tags": [
     "keptn"

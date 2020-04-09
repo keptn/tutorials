@@ -1,0 +1,26 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2020-04-09T14:25:44+02:00",
+  "id": "keptn-installation-pks",
+  "duration": 27,
+  "title": "Keptn Installation on PKS",
+  "authors": "Jürgen Etzlstorfer",
+  "summary": "Install Keptn on PKS",
+  "source": "keptn-install-pks_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "pks",
+    "installation"
+  ],
+  "tags": [
+    "install"
+  ],
+  "feedback": "https://keptn.sh",
+  "url": "keptn-installation-pks"
+}

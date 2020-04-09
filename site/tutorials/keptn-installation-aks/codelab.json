@@ -1,0 +1,26 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2020-04-09T14:25:44+02:00",
+  "id": "keptn-installation-aks",
+  "duration": 27,
+  "title": "Keptn Installation on AKS",
+  "authors": "Jürgen Etzlstorfer",
+  "summary": "Install Keptn on AKS",
+  "source": "keptn-install-aks_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "aks",
+    "installation"
+  ],
+  "tags": [
+    "keptn"
+  ],
+  "feedback": "https://keptn.sh",
+  "url": "keptn-installation-aks"
+}

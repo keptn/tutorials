@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>Keptn Installation</title>
+  <title>Keptn Installation on EKS</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
@@ -22,85 +22,98 @@
 <body>
   <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
-                  id="keptn-installation"
-                  title="Keptn Installation"
-                  environment="eks"
+                  id="keptn-installation-eks"
+                  title="Keptn Installation on EKS"
+                  environment="web"
                   feedback-link="https://keptn.sh">
     
+      <google-codelab-step label="Welcome" duration="2">
+        <p>In this tutorial we are going to learn how to install Keptn in your Kubernetes cluster running in Elastic Kubernetes Services (EKS) in AWS.</p>
+
+
+      </google-codelab-step>
+    
       <google-codelab-step label="Prerequisites" duration="5">
-        <ul>
+        <p>Please download and install the following tools if you do not have them installed on your machine already.</p>
+<ul>
 <li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/" target="_blank">kubectl</a></li>
-<li>For Linux: <a href="https://www.gnu.org/software/bc/manual/html_mono/bc.html" target="_blank">bc</a></li>
 </ul>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Setup Kubernetes cluster" duration="10">
-        <p>We are going to setup a Kubernetes cluster.</p>
-<h2 is-upgraded>new section</h2>
-<p>general</p>
-<p>Amazon Elastic Kubernetes Service (EKS)</p>
+        <p>We are going to setup a Kubernetes cluster in EKS.</p>
 <ol type="1">
 <li>Install local tools<ul>
 <li><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html" target="_blank">AWS CLI</a> (version &gt;= 1.16.156)</li>
 </ul>
 </li>
-<li>Create EKS cluster on AWS<ul>
+<li>Create EKS cluster on AWS. You can do so either via the online portal of AWS or via <code>eksctl</code>.<ul>
 <li>version &gt;= <code>1.13</code>, version &gt;= <code>1.14</code> recommended (tested version: <code>1.14</code>)</li>
 <li>One <code>m5.2xlarge</code> node</li>
-<li>Sample script using <a href="https://eksctl.io/introduction/installation/" target="_blank">eksctl</a> to create such a cluster</li>
-</ul>
-<pre><code>eksctl create cluster --version=1.14 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
-</code></pre>
-Known bug in EKS 1.13:<br>Please note that for EKS version <code>1.13</code> in our testing we learned that the default CoreDNS that comes with certain EKS versions has a bug. In order to solve that issue we can use eksctl to update the CoreDNS service like this:<pre><code>eksctl utils update-coredns --name=keptn-cluster --region=eu-west-3 --approve
+<li>Sample script using <a href="https://eksctl.io/introduction/installation/" target="_blank">eksctl</a> to create such a cluster<pre><code>eksctl create cluster --version=1.14 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
 </code></pre>
 </li>
+</ul>
+</li>
 </ol>
+<aside class="warning"><p>Please follow the next step if you are running EKS version 1.13</p>
+</aside>
+<p>Please note that for EKS version <code>1.13</code> in our testing we learned that the default CoreDNS that comes with certain EKS versions has a bug. In order to solve that issue we can use eksctl to update the CoreDNS service like this:</p>
+<pre><code>  eksctl utils update-coredns --name=keptn-cluster --region=eu-west-3 --approve
+</code></pre>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="Download Keptn CLI" duration="2">
+      <google-codelab-step label="Download Keptn CLI" duration="3">
         <p>Every release of Keptn provides binaries for the Keptn CLI. These binaries are available for Linux, macOS, and Windows.</p>
-<ol type="1">
+<p>There are multiple options how to get the Keptn CLI on your machine.</p>
+<ul>
+<li>Easiest option, if you are running on a Linux or Mac OS:<pre><code>curl -sL https://get.keptn.sh | sudo -E bash
+</code></pre>
+This will download and install the Keptn CLI automatically.</li>
+<li>Another option is to manually download the current release of the Keptn CLI:<ol type="1">
 <li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.6.1" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
-<li>Find the <code>keptn</code> binary in the unpacked directory<ul>
+<li>Find the <code>keptn</code> binary in the unpacked directory</li>
+</ol>
+<ul>
 <li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
 <li><em>Windows</em>: Copy the executable to the desired folder and add the executable to your PATH environment variable.</li>
 </ul>
 </li>
-<li>Now, you should be able to run the Keptn CLI:<ul>
+</ul>
+<p>Now, you should be able to run the Keptn CLI:</p>
+<ul>
 <li>Linux / macOS<pre><code>keptn --help
 </code></pre>
-<ul>
-<li>Windows<br><code>console<br>.\keptn.exe --help<br></code></li>
-</ul>
+</li>
+<li>Windows<pre><code>.\keptn.exe --help
+</code></pre>
 </li>
 </ul>
-</li>
-</ol>
-<p><strong>Note:</strong> For the rest of the documentation we will stick to the <em>Linux / macOS</em> version of the commands.</p>
+<aside class="special"><p>For the rest of the documentation we will stick to the <em>Linux / macOS</em> version of the commands.</p>
+</aside>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Install Keptn in your cluster" duration="7">
-        <p>To install the latest release of Keptn on a Kuberntes cluster, execute the <a href="../../reference/cli/#keptn-install" target="_blank">keptn install</a> command with the <code>platform</code> flag specifying the target platform you would like to install Keptn on.</p>
+        <p>To install the latest release of Keptn in your EKS cluster, execute the <code>keptn install</code> command with the <code>platform</code> flag specifying the target platform you would like to install Keptn on.</p>
 <pre><code>keptn install --platform=eks
 </code></pre>
-<p>If you have a custom domain or cannot use <em>xip.io</em> (e.g., when running Keptn on EKS with an ELB (Elastic Load Balancer) from AWS), there is the CLI command <a href="../../reference/cli/#keptn-configure-domain" target="_blank">keptn configure domain</a> to configure Keptn for your custom domain:</p>
+<aside class="special"><p>The installation process will take about 5-10 minutes.</p>
+</aside>
+<aside class="warning"><p>Please read the following note if you are running EKS with an Elastic Load Balancer</p>
+</aside>
+<p>If you have a custom domain or cannot use xip.io (e.g., when running Keptn on EKS with an ELB (Elastic Load Balancer) from AWS), there is the CLI command keptn configure domain to configure Keptn for your custom domain:</p>
 <pre><code>keptn configure domain YOUR_DOMAIN
 </code></pre>
+<p>As an example: <code>keptn configure domain mydemo.mydomain.com</code></p>
 <h2 is-upgraded>Installation details</h2>
 <p>In the Kubernetes cluster, this command creates the <strong>keptn</strong>, <strong>keptn-datastore</strong>, and <strong>istio-system</strong> namespace. While istio-system contains all Istio related resources, keptn and keptn-datastore contain the complete infrastructure to run Keptn.</p>
-<h2 is-upgraded>Troubleshooting</h2>
-<p>Please note that in case of any errors, the install process might leave some files in an inconsistent state. Therefore <a href="../../reference/cli/#keptn-install" target="_blank">keptn install</a> cannot be executed a second time without <a href="../../reference/cli/#keptn-uninstall" target="_blank">keptn uninstall</a>. To address a unsuccessful installation:</p>
-<ol type="1">
-<li><a href="../../reference/troubleshooting#verifying-a-keptn-installation" target="_blank">Verify the Keptn installation</a>.</li>
-<li>Uninstall Keptn by executing the <a href="../../reference/cli#keptn-uninstall" target="_blank">keptn uninstall</a> command before conducting a re-installation.</li>
-</ol>
 
 
       </google-codelab-step>
