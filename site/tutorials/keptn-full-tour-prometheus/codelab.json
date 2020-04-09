@@ -1,0 +1,25 @@
+{
+  "environment": "eks",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2020-04-08T14:35:01+02:00",
+  "id": "keptn-full-tour-prometheus",
+  "duration": 97,
+  "title": "Keptn Full Tour",
+  "authors": "Jürgen Etzlstorfer",
+  "summary": "Take a full tour on Keptn",
+  "source": "keptn-full-tour-prometheus_gen.md",
+  "theme": "",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "tutorial"
+  ],
+  "tags": [
+    "keptn"
+  ],
+  "feedback": "https://keptn.sh",
+  "url": "keptn-full-tour-prometheus"
+}

@@ -1,0 +1,408 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Keptn Full Tour on Dynatrace</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="keptn-full-tour-dynatrace"
+                  title="Keptn Full Tour on Dynatrace"
+                  environment="eks"
+                  feedback-link="https://keptn.sh">
+    
+      <google-codelab-step label="Welcome" duration="2">
+        <p>In this tutorial you&#39;ll get a full tour through Keptn. Before we get started you&#39;ll get to know what you will learn while you walk yourself through this tutorial.</p>
+<h2 class="checklist" is-upgraded>What you&#39;ll learn</h2>
+<ul class="checklist">
+<li>How to create a sample project</li>
+<li>How to onboard a first microservice</li>
+<li>How to deploy your first microservice with blue/green deployments</li>
+<li>How to setup quality gates</li>
+<li>How to prevent bad builds of your microservice to reach production</li>
+<li>How to automatically roll back bad builds of your microservices</li>
+<li>How to integrate other tools like Slack, MS Team, etc in your Keptn integration</li>
+</ul>
+<p>You&#39;ll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prerequisite" duration="10">
+        <p>Before you can get started, please make sure to have Keptn installed on your Kubernetes cluster.</p>
+<p>If not, please follow one of these tutorials to install Keptn on your favourite Kubernetes distribution.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup Dynatrace" duration="7">
+        <p>For enabling the Keptn Quality Gates, we are going to use Dynatrace as the data provider. Therefore, we are going to setup Dynatrace in our Kubernetes cluster to have our sample application monitored and we can use the monitoring data for both the basis for evaluating quality gates as well as a trigger to start self-healing.</p>
+<aside class="special"><p>You have to bring your own Dynatrace tenant</p>
+</aside>
+<p>If you don&#39;t have a Dynatrace tenant yet, sign up for a <a href="https://www.dynatrace.com/trial/" target="_blank">free trial</a> or a <a href="https://www.dynatrace.com/developer/" target="_blank">developer account</a>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Gather Dynatrace tokens" duration="6">
+        <ol type="1">
+<li>Create a Dynatrace API TokenLog in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
+<li>Access problem and event feed, metrics and topology</li>
+<li>Access logs</li>
+<li>Configure maintenance windows</li>
+<li>Read configuration</li>
+<li>Write configuration</li>
+<li>Capture request data</li>
+<li>Real user monitoring JavaScript tag management</li>
+</ul>
+Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/56d17f1ed499b888.png"></li>
+<li>Create a Dynatrace PaaS TokenIn your Dynatrace tenant, go to <strong>Settings &gt; Integration &gt; Platform as a Service</strong>, and create a new PaaS Token.</li>
+<li>Store your credentials in a Kubernetes secret by executing the following command. The <code>DT_TENANT</code> has to be set according to the appropriate pattern:<ul>
+<li>Dynatrace SaaS tenant (this format is most likely for you): <code>{your-environment-id}.live.dynatrace.com</code></li>
+<li>Dynatrace-managed tenant: <code>{your-domain}/e/{your-environment-id}</code></li>
+</ul>
+If running on a Unix/Linux based system, you can use variables for ease of use. Naturally, it is also fine to just replace the values in the <code>kubectl</code> command itself.<pre><code>DT_TENANT=yourtenant.live.dynatrace.com
+DT_API_TOKEN=yourAPItoken
+DT_PAAS_TOKEN=yourPAAStoken
+</code></pre>
+If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variable, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34;
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install Dynatrace integration" duration="5">
+        <ol type="1">
+<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.6.2/deploy/manifests/dynatrace-service/dynatrace-service.yaml
+</code></pre>
+</li>
+<li>When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.<pre><code>keptn configure monitoring dynatrace
+</code></pre>
+</li>
+</ol>
+<p><strong>Verify Dynatrace configuration</strong></p>
+<p>Since Keptn has configured your Dynatrace tenant, let us take a look what has be done for you:</p>
+<ul>
+<li><em>Tagging rules:</em> When you navigate to <strong>Settings &gt; Tags &gt; Automatically applied tags</strong> in your Dynatrace tenant, you will find following tagging rules:<ul>
+<li>keptn_deployment</li>
+<li>keptn_project</li>
+<li>keptn_service</li>
+<li>keptn_stage<br><br></li>
+</ul>
+This means that Dynatrace will automatically apply tags to your onboarded services.</li>
+<li><em>Problem notification:</em> A problem notification has been set up to inform Keptn of any problems with your services to allow auto-remediation. You can check the problem notification by navigating to <strong>Settings &gt; Integration &gt; Problem notifications</strong> and you will find a <strong>keptn remediation</strong> problem notification.</li>
+<li><em>Alerting profile:</em> An alerting profile with all problems set to <em>0 minutes</em> (immediate) is created. You can review this profile by navigating to <strong>Settings &gt; Alerting &gt; Alerting profiles</strong>.</li>
+<li><em>Dashboard and Mangement zone:</em> When creating a new Keptn project or executing the <a href="../../cli/#keptn-configure-monitoring" target="_blank">keptn configure monitoring</a> command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.</li>
+</ul>
+<aside class="warning"><p>If the nodes in your cluster run on <em>Container-Optimized OS (cos)</em> (default for GKE), the Dynatrace OneAgent might not work properly, and another step is necessary.</p>
+</aside>
+<p>Follow the next steps only if your Dynatrace OneAgent does not work properly.</p>
+<ol type="1">
+<li>To check if the OneAgent does not work properly, the output of <code>kubectl get pods -n dynatrace</code> might look as follows:<pre><code>NAME                                           READY   STATUS             RESTARTS   AGE
+dynatrace-oneagent-operator-7f477bf78d-dgwb6   1/1     Running            0          8m21s
+oneagent-b22m4                                 0/1     Error              6          8m15s
+oneagent-k7jn6                                 0/1     CrashLoopBackOff   6          8m15s
+</code></pre>
+</li>
+<li>This means that after the initial setup you need to edit the OneAgent custom resource in the Dynatrace namespace and add the following entry to the env section:<pre><code>env:
+- name: ONEAGENT_ENABLE_VOLUME_STORAGE
+  value: &#34;true&#34;
+</code></pre>
+</li>
+<li>To edit the OneAgent custom resource:<pre><code>kubectl edit oneagent -n dynatrace
+</code></pre>
+</li>
+</ol>
+<p>At the end of your installation, please verify that all Dynatrace resources are in a Ready and Running status by executing <code>kubectl get pods -n dynatrace</code>:</p>
+<pre><code>NAME                                           READY   STATUS       RESTARTS   AGE
+dynatrace-oneagent-operator-7f477bf78d-dgwb6   1/1     Running      0          8m21s
+oneagent-b22m4                                 1/1     Running      0          8m21s
+oneagent-k7jn6                                 1/1     Running      0          8m21s
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create your first project" duration="8">
+        <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
+<p>For creating a project, this tutorial relies on a <code>shipyard.yaml</code> file as shown below:</p>
+<pre><code>stages:
+  - name: &#34;dev&#34;
+    deployment_strategy: &#34;direct&#34;
+    test_strategy: &#34;functional&#34;
+  - name: &#34;staging&#34;
+    deployment_strategy: &#34;blue_green_service&#34;
+    test_strategy: &#34;performance&#34;
+  - name: &#34;production&#34;
+    deployment_strategy: &#34;blue_green_service&#34;
+    remediation_strategy: &#34;automated&#34;
+</code></pre>
+<p>This shipyard contains three stages: dev, staging, and production. This results in the three Kubernetes namespaces: sockshop-dev, sockshop-staging, and sockshop-production.</p>
+<ul>
+<li><strong>dev</strong> will have a direct (big bang) deployment strategy and functional tests are executed</li>
+<li><strong>staging</strong> will have a blue/green deployment strategy and performance tests are executed</li>
+<li><strong>production</strong> will have a blue/green deployment strategy without any further testing. The configured remediation strategy is used for the <a href="../self-healing-with-keptn/" target="_blank">Self-healing with Keptn</a> tutorial.</li>
+</ul>
+<aside class="special"><p>To learn more about a <em>shipyard</em> file, please take a look at the <a href="https://github.com/keptn/spec/blob/master/shipyard.md" target="_blank">Shipyard specification</a>.</p>
+</aside>
+<p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
+<p>Create a new project without Git upstream:</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
+</code></pre>
+<p><strong>Optional:</strong> Create a new project with Git upstream</p>
+<p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="../../manage/project/#select-git-based-upstream" target="_blank">select Git-based upstream</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Onboard first microservice" duration="8">
+        <p>After creating the project, services can be onboard to this project.</p>
+<ul>
+<li>Onboard the <strong>carts</strong> service using the <a href="../../reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command:</li>
+</ul>
+<pre><code>keptn onboard service carts --project=sockshop --chart=./carts
+</code></pre>
+<ul>
+<li>After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:<ul>
+<li>Functional tests for <em>dev</em> stage:</li>
+</ul>
+<pre><code>keptn add-resource --project=sockshop --stage=dev --service=carts --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+</code></pre>
+<ul>
+<li>Performance tests for <em>staging</em> stage:</li>
+</ul>
+<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+</code></pre>
+<strong>Note:</strong> You can adapt the tests in <code>basiccheck.jmx</code> as well as <code>load.jmx</code> for your service. However, you must not rename the files because there is a hardcoded dependency on these file names in the current implementation of Keptn&#39;s jmeter-service.</li>
+</ul>
+<p>Since the carts service requires a mongodb database, a second service needs to be onboarded.</p>
+<ul>
+<li>Onboard the <strong>carts-db</strong> service using the <a href="../../reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command. The <code>--deployment-strategy</code> flag specifies that for this service a <em>direct</em> deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.</li>
+</ul>
+<pre><code>keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
+</code></pre>
+<p>During the onboarding of the services, Keptn creates a namespace for each stage based on the pattern: <code>projectname-stagename</code>.</p>
+<ul>
+<li>To verify the new namespaces, execute the following command:</li>
+</ul>
+<pre><code>kubectl get namespaces
+</code></pre>
+<pre><code>NAME                  STATUS   AGE
+...
+sockshop-dev          Active   2m16s
+sockshop-production   Active   2m16s
+sockshop-staging      Active   2m16s
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy first build with Keptn" duration="5">
+        <p>After onboarding the services, a built artifact of each service can be deployed.</p>
+<ul>
+<li>Deploy the carts-db service by executing the <a href="../../reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:</li>
+</ul>
+<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
+</code></pre>
+<ul>
+<li>Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.10.1:</li>
+</ul>
+<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.1
+</code></pre>
+<ul>
+<li>Go to Keptn&#39;s Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:</li>
+</ul>
+<pre><code>kubectl port-forward svc/bridge -n keptn 9000:8080
+</code></pre>
+<ul>
+<li>The Keptn&#39;s Bridge is then available on: http://localhost:9000.It shows all deployments that have been triggered. On the left-hand side, you can see the deployment start events (i.e., so-called <code>Configuration change</code> events). During a deployment, Keptn generates events for controlling the deployment process. These events will also show up in Keptn&#39;s Bridge. Please note that if events are sent at the same time, their order in the Keptn&#39;s Bridge might be arbitrary since they are sorted on the granularity of one second.<img alt="Keptn's Bridge" src="img/1d14895c19fe447d.png"></li>
+<li><strong>Optional:</strong> Verify the pods that should have been created for services carts and carts-db:</li>
+</ul>
+<pre><code>kubectl get pods --all-namespaces | grep carts
+</code></pre>
+<pre><code>sockshop-dev          carts-77dfdc664b-25b74                            1/1     Running     0          10m
+sockshop-dev          carts-db-54d9b6775-lmhf6                          1/1     Running     0          13m
+sockshop-production   carts-db-54d9b6775-4hlwn                          2/2     Running     0          12m
+sockshop-production   carts-primary-79bcc7c99f-bwdhg                    2/2     Running     0          2m15s
+sockshop-staging      carts-db-54d9b6775-rm8rw                          2/2     Running     0          12m
+sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     Running     0          7m24s
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="View carts service" duration="2">
+        <ul>
+<li>Get the URL for your carts service with the following commands in the respective namespaces:</li>
+</ul>
+<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+<pre><code>echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+<pre><code>echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+<ul>
+<li>Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:<img alt="carts in production" src="img/c7ffeaf0e43d6aad.png"></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up the quality gate" duration="5">
+        <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/0.1.3/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
+<ul>
+<li>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="../../reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command:<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
+</code></pre>
+</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy a slow build" duration="5">
+        <p>You can take a look at the currently deployed version of our &#34;carts&#34; microservice before we deploy the next build of our microservice.</p>
+<p>Get the URL for your carts service with the following commands in the respective stages:</p>
+<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+<pre><code>echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+<pre><code>echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+<p>Navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code> for viewing the carts service in your <strong>production</strong> environment and you should receive an output similar to the following:</p>
+<p class="image-container"><img alt="carts service" src="img/c7ffeaf0e43d6aad.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy the slow carts version" duration="5">
+        <ul>
+<li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.</li>
+</ul>
+<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.2
+</code></pre>
+<p>Go ahead and verify that the slow build has reached your <code>dev</code> and <code>staging</code> environments by opening a browser for both environments. Get the URLs with these commands:</p>
+<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+<pre><code>echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+<p class="image-container"><img alt="carts service" src="img/900f389931b4dc11.png"></p>
+<p class="image-container"><img alt="carts service" src="img/1ba3e7fd9fe59816.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Quality gate in action" duration="10">
+        <p>After triggering the deployment of the carts service in version v0.10.2, the following status is expected:</p>
+<ul>
+<li><strong>Dev stage:</strong> The new version is deployed in the dev stage and the functional tests passed.<ul>
+<li>To verify, open a browser and navigate to: <code>http://carts.sockshop-dev.YOUR.DOMAIN</code></li>
+</ul>
+</li>
+<li><strong>Staging stage:</strong> In this stage, version v0.10.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.10.1 in this stage is conducted and the promotion to production is not triggered.<ul>
+<li>To verify, the <a href="../../reference/keptnsbridge/#usage" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.10.2 and then the failed test in staging including the roll-back:</li>
+</ul>
+</li>
+</ul>
+<p class="image-container"><img alt="Quality gate in staging" src="img/73c52a96d02e0cd5.png"></p>
+<ul>
+<li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.10.1 is expected to be in production.<br><br><ul>
+<li>To verify, navigate to: <code>http://carts.sockshop-production.YOUR.DOMAIN</code></li>
+</ul>
+</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Verify the quality gate in Keptn&#39;s Bridge" duration="3">
+        <p>TODO</p>
+<p class="image-container"><img alt="Keptn's bridge" src="img/b79edd6638955ef8.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy a regular carts version" duration="3">
+        <ol type="1">
+<li>Use the Keptn CLI to send a new version of the <em>carts</em> artifact, which does <strong>not</strong> contain any slowdown:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.3
+</code></pre>
+</li>
+<li>To verify the deployment in <em>production</em>, open a browser and navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code>. As a result, you see <code>Version: v3</code>.</li>
+<li>Besides, you can verify the deployments in your Kubernetes cluster using the following commands:<pre><code>kubectl get deployments -n sockshop-production
+</code></pre>
+<pre><code>NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+carts-db        1         1         1            1           63m
+carts-primary   1         1         1            1           98m
+</code></pre>
+<pre><code>kubectl describe deployment carts-primary -n sockshop-production
+</code></pre>
+<pre><code>...
+Pod Template:
+Labels:  app=carts-primary
+Containers:
+  carts:
+    Image:      docker.io/keptnexamples/carts:0.10.3
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Getting started with Keptn integrations" duration="3">
+        <p>Keptn can be easily extended with external tools such as notification tools, other <a href="link to docs" target="_blank">SLI providers</a>, bots to interact with Keptn, etc.<br>While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:</p>
+<ul>
+<li><a href="https://github.com/keptn-contrib" target="_blank">Keptn Contrib</a> lists mature Keptn integrations that you can use for your Keptn installation</li>
+<li><a href="https://github.com/keptn-sandbox" target="_blank">Keptn Sandbox</a> collects mostly new integrations and those that are currently under development - however, you can also find useful integrations here.</li>
+</ul>
+<aside class="special"><p>We are happy to receive your contributions - please <a href="https://github.com/keptn-sandbox/contributing" target="_blank">follow this guide</a> if you want to contribute your own services to Keptn</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Finish" duration="1">
+        <p>Thanks for taking a full tour through Keptn!<br>Although Keptn has even more to offer that should have given you a good overview what you can do with Keptn.</p>
+<h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
+<ul class="checklist">
+<li>We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the <code>shipyard</code> file</li>
+<li>We have onboarded our first microservice</li>
+<li>We used a blue/green deployment to deploy the service</li>
+<li>We have set up Prometheus to monitor our applications</li>
+<li>We have set up quality gates based on service level objectives</li>
+<li>We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.</li>
+<li>We have set up self-healing to automatically scale our application</li>
+<li>We have learned how to extend our Keptn installation with other tools</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

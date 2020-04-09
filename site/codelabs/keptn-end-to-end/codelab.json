@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2020-03-25T13:46:20+01:00",
+  "id": "keptn-end-to-end",
+  "duration": 22,
+  "title": "Keptn end to end",
+  "authors": "Jürgen",
+  "summary": "summary goes here",
+  "source": "keptn.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "tutorial"
+  ],
+  "tags": [
+    "keptn"
+  ],
+  "feedback": "https://keptn.sh",
+  "url": "keptn-end-to-end"
+}

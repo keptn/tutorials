@@ -1,0 +1,434 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Keptn Quality Gates</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="keptn-quality-gates"
+                  title="Keptn Quality Gates"
+                  environment="web"
+                  feedback-link="https://keptn.sh">
+    
+      <google-codelab-step label="Introduction" duration="2">
+        <p>In this tutorial you will get a full tour on Keptn from installation to multi-stage pipelines with automated quality gates and self-healing capabilities in production.<br>Therefore, we are going to use a sample application throughout the tutorial. All you need to bring is a Kubernetes cluster.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup Kubernetes cluster" duration="5">
+        <h2 is-upgraded>Prerequisites</h2>
+<ul>
+<li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/" target="_blank">kubectl</a></li>
+<li>For Linux: <a href="https://www.gnu.org/software/bc/manual/html_mono/bc.html" target="_blank">bc</a></li>
+</ul>
+<p>Select one of the following options:</p>
+<h2 is-upgraded>AKS</h2>
+<ol type="1">
+<li>Install local tools<ul>
+<li><a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank">az</a></li>
+</ul>
+</li>
+<li>Create AKS cluster<ul>
+<li>Master version &gt;= <code>1.15.x</code> (tested version: <code>1.15.5</code>)</li>
+<li>One <strong>D8s_v3</strong> node</li>
+</ul>
+</li>
+</ol>
+<h2 is-upgraded>AWS</h2>
+<ol type="1">
+<li>Install local tools<ul>
+<li><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html" target="_blank">AWS CLI</a> (version &gt;= 1.16.156)</li>
+</ul>
+</li>
+<li>Create EKS cluster on AWS<ul>
+<li>version &gt;= <code>1.13</code>, version &gt;= <code>1.14</code> recommended (tested version: <code>1.14</code>)</li>
+<li>One <code>m5.2xlarge</code> node</li>
+<li>Sample script using <a href="https://eksctl.io/introduction/installation/" target="_blank">eksctl</a> to create such a cluster</li>
+</ul>
+<pre><code>eksctl create cluster --version=1.14 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
+</code></pre>
+<strong>Known bug in EKS 1.13</strong>Please note that for EKS version <code>1.13</code> in our testing we learned that the default CoreDNS that comes with certain EKS versions has a bug. In order to solve that issue we can use eksctl to update the CoreDNS service like this:<pre><code>eksctl utils update-coredns --name=keptn-cluster --region=eu-west-3 --approve
+</code></pre>
+</li>
+</ol>
+<h2 is-upgraded>GKE</h2>
+<p>Run your Keptn installation for free on GKE!<br>If you <a href="https://console.cloud.google.com/getting-started" target="_blank">sign up for a Google Cloud account</a>, Google gives you an initial $300 credit. For deploying Keptn you can apply for an additional $200 credit which you can use towards that GKE cluster needed to run Keptn.<br><br><a href="http://bit.ly/keptnongke" target="_blank">Apply for your credit here</a></p>
+<ol type="1">
+<li>Install local tools<ul>
+<li><a href="https://cloud.google.com/sdk/gcloud/" target="_blank">gcloud</a></li>
+<li><a href="https://www.python.org/downloads/release/python-2716/" target="_blank">python 2.7</a> (required for Ubuntu 19.04)</li>
+</ul>
+</li>
+<li>Create GKE cluster<ul>
+<li>Master version &gt;= <code>1.14.x</code> (tested version: <code>1.14.10-gke.24</code>)</li>
+<li>One <strong>n1-standard-8</strong> node</li>
+<li>Image type <code>ubuntu</code> or <code>cos</code> (<strong>Note:</strong> If you plan to use Dynatrace monitoring, select <code>ubuntu</code> for a more <a href="../../reference/monitoring/dynatrace/" target="_blank">convenient setup</a>.)</li>
+<li>Sample script to create such cluster:</li>
+</ul>
+<pre><code>// set environment variables
+PROJECT=nameofgcloudproject
+CLUSTER_NAME=nameofcluster
+ZONE=us-central1-a
+REGION=us-central1
+GKE_VERSION=&#34;1.14&#34;
+</code></pre>
+<pre><code>gcloud container clusters create $CLUSTER_NAME --project $PROJECT --zone $ZONE --no-enable-basic-auth --cluster-version $GKE_VERSION --machine-type &#34;n1-standard-8&#34; --image-type &#34;UBUNTU&#34; --disk-type &#34;pd-standard&#34; --disk-size &#34;100&#34; --metadata disable-legacy-endpoints=true --scopes &#34;https://www.googleapis.com/auth/devstorage.read_only&#34;,&#34;https://www.googleapis.com/auth/logging.write&#34;,&#34;https://www.googleapis.com/auth/monitoring&#34;,&#34;https://www.googleapis.com/auth/servicecontrol&#34;,&#34;https://www.googleapis.com/auth/service.management.readonly&#34;,&#34;https://www.googleapis.com/auth/trace.append&#34; --num-nodes &#34;1&#34; --enable-stackdriver-kubernetes --no-enable-ip-alias --network &#34;projects/$PROJECT/global/networks/default&#34; --subnetwork &#34;projects/$PROJECT/regions/$REGION/subnetworks/default&#34; --addons HorizontalPodAutoscaling,HttpLoadBalancing --no-enable-autoupgrade
+</code></pre>
+</li>
+</ol>
+<h2 is-upgraded>OpenShift 3.11</h2>
+<ol type="1">
+<li>Install local tools<ul>
+<li><a href="https://github.com/openshift/origin/releases/tag/v3.11.0" target="_blank">oc CLI - v3.11</a></li>
+</ul>
+</li>
+<li>On the OpenShift master node, execute the following steps:<ul>
+<li>Set up the required permissions for your user:</li>
+</ul>
+<pre><code>oc adm policy --as system:admin add-cluster-role-to-user cluster-admin &lt;OPENSHIFT_USER_NAME&gt;
+</code></pre>
+<ul>
+<li>Set up the required permissions for the installer pod:</li>
+</ul>
+<pre><code>oc adm policy  add-cluster-role-to-user cluster-admin system:serviceaccount:default:default
+oc adm policy  add-cluster-role-to-user cluster-admin system:serviceaccount:kube-system:default
+</code></pre>
+<ul>
+<li>Enable admission WebHooks on your OpenShift master node:</li>
+</ul>
+</li>
+</ol>
+<pre><code>  sudo -i
+  cp -n /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.backup
+  oc ex config patch /etc/origin/master/master-config.yaml --type=merge -p &#39;{
+    &#34;admissionConfig&#34;: {
+      &#34;pluginConfig&#34;: {
+        &#34;ValidatingAdmissionWebhook&#34;: {
+          &#34;configuration&#34;: {
+            &#34;apiVersion&#34;: &#34;apiserver.config.k8s.io/v1alpha1&#34;,
+            &#34;kind&#34;: &#34;WebhookAdmission&#34;,
+            &#34;kubeConfigFile&#34;: &#34;/dev/null&#34;
+          }
+        },
+        &#34;MutatingAdmissionWebhook&#34;: {
+          &#34;configuration&#34;: {
+            &#34;apiVersion&#34;: &#34;apiserver.config.k8s.io/v1alpha1&#34;,
+            &#34;kind&#34;: &#34;WebhookAdmission&#34;,
+            &#34;kubeConfigFile&#34;: &#34;/dev/null&#34;
+          }
+        }
+      }
+    }
+  }&#39; &gt;/etc/origin/master/master-config.yaml.patched
+  if [ $? == 0 ]; then
+    mv -f /etc/origin/master/master-config.yaml.patched /etc/origin/master/master-config.yaml
+    /usr/local/bin/master-restart api &amp;&amp; /usr/local/bin/master-restart controllers
+  else
+    exit
+  fi
+</code></pre>
+<h2 is-upgraded>Pivotal Container Service (PKS)</h2>
+<ol type="1">
+<li>Install local tools<ul>
+<li><a href="https://docs.pivotal.io/runtimes/pks/1-4/installing-pks-cli.html" target="_blank">pks CLI - v1.0.4</a></li>
+</ul>
+</li>
+<li>Create PKS cluster on GCP<ul>
+<li>Use the provided instructions for <a href="https://docs.pivotal.io/runtimes/pks/1-4/gcp-index.html" target="_blank">Enterprise Pivotal Container Service (Enterprise PKS) installation on GCP</a></li>
+<li>Create a PKS cluster by using the PKS CLI and executing the following command:</li>
+</ul>
+<pre><code>// set environment variables
+CLUSTER_NAME=name_of_cluster
+HOST_NAME=host_name
+PLAN=small
+</code></pre>
+<pre><code>pks create-cluster $CLUSTER_NAME --external-hostname $HOST_NAME --plan $PLAN
+</code></pre>
+</li>
+</ol>
+<h2 is-upgraded>Minikube 1.2</h2>
+<ol type="1">
+<li>Install Minikube in <a href="https://github.com/kubernetes/minikube/releases/tag/v1.2.0" target="_blank">version 1.2</a> (newer versions do not work).</li>
+<li>Setup a Minikube VM with at least 6 CPU cores and 12 GB memory using:<pre><code>minikube stop # optional
+minikube delete # optional
+minikube start --cpus 6 --memory 12200
+</code></pre>
+<ol type="1">
+<li>Start the Minikube LoadBalancer service in a second terminal by executing:</li>
+</ol>
+<pre><code>minikube tunnel 
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install Keptn CLI" duration="5">
+        <p>Every release of Keptn provides binaries for the Keptn CLI. These binaries are available for Linux, macOS, and Windows.</p>
+<ol type="1">
+<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.6.1" target="_blank">Download CLI</a></li>
+<li>Unpack the download</li>
+<li>Find the <code>keptn</code> binary in the unpacked directory<ul>
+<li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
+<li><em>Windows</em>: Copy the executable to the desired folder and add the executable to your PATH environment variable.</li>
+</ul>
+</li>
+<li>Now, you should be able to run the Keptn CLI:<ul>
+<li>Linux / macOS</li>
+</ul>
+<pre><code>keptn --help
+</code></pre>
+<ul>
+<li>Windows</li>
+</ul>
+<pre><code>.\keptn.exe --help
+</code></pre>
+</li>
+</ol>
+<p><strong>Note:</strong> For the rest of the documentation we will stick to the <em>Linux / macOS</em> version of the commands.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install Keptn" duration="8">
+        <p>To install the latest release of Keptn on a Kuberntes cluster, execute the <a href="../../reference/cli/#keptn-install" target="_blank">keptn install</a> command with the <code>platform</code> flag specifying the target platform you would like to install Keptn on. Currently, supported platforms are:</p>
+<ul>
+<li>Azure Kubernetes Services (AKS):</li>
+</ul>
+<pre><code>keptn install --platform=aks
+</code></pre>
+<ul>
+<li>Amazon Elastic Kubernetes Service (EKS):</li>
+</ul>
+<pre><code>keptn install --platform=eks
+</code></pre>
+<ul>
+<li>Google Kubernetes Engine (GKE):</li>
+</ul>
+<pre><code>keptn install --platform=gke
+</code></pre>
+<ul>
+<li>OpenShift 3.11:</li>
+</ul>
+<pre><code>keptn install --platform=openshift
+</code></pre>
+<ul>
+<li>Pivotal Container Service (PKS):</li>
+</ul>
+<pre><code>keptn install --platform=pks
+</code></pre>
+<ul>
+<li>Minikube 1.2:</li>
+</ul>
+<pre><code>keptn install --platform=kubernetes
+</code></pre>
+<p>In the Kubernetes cluster, this command creates the <strong>keptn</strong>, <strong>keptn-datastore</strong>, and <strong>istio-system</strong> namespace. While istio-system contains all Istio related resources, keptn and keptn-datastore contain the complete infrastructure to run Keptn.</p>
+<pre><code>&lt;details&gt;&lt;summary&gt;The *keptn* and *keptn-datastore* namespace contain:&lt;/summary&gt;
+    &lt;ul&gt;
+    &lt;li&gt;mongoDb database for the Keptn&#39;s log&lt;/li&gt;
+    &lt;li&gt;NATS cluster&lt;/li&gt;
+    &lt;li&gt;Keptn core services:&lt;/li&gt;
+        &lt;ul&gt;
+            &lt;li&gt;api&lt;/li&gt;
+            &lt;li&gt;bridge&lt;/li&gt;
+            &lt;li&gt;configuration-service&lt;/li&gt;
+            &lt;li&gt;distributors&lt;/li&gt;
+            &lt;li&gt;eventbroker&lt;/li&gt;
+            &lt;li&gt;gatekeeper-service&lt;/li&gt;
+            &lt;li&gt;helm-service&lt;/li&gt;
+            &lt;li&gt;jmeter-service&lt;/li&gt;
+            &lt;li&gt;lighthouse-service&lt;/li&gt;
+            &lt;li&gt;mongodb-datastore&lt;/li&gt;
+            &lt;li&gt;remediation-service&lt;/li&gt;
+            &lt;li&gt;shipyard-service&lt;/li&gt;
+            &lt;li&gt;wait-service&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;li&gt;Services to deploy artifacts and to demonstrate the self-healing use cases:&lt;/li&gt;
+        &lt;ul&gt;
+            &lt;li&gt;prometheus-service&lt;/li&gt;
+            &lt;li&gt;servicenow-service&lt;/li&gt;
+            &lt;li&gt;openshift-route-service (OpenShift only)&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/ul&gt;
+&lt;/details&gt;
+</code></pre>
+<p><strong>Note:</strong> If you want to install Keptn just for the use case of <a href="../../usecases/quality-gates/" target="_blank">Keptn Quality Gates</a>, you have the option to roll-out Keptn <strong>without</strong> components for automated delivery and operations. Therefore, the <code>use-case</code> flag must be set to <code>quality-gates</code>:</p>
+<pre><code>keptn install --platform=[aks|eks|gke|openshift|pks|kubernetes] --use-case=quality-gates
+</code></pre>
+<h2 is-upgraded>Configure a custom domain (required for EKS)</h2>
+<p>If you have a custom domain or cannot use <em>xip.io</em> (e.g., when running Keptn on EKS with an ELB (Elastic Load Balancer) from AWS), there is the<br>CLI command <a href="../../reference/cli/#keptn-configure-domain" target="_blank">keptn configure domain</a> to configure Keptn for your custom domain:</p>
+<pre><code>keptn configure domain YOUR_DOMAIN
+</code></pre>
+<h2 is-upgraded>Uninstall</h2>
+<ul>
+<li>To uninstall Keptn from your cluster, run the uninstall command using the Keptn CLI:</li>
+</ul>
+<pre><code>keptn uninstall
+</code></pre>
+<ul>
+<li>To verify the cleanup, retrieve the list of namespaces in your cluster and ensure that the <strong>keptn</strong> namespace is not included in the output of the following command:</li>
+</ul>
+<pre><code>kubectl get namespaces
+</code></pre>
+<h2 is-upgraded>Troubleshooting</h2>
+<p>Please note that in case of any errors, the install process might leave some files in an inconsistent state. Therefore <a href="../../reference/cli/#keptn-install" target="_blank">keptn install</a> cannot be executed a second time without <a href="../../reference/cli/#keptn-uninstall" target="_blank">keptn uninstall</a>. To address a unsuccessful installation:</p>
+<ol type="1">
+<li><a href="../../reference/troubleshooting#verifying-a-keptn-installation" target="_blank">Verify the Keptn installation</a>.</li>
+<li>Uninstall Keptn by executing the <a href="../../reference/cli#keptn-uninstall" target="_blank">keptn uninstall</a> command before conducting a re-installation.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up the quality gate" duration="2">
+        <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/0.1.3/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
+<ul>
+<li>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="../../reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command:</li>
+</ul>
+<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup Dynatrace SLI provider" duration="5">
+        <p>During the evaluation of a quality gate, the Dynatrace SLI provider is required that is implemented by an internal Keptn service, the <em>dynatrace-sli-service</em>. This service will fetch the values for the SLIs that are referenced in an SLO configuration.</p>
+<ol type="1">
+<li>To install the <em>dynatrace-sli-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.3.1/deploy/service.yaml
+</code></pre>
+<ol type="1">
+<li>The <em>dynatrace-sli-service</em> needs access to a Dynatrace tenant. If you have completed the steps from <a href="./#setup-dynatrace" target="_blank">Setup Dynatrace</a>, the <em>dynatrace-sli-service</em><br>uses the already provided credentials. Otherwise, create a <em>secret</em> containing the <strong>Tenant ID</strong> and <strong>API token</strong>.</li>
+</ol>
+The <code>DT_TENANT</code> has to be set according to the appropriate pattern:<ul>
+<li>Dynatrace SaaS tenant: <code>{your-environment-id}.live.dynatrace.com</code></li>
+<li>Dynatrace-managed tenant: <code>{your-domain}/e/{your-environment-id}</code></li>
+</ul>
+<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_API_TOKEN=&lt;DT_API_TOKEN&gt;&#34; --from-literal=&#34;DT_TENANT=&lt;DT_TENANT&gt;&#34;
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy the slow carts version" duration="3">
+        <ul>
+<li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.</li>
+</ul>
+<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.2
+</code></pre>
+<p><em>Click here to learn more about Keptn internal services.</em></p>
+<p><br>The <a href="../../reference/cli/#keptn-send-event-new-artifact" target="_blank">send event new-artifact</a> command changes the configuration of the service and automatically triggers the following Keptn services:</p>
+<ul>
+<li><strong>Phase 1</strong>: Deploying, testing, and evaluating the test in the <em>dev</em> stage:<ul>
+<li><strong>helm-service</strong>: This service deploys the new artifact to <em>dev</em>.</li>
+<li><strong>jmeter-service</strong>: This service runs a basic health check and a functional test in <em>dev</em>. Afterwards, this service sends an event of type <code>sh.keptn.events.tests-finished</code>.</li>
+<li><strong>lighthouse-service</strong>: This service picks up the event and evaluates the test runs based on the performance signature. Since in the <em>dev</em> environment only functional tests are executed, the lighthouse-service will mark the test run as successful (functional failures would have been detected by the <strong>jmeter-service</strong>).</li>
+<li><strong>gatekeeper-service</strong>: This service promotes the artifact to the next stage, i.e., <em>staging</em>.</li>
+</ul>
+</li>
+<li><strong>Phase 2</strong>: Deploying, testing, and evaluating the test in the <em>staging</em> stage:<ul>
+<li><strong>helm-service</strong>: This service deploys the new artifact to <em>staging</em> using a blue/green deployment strategy.</li>
+<li><strong>jmeter-service</strong>: This service runs a performance test in <em>staging</em> and sends the <code>sh.keptn.events.tests-finished</code> event.</li>
+<li><strong>lighthouse-service</strong>: This service picks up the event and this time, the quality gates of the service will be evaluated because we are using the performance-test-strategy for this stage. This means that the lighthouse-service will send a <code>get-sli</code> event to fetch the metrics for the <em>carts</em> service from either Prometheus or Dynatrace, depending on how you set up the monitoring for your service earlier. Based on the results of that evaluation, the lighthouse-service will mark the test run execution as successful or failed. In our scenario, the lighthouse-service will mark it as failed since the response time thresholds will be exceeded.</li>
+<li><strong>gatekeeper-service</strong>: This service receives a <code>sh.keptn.events.evaluation-done</code> event, which contains the result of the evaluation of the lighthouse-service. Since in this case the performance test failed, the gatekeeper-service automatically initiates a rollback to the previous version in <em>staging</em> and the artifact won&#39;t be promoted to <em>production</em>.</li>
+</ul>
+</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Quality gate in action" duration="3">
+        <p>After triggering the deployment of the carts service in version v0.10.2, the following status is expected:</p>
+<ul>
+<li><strong>Dev stage:</strong> The new version is deployed in the dev stage and the functional tests passed.<ul>
+<li>To verify, open a browser and navigate to: <code>http://carts.sockshop-dev.YOUR.DOMAIN</code></li>
+</ul>
+</li>
+<li><strong>Staging stage:</strong> In this stage, version v0.10.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.10.1 in this stage is conducted and the promotion to production is not triggered.<ul>
+<li>To verify, the <a href="../../reference/keptnsbridge/#usage" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.10.2 and then the failed test in staging including the roll-back:</li>
+</ul>
+</li>
+</ul>
+<p class="image-container"><img alt="quality gates" src="img/73c52a96d02e0cd5.png"></p>
+<ul>
+<li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.10.1 is expected to be in production.<br><br><ul>
+<li>To verify, navigate to: <code>http://carts.sockshop-production.YOUR.DOMAIN</code></li>
+</ul>
+</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy a regular carts version" duration="3">
+        <ol type="1">
+<li>Use the Keptn CLI to send a new version of the <em>carts</em> artifact, which does <strong>not</strong> contain any slowdown:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.3
+</code></pre>
+<ol type="1">
+<li>To verify the deployment in <em>production</em>, open a browser and navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code>. As a result, you see <code>Version: v3</code>.</li>
+<li>Besides, you can verify the deployments in your Kubernetes cluster using the following commands:</li>
+</ol>
+<pre><code>kubectl get deployments -n sockshop-production
+</code></pre>
+</li>
+</ol>
+<pre><code>NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+carts-db        1         1         1            1           63m
+carts-primary   1         1         1            1           98m
+</code></pre>
+<pre><code>kubectl describe deployment carts-primary -n sockshop-production
+</code></pre>
+<pre><code>...
+Pod Template:
+    Labels:  app=carts-primary
+    Containers:
+    carts:
+        Image:      docker.io/keptnexamples/carts:0.10.3
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Finished" duration="0">
+        <p>Congratulations! You have finished the &#34;Full tour of Keptn tutorial&#34;</p>
+<h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
+<ul class="checklist">
+<li>Installed Keptn</li>
+<li>Created a project with a multi-stage pipeline without writing pipeline code</li>
+<li>Onboarded services</li>
+<li>Successfully deployed services</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
