@@ -1,0 +1,303 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Keptn Quality Gates with Prometheus</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="keptn-quality-gates-prometheus"
+                  title="Keptn Quality Gates with Prometheus"
+                  environment="web"
+                  feedback-link="https://keptn.sh">
+    
+      <google-codelab-step label="Welcome" duration="5">
+        <p>Let&#39;s say you want to use your existing tools to deploy and test your applications - you can still use <em>Keptn`s Quality Gates</em> for the evaluation of Service Level Objectives (SLOs).</p>
+<p><em>A brief recap of SLO and SLI:</em> A Service Level Objective (SLO) is a target value or range of values for a service level that is measured by a Service Level Indicator (SLI). An SLI is a carefully defined quantitative measure of some aspect of the level of service that is provided. By default, the following SLIs can be used for evaluation, inspired by the <a href="https://landing.google.com/sre/sre-book/chapters/service-level-objectives" target="_blank">Site Reliability Engineering</a> book from Google:</p>
+<ul>
+<li><em>Response time</em>: The time it takes for a service to execute and complete a task or how long it takes to return a response to a request.</li>
+<li><em>System throughput</em>: The number of requests per second that have been processed.</li>
+<li><em>Error rate</em>: The fraction of all received requests that produced an error.</li>
+</ul>
+<aside class="special"><p>For more information about SLO and SLI, please take a look at <a href="https://github.com/keptn/spec/blob/0.1.3/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
+</aside>
+<h2 class="checklist" is-upgraded>What you&#39;ll learn</h2>
+<ul class="checklist">
+<li>Learn how to define and use service-level indicators (SLIs) and service-level objectives (SLOs)</li>
+<li>Integrate Keptn Quality Gates in your existing CI/CD pipeline</li>
+<li>How to use the Keptn CLI to trigger the quality gate evaluation</li>
+<li>How to use the Keptn API to trigger the quality gate evaluation</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prerequisites for tutorial" duration="4">
+        <p>Clone the following tutorial to your local machine to have all files at hand that we are going to use for this tutorial.</p>
+<pre><code>git clone --branch 0.6.1 https://github.com/keptn/examples.git --single-branch
+
+cd examples/onboarding-carts 
+</code></pre>
+<aside class="warning"><p>For this tutorial you have to bring your own microservice to deploy, test and evaluate. This tutorial uses a service called carts from the project sockshop meaning that you must adapt the commands to match your service and project name.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Bring your Kubernetes cluster" duration="10">
+        <p>For this tutorial a Kubernetes cluster is needed. Please take a look a the different cluster installations we are providing.</p>
+<p>TODO</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Download Keptn CLI" duration="3">
+        <p>Every release of Keptn provides binaries for the Keptn CLI. These binaries are available for Linux, macOS, and Windows.</p>
+<p>There are multiple options how to get the Keptn CLI on your machine.</p>
+<ul>
+<li>Easiest option, if you are running on a Linux or Mac OS:<pre><code>curl -sL https://get.keptn.sh | sudo -E bash
+</code></pre>
+This will download and install the Keptn CLI automatically.</li>
+<li>Another option is to manually download the current release of the Keptn CLI:<ol type="1">
+<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.6.1" target="_blank">Download CLI</a></li>
+<li>Unpack the download</li>
+<li>Find the <code>keptn</code> binary in the unpacked directory</li>
+</ol>
+<ul>
+<li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
+<li><em>Windows</em>: Copy the executable to the desired folder and add the executable to your PATH environment variable.</li>
+</ul>
+</li>
+</ul>
+<p>Now, you should be able to run the Keptn CLI:</p>
+<ul>
+<li>Linux / macOS<pre><code>keptn --help
+</code></pre>
+</li>
+<li>Windows<pre><code>.\keptn.exe --help
+</code></pre>
+</li>
+</ul>
+<aside class="special"><p>For the rest of the documentation we will stick to the <em>Linux / macOS</em> version of the commands.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install Keptn Quality Gate" duration="5">
+        <p>If you want to install Keptn just to explore the capabilities of quality gates, you have the option to roll-out Keptn <strong>without</strong> components for automated delivery and operations. Therefore, set the <code>use-case</code> flag to <code>quality-gates</code> when executing the [install(https://keptn.sh/docs/0.6.0/reference/cli/#keptn-install) command:</p>
+<pre><code>keptn install --platform=[aks|eks|gke|pks|openshift|kubernetes] --use-case=quality-gates
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Bring your own monitored microservice" duration="7">
+        <p>This tutorial is slightly different compared to others because you need to bring your own monitored service. However, we are helping you here to use our infamous sockshop application with its carts microservice.</p>
+<p>If you want to use your own service, please adopt references to <em>sockshop</em> and <em>carts</em> in the remainder of this tutorial with your own service names.</p>
+<p>Install the Prometheus service in your Keptn installation:</p>
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.2/deploy/service.yaml
+</code></pre>
+<p>Deploy the sample application with <code>kubectl</code> into your Kubernetes cluster. This part would actually be done by your CI/CD pipeline. However, since we do not have this pipeline at hand, we are doing this manually:</p>
+<pre><code>kubectl apply -f TODO-v1.yaml
+</code></pre>
+<aside class="special"><p>If you followed the instructions above and are not using your own microservice, you can skip the next part.</p>
+</aside>
+<p>This tutorial assumes that you have Prometheus installed and the service has to be monitored by Prometheus. If you are using your own microservice, please make sure that it is properly monitored by Prometheus and a corresponding <em>scrape job</em> is in place:</p>
+<p>To configure a scrape job for a Prometheus deployed on Kubernetes, you need to update the <code>prometheus-server-conf</code> ConfigMap at the <code>prometheus.yml</code> section with an additional scrape job:</p>
+<pre><code>  prometheus.yaml:
+  ----
+  scrape_configs: 
+  - job_name: carts-sockshop-hardening
+    honor_timestamps: false
+    metrics_path: /prometheus
+    static_configs:
+    - targets:
+      - carts.sockshop-hardening:80
+</code></pre>
+<p>For more information about configuring a scrape job, see the official Prometheus documentation at section <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config" target="_blank">scrape_config</a>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Configure Keptn and activate the quality gate" duration="5">
+        <p>Let us create a Keptn project (e.g., <em>musicshop</em>) with only one the <em>hardening</em> stage declared in the <code>shipyard-quality-gates.yaml</code> file that we have cloned from the examples Github repository earlier.</p>
+<pre><code>keptn create project musicshop --shipyard=shipyard-quality-gates.yaml
+</code></pre>
+<p>Create a Keptn service for your service (e.g., <em>catalogue</em>) you want to evaluate:</p>
+<pre><code>keptn create service catalogue --project=musicshop
+</code></pre>
+<aside class="special"><p>Since you are not actively deploying a service in this tutorial, <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-create-service" target="_blank">keptn create service</a> does not require you to provide a Helm chart compared to the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command.</p>
+</aside>
+<p>To activate the quality gate for your service, upload the <code>slo-quality-gates.yaml</code> file:</p>
+<pre><code>keptn add-resource --project=musicshop --stage=hardening --service=catalogue --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
+</code></pre>
+<p>Let us take a look at the actual file we have just added:</p>
+<pre><code>---
+spec_version: &#34;0.1.1&#34;
+comparison:
+  aggregate_function: &#34;avg&#34;
+  compare_with: &#34;single_result&#34;
+  include_result_with_score: &#34;pass&#34;
+  number_of_comparison_results: 1
+filter:
+objectives:
+  - sli: &#34;response_time_p95&#34;
+    key_sli: false
+    pass:             # pass if (relative change &lt;= 10% AND absolute value is &lt; 600ms)
+      - criteria:
+          - &#34;&lt;=+10%&#34;  # relative values require a prefixed sign (plus or minus)
+          - &#34;&lt;600&#34;    # absolute values only require a logical operator
+    warning:          # if the response time is below 800ms, the result should be a warning
+      - criteria:
+          - &#34;&lt;=800&#34;
+    weight: 1
+total_score:
+  pass: &#34;90%&#34;
+  warning: &#34;75%&#34;
+</code></pre>
+<p>The activated quality gate is passed when the absolute value of the response time is below 600ms and the relative change of the response time compared to the previous evaluation is below 10%. The quality gate raises a warning when the absolute value of the response time is below 800ms.</p>
+<aside class="warning"><p>Please note that deployment and testing of your service is outside of the scope of this tutorial. You would typically do this as part of your CI/CD pipeline.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup Prometheus SLI provider" duration="3">
+        <p>During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the <em>prometheus-sli-service</em>. This service will fetch the values for the SLIs that are referenced in a SLO configuration.</p>
+<p>To install the <em>prometheus-sli-service</em>, execute:</p>
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.1/deploy/service.yaml
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Configure the SLI provider" duration="3">
+        <p>Configure custom SLIs for the Prometheus SLI provider as specified in <code>sli-config-prometheus.yaml</code>:</p>
+<pre><code>keptn add-resource --project=sockshop --stage=hardening --service=carts --resource=sli-config-prometheus.yaml --resourceUri=prometheus/sli.yaml
+</code></pre>
+<p>This will add service-level indicator to your Keptn installation which can be used in our quality-gate file <code>slo.yaml</code> where we defined objectives upon those metrics:</p>
+<pre><code>---
+spec_version: &#39;1.0&#39;
+indicators:
+  response_time_p50: histogram_quantile(0.5, sum by(le) (rate(http_response_time_milliseconds_bucket{handler=&#34;ItemsController.addToCart&#34;,job=&#34;$SERVICE-$PROJECT-$STAGE&#34;}[$DURATION_SECONDS])))
+  response_time_p90: histogram_quantile(0.9, sum by(le) (rate(http_response_time_milliseconds_bucket{handler=&#34;ItemsController.addToCart&#34;,job=&#34;$SERVICE-$PROJECT-$STAGE&#34;}[$DURATION_SECONDS])))
+  response_time_p95: histogram_quantile(0.95, sum by(le) (rate(http_response_time_milliseconds_bucket{handler=&#34;ItemsController.addToCart&#34;,job=&#34;$SERVICE-$PROJECT-$STAGE&#34;}[$DURATION_SECONDS])))
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Quality Gates in action" duration="1">
+        <p>At this point, your service is ready and you can now start triggering evaluations of the SLO. A quality gate is a two-step procedure that consists of starting the evaluation and polling for the results.</p>
+<p>At a specific point in time, e.g., after you have executed your tests or you have waited for enough live traffic, you can either start the evaluation of a quality gate manually using the Keptn CLI, or automate it by either including the Keptn CLI calls in your automation scripts, or by directly accessing the Keptn REST API.</p>
+<aside class="special"><p>We will use both the Keptn CLI as well as the Keptn API for the evaluation of the quality gates.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Quality Gate evaluation with Keptn CLI" duration="5">
+        <p>Execute a quality gate evaluation by using the Keptn CLI to <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-send-event-start-evaluation" target="_blank">send event start-evaluation</a>:</p>
+<pre><code>keptn send event start-evaluation --project=sockshop --stage=hardening --service=carts --timeframe=5m
+</code></pre>
+<p>This <code>start-evaluation</code> event will kick off the evaluation of the SLO of the catalogue service over the last 5 minutes. Evaluations can be done in seconds but may also take a while as every SLI provider needs to query each SLI first. This is why the Keptn CLI will return the <code>keptnContext</code>, which is basically a token we can use to poll the status of this particular evaluation. The output of the previous command looks like this:</p>
+<pre><code>Starting to send a start-evaluation event to evaluate the service catalogue in project sockshop
+ID of Keptn context: 6cd3e469-cbd3-4f73-xxxx-8b2fb341bb11
+</code></pre>
+<ul>
+<li>Retrieve the evaluation results by using the Keptn CLI to <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-get-event-evaluation-done" target="_blank">get event evaluation-done</a>:<br><br></li>
+</ul>
+<pre><code>keptn get event evaluation-done --keptn-context=6cd3e469-cbd3-4f73-xxxx-8b2fb341bb11
+</code></pre>
+<p>The result comes in the form of the <code>evaluation-done</code> event, which is specified <a href="https://github.com/keptn/spec/blob/0.1.3/cloudevents.md#evaluation-done" target="_blank">here</a>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Quality Gate evaluation with Keptn API" duration="5">
+        <p>First, get the Keptn API endpoint and token by executing the following commands:</p>
+<pre><code>KEPTN_ENDPOINT=https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
+
+# now print the endpoint and token to the local console
+echo $KEPTN_ENDPOINT
+echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+</code></pre>
+<p>Prepare the POST request body by filling out the next JSON object:</p>
+<pre><code>{
+  &#34;type&#34;: &#34;sh.keptn.event.start-evaluation&#34;,
+  &#34;source&#34;: &#34;https://github.com/keptn/keptn&#34;
+  &#34;data&#34;: {
+    &#34;start&#34;: &#34;2019-11-21T11:00:00.000Z&#34;,
+    &#34;end&#34;: &#34;2019-11-21T11:05:00.000Z&#34;,
+    &#34;project&#34;: &#34;sockshop&#34;,
+    &#34;stage&#34;: &#34;hardening&#34;,
+    &#34;service&#34;: &#34;carts&#34;,
+    &#34;teststrategy&#34;: &#34;manual&#34;
+  }
+}
+</code></pre>
+<p>Please take attention that the above CloudEvent contains the property <code>&#34;teststrategy&#34;: &#34;manual&#34;</code>. This is required to tell Keptn that a test had been manually executed; meaning that a test had been triggered by a tool other than Keptn.</p>
+<p>Execute a quality gate evaluation by sending a POST request with the Keptn API token and the prepared payload:</p>
+<pre><code>curl -X POST &#34;https://api.keptn.12.34.56.78.xip.io/v1/event&#34; -k -H &#34;accept: application/json&#34; -H &#34;x-token: YOUR_KEPTN_TOKEN&#34; -H &#34;Content-Type: application/json&#34; -d &#34;{ \&#34;data\&#34;: { \&#34;end\&#34;: \&#34;2019-11-21T11:05:00.000Z\&#34;, \&#34;project\&#34;: \&#34;sockshop\&#34;, \&#34;service\&#34;: \&#34;carts\&#34;, \&#34;stage\&#34;: \&#34;hardening\&#34;, \&#34;start\&#34;: \&#34;2019-11-21T11:00:00.000Z\&#34;, \&#34;teststrategy\&#34;: \&#34;manual\&#34; }, \&#34;type\&#34;: \&#34;sh.keptn.event.start-evaluation\&#34;, \&#34;source\&#34;: \&#34;https://github.com/keptn/keptn\&#34;}&#34;
+</code></pre>
+<p>This request will kick off the evaluation of the SLO of the catalogue service over the last 5 minutes. Evaluations can be done in seconds but may also take a while as every SLI provider needs to query each SLI first. This is why the Keptn API will return the <code>keptnContext</code>, which is basically a token we can use to poll the status of this particular evaluation. The response to the POST request looks like this:</p>
+<pre><code>{&#34;keptnContext&#34;:&#34;384dae76-2d31-41e6-9204-39f2c1513906&#34;,&#34;token&#34;:&#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDU0NDA4ODl9.OdkhIoJ9KuT4bm7imvEXHdEPjnU0pl5S7DqGibNa924&#34;}
+</code></pre>
+<p>Send a GET request to retrieve the evaluation result:</p>
+<pre><code>curl -X GET &#34;https://api.keptn.12.34.56.78.xip.io/v1/event?keptnContext=KEPTN_CONTEXT_ID&amp;type=sh.keptn.events.evaluation-done&#34; -k -H &#34;accept: application/json&#34; -H &#34;x-token: YOUR_KEPTN_TOKEN&#34;
+</code></pre>
+<p>The result comes in the form of the <code>evaluation-done</code> event, which is specified <a href="https://github.com/keptn/spec/blob/0.1.3/cloudevents.md#evaluation-done" target="_blank">here</a>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Quality Gate evaluation verification with Keptn&#39;s Bridge" duration="5">
+        <p>The Keptn&#39;s bridge gives you insights about everything that is going on inside your Keptn installation, thus, you can also verify the evaluation of the quality gates. By default, the Keptn&#39;s bridge is not exposed to the public, but you can expose it via:</p>
+<pre><code>kubectl port-forward svc/bridge -n keptn 8080
+</code></pre>
+<p>Open up a brower on http://localhost:8080 and you will be able to inspect all evaluations of the quality gates in the Keptn&#39;s bridge.</p>
+<p class="image-container"><img alt="bridge" src="img/2f9e7cb9c27d7b4d.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Finish" duration="0">
+        <p>In this tutorial, you have learned how to use Keptn to validate the quality of your deployments.</p>
+<h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
+<ul class="checklist">
+<li>How to define and use service-level indicators (SLIs) and service-level objectives (SLOs)</li>
+<li>Integrate Keptn Quality Gates in your existing CI/CD pipeline</li>
+<li>How to use the Keptn CLI to trigger the quality gate evaluation</li>
+<li>How to use the Keptn API to trigger the quality gate evaluation</li>
+<li>How to use the Keptn&#39;s Bridge to inspect quality gate evaluations</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

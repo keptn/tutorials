@@ -45,6 +45,8 @@ TODO INSERT TUTORIALS
 
 {{ snippets/monitoring/setupPrometheus.md }}
 
+{{ snippets/monitoring/install-sliprovider-prometheus.md }}
+
 {{ snippets/quality-gates/setupQualityGate.md }}
 
 {{ snippets/self-healing/upscalePrometheus.md }}
