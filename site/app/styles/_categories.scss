@@ -160,7 +160,23 @@ $color-google-blue, 'wear-os.svg');
 @include codelab-card(['cloud-web'],
   $color-google-blue, 'web.svg');
 @include codelab-card(['gke'],
-  $color-google-blue, 'gke.svg');
+  $keptnBlue, 'gke.svg');
+@include codelab-card(['dynatrace'],
+  $keptnBlue, 'dynatrace.png');
+@include codelab-card(['prometheus'],
+  $keptnBlue, 'prometheus.png');
+@include codelab-card(['openshift'],
+  $keptnBlue, 'openshift.png');
+@include codelab-card(['aks'],
+  $keptnBlue, 'azure.png');
+@include codelab-card(['eks'],
+  $keptnBlue, 'aws.png');
+@include codelab-card(['pks'],
+  $keptnBlue, 'pivotal.png');
+@include codelab-card(['minikube'],
+  $keptnBlue, 'kubernetes.png');
+
+
 
 @include codelab-card(['design'],
   $color-design-grey, 'design.svg');
@@ -202,5 +218,3 @@ $color-weave-green, 'weave.svg');
 @include codelab-card(['web'],
   $color-google-blue, 'web.svg');
 
-@include codelab-card(['gke'],
-  $color-google-blue, 'gke.svg');
