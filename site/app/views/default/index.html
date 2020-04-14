@@ -147,6 +147,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </paper-tabs>
         </div>
 
+      <!--
         {% if view.id == 'default' %}
         <paper-dropdown-menu
           label="Choose an event"
@@ -169,10 +170,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </paper-listbox>
         </paper-dropdown-menu>
         {% endif %}
+      -->
 
         {%- if showcats -%}
         <paper-dropdown-menu
-          label="Filter by category"
+          label="Filter by technology"
           class="dropdown-filter"
           no-label-float
           noink no-animations
@@ -184,6 +186,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             on-iron-activate="onCategoryActivate"
             attr-for-selected="filter"
           >
+                  <paper-item filter="">all</paper-item>
               {% for category in categories -%}
                 {%- if categoryHasShowableCodelabs(category, codelabs) -%}
                   <paper-item filter="{{category}}">{{category}}</paper-item>
@@ -235,27 +238,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <footer id="footer">
       <div class="footer-wrapper site-width">
         <div class="link-list">
-          <label>Connect</label>
+          <label>Keptn Community</label>
           <ul>
-            <li><a href="https://www.example.com/">Example</a></li>
+            <li><a href="https://twitter.com/keptnProject">Twitter</a></li>
+            <li><a href="https://join.slack.com/t/keptn/shared_invite/enQtNTUxMTQ1MzgzMzUxLWMzNmM1NDc4MmE0MmQ0MDgwYzMzMDc4NjM5ODk0ZmFjNTE2YzlkMGE4NGU5MWUxODY1NTBjNjNmNmI1NWQ1NGY">Slack</a></li>
+            <li><a href="https://www.youtube.com/channel/UCHMn9HyAMeb81bRlaOuZyuQ">YouTube</a></li>
+            <li><a href="https://github.com/keptn/community">Community</a></li>
           </ul>
         </div>
         <div class="link-list">
-          <label>Programs</label>
+          <label>Source</label>
           <ul>
-            <li><a href="https://www.example.com/">Example</a></li>
+            <li><a href="https://github.com/keptn/keptn">Keptn</a></li>
+            <li><a href="https://github.com/keptn-contrib">Keptn-Contrib</a></li>
+            <li><a href="https://github.com/keptn-sandbox">Kpetn-Sandbox</a></li>
           </ul>
         </div>
         <div class="link-list">
-          <label>Developer Consoles</label>
+          <label>Contribute</label>
           <ul>
-            <li><a href="https://www.example.com/">Example</a></li>
+            <li><a href="hhttps://github.com/keptn/keptn/blob/master/CONTRIBUTING.md">Keptn Core</a></li>
+            <li><a href="https://github.com/keptn-sandbox/contributing">Write your own Keptn integration</a></li>
           </ul>
         </div>
         <div class="link-list">
-          <label>Explore</label>
+          <label>Learn more</label>
            <ul>
-            <li><a href="https://www.example.com/">Example</a></li>
+            <li><a href="https://keptn.sh/">Keptn.sh</a></li>
           </ul>
         </div>
       </div>
@@ -264,9 +273,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class="footerbar">
       <div class="site-width layout horizontal center justified">
         <span>
-          <a href="https://example.com">Terms</a>
-          &nbsp; | &nbsp;
-          <a href="https://example.com">Privacy</a>
+          <a href="https://keptn.sh">Terms & Privacy</a>
         </span>
       </div>
     </div>
