@@ -1,5 +1,5 @@
 
-## Prerequisites
+## Prerequisites for installation
 Duration: 5:00
 
 Please download and install the following tools if you do not have them installed on your machine already.
