@@ -1,6 +1,6 @@
 summary: Keptn Quality Gates with Prometheus
 id: keptn-quality-gates-prometheus
-categories: prometheus,aks,eks,openshift,pks,minikube,gke
+categories: prometheus,aks,eks,openshift,pks,minikube,gke,quality-gates
 tags: quality-gates
 status: Draft 
 authors: Jürgen Etzlstorfer
@@ -155,16 +155,16 @@ For more information about configuring a scrape job, see the official Prometheus
 Duration: 5:00
 
 
-Let us create a Keptn project (e.g., *musicshop*) with only one the *hardening* stage declared in the `shipyard-quality-gates.yaml` file that we have cloned from the examples Github repository earlier.
+Let us create a Keptn project (e.g., *sockshop*) with only one the *hardening* stage declared in the `shipyard-quality-gates.yaml` file that we have cloned from the examples Github repository earlier.
 
 ```
-keptn create project musicshop --shipyard=shipyard-quality-gates.yaml
+keptn create project sockshop --shipyard=shipyard-quality-gates.yaml
 ```
 
-Create a Keptn service for your service (e.g., *catalogue*) you want to evaluate:
+Create a Keptn service for your service (e.g., *carts*) you want to evaluate:
 
 ```
-keptn create service catalogue --project=musicshop
+keptn create service carts --project=sockshop
 ```
 
 Positive
@@ -173,7 +173,7 @@ Positive
 To activate the quality gate for your service, upload the `slo-quality-gates.yaml` file:
 
 ```
-keptn add-resource --project=musicshop --stage=hardening --service=catalogue --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
+keptn add-resource --project=sockshop --stage=hardening --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
 ```
 
 Let us take a look at the actual file we have just added:

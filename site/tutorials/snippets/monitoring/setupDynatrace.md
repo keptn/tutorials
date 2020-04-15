@@ -25,6 +25,7 @@ Duration: 6:00
     - Capture request data
     - Real user monitoring JavaScript tag management
 
+
     Take a look at this screenshot to double check the right token permissions for you.
 
     ![Dynatrace API Token](./assets/dt_api_token.png)
@@ -86,7 +87,7 @@ Since Keptn has configured your Dynatrace tenant, let us take a look what has be
 
 
 Negative
-: If the nodes in your cluster run on *Container-Optimized OS (cos)* (default for GKE), the Dynatrace OneAgent might not work properly, and another step is necessary. 
+: If the nodes in your cluster run on *Container-Optimized OS (cos)* (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary. 
 
 Follow the next steps only if your Dynatrace OneAgent does not work properly.
 

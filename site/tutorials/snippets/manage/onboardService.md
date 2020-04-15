@@ -2,15 +2,15 @@
 ## Onboard first microservice
 Duration: 8:00
 
-After creating the project, services can be onboard to this project.
+After creating the project, services can be onboarded to our project.
 
-* Onboard the **carts** service using the [keptn onboard service](../../reference/cli/#keptn-onboard-service) command:
+1. Onboard the **carts** service using the [keptn onboard service](../../reference/cli/#keptn-onboard-service) command:
 
 ```
 keptn onboard service carts --project=sockshop --chart=./carts
 ```
 
-* After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:
+1. After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:
 
   * Functional tests for *dev* stage:
 
@@ -55,31 +55,31 @@ Duration: 5:00
 
 After onboarding the services, a built artifact of each service can be deployed.
 
-* Deploy the carts-db service by executing the [keptn send event new-artifact](../../reference/cli/#keptn-send-event-new-artifact) command:
+1. Deploy the carts-db service by executing the [keptn send event new-artifact](../../reference/cli/#keptn-send-event-new-artifact) command:
 
 ```
 keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
 ```
 
-* Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.10.1:
+1. Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.10.1:
 
 ```
 keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.1
 ```
 
-* Go to Keptn's Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:
+1. Go to Keptn's Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:
 
 ``` 
 kubectl port-forward svc/bridge -n keptn 9000:8080
 ```
 
-* The Keptn's Bridge is then available on: http://localhost:9000. 
+1. The Keptn's Bridge is then available on: http://localhost:9000. 
 
     It shows all deployments that have been triggered. On the left-hand side, you can see the deployment start events (i.e., so-called `Configuration change` events). During a deployment, Keptn generates events for controlling the deployment process. These events will also show up in Keptn's Bridge. Please note that if events are sent at the same time, their order in the Keptn's Bridge might be arbitrary since they are sorted on the granularity of one second. 
 
     ![Keptn's Bridge](./assets/bridge.png)
 
-* **Optional:** Verify the pods that should have been created for services carts and carts-db:
+1. **Optional:** Verify the pods that should have been created for services carts and carts-db:
 
 ```
 kubectl get pods --all-namespaces | grep carts
@@ -97,7 +97,7 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 ## View carts service
 Duration: 2:00
 
-- Get the URL for your carts service with the following commands in the respective namespaces:
+1. Get the URL for your carts service with the following commands in the respective namespaces:
 
   ```
   echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
@@ -111,7 +111,7 @@ Duration: 2:00
   echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
   ```
 
-- Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:
+1. Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:
 
   ![carts in production](./assets/carts-production-1.png)
 

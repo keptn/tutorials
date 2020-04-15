@@ -15,7 +15,7 @@ Duration: 2:00
 In this tutorial we are going to learn how to install Keptn in your Kubernetes cluster running in Google Kubernetes Engine in the Google Cloud.
 
 
-## Prerequisites
+## Prerequisites for installation
 Duration: 5:00
 
 Please download and install the following tools if you do not have them installed on your machine already.
@@ -113,4 +113,17 @@ Positive
 
 In the Kubernetes cluster, this command creates the **keptn**, **keptn-datastore**, and **istio-system** namespace. While istio-system contains all Istio related resources, keptn and keptn-datastore contain the complete infrastructure to run Keptn. 
 
+
+
+
+## Proceed with exploring Keptn
+Duration: 1:00
+
+Now that you have successfully installed Keptn, you can explore other tutorials!
+
+Here are some possibilities:
+
+- Take a full tour on Keptn with either [Prometheus](../../?cat=prometheus) or [Dynatrace](../../?cat=dynatrace)
+- Explore [Keptn Quality Gates](../../?cat=quality-gates)
+- Explore [Automated Operations with Keptn](../../?cat=automated-operations) 
 

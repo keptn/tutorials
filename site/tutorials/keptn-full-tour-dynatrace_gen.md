@@ -26,12 +26,12 @@ In this tutorial you'll get a full tour through Keptn. Before we get started you
 
 You'll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.
 
-## Prerequisite
+## Prerequisites
 Duration: 10:00
 
 Before you can get started, please make sure to have Keptn installed on your Kubernetes cluster.
 
-If not, please follow one of these tutorials to install Keptn on your favourite Kubernetes distribution.
+If not, please [follow one of these tutorials to install Keptn](../../?cat=installation) on your favourite Kubernetes distribution.
 
 
 <!-- include other files -->
@@ -62,6 +62,7 @@ Duration: 6:00
     - Write configuration
     - Capture request data
     - Real user monitoring JavaScript tag management
+
 
     Take a look at this screenshot to double check the right token permissions for you.
 
@@ -124,7 +125,7 @@ Since Keptn has configured your Dynatrace tenant, let us take a look what has be
 
 
 Negative
-: If the nodes in your cluster run on *Container-Optimized OS (cos)* (default for GKE), the Dynatrace OneAgent might not work properly, and another step is necessary. 
+: If the nodes in your cluster run on *Container-Optimized OS (cos)* (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary. 
 
 Follow the next steps only if your Dynatrace OneAgent does not work properly.
 
@@ -185,7 +186,7 @@ This shipyard contains three stages: dev, staging, and production. This results 
 
 * **dev** will have a direct (big bang) deployment strategy and functional tests are executed
 * **staging** will have a blue/green deployment strategy and performance tests are executed
-* **production** will have a blue/green deployment strategy without any further testing. The configured remediation strategy is used for the [Self-healing with Keptn](../self-healing-with-keptn/) tutorial.
+* **production** will have a blue/green deployment strategy without any further testing. The configured remediation strategy is used for self-healing in production.
 
 
 Positive
@@ -193,17 +194,18 @@ Positive
 
 Create a new project for your services using the `keptn create project` command. In this example, the project is called *sockshop*. Before executing the following command, make sure you are in the `examples/onboarding-carts` folder.
 
-Create a new project without Git upstream:
-```
-keptn create project sockshop --shipyard=./shipyard.yaml
-```
+Create a new project with Git upstream
 
-**Optional:** Create a new project with Git upstream
-
-To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [select Git-based upstream](../../manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
+To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
 
 ```
 keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+```
+
+
+**Alternatively:** If you don't want to use a Git upstream, you can create a new project without it:
+```
+keptn create project sockshop --shipyard=./shipyard.yaml
 ```
 
 
@@ -211,25 +213,25 @@ keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --g
 ## Onboard first microservice
 Duration: 8:00
 
-After creating the project, services can be onboard to this project.
+After creating the project, services can be onboarded to our project.
 
-* Onboard the **carts** service using the [keptn onboard service](../../reference/cli/#keptn-onboard-service) command:
+1. Onboard the **carts** service using the [keptn onboard service](../../reference/cli/#keptn-onboard-service) command:
 
-```console
+```
 keptn onboard service carts --project=sockshop --chart=./carts
 ```
 
-* After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:
+1. After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:
 
   * Functional tests for *dev* stage:
 
-    ```console
+    ```
     keptn add-resource --project=sockshop --stage=dev --service=carts --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
     ```
 
   * Performance tests for *staging* stage:
 
-    ```console
+    ```
     keptn add-resource --project=sockshop --stage=staging --service=carts --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
     ```
 
@@ -239,7 +241,7 @@ Since the carts service requires a mongodb database, a second service needs to b
 
 * Onboard the **carts-db** service using the [keptn onboard service](../../reference/cli/#keptn-onboard-service) command. The `--deployment-strategy` flag specifies that for this service a *direct* deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.
 
-```console
+```
 keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
 ```
 
@@ -247,11 +249,11 @@ During the onboarding of the services, Keptn creates a namespace for each stage 
 
 * To verify the new namespaces, execute the following command:
 
-```console
+```
 kubectl get namespaces
 ```
 
-```console
+```
 NAME                  STATUS   AGE
 ...
 sockshop-dev          Active   2m16s
@@ -264,37 +266,37 @@ Duration: 5:00
 
 After onboarding the services, a built artifact of each service can be deployed.
 
-* Deploy the carts-db service by executing the [keptn send event new-artifact](../../reference/cli/#keptn-send-event-new-artifact) command:
+1. Deploy the carts-db service by executing the [keptn send event new-artifact](../../reference/cli/#keptn-send-event-new-artifact) command:
 
-```console
+```
 keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
 ```
 
-* Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.10.1:
+1. Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.10.1:
 
-```console
+```
 keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.1
 ```
 
-* Go to Keptn's Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:
+1. Go to Keptn's Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:
 
-```console 
+``` 
 kubectl port-forward svc/bridge -n keptn 9000:8080
 ```
 
-* The Keptn's Bridge is then available on: http://localhost:9000. 
+1. The Keptn's Bridge is then available on: http://localhost:9000. 
 
     It shows all deployments that have been triggered. On the left-hand side, you can see the deployment start events (i.e., so-called `Configuration change` events). During a deployment, Keptn generates events for controlling the deployment process. These events will also show up in Keptn's Bridge. Please note that if events are sent at the same time, their order in the Keptn's Bridge might be arbitrary since they are sorted on the granularity of one second. 
 
     ![Keptn's Bridge](./assets/bridge.png)
 
-* **Optional:** Verify the pods that should have been created for services carts and carts-db:
+1. **Optional:** Verify the pods that should have been created for services carts and carts-db:
 
-```console
+```
 kubectl get pods --all-namespaces | grep carts
 ```
 
-```console
+```
 sockshop-dev          carts-77dfdc664b-25b74                            1/1     Running     0          10m
 sockshop-dev          carts-db-54d9b6775-lmhf6                          1/1     Running     0          13m
 sockshop-production   carts-db-54d9b6775-4hlwn                          2/2     Running     0          12m
@@ -306,23 +308,23 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 ## View carts service
 Duration: 2:00
 
-- Get the URL for your carts service with the following commands in the respective namespaces:
+1. Get the URL for your carts service with the following commands in the respective namespaces:
 
-```console
-echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-```
+  ```
+  echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+  ```
 
-```console
-echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-```
+  ```
+  echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+  ```
 
-```console
-echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-```
+  ```
+  echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+  ```
 
-- Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:
+1. Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:
 
-    ![carts in production](./assets/carts-production-1.png)
+  ![carts in production](./assets/carts-production-1.png)
 
 
 
@@ -332,10 +334,37 @@ Duration: 5:00
 
 Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.3/sre.md).
 
-* Activate the quality gates for the carts service. Therefore, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](../../reference/cli/#keptn-add-resource) command:
+Activate the quality gates for the carts service. Therefore, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](../../reference/cli/#keptn-add-resource) command:
 
 ```
 keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
+```
+
+This will add the `SLO.yaml` file to your Keptn - which is the declaritive definition of a quality gate. Let's take a look at the file contents:
+
+```
+---
+spec_version: "0.1.1"
+comparison:
+  aggregate_function: "avg"
+  compare_with: "single_result"
+  include_result_with_score: "pass"
+  number_of_comparison_results: 1
+filter:
+objectives:
+  - sli: "response_time_p95"
+    key_sli: false
+    pass:             # pass if (relative change <= 10% AND absolute value is < 600ms)
+      - criteria:
+          - "<=+10%"  # relative values require a prefixed sign (plus or minus)
+          - "<600"    # absolute values only require a logical operator
+    warning:          # if the response time is below 800ms, the result should be a warning
+      - criteria:
+          - "<=800"
+    weight: 1
+total_score:
+  pass: "90%"
+  warning: "75%"
 ```
 
 ## Deploy a slow build
@@ -343,21 +372,21 @@ Duration: 5:00
 
 You can take a look at the currently deployed version of our "carts" microservice before we deploy the next build of our microservice.
 
- Get the URL for your carts service with the following commands in the respective stages:
+1. Get the URL for your carts service with the following commands in the respective stages:
 
-```console
+```
 echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
-```console
+```
 echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
-```console
+```
 echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
-Navigate to `http://carts.sockshop-production.YOUR.DOMAIN` for viewing the carts service in your **production** environment and you should receive an output similar to the following:
+2. Navigate to `http://carts.sockshop-production.YOUR.DOMAIN` for viewing the carts service in your **production** environment and you should receive an output similar to the following:
 
 ![carts service](./assets/carts-production-1.png)
 
@@ -366,19 +395,19 @@ Navigate to `http://carts.sockshop-production.YOUR.DOMAIN` for viewing the carts
 Duration: 5:00
 
 
-* Use the Keptn CLI to deploy a version of the carts service, which contains an artificial **slowdown of 1 second** in each request.
+1. Use the Keptn CLI to deploy a version of the carts service, which contains an artificial **slowdown of 1 second** in each request.
 
-```console
+```
 keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.2
 ```
 
-Go ahead and verify that the slow build has reached your `dev` and `staging` environments by opening a browser for both environments. Get the URLs with these commands:
+2. Go ahead and verify that the slow build has reached your `dev` and `staging` environments by opening a browser for both environments. Get the URLs with these commands:
 
-```console
+```
 echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
-```console
+```
 echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
@@ -397,7 +426,9 @@ After triggering the deployment of the carts service in version v0.10.2, the fol
   * To verify, open a browser and navigate to: `http://carts.sockshop-dev.YOUR.DOMAIN`
 
 * **Staging stage:** In this stage, version v0.10.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.10.1 in this stage is conducted and the promotion to production is not triggered.
-  * To verify, the [Keptn's Bridge](../../reference/keptnsbridge/#usage) shows the deployment of v0.10.2 and then the failed test in staging including the roll-back:
+  * To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) shows the deployment of v0.10.2 and then the failed test in staging including the roll-back:
+
+TODO 
 
 ![Quality gate in staging](./assets/quality_gates.png)
 
@@ -454,20 +485,6 @@ Duration: 3:00
 <!--  snippets/self-healing/featureFlagsDynatrace.md  -->
 
 
-## Getting started with Keptn integrations
-Duration: 3:00
-
-Keptn can be easily extended with external tools such as notification tools, other [SLI providers](link to docs), bots to interact with Keptn, etc.
-While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:
-
-- [Keptn Contrib](https://github.com/keptn-contrib) lists mature Keptn integrations that you can use for your Keptn installation
-- [Keptn Sandbox](https://github.com/keptn-sandbox) collects mostly new integrations and those that are currently under development - however, you can also find useful integrations here.
-
-Positive
-: We are happy to receive your contributions - please [follow this guide](https://github.com/keptn-sandbox/contributing) if you want to contribute your own services to Keptn
-
-
-
 ## Finish
 Duration: 1:00
 
@@ -484,4 +501,19 @@ Although Keptn has even more to offer that should have given you a good overview
 - We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.
 - We have set up self-healing to automatically scale our application 
 - We have learned how to extend our Keptn installation with other tools
+
+
+## Getting started with Keptn integrations
+Duration: 3:00
+
+Keptn can be easily extended with external tools such as notification tools, other [SLI providers](link to docs), bots to interact with Keptn, etc.
+While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:
+
+- [Keptn Contrib](https://github.com/keptn-contrib) lists mature Keptn integrations that you can use for your Keptn installation
+- [Keptn Sandbox](https://github.com/keptn-sandbox) collects mostly new integrations and those that are currently under development - however, you can also find useful integrations here.
+
+Positive
+: We are happy to receive your contributions - please [follow this guide](https://github.com/keptn-sandbox/contributing) if you want to contribute your own services to Keptn
+
+
 

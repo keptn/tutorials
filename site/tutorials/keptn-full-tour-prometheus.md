@@ -25,17 +25,13 @@ In this tutorial you'll get a full tour through Keptn. Before we get started you
 
 You'll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.
 
-## Prerequisite
+## Prerequisites
 Duration: 10:00
 
 Before you can get started, please make sure to have Keptn installed on your Kubernetes cluster.
 
-If not, please follow one of these tutorials to install Keptn on your favourite Kubernetes distribution.
+If not, please [follow one of these tutorials to install Keptn](../../?cat=installation) on your favourite Kubernetes distribution.
 
-Negative
-: Do not proceed until you have created your Kubernetes cluster and installed Keptn on it.
-
-TODO INSERT TUTORIALS
 
 <!-- include other files -->
 
@@ -51,7 +47,6 @@ TODO INSERT TUTORIALS
 
 {{ snippets/self-healing/upscalePrometheus.md }}
 
-{{ snippets/integrations/gettingStarted.md }}
 
 ## Finish
 Duration: 1:00
@@ -70,3 +65,4 @@ Although Keptn has even more to offer that should have given you a good overview
 - We have set up self-healing to automatically scale our application 
 - We have learned how to extend our Keptn installation with other tools
 
+{{ snippets/integrations/gettingStarted.md }}

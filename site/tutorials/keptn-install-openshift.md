@@ -19,3 +19,5 @@ In this tutorial we are going to learn how to install Keptn in your OpenShift cl
 {{ snippets/install/download-keptnCLI.md }}
 
 {{ snippets/install/installKeptn-openshift.md }}
+
+{{ snippets/install/postinstall-tutorials.md }}

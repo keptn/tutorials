@@ -4,23 +4,22 @@
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
   "updated": "2020-04-15T18:13:04+02:00",
-  "id": "keptn-installation-aks",
-  "duration": 28,
-  "title": "Keptn Installation on AKS",
+  "id": "customize-keptn",
+  "duration": 18,
+  "title": "Customize your Keptn",
   "authors": "Jürgen Etzlstorfer",
-  "summary": "Install Keptn on AKS",
-  "source": "./keptn-install-aks_gen.md",
+  "summary": "Customize your Keptn installation",
+  "source": "./keptn-customize_gen.md",
   "theme": "",
   "status": [
-    "published"
+    "draft"
   ],
   "category": [
-    "aks",
-    "installation"
+    "customize"
   ],
   "tags": [
-    "keptn"
+    "install"
   ],
   "feedback": "https://keptn.sh",
-  "url": "keptn-installation-aks"
+  "url": "customize-keptn"
 }

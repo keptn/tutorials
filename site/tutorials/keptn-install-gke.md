@@ -19,3 +19,5 @@ In this tutorial we are going to learn how to install Keptn in your Kubernetes c
 {{ snippets/install/download-keptnCLI.md }}
 
 {{ snippets/install/installKeptn-gke.md }}
+
+{{ snippets/install/postinstall-tutorials.md }}

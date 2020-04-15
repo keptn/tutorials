@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2020-04-09T14:25:44+02:00",
+  "updated": "2020-04-15T18:13:04+02:00",
   "id": "keptn-installation-gke",
-  "duration": 27,
+  "duration": 28,
   "title": "Keptn Installation on GKE",
   "authors": "Jürgen Etzlstorfer",
   "summary": "Install Keptn on GKE",
-  "source": "keptn-install-gke_gen.md",
+  "source": "./keptn-install-gke_gen.md",
   "theme": "",
   "status": [
     "published"

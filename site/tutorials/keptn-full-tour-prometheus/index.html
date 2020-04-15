@@ -44,12 +44,9 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Prerequisite" duration="10">
+      <google-codelab-step label="Prerequisites" duration="10">
         <p>Before you can get started, please make sure to have Keptn installed on your Kubernetes cluster.</p>
-<p>If not, please follow one of these tutorials to install Keptn on your favourite Kubernetes distribution.</p>
-<aside class="warning"><p>Do not proceed until you have created your Kubernetes cluster and installed Keptn on it.</p>
-</aside>
-<p>TODO INSERT TUTORIALS</p>
+<p>If not, please <a href="../../?cat=installation" target="_blank">follow one of these tutorials to install Keptn</a> on your favourite Kubernetes distribution.</p>
 
 
       </google-codelab-step>
@@ -72,25 +69,25 @@
 <ul>
 <li><strong>dev</strong> will have a direct (big bang) deployment strategy and functional tests are executed</li>
 <li><strong>staging</strong> will have a blue/green deployment strategy and performance tests are executed</li>
-<li><strong>production</strong> will have a blue/green deployment strategy without any further testing. The configured remediation strategy is used for the <a href="../self-healing-with-keptn/" target="_blank">Self-healing with Keptn</a> tutorial.</li>
+<li><strong>production</strong> will have a blue/green deployment strategy without any further testing. The configured remediation strategy is used for self-healing in production.</li>
 </ul>
 <aside class="special"><p>To learn more about a <em>shipyard</em> file, please take a look at the <a href="https://github.com/keptn/spec/blob/master/shipyard.md" target="_blank">Shipyard specification</a>.</p>
 </aside>
 <p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
-<p>Create a new project without Git upstream:</p>
-<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
-</code></pre>
-<p><strong>Optional:</strong> Create a new project with Git upstream</p>
-<p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="../../manage/project/#select-git-based-upstream" target="_blank">select Git-based upstream</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
+<p>Create a new project with Git upstream</p>
+<p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
 <pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+</code></pre>
+<p><strong>Alternatively:</strong> If you don&#39;t want to use a Git upstream, you can create a new project without it:</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
 </code></pre>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Onboard first microservice" duration="8">
-        <p>After creating the project, services can be onboard to this project.</p>
-<ul>
+        <p>After creating the project, services can be onboarded to our project.</p>
+<ol type="1">
 <li>Onboard the <strong>carts</strong> service using the <a href="../../reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command:<pre><code>keptn onboard service carts --project=sockshop --chart=./carts
 </code></pre>
 </li>
@@ -103,7 +100,7 @@
 </li>
 </ul>
 <strong>Note:</strong> You can adapt the tests in <code>basiccheck.jmx</code> as well as <code>load.jmx</code> for your service. However, you must not rename the files because there is a hardcoded dependency on these file names in the current implementation of Keptn&#39;s jmeter-service.</li>
-</ul>
+</ol>
 <p>Since the carts service requires a mongodb database, a second service needs to be onboarded.</p>
 <ul>
 <li>Onboard the <strong>carts-db</strong> service using the <a href="../../reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command. The <code>--deployment-strategy</code> flag specifies that for this service a <em>direct</em> deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.<pre><code>keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
@@ -128,7 +125,7 @@ sockshop-staging      Active   2m16s
     
       <google-codelab-step label="Deploy first build with Keptn" duration="5">
         <p>After onboarding the services, a built artifact of each service can be deployed.</p>
-<ul>
+<ol type="1">
 <li>Deploy the carts-db service by executing the <a href="../../reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
 </code></pre>
 </li>
@@ -149,13 +146,13 @@ sockshop-staging      carts-db-54d9b6775-rm8rw                          2/2     
 sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     Running     0          7m24s
 </code></pre>
 </li>
-</ul>
+</ol>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="View carts service" duration="2">
-        <ul>
+        <ol type="1">
 <li>Get the URL for your carts service with the following commands in the respective namespaces:<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
 </code></pre>
 <pre><code>echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
@@ -164,7 +161,7 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 </code></pre>
 </li>
 <li>Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:</li>
-</ul>
+</ol>
 <p class="image-container"><img alt="carts in production" src="img/c7ffeaf0e43d6aad.png"></p>
 
 
@@ -202,41 +199,65 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
     
       <google-codelab-step label="Set up the quality gate" duration="5">
         <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/0.1.3/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
-<ul>
-<li>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="../../reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command:<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
+<p>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="../../reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command:</p>
+<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
 </code></pre>
-</li>
-</ul>
+<p>This will add the <code>SLO.yaml</code> file to your Keptn - which is the declaritive definition of a quality gate. Let&#39;s take a look at the file contents:</p>
+<pre><code>---
+spec_version: &#34;0.1.1&#34;
+comparison:
+  aggregate_function: &#34;avg&#34;
+  compare_with: &#34;single_result&#34;
+  include_result_with_score: &#34;pass&#34;
+  number_of_comparison_results: 1
+filter:
+objectives:
+  - sli: &#34;response_time_p95&#34;
+    key_sli: false
+    pass:             # pass if (relative change &lt;= 10% AND absolute value is &lt; 600ms)
+      - criteria:
+          - &#34;&lt;=+10%&#34;  # relative values require a prefixed sign (plus or minus)
+          - &#34;&lt;600&#34;    # absolute values only require a logical operator
+    warning:          # if the response time is below 800ms, the result should be a warning
+      - criteria:
+          - &#34;&lt;=800&#34;
+    weight: 1
+total_score:
+  pass: &#34;90%&#34;
+  warning: &#34;75%&#34;
+</code></pre>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Deploy a slow build" duration="5">
         <p>You can take a look at the currently deployed version of our &#34;carts&#34; microservice before we deploy the next build of our microservice.</p>
-<p>Get the URL for your carts service with the following commands in the respective stages:</p>
-<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+<ol type="1">
+<li>Get the URL for your carts service with the following commands in the respective stages:<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
 </code></pre>
 <pre><code>echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
 </code></pre>
 <pre><code>echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
 </code></pre>
-<p>Navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code> for viewing the carts service in your <strong>production</strong> environment and you should receive an output similar to the following:</p>
+</li>
+<li>Navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code> for viewing the carts service in your <strong>production</strong> environment and you should receive an output similar to the following:</li>
+</ol>
 <p class="image-container"><img alt="carts service" src="img/c7ffeaf0e43d6aad.png"></p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Deploy the slow carts version" duration="5">
-        <ul>
-<li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.</li>
-</ul>
-<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.2
+        <ol type="1">
+<li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.2
 </code></pre>
-<p>Go ahead and verify that the slow build has reached your <code>dev</code> and <code>staging</code> environments by opening a browser for both environments. Get the URLs with these commands:</p>
-<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</li>
+<li>Go ahead and verify that the slow build has reached your <code>dev</code> and <code>staging</code> environments by opening a browser for both environments. Get the URLs with these commands:<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
 </code></pre>
 <pre><code>echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
 </code></pre>
+</li>
+</ol>
 <p class="image-container"><img alt="carts service" src="img/900f389931b4dc11.png"></p>
 <p class="image-container"><img alt="carts service" src="img/1ba3e7fd9fe59816.png"></p>
 
@@ -251,10 +272,11 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 </ul>
 </li>
 <li><strong>Staging stage:</strong> In this stage, version v0.10.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.10.1 in this stage is conducted and the promotion to production is not triggered.<ul>
-<li>To verify, the <a href="../../reference/keptnsbridge/#usage" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.10.2 and then the failed test in staging including the roll-back:</li>
+<li>To verify, the <a href="https://keptn.sh/docs/0.6.0/reference/keptnsbridge/" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.10.2 and then the failed test in staging including the roll-back:</li>
 </ul>
 </li>
 </ul>
+<p>TODO</p>
 <p class="image-container"><img alt="Quality gate in staging" src="img/73c52a96d02e0cd5.png"></p>
 <ul>
 <li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.10.1 is expected to be in production.<br><br><ul>
@@ -379,18 +401,6 @@ Now, access the bridge from your browser on http://localhost:9000.In this exampl
 
       </google-codelab-step>
     
-      <google-codelab-step label="Getting started with Keptn integrations" duration="3">
-        <p>Keptn can be easily extended with external tools such as notification tools, other <a href="link to docs" target="_blank">SLI providers</a>, bots to interact with Keptn, etc.<br>While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:</p>
-<ul>
-<li><a href="https://github.com/keptn-contrib" target="_blank">Keptn Contrib</a> lists mature Keptn integrations that you can use for your Keptn installation</li>
-<li><a href="https://github.com/keptn-sandbox" target="_blank">Keptn Sandbox</a> collects mostly new integrations and those that are currently under development - however, you can also find useful integrations here.</li>
-</ul>
-<aside class="special"><p>We are happy to receive your contributions - please <a href="https://github.com/keptn-sandbox/contributing" target="_blank">follow this guide</a> if you want to contribute your own services to Keptn</p>
-</aside>
-
-
-      </google-codelab-step>
-    
       <google-codelab-step label="Finish" duration="1">
         <p>Thanks for taking a full tour through Keptn!<br>Although Keptn has even more to offer that should have given you a good overview what you can do with Keptn.</p>
 <h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
@@ -404,6 +414,18 @@ Now, access the bridge from your browser on http://localhost:9000.In this exampl
 <li>We have set up self-healing to automatically scale our application</li>
 <li>We have learned how to extend our Keptn installation with other tools</li>
 </ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Getting started with Keptn integrations" duration="3">
+        <p>Keptn can be easily extended with external tools such as notification tools, other <a href="link to docs" target="_blank">SLI providers</a>, bots to interact with Keptn, etc.<br>While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:</p>
+<ul>
+<li><a href="https://github.com/keptn-contrib" target="_blank">Keptn Contrib</a> lists mature Keptn integrations that you can use for your Keptn installation</li>
+<li><a href="https://github.com/keptn-sandbox" target="_blank">Keptn Sandbox</a> collects mostly new integrations and those that are currently under development - however, you can also find useful integrations here.</li>
+</ul>
+<aside class="special"><p>We are happy to receive your contributions - please <a href="https://github.com/keptn-sandbox/contributing" target="_blank">follow this guide</a> if you want to contribute your own services to Keptn</p>
+</aside>
 
 
       </google-codelab-step>

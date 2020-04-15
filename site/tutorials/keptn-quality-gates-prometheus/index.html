@@ -137,16 +137,16 @@ This will download and install the Keptn CLI automatically.</li>
       </google-codelab-step>
     
       <google-codelab-step label="Configure Keptn and activate the quality gate" duration="5">
-        <p>Let us create a Keptn project (e.g., <em>musicshop</em>) with only one the <em>hardening</em> stage declared in the <code>shipyard-quality-gates.yaml</code> file that we have cloned from the examples Github repository earlier.</p>
-<pre><code>keptn create project musicshop --shipyard=shipyard-quality-gates.yaml
+        <p>Let us create a Keptn project (e.g., <em>sockshop</em>) with only one the <em>hardening</em> stage declared in the <code>shipyard-quality-gates.yaml</code> file that we have cloned from the examples Github repository earlier.</p>
+<pre><code>keptn create project sockshop --shipyard=shipyard-quality-gates.yaml
 </code></pre>
-<p>Create a Keptn service for your service (e.g., <em>catalogue</em>) you want to evaluate:</p>
-<pre><code>keptn create service catalogue --project=musicshop
+<p>Create a Keptn service for your service (e.g., <em>carts</em>) you want to evaluate:</p>
+<pre><code>keptn create service carts --project=sockshop
 </code></pre>
 <aside class="special"><p>Since you are not actively deploying a service in this tutorial, <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-create-service" target="_blank">keptn create service</a> does not require you to provide a Helm chart compared to the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command.</p>
 </aside>
 <p>To activate the quality gate for your service, upload the <code>slo-quality-gates.yaml</code> file:</p>
-<pre><code>keptn add-resource --project=musicshop --stage=hardening --service=catalogue --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
+<pre><code>keptn add-resource --project=sockshop --stage=hardening --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
 </code></pre>
 <p>Let us take a look at the actual file we have just added:</p>
 <pre><code>---

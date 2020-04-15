@@ -116,7 +116,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <header id="banner" {% if view.id != 'default' -%}down{%- else %}down$="[[_toBoolean(selectedFilter)]]"{%- endif %}>
       <div class="site-width">
         {% if view.id == 'default' %}
-        <h2 class="banner-title">Welcome to Keptn Tutorials!</h2>
+        <h2 class="banner-title">Welcome to Keptn Tutorials</h2>
         <div class="banner-description"
              data-filter-selected$="{% raw %}[[_toBoolean(selectedFilter)]]{% endraw %}">
           <p class="banner-info">
@@ -174,7 +174,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         {%- if showcats -%}
         <paper-dropdown-menu
-          label="Filter by technology"
+          label="Filter by category"
           class="dropdown-filter"
           no-label-float
           noink no-animations
@@ -187,6 +187,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             attr-for-selected="filter"
           >
                   <paper-item filter="">all</paper-item>
+                  <paper-item filter="installation">installation</paper-item>
+                  <paper-item filter="quality-gates">quality-gates</paper-item>
+                  <paper-item filter="automated-operations">automated-operations</paper-item>
               {% for category in categories -%}
                 {%- if categoryHasShowableCodelabs(category, codelabs) -%}
                   <paper-item filter="{{category}}">{{category}}</paper-item>

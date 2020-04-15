@@ -1,13 +1,13 @@
-summary: Keptn Quality Gates with Prometheus
-id: keptn-quality-gates-prometheus
-categories: prometheus,aks,eks,openshift,pks,minikube,gke,quality-gates
+summary: Keptn Quality Gates with Dynatrace
+id: keptn-quality-gates-dynatrace
+categories: Dynatrace,aks,eks,openshift,pks,minikube,gke
 tags: quality-gates
 status: Draft 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://keptn.sh
 
 
-# Keptn Quality Gates with Prometheus
+# Keptn Quality Gates with Dynatrace
 
 ## Welcome
 Duration: 5:00
@@ -58,11 +58,11 @@ TODO
 
 {{ snippets/install/kqg-install.md }}
 
-{{ snippets/quality-gate-only/own-service-prometheus.md }}
+{{ snippets/quality-gate-only/own-service-dynatrace.md }}
 
 {{ snippets/quality-gate-only/configure-keptn.md }}
 
-{{ snippets/monitoring/install-sliprovider-prometheus.md }}
+ snippets/monitoring/install-sliprovider-dynatrace.md 
 
 ## Configure the SLI provider
 Duration: 3:00
