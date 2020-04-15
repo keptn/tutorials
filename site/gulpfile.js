@@ -248,7 +248,7 @@ gulp.task('copy', (callback) => {
 
 gulp.task('copy:dist', () => {
   // Explicitly do not use gulp here. It's too slow and messes up the symlinks
-  return gulp.src('build/**/*', {
+  return gulp.src('build/**/**', {
     base: 'build'
   })
     .pipe(gulp.dest('dist'))
