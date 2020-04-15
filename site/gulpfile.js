@@ -246,6 +246,14 @@ gulp.task('copy', (callback) => {
   fs.rename('build', 'dist', callback);
 });
 
+gulp.task('copy:dist', () => {
+  // Explicitly do not use gulp here. It's too slow and messes up the symlinks
+  return gulp.src('build/**/*', {
+    base: 'build'
+  })
+    .pipe(gulp.dest('dist'))
+});
+
 // minify:css minifies the css
 gulp.task('minify:css', () => {
   const srcs = [
@@ -293,7 +301,7 @@ gulp.task('minify', gulp.parallel(
 // appropriate.
 gulp.task('dist', gulp.series(
   'build',
-  'copy',
+  'copy:dist',
   'minify',
 ));
 
