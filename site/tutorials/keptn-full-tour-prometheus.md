@@ -1,6 +1,6 @@
 summary: Take a full tour on Keptn with Prometheus
 id: keptn-full-tour-prometheus
-categories: Prometheus,aks,eks,gke,openshift,pks,minikube
+categories: Prometheus,aks,eks,gke,openshift,pks,minikube,full-tour
 tags: keptn
 status: Published 
 authors: Jürgen Etzlstorfer
