@@ -88,7 +88,7 @@ echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jso
 
 
 ## Quality gate in action
-Duration: 10:00 
+Duration: 7:00 
 
 After triggering the deployment of the carts service in version v0.10.2, the following status is expected:
 

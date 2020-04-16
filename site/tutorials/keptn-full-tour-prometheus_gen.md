@@ -67,9 +67,17 @@ This shipyard contains three stages: dev, staging, and production. This results 
 Positive
 : To learn more about a *shipyard* file, please take a look at the [Shipyard specification](https://github.com/keptn/spec/blob/master/shipyard.md).
 
+To get all files you need for this tutorial, please clone the example repo to your local machine.
+```
+git clone --branch 0.6.1 https://github.com/keptn/examples.git --single-branch
+
+cd examples/onboarding-carts
+```
+
+
 Create a new project for your services using the `keptn create project` command. In this example, the project is called *sockshop*. Before executing the following command, make sure you are in the `examples/onboarding-carts` folder.
 
-Create a new project with Git upstream
+Create a new project with Git upstream:
 
 To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
 
@@ -338,7 +346,7 @@ echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jso
 
 
 ## Quality gate in action
-Duration: 10:00 
+Duration: 7:00 
 
 After triggering the deployment of the carts service in version v0.10.2, the following status is expected:
 
@@ -466,11 +474,11 @@ To simulate user traffic that is causing an unhealthy behavior in the carts serv
 
 
 ## Watch self-healing in action
-Duration: 15:00
+Duration: 10:00
 
 After approximately 10-15 minutes, the *Alert Manager* will send out an alert since the service level objective is not met anymore. 
 
-1. To verify that an alert was fired, select the *Alerts* view where you should see that the alert `response_time_p90` is in the `firing` state:
+To verify that an alert was fired, select the *Alerts* view where you should see that the alert `response_time_p90` is in the `firing` state:
 
   ![Alert Manager](./assets/alert-manager.png)
 

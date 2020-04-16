@@ -64,7 +64,7 @@ To simulate user traffic that is causing an unhealthy behavior in the carts serv
 
 
 ## Watch self-healing in action
-Duration: 15:00
+Duration: 10:00
 
 After approximately 10-15 minutes, the *Alert Manager* will send out an alert since the service level objective is not met anymore. 
 

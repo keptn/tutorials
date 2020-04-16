@@ -73,8 +73,13 @@
 </ul>
 <aside class="special"><p>To learn more about a <em>shipyard</em> file, please take a look at the <a href="https://github.com/keptn/spec/blob/master/shipyard.md" target="_blank">Shipyard specification</a>.</p>
 </aside>
+<p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
+<pre><code>git clone --branch 0.6.1 https://github.com/keptn/examples.git --single-branch
+
+cd examples/onboarding-carts
+</code></pre>
 <p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
-<p>Create a new project with Git upstream</p>
+<p>Create a new project with Git upstream:</p>
 <p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
 <pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
 </code></pre>
@@ -264,7 +269,7 @@ total_score:
 
       </google-codelab-step>
     
-      <google-codelab-step label="Quality gate in action" duration="10">
+      <google-codelab-step label="Quality gate in action" duration="7">
         <p>After triggering the deployment of the carts service in version v0.10.2, the following status is expected:</p>
 <ul>
 <li><strong>Dev stage:</strong> The new version is deployed in the dev stage and the functional tests passed.<ul>
@@ -367,11 +372,9 @@ Containers:
 
       </google-codelab-step>
     
-      <google-codelab-step label="Watch self-healing in action" duration="15">
+      <google-codelab-step label="Watch self-healing in action" duration="10">
         <p>After approximately 10-15 minutes, the <em>Alert Manager</em> will send out an alert since the service level objective is not met anymore.</p>
-<ol type="1">
-<li>To verify that an alert was fired, select the <em>Alerts</em> view where you should see that the alert <code>response_time_p90</code> is in the <code>firing</code> state:</li>
-</ol>
+<p>To verify that an alert was fired, select the <em>Alerts</em> view where you should see that the alert <code>response_time_p90</code> is in the <code>firing</code> state:</p>
 <p class="image-container"><img alt="Alert Manager" src="img/6d9f2770d2f4d2d9.png"></p>
 <p>After receiving the problem notification, the <em>prometheus-service</em> will translate it into a Keptn CloudEvent. This event will eventually be received by the <em>remediation-service</em> that will look for a remediation action specified for this type of problem and, if found, execute it.</p>
 <p>In this tutorial, the number of pods will be increased to remediate the issue of the response time increase.</p>

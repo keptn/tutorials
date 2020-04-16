@@ -44,7 +44,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Prerequisites" duration="10">
+      <google-codelab-step label="Prerequisites" duration="5">
         <p>Before you can get started, please make sure to have Keptn installed on your Kubernetes cluster.</p>
 <p>If not, please <a href="../../?cat=installation" target="_blank">follow one of these tutorials to install Keptn</a> on your favourite Kubernetes distribution.</p>
 
@@ -141,7 +141,7 @@ oneagent-k7jn6                                 1/1     Running      0          8
 
       </google-codelab-step>
     
-      <google-codelab-step label="Create your first project" duration="8">
+      <google-codelab-step label="Create your first project" duration="5">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
 <p>For creating a project, this tutorial relies on a <code>shipyard.yaml</code> file as shown below:</p>
 <pre><code>stages:
@@ -163,8 +163,13 @@ oneagent-k7jn6                                 1/1     Running      0          8
 </ul>
 <aside class="special"><p>To learn more about a <em>shipyard</em> file, please take a look at the <a href="https://github.com/keptn/spec/blob/master/shipyard.md" target="_blank">Shipyard specification</a>.</p>
 </aside>
+<p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
+<pre><code>git clone --branch 0.6.1 https://github.com/keptn/examples.git --single-branch
+
+cd examples/onboarding-carts
+</code></pre>
 <p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
-<p>Create a new project with Git upstream</p>
+<p>Create a new project with Git upstream:</p>
 <p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
 <pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
 </code></pre>
@@ -175,7 +180,7 @@ oneagent-k7jn6                                 1/1     Running      0          8
 
       </google-codelab-step>
     
-      <google-codelab-step label="Onboard first microservice" duration="8">
+      <google-codelab-step label="Onboard first microservice" duration="5">
         <p>After creating the project, services can be onboarded to our project.</p>
 <ol type="1">
 <li>Onboard the <strong>carts</strong> service using the <a href="../../reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command:<pre><code>keptn onboard service carts --project=sockshop --chart=./carts
@@ -257,7 +262,7 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 
       </google-codelab-step>
     
-      <google-codelab-step label="Set up the quality gate" duration="5">
+      <google-codelab-step label="Set up the quality gate" duration="4">
         <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/0.1.3/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
 <p>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="../../reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command:</p>
 <pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
@@ -290,7 +295,7 @@ total_score:
 
       </google-codelab-step>
     
-      <google-codelab-step label="Deploy a slow build" duration="5">
+      <google-codelab-step label="Verify current version" duration="3">
         <p>You can take a look at the currently deployed version of our &#34;carts&#34; microservice before we deploy the next build of our microservice.</p>
 <ol type="1">
 <li>Get the URL for your carts service with the following commands in the respective stages:<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
@@ -307,7 +312,7 @@ total_score:
 
       </google-codelab-step>
     
-      <google-codelab-step label="Deploy the slow carts version" duration="5">
+      <google-codelab-step label="Deploy a slow build version" duration="5">
         <ol type="1">
 <li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.2
 </code></pre>
@@ -324,7 +329,7 @@ total_score:
 
       </google-codelab-step>
     
-      <google-codelab-step label="Quality gate in action" duration="10">
+      <google-codelab-step label="Quality gate in action" duration="7">
         <p>After triggering the deployment of the carts service in version v0.10.2, the following status is expected:</p>
 <ul>
 <li><strong>Dev stage:</strong> The new version is deployed in the dev stage and the functional tests passed.<ul>
@@ -336,7 +341,6 @@ total_score:
 </ul>
 </li>
 </ul>
-<p>TODO</p>
 <p class="image-container"><img alt="Quality gate in staging" src="img/73c52a96d02e0cd5.png"></p>
 <ul>
 <li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.10.1 is expected to be in production.<br><br><ul>
@@ -349,7 +353,7 @@ total_score:
       </google-codelab-step>
     
       <google-codelab-step label="Verify the quality gate in Keptn&#39;s Bridge" duration="3">
-        <p>TODO</p>
+        <p>Take a look in the Keptn&#39;s bridge (that you opened earlier in this tutorial) and navigate to the last deployment. You will find a quality gate evaluation that got a <code>fail</code> result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won&#39;t be promoted to production but instead automatically rolled back.</p>
 <p class="image-container"><img alt="Keptn's bridge" src="img/b79edd6638955ef8.png"></p>
 
 
@@ -377,6 +381,108 @@ Containers:
     Image:      docker.io/keptnexamples/carts:0.10.3
 </code></pre>
 </li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Self-healing with feature flags" duration="2">
+        <p>Next, you will learn how to use the capabilities of Keptn to provide self-healing for an application with feature flags based on the <a href="https://unleash.github.io/" target="_blank">Unleash feature toggle framework</a>.</p>
+<aside class="special"><p>For the sake of this tutorial, we will onboard Unleash as a Keptn project. The carts microservice is already pre-configured for this.</p>
+</aside>
+<p>To quickly get an Unleash server up and running with Keptn, follow these instructions:</p>
+<ol type="1">
+<li>Make sure you are in the correct folder of your examples directory:<pre><code>cd examples/unleash-server
+</code></pre>
+</li>
+<li>Create a new project using the <code>keptn create project</code> command:<pre><code>keptn create project unleash --shipyard=./shipyard.yaml
+</code></pre>
+</li>
+<li>Onboard unleash and unleash-db using the <code>keptn onboard service</code> command:<pre><code>keptn onboard service unleash-db --project=unleash --chart=./unleash-db
+keptn onboard service unleash --project=unleash --chart=./unleash
+</code></pre>
+</li>
+<li>Send new artifacts for unleash and unleash-db using the <code>keptn send new-artifact</code> command:<pre><code>keptn send event new-artifact --project=unleash --service=unleash-db --image=postgres:10.4
+keptn send event new-artifact --project=unleash --service=unleash --image=docker.io/keptnexamples/unleash:1.0.0
+</code></pre>
+</li>
+<li>Get the URL (<code>unleash.unleash-dev.KEPTN_DOMAIN</code>):<pre><code>echo http://unleash.unleash-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+</li>
+<li>Open the URL in your browser and log in using the following credentials:<ul>
+<li>Username: keptn</li>
+<li>Password: keptn</li>
+</ul>
+</li>
+</ol>
+<p>You should be able to login using the credentials <em>keptn/keptn</em>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Configure the Unleash server" duration="4">
+        <p>In this tutorial, we are going to introduce feature toggles for two scenarios:</p>
+<ol type="1">
+<li>Feature flag for a very simple caching mechanism that can speed up the delivery of the website since it skips the calls to the database but instead replies with static content.</li>
+<li>Feature flag for a promotional campaign that can be enabled whenever you want to run a promotional campaign on top of your shopping cart.</li>
+</ol>
+<p>To set up both feature flags, navigate to your Unleash server and log in.</p>
+<ol type="1">
+<li>Click on the red <strong>+</strong> to add a new feature toggle.<br><img alt="unleash-add" src="img/deced66f274bdf54.png"></li>
+<li>Name the feature toggle <strong>EnableItemCache</strong> and add <strong>carts</strong> in the description field.</li>
+</ol>
+<p class="image-container"><img alt="unleash-cache" src="img/771a926944aeb343.png"></p>
+<ol type="1">
+<li>Create another feature toggle by following the same procedure and by naming it the feature toggle <strong>EnablePromotion</strong> and by adding <strong>carts</strong> in the description field.</li>
+</ol>
+<p class="image-container"><img alt="unleash-promotion" src="img/fae954641e271224.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Configure Keptn" duration="0">
+        <p>Duration 5:00</p>
+<p>Now, everything is set up in the Unleash server. For Keptn to be able to connect to the Unleash server, we have to add a secret with the Unleash API URL as well as the Unleash tokens.</p>
+<ol type="1">
+<li>In order for Keptn to be able to use the Unleash API, we need to add the credentials as a secret to our Keptn namespace. In this tutorial, we do not have to change the values for UNLEASH_SERVER, UNLEASH_USER, and UNLEASH_TOKEN, but in your own custom scenario this might be needed to change it to your actual Unleash URL, user and token.<br>As said, in this tutorial we can use the following command as it is:<pre><code>kubectl -n keptn create secret generic unleash --from-literal=&#34;UNLEASH_SERVER_URL=http://unleash.unleash-dev/api&#34; --from-literal=&#34;UNLEASH_USER=keptn&#34; --from-literal=&#34;UNLEASH_TOKEN=keptn&#34;
+</code></pre>
+</li>
+<li>Keptn has to be aware of the new secret to connect to the Unleash server and to set the feature toggles. Therefore, the <em>remediation-service</em> must be restarted:<pre><code>kubectl delete pod -l=run=remediation-service -n keptn
+</code></pre>
+</li>
+<li>Finally, switch to the carts example (<code>cd examples/onboarding-carts</code>) and add the following remediation instructions<pre><code>remediations:
+- name: &#34;Response time degradation&#34;
+  actions:
+  - action: featuretoggle
+    value: EnableItemCache:on
+- name: &#34;Failure rate increase&#34;
+  actions:
+  - action: featuretoggle
+    value: EnablePromotion:off
+</code></pre>
+using the command:<pre><code>keptn add-resource --project=sockshop --service=carts --stage=production --resource=remediation_feature_toggle.yaml --resourceUri=remediation.yaml
+</code></pre>
+<strong>Note:</strong> The file describes remediation actions (e.g., <code>featuretoggle</code>) in response to problems/alerts (e.g., <code>Response time degradation</code>) that are sent to Keptn.</li>
+</ol>
+<p>Now that everything is set up, next we are going to hit the application with some load and toggle the feature flags.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Run the tutorial" duration="5">
+        <p>To simulate user traffic, we are going to execute the following script that will constantly add items to the shopping cart.</p>
+<ol type="1">
+<li>Change into the folder with the load generation program within the examples repo:<pre><code>cd load-generation/bin
+</code></pre>
+</li>
+<li>Start the according load generation program depending on your operating system (replace *<em>OS</em> with either <em>linux, mac</em> or <em>win</em>):<pre><code>./loadgenerator-_OS_ &#34;http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)&#34; 
+</code></pre>
+</li>
+<li>Now, go back to your Unleash server in your browser. In this tutorial, we are going to turn on the promotional campaign, which purpose is to add promotional gifts to about 30 % of the user interactions that put items in their shopping cart.</li>
+<li>Click on the toggle next to <strong>EnablePromotion</strong> to enable this feature flag.<img alt="enable-toggle" src="img/6f3e8427811d68eb.png"></li>
+<li>By enabling this feature flag, a not implemented function is called resulting in a <em>NotImplementedFunction</em> error in the source code and a failed response. After a couple of minutes, the monitoring tool will detect an increase in the failure rate and will send out a problem notification to Keptn.</li>
+<li>Keptn will receive the problem notification/alert and look for a remediation action that matches this problem. Since we have added the <code>remediation.yaml</code> before, Keptn will find a remediation action and will trigger the corresponding action that will disable the feature flag.</li>
+<li>Finally, take a look into the Keptn&#39;s Bridge to see that an open problem has been resolved:<img alt="bridge unleash" src="img/2cf67190b37e5c17.png"></li>
 </ol>
 
 
