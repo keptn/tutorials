@@ -58,7 +58,7 @@ Although Keptn has even more to offer that should have given you a good overview
 - We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the `shipyard` file
 - We have onboarded our first microservice
 - We used a blue/green deployment to deploy the service 
-- We have set up Prometheus to monitor our applications
+- We have set up Dynatrace to monitor our applications
 - We have set up quality gates based on service level objectives
 - We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.
 - We have set up self-healing to automatically scale our application 
