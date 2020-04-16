@@ -407,14 +407,44 @@ Now, access the bridge from your browser on http://localhost:9000.In this exampl
         <p>Thanks for taking a full tour through Keptn!<br>Although Keptn has even more to offer that should have given you a good overview what you can do with Keptn.</p>
 <h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
 <ul class="checklist">
-<li>We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the <code>shipyard</code> file</li>
-<li>We have onboarded our first microservice</li>
-<li>We used a blue/green deployment to deploy the service</li>
-<li>We have set up Prometheus to monitor our applications</li>
-<li>We have set up quality gates based on service level objectives</li>
-<li>We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.</li>
-<li>We have set up self-healing to automatically scale our application</li>
-<li>We have learned how to extend our Keptn installation with other tools</li>
+<li>We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the <code>shipyard</code> file<pre><code>stages:
+- name: &#34;dev&#34;
+  deployment_strategy: &#34;direct&#34;
+  test_strategy: &#34;functional&#34;
+- name: &#34;staging&#34;
+  deployment_strategy: &#34;blue_green_service&#34;
+  test_strategy: &#34;performance&#34;
+- name: &#34;production&#34;
+  deployment_strategy: &#34;blue_green_service&#34;
+  remediation_strategy: &#34;automated&#34;
+</code></pre>
+</li>
+<li>We have set up quality gates based on service level objectives in our <code>slo</code> file<pre><code>---
+spec_version: &#34;0.1.1&#34;
+comparison:
+aggregate_function: &#34;avg&#34;
+compare_with: &#34;single_result&#34;
+include_result_with_score: &#34;pass&#34;
+number_of_comparison_results: 1
+filter:
+objectives:
+- sli: &#34;response_time_p95&#34;
+  key_sli: false
+  pass:             # pass if (relative change &lt;= 10% AND absolute value is &lt; 600ms)
+    - criteria:
+        - &#34;&lt;=+10%&#34;  # relative values require a prefixed sign (plus or minus)
+        - &#34;&lt;600&#34;    # absolute values only require a logical operator
+  warning:          # if the response time is below 800ms, the result should be a warning
+    - criteria:
+        - &#34;&lt;=800&#34;
+  weight: 1
+total_score:
+pass: &#34;90%&#34;
+warning: &#34;75%&#34;
+</code></pre>
+</li>
+<li>We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.<br><img alt="bridge" src="img/b79edd6638955ef8.png"></li>
+<li>We have set up self-healing to automatically scale our application<br><img alt="Bridge - Remediation" src="img/aa1f270203ee5904.png"></li>
 </ul>
 
 

@@ -641,14 +641,52 @@ Although Keptn has even more to offer that should have given you a good overview
 
 ### What we've covered
 
+
 - We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the `shipyard` file
-- We have onboarded our first microservice
-- We used a blue/green deployment to deploy the service 
-- We have set up Dynatrace to monitor our applications
-- We have set up quality gates based on service level objectives
+  ```
+  stages:
+    - name: "dev"
+      deployment_strategy: "direct"
+      test_strategy: "functional"
+    - name: "staging"
+      deployment_strategy: "blue_green_service"
+      test_strategy: "performance"
+    - name: "production"
+      deployment_strategy: "blue_green_service"
+      remediation_strategy: "automated"
+  ```
+
+- We have set up quality gates based on service level objectives in our `slo` file
+  ```
+  ---
+  spec_version: "0.1.1"
+  comparison:
+    aggregate_function: "avg"
+    compare_with: "single_result"
+    include_result_with_score: "pass"
+    number_of_comparison_results: 1
+  filter:
+  objectives:
+    - sli: "response_time_p95"
+      key_sli: false
+      pass:             # pass if (relative change <= 10% AND absolute value is < 600ms)
+        - criteria:
+            - "<=+10%"  # relative values require a prefixed sign (plus or minus)
+            - "<600"    # absolute values only require a logical operator
+      warning:          # if the response time is below 800ms, the result should be a warning
+        - criteria:
+            - "<=800"
+      weight: 1
+  total_score:
+    pass: "90%"
+    warning: "75%"
+  ```
+
 - We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.
-- We have set up self-healing to automatically scale our application 
-- We have learned how to extend our Keptn installation with other tools
+  ![bridge](./assets/quality-gates-bridge.png)
+
+- We have set up self-healing by automated toggling of feature flags in Unleash
+  ![unleash](./assets/unleash-promotion-toggle.png)
 
 
 ## Getting started with Keptn integrations
