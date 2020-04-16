@@ -1,13 +1,14 @@
 {
-  "title": "Codelabs",
-  "description": "Codelabs provide a guided, tutorial, hands-on coding experience. Most codelabs will step you through the process of building a small application, or adding a new feature to an existing application.",
+  "title": "Keptn Tutorials",
+  "description": "We provide a collection of guided, hands-on tutorials to help you get started using Keptn",
   "tags": [],
   "categories": [],
   "exclude": [
     "^lang-.*"
   ],
   "logoUrl": "/images/logo.png",
-  "toolbarBgColor": "#37474F",
+  "toolbarBgColor": "#006bb8",
   "sort": "mainCategory",
+  "ga": "UA-133584243-1",
   "pins": []
 }

@@ -1,8 +1,8 @@
 {
   "name": "Keptn Tutorials",
   "short_name": "Tutorials",
-  "theme_color": "#455a64",
-  "background_color": "#455a64",
+  "theme_color": "#006bb8",
+  "background_color": "#006bb8",
   "display": "standalone",
   "icons": [
     {
