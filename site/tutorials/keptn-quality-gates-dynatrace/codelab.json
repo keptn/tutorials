@@ -4,29 +4,28 @@
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
   "updated": "2020-04-16T13:57:44+02:00",
-  "id": "keptn-quality-gates-prometheus",
-  "duration": 61,
-  "title": "Keptn Quality Gates with Prometheus",
+  "id": "keptn-quality-gates-dynatrace",
+  "duration": 58,
+  "title": "Keptn Quality Gates with Dynatrace",
   "authors": "Jürgen Etzlstorfer",
-  "summary": "Keptn Quality Gates with Prometheus",
-  "source": "./keptn-quality-gates-prometheus_gen.md",
+  "summary": "Keptn Quality Gates with Dynatrace",
+  "source": "./keptn-quality-gates-dynatrace-work-in-progress_gen.md",
   "theme": "",
   "status": [
     "draft"
   ],
   "category": [
-    "prometheus",
+    "dynatrace",
     "aks",
     "eks",
     "openshift",
     "pks",
     "minikube",
-    "gke",
-    "quality-gates"
+    "gke"
   ],
   "tags": [
     "quality-gates"
   ],
   "feedback": "https://keptn.sh",
-  "url": "keptn-quality-gates-prometheus"
+  "url": "keptn-quality-gates-dynatrace"
 }

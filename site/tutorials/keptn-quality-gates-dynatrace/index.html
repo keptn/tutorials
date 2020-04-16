@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>Keptn Quality Gates with Prometheus</title>
+  <title>Keptn Quality Gates with Dynatrace</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
@@ -22,8 +22,8 @@
 <body>
   <google-codelab-analytics gaid="UA-133584243-1"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
-                  id="keptn-quality-gates-prometheus"
-                  title="Keptn Quality Gates with Prometheus"
+                  id="keptn-quality-gates-dynatrace"
+                  title="Keptn Quality Gates with Dynatrace"
                   environment="web"
                   feedback-link="https://keptn.sh">
     
@@ -111,27 +111,15 @@ This will download and install the Keptn CLI automatically.</li>
       <google-codelab-step label="Bring your own monitored microservice" duration="7">
         <p>This tutorial is slightly different compared to others because you need to bring your own monitored service. However, we are helping you here to use our infamous sockshop application with its carts microservice.</p>
 <p>If you want to use your own service, please adopt references to <em>sockshop</em> and <em>carts</em> in the remainder of this tutorial with your own service names.</p>
-<p>Install the Prometheus service in your Keptn installation:</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.2/deploy/service.yaml
-</code></pre>
+<p>Before we are going to deploy the service, let us setup Dynatrace to be able to monitor the service. This step is not be necessary if you already have your service monitored by Dynatrace.</p>
+<p>TODO: should we install dynatrace here or go with the appraoch that this has to be brought by the user???</p>
 <p>Deploy the sample application with <code>kubectl</code> into your Kubernetes cluster. This part would actually be done by your CI/CD pipeline. However, since we do not have this pipeline at hand, we are doing this manually:</p>
 <pre><code>kubectl apply -f TODO-v1.yaml
 </code></pre>
 <aside class="special"><p>If you followed the instructions above and are not using your own microservice, you can skip the next part.</p>
 </aside>
-<p>This tutorial assumes that you have Prometheus installed and the service has to be monitored by Prometheus. If you are using your own microservice, please make sure that it is properly monitored by Prometheus and a corresponding <em>scrape job</em> is in place:</p>
-<p>To configure a scrape job for a Prometheus deployed on Kubernetes, you need to update the <code>prometheus-server-conf</code> ConfigMap at the <code>prometheus.yml</code> section with an additional scrape job:</p>
-<pre><code>  prometheus.yaml:
-  ----
-  scrape_configs: 
-  - job_name: carts-sockshop-hardening
-    honor_timestamps: false
-    metrics_path: /prometheus
-    static_configs:
-    - targets:
-      - carts.sockshop-hardening:80
-</code></pre>
-<p>For more information about configuring a scrape job, see the official Prometheus documentation at section <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config" target="_blank">scrape_config</a>.</p>
+<p>In order for Keptn to extract monitoring data of your specific service it is recommended that you tag your services in Dynatrace in a way that the tags uniquely identify your services. The Keptn best practice is to put a tag for project, stage and service.</p>
+<p>Please consult the Dynatrace documentation on <a href="https://www.dynatrace.com/support/help/how-to-use-dynatrace/tags-and-metadata/" target="_blank">Tags and Metadata</a> to learn more about manual or automated tagging and how to create three automated tagging rules named <strong>keptn_project</strong>, <strong>keptn_stage</strong>, and <strong>keptn_service</strong> that extract the respective metadata from the passed environment variable</p>
 
 
       </google-codelab-step>
@@ -175,15 +163,7 @@ total_score:
 <p>The activated quality gate is passed when the absolute value of the response time is below 600ms and the relative change of the response time compared to the previous evaluation is below 10%. The quality gate raises a warning when the absolute value of the response time is below 800ms.</p>
 <aside class="warning"><p>Please note that deployment and testing of your service is outside of the scope of this tutorial. You would typically do this as part of your CI/CD pipeline.</p>
 </aside>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Setup Prometheus SLI provider" duration="3">
-        <p>During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the <em>prometheus-sli-service</em>. This service will fetch the values for the SLIs that are referenced in a SLO configuration.</p>
-<p>To install the <em>prometheus-sli-service</em>, execute:</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.1/deploy/service.yaml
-</code></pre>
+<p>snippets/monitoring/install-sliprovider-dynatrace.md</p>
 
 
       </google-codelab-step>
