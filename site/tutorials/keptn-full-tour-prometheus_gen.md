@@ -26,7 +26,7 @@ In this tutorial you'll get a full tour through Keptn. Before we get started you
 You'll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.
 
 ## Prerequisites
-Duration: 10:00
+Duration: 5:00
 
 Before you can get started, please make sure to have Keptn installed on your Kubernetes cluster.
 
@@ -37,7 +37,7 @@ If not, please [follow one of these tutorials to install Keptn](../../?cat=insta
 
 
 ## Create your first project
-Duration: 8:00
+Duration: 5:00
 
 A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.
 
@@ -86,7 +86,7 @@ keptn create project sockshop --shipyard=./shipyard.yaml
 
 
 ## Onboard first microservice
-Duration: 8:00
+Duration: 5:00
 
 After creating the project, services can be onboarded to our project.
 
@@ -205,7 +205,7 @@ Duration: 2:00
 
 
 ## Setup Prometheus Monitoring
-Duration: 4:00
+Duration: 3:00
 
 After creating a project and service, you can setup Prometheus monitoring and configure scrape jobs using the Keptn CLI. 
 
@@ -235,7 +235,7 @@ Prometheus is then available on [localhost:8080/targets](http://localhost:8080/t
 
 
 ## Setup Prometheus SLI provider 
-Duration: 3:00
+Duration: 2:00
 
 During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the *prometheus-sli-service*. This service will fetch the values for the SLIs that are referenced in a SLO configuration.
 
@@ -250,7 +250,7 @@ kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-
 
 
 ## Set up the quality gate
-Duration: 5:00
+Duration: 4:00
 
 Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.3/sre.md).
 
@@ -287,8 +287,8 @@ total_score:
   warning: "75%"
 ```
 
-## Deploy a slow build
-Duration: 5:00
+## Verify current version
+Duration: 3:00
 
 You can take a look at the currently deployed version of our "carts" microservice before we deploy the next build of our microservice.
 
@@ -311,7 +311,7 @@ echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=
 ![carts service](./assets/carts-production-1.png)
 
 
-## Deploy the slow carts version
+## Deploy a slow build version
 Duration: 5:00
 
 
@@ -348,8 +348,6 @@ After triggering the deployment of the carts service in version v0.10.2, the fol
 * **Staging stage:** In this stage, version v0.10.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.10.1 in this stage is conducted and the promotion to production is not triggered.
   * To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) shows the deployment of v0.10.2 and then the failed test in staging including the roll-back:
 
-TODO 
-
 ![Quality gate in staging](./assets/quality_gates.png)
 
 * **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.10.1 is expected to be in production.
@@ -359,7 +357,7 @@ TODO
 ## Verify the quality gate in Keptn's Bridge
 Duration: 3:00
 
-TODO
+Take a look in the Keptn's bridge (that you opened earlier in this tutorial) and navigate to the last deployment. You will find a quality gate evaluation that got a `fail` result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won't be promoted to production but instead automatically rolled back.
 
 ![Keptn's bridge](./assets/quality-gates-bridge.png)
 
@@ -474,7 +472,7 @@ After approximately 10-15 minutes, the *Alert Manager* will send out an alert si
 
 1. To verify that an alert was fired, select the *Alerts* view where you should see that the alert `response_time_p90` is in the `firing` state:
 
- ![Alert Manager](./assets/alert-manager.png)
+  ![Alert Manager](./assets/alert-manager.png)
 
 After receiving the problem notification, the *prometheus-service* will translate it into a Keptn CloudEvent. This event will eventually be received by the *remediation-service* that will look for a remediation action specified for this type of problem and, if found, execute it.
 

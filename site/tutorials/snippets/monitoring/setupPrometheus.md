@@ -1,6 +1,6 @@
 
 ## Setup Prometheus Monitoring
-Duration: 4:00
+Duration: 3:00
 
 After creating a project and service, you can setup Prometheus monitoring and configure scrape jobs using the Keptn CLI. 
 

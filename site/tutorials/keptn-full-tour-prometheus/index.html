@@ -44,14 +44,14 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Prerequisites" duration="10">
+      <google-codelab-step label="Prerequisites" duration="5">
         <p>Before you can get started, please make sure to have Keptn installed on your Kubernetes cluster.</p>
 <p>If not, please <a href="../../?cat=installation" target="_blank">follow one of these tutorials to install Keptn</a> on your favourite Kubernetes distribution.</p>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="Create your first project" duration="8">
+      <google-codelab-step label="Create your first project" duration="5">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
 <p>For creating a project, this tutorial relies on a <code>shipyard.yaml</code> file as shown below:</p>
 <pre><code>stages:
@@ -85,7 +85,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Onboard first microservice" duration="8">
+      <google-codelab-step label="Onboard first microservice" duration="5">
         <p>After creating the project, services can be onboarded to our project.</p>
 <ol type="1">
 <li>Onboard the <strong>carts</strong> service using the <a href="../../reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command:<pre><code>keptn onboard service carts --project=sockshop --chart=./carts
@@ -167,7 +167,7 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 
       </google-codelab-step>
     
-      <google-codelab-step label="Setup Prometheus Monitoring" duration="4">
+      <google-codelab-step label="Setup Prometheus Monitoring" duration="3">
         <p>After creating a project and service, you can setup Prometheus monitoring and configure scrape jobs using the Keptn CLI.</p>
 <ol type="1">
 <li>To install the <em>prometheus-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.2/deploy/service.yaml
@@ -188,7 +188,7 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 
       </google-codelab-step>
     
-      <google-codelab-step label="Setup Prometheus SLI provider" duration="3">
+      <google-codelab-step label="Setup Prometheus SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the <em>prometheus-sli-service</em>. This service will fetch the values for the SLIs that are referenced in a SLO configuration.</p>
 <p>To install the <em>prometheus-sli-service</em>, execute:</p>
 <pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.1/deploy/service.yaml
@@ -197,7 +197,7 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 
       </google-codelab-step>
     
-      <google-codelab-step label="Set up the quality gate" duration="5">
+      <google-codelab-step label="Set up the quality gate" duration="4">
         <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/0.1.3/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
 <p>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="../../reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command:</p>
 <pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
@@ -230,7 +230,7 @@ total_score:
 
       </google-codelab-step>
     
-      <google-codelab-step label="Deploy a slow build" duration="5">
+      <google-codelab-step label="Verify current version" duration="3">
         <p>You can take a look at the currently deployed version of our &#34;carts&#34; microservice before we deploy the next build of our microservice.</p>
 <ol type="1">
 <li>Get the URL for your carts service with the following commands in the respective stages:<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
@@ -247,7 +247,7 @@ total_score:
 
       </google-codelab-step>
     
-      <google-codelab-step label="Deploy the slow carts version" duration="5">
+      <google-codelab-step label="Deploy a slow build version" duration="5">
         <ol type="1">
 <li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.2
 </code></pre>
@@ -276,7 +276,6 @@ total_score:
 </ul>
 </li>
 </ul>
-<p>TODO</p>
 <p class="image-container"><img alt="Quality gate in staging" src="img/73c52a96d02e0cd5.png"></p>
 <ul>
 <li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.10.1 is expected to be in production.<br><br><ul>
@@ -289,7 +288,7 @@ total_score:
       </google-codelab-step>
     
       <google-codelab-step label="Verify the quality gate in Keptn&#39;s Bridge" duration="3">
-        <p>TODO</p>
+        <p>Take a look in the Keptn&#39;s bridge (that you opened earlier in this tutorial) and navigate to the last deployment. You will find a quality gate evaluation that got a <code>fail</code> result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won&#39;t be promoted to production but instead automatically rolled back.</p>
 <p class="image-container"><img alt="Keptn's bridge" src="img/b79edd6638955ef8.png"></p>
 
 

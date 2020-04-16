@@ -1,6 +1,6 @@
 
 ## Setup Prometheus SLI provider 
-Duration: 3:00
+Duration: 2:00
 
 During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the *prometheus-sli-service*. This service will fetch the values for the SLIs that are referenced in a SLO configuration.
 

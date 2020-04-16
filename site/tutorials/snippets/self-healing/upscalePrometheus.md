@@ -68,9 +68,9 @@ Duration: 15:00
 
 After approximately 10-15 minutes, the *Alert Manager* will send out an alert since the service level objective is not met anymore. 
 
-1. To verify that an alert was fired, select the *Alerts* view where you should see that the alert `response_time_p90` is in the `firing` state:
+To verify that an alert was fired, select the *Alerts* view where you should see that the alert `response_time_p90` is in the `firing` state:
 
- ![Alert Manager](./assets/alert-manager.png)
+  ![Alert Manager](./assets/alert-manager.png)
 
 After receiving the problem notification, the *prometheus-service* will translate it into a Keptn CloudEvent. This event will eventually be received by the *remediation-service* that will look for a remediation action specified for this type of problem and, if found, execute it.
 

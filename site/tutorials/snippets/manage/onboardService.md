@@ -1,6 +1,6 @@
 
 ## Onboard first microservice
-Duration: 8:00
+Duration: 5:00
 
 After creating the project, services can be onboarded to our project.
 

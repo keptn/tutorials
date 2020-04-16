@@ -1,6 +1,6 @@
 
 ## Set up the quality gate
-Duration: 5:00
+Duration: 4:00
 
 Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.3/sre.md).
 
@@ -37,8 +37,8 @@ total_score:
   warning: "75%"
 ```
 
-## Deploy a slow build
-Duration: 5:00
+## Verify current version
+Duration: 3:00
 
 You can take a look at the currently deployed version of our "carts" microservice before we deploy the next build of our microservice.
 
@@ -61,7 +61,7 @@ echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=
 ![carts service](./assets/carts-production-1.png)
 
 
-## Deploy the slow carts version
+## Deploy a slow build version
 Duration: 5:00
 
 
@@ -98,8 +98,6 @@ After triggering the deployment of the carts service in version v0.10.2, the fol
 * **Staging stage:** In this stage, version v0.10.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.10.1 in this stage is conducted and the promotion to production is not triggered.
   * To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) shows the deployment of v0.10.2 and then the failed test in staging including the roll-back:
 
-TODO 
-
 ![Quality gate in staging](./assets/quality_gates.png)
 
 * **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.10.1 is expected to be in production.
@@ -109,7 +107,7 @@ TODO
 ## Verify the quality gate in Keptn's Bridge
 Duration: 3:00
 
-TODO
+Take a look in the Keptn's bridge (that you opened earlier in this tutorial) and navigate to the last deployment. You will find a quality gate evaluation that got a `fail` result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won't be promoted to production but instead automatically rolled back.
 
 ![Keptn's bridge](./assets/quality-gates-bridge.png)
 
