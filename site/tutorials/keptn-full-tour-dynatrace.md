@@ -1,6 +1,6 @@
 summary: Take a full tour on Keptn with Dynatrace
 id: keptn-full-tour-dynatrace
-categories: Dynatrace,aks,eks,gke,openshift,pks,minikube,full-tour
+categories: Dynatrace,aks,eks,gke,openshift,pks,minikube,full-tour,quality-gates,automated-operations
 tags: keptn
 status: Published 
 authors: Jürgen

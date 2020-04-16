@@ -1,6 +1,6 @@
 summary: Take a full tour on Keptn with Dynatrace
 id: keptn-full-tour-dynatrace
-categories: Dynatrace,aks,eks,gke,openshift,pks,minikube,full-tour
+categories: Dynatrace,aks,eks,gke,openshift,pks,minikube,full-tour,quality-gates,automated-operations
 tags: keptn
 status: Published 
 authors: Jürgen
@@ -553,16 +553,14 @@ To set up both feature flags, navigate to your Unleash server and log in.
   ![unleash-add](./assets/unleash-add.png)
 
 1. Name the feature toggle **EnableItemCache** and add **carts** in the description field.
-
   ![unleash-cache](./assets/unleash-cache.png)
 
 1. Create another feature toggle by following the same procedure and by naming it the feature toggle **EnablePromotion** and by adding **carts** in the description field.
-
   ![unleash-promotion](./assets/unleash-promotion.png)
 
 
 ## Configure Keptn
-Duration 5:00
+Duration: 5:00
 
 Now, everything is set up in the Unleash server. For Keptn to be able to connect to the Unleash server, we have to add a secret with the Unleash API URL as well as the Unleash tokens.
 
@@ -601,7 +599,7 @@ As said, in this tutorial we can use the following command as it is:
 
 Now that everything is set up, next we are going to hit the application with some load and toggle the feature flags.
 
-## Run the tutorial
+## Run the experiment
 Duration: 5:00
 
 To simulate user traffic, we are going to execute the following script that will constantly add items to the shopping cart.
@@ -631,7 +629,7 @@ To simulate user traffic, we are going to execute the following script that will
 1. Finally, take a look into the Keptn's Bridge to see that an open problem has been resolved:
     
     ![bridge unleash](./assets/bridge_remediation_unleash.png)
-    
+
 
 
 

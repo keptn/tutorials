@@ -17,7 +17,7 @@
 @import "_variables";
 
 #footer {
-  background-color: $grey800;
+  background-color: $keptnBlue;
   font-size: 13px;
   padding: 40px 0;
 
@@ -28,7 +28,7 @@
   }
 
   a {
-    color: $grey500;
+    color: #fff;
   }
 
   .footer-wrapper {
@@ -36,7 +36,7 @@
   }
 
   .link-list {
-    border-top: 1px solid $grey700;
+    border-top: 1px solid #fff;
     flex: 1;
     margin-right: $keyline*4;
 
@@ -49,12 +49,13 @@
       display: block;
       color: #fff;
       margin: $keyline 0 $keyline*2;
+      font-weight: bold;
     }
   }
 }
 
 .footerbar {
-  background-color: $grey700;
+  background-color: $keptnDarkBlue;
   color: #fff;
   font-size: 13px;
   padding: 10px 0;
