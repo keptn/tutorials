@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/244ac853-f6f6-4005-a02a-ec7ba2a2b4e1/deploy-status)](https://app.netlify.com/sites/keptn-tutorials/deploys)
+
 # How to write your own tutorial
 
 To get a full setup of Google Codelabs you can follow this tutorial https://medium.com/@zarinlo/publish-technical-tutorials-in-google-codelab-format-b07ef76972c. However, not everything is needed to get started.
