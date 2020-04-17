@@ -44,7 +44,13 @@ Start your tutorial by taking a look at the `tutorial-template.md` file in this 
   
 ### Generate overview site
 
-1. To generate not only the local preview for the tutorials themselves but also the overview page of all tutorials, execute the following command from the `tutorials/site` folder and navigate to the URL that is given to you after executing the command:
+- To generate not only the local preview for the tutorials themselves but also the overview page of all tutorials, execute the following command and navigate to the URL that is given to you after executing the command:
     ```
-    gulp serve --codelabs-dir=tutorials
+    gulp serve 
     ```
+
+- If you want to generate the content that is also generated on the netlify build, execute the following command:
+    ```
+    gulp dist
+    ```
+
