@@ -16,7 +16,7 @@ In this tutorial, you will learn how to use the capabilities of Keptn to provide
 
 ## Prerequisites
 
-Please make sure you already have a Keptn installatin running. Take a look at [these tutorials](../../?cat=install) to get started in case you don't have your Keptn set up yet.
+Please make sure you already have a Keptn installatin running. Take a look at [these tutorials](../../?cat=installation) to get started in case you don't have your Keptn set up yet.
 
 {{ snippets/manage/createProject.md }}
 
