@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2020-04-20T17:58:57+10:00",
+  "id": "keptn-notification-service",
+  "duration": 21,
+  "title": "Create a Custom Keptn Notification Service",
+  "authors": "Adam Gardner",
+  "summary": "Create a Keptn Notification Service",
+  "source": "custom-notification-service.md",
+  "theme": "",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "tutorial"
+  ],
+  "tags": [
+    "tutorial"
+  ],
+  "feedback": "https://keptn.sh",
+  "url": "keptn-notification-service"
+}

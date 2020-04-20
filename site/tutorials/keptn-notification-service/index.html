@@ -1,0 +1,274 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Create a Custom Keptn Notification Service</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="keptn-notification-service"
+                  title="Create a Custom Keptn Notification Service"
+                  environment="web"
+                  feedback-link="https://keptn.sh">
+    
+      <google-codelab-step label="Welcome" duration="1">
+        <p>This tutorial is a hands-on guide which will demonstrate how to write a custom Keptn &#34;notification&#34; service.</p>
+<p>If you&#39;d rather follow the official documentation, it&#39;s <a href="https://keptn.sh/docs/0.6.0/usecases/custom-service/" target="_blank">here</a>. If you prefer a Go-based example, my colleague Christian Kreuzberger gave a <a href="https://www.youtube.com/watch?v=42762GuB6C0" target="_blank">video walkthrough on Youtube</a>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prerequisites" duration="1">
+        <ul>
+<li>A Keptn installation (full installation or quality gates only)</li>
+<li>A Docker Hub account</li>
+<li>Docker installed (and authenticated to DockerHub) on your local machine</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Notification Service Workflow" duration="2">
+        <p>Keptn &#34;notification&#34; services are standard services, they&#39;re known as &#34;notification&#34; services because they only listen and react to events. They do not influence Keptn&#39;s workflow in any way.</p>
+<p>Keptn services can be written in any language you choose.</p>
+<p>A &#34;notification&#34; service workflow is something like this:</p>
+<ol type="1">
+<li>A distributor listens for a particular event</li>
+<li>The distributor distributes the event to the subscribing service on a provided port</li>
+<li>The custom service ingests the event</li>
+<li>The custom service performs some logic (that you code)</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create the Keptn Distributor" duration="2">
+        <p>Every Keptn service requires a corresponding distributor. A distributor is a component which subscribes to Keptn events and forwards them your service. Think of a distributor as the &#34;glue&#34; between the Keptn core engine and your service.</p>
+<p>Save the following content on to the Keptn machine as a file called <code>demo-service-distributor.yaml</code>:</p>
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-service-distributor
+  namespace: keptn
+spec:
+  selector:
+    matchLabels:
+      run: distributor
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: distributor
+    spec:
+      containers:
+      - name: distributor
+        image: keptn/distributor:0.6.1
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: &#34;32Mi&#34;
+            cpu: &#34;50m&#34;
+          limits:
+            memory: &#34;128Mi&#34;
+            cpu: &#34;500m&#34;
+        env:
+        - name: PUBSUB_URL
+          value: &#39;nats://keptn-nats-cluster&#39;
+        - name: PUBSUB_TOPIC
+          value: &#39;sh.keptn.internal.event.project.create&#39;
+        - name: PUBSUB_RECIPIENT
+          value: &#39;demo-service&#39;
+        - name: PUBSUB_RECIPIENT_PORT
+          value: &#39;80&#39;
+</code></pre>
+<p>The important parts are the environment variables at the bottom.</p>
+<p>Read as: &#34;This distributor is subscribing to the <code>sh.keptn.internal.event.project.create</code> event and will forward the event to the <code>demo-service</code> on port <code>80</code>.</p>
+<p>Apply this file: <code>kubectl apply -f demo-service-distributor.yaml</code></p>
+<p>Verify that the distributor pod is running: <code>kubectl get pods -n keptn | grep demo</code></p>
+<pre><code>demo-service-distributor-*-*   1/1   Running   0  39s
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create Dockerfile" duration="2">
+        <p>The custom service we&#39;re creating will be built on an Apache webserver running PHP which listens on port <code>80</code>.</p>
+<p>Notice that you decide what language your service is written in. As long as the service can accept an incoming HTTP request, you&#39;re free to implement in any language you choose.</p>
+<p>Create a new <code>Dockerfile</code> with the following content:</p>
+<pre><code>FROM php:apache
+
+COPY index.php /var/www/html/index.php
+RUN chown -R www-data:www-data /var/www
+
+CMD [&#34;apache2-foreground&#34;]
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create index.php" duration="2">
+        <p>In the same folder as your <code>Dockerfile</code> create another file called <code>index.php</code>:</p>
+<pre><code>&lt;?php
+
+/* Create and open the log file
+ * Root directory is /var/www/html/
+ * So this log file is: /var/www/html/demoService.log
+ */
+$logFile = fopen(&#34;demoService.log&#34;, &#34;a&#34;) or die(&#34;Unable to open file!&#34;);
+
+// Get the incoming data from Keptn
+$entityBody = file_get_contents(&#39;php://input&#39;);
+
+// Decode the incoming JSON event
+$cloudEvent = json_decode($entityBody);
+
+/* Your logic here...
+ * Write a log file entry into the /var/www/html/demoService.log
+ */
+fwrite($logFile,&#34;Project Created: &#34; . $cloudEvent-&gt;{&#39;data&#39;}-&gt;{&#39;project&#39;} . &#34;\n\n&#34;);
+
+// Close handle to log file
+fclose($logFile);
+?&gt;
+</code></pre>
+<p>Whenever the distributor detects an <code>sh.keptn.internal.event.project.create</code> event, it passes the event to this custom service.</p>
+<p>This service will parse the incoming keptn event then write a log line. This log file is stored at <code>/var/www/html/demoService.log</code> inside the <code>demo-service</code> pod.</p>
+<p>The log line will look like this:</p>
+<pre><code>Project Created: &lt;project-name&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Build and Push Image" duration="2">
+        <p>Build and push your custom service to DockerHub. Be sure to substitute your Docker ID into the following command:</p>
+<pre><code>docker build -t &lt;your-docker-username&gt;/keptn-demo-service:notification . &amp;&amp; docker push &lt;your-docker-username&gt;/keptn-demo-service:notification
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy Your Keptn Service" duration="5">
+        <p>Create a file on the Keptn machine called <code>demo-service.yaml</code>.</p>
+<p>Be sure to substitute <strong>your</strong> docker ID into the <code>image:</code> line</p>
+<pre><code>---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-service
+  namespace: keptn
+spec:
+  selector:
+    matchLabels:
+      run: demo-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: demo-service
+    spec:
+      containers:
+      - name: demo-service
+        image: &lt;your-docker-username&gt;/keptn-demo-service:notification
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-service
+  namespace: keptn
+  labels:
+    run: demo-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    run: demo-service
+</code></pre>
+<p>Apply this file:</p>
+<pre><code>kubectl apply -f demo-service.yaml
+</code></pre>
+<p>Verify that both the <code>service</code> and <code>distributor</code> pods are running:</p>
+<pre><code>kubectl get pods -n keptn | grep demo
+
+demo-service-*-*                1/1     Running   0   24s
+demo-service-distributor-*-*    1/1     Running   0   39s
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create Shipyard file" duration="1">
+        <p>Every Keptn project requires a shipyard file. This defines the structure of the project.</p>
+<p>Create a basic single stage <code>shipyard.yaml</code> file now on the Keptn machine:</p>
+<pre><code>stages:
+  - name: &#34;quality&#34;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create Keptn Project" duration="1">
+        <p>Now you&#39;re ready to test the custom service.</p>
+<p>Create a project then check the <code>demo-service</code> container log <code>demoService.log</code>. The creation of the project should be logged to this file.</p>
+<p>Create the project:</p>
+<pre><code>keptn create project demo-project --shipyard=shipyard.yaml
+</code></pre>
+<p>You should see the following output:</p>
+<pre><code>Starting to create project
+ID of Keptn context: ***
+Project demo-project created
+Stage quality created
+Shipyard successfully processed
+</code></pre>
+<h2 is-upgraded>Validate The Service</h2>
+<p>Retrieve the <code>demo-service</code> pod name:</p>
+<pre><code>kubectl get pods -n keptn | grep demo
+</code></pre>
+<p>Substitute your pod name into the following command and execute:</p>
+<pre><code>kubectl exec -n keptn &lt;your-pod&gt; -- cat /var/www/html/demoService.log
+</code></pre>
+<p>You should see:</p>
+<pre><code>Project Created: demo-project
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Conclusion" duration="2">
+        <p>Congratulations. You&#39;ve build a custom keptn service which listens for an event and reacts to that event.</p>
+<p>Now that you understand the basics, go forth and integrate with any other third-party tooling!</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
