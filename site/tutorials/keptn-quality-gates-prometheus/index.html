@@ -114,7 +114,10 @@ This will download and install the Keptn CLI automatically.</li>
 <pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.2/deploy/service.yaml
 </code></pre>
 <p>Deploy the sample application with <code>kubectl</code> into your Kubernetes cluster. This part would actually be done by your CI/CD pipeline. However, since we do not have this pipeline at hand, we are doing this manually:</p>
-<pre><code>kubectl apply -f TODO-v1.yaml
+<pre><code>kubectl create namespace sockshop-hardening
+
+kubectl apply -f https://raw.githubusercontent.com/keptn/examples/master/onboarding-carts/manifests/manifest-carts-db.yaml
+kubectl apply -f https://raw.githubusercontent.com/keptn/examples/master/onboarding-carts/manifests/manifest-carts.yaml
 </code></pre>
 <aside class="special"><p>If you followed the instructions above and are not using your own microservice, you can skip the next part.</p>
 </aside>
@@ -136,7 +139,12 @@ This will download and install the Keptn CLI automatically.</li>
       </google-codelab-step>
     
       <google-codelab-step label="Configure Keptn and activate the quality gate" duration="5">
-        <p>Let us create a Keptn project (e.g., <em>sockshop</em>) with only one the <em>hardening</em> stage declared in the <code>shipyard-quality-gates.yaml</code> file that we have cloned from the examples Github repository earlier.</p>
+        <p>Let us create a Keptn project (e.g., <em>sockshop</em>) with only one the <em>hardening</em> stage.</p>
+<p>Please create a <code>shipyard-quality-gates.yaml</code> file with the following content:</p>
+<pre><code>stages:
+  - name: &#34;hardening&#34;
+</code></pre>
+<p>With this file, we can create a Keptn project with only one stage, called <code>hardening</code>.</p>
 <pre><code>keptn create project sockshop --shipyard=shipyard-quality-gates.yaml
 </code></pre>
 <p>Create a Keptn service for your service (e.g., <em>carts</em>) you want to evaluate:</p>

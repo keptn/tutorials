@@ -15,7 +15,10 @@ kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-serv
 Deploy the sample application with `kubectl` into your Kubernetes cluster. This part would actually be done by your CI/CD pipeline. However, since we do not have this pipeline at hand, we are doing this manually:
 
 ```
-kubectl apply -f TODO-v1.yaml
+kubectl create namespace sockshop-hardening
+
+kubectl apply -f https://raw.githubusercontent.com/keptn/examples/master/onboarding-carts/manifests/manifest-carts-db.yaml
+kubectl apply -f https://raw.githubusercontent.com/keptn/examples/master/onboarding-carts/manifests/manifest-carts.yaml
 ```
 
 

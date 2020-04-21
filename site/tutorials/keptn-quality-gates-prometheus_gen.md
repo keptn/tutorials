@@ -122,7 +122,10 @@ kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-serv
 Deploy the sample application with `kubectl` into your Kubernetes cluster. This part would actually be done by your CI/CD pipeline. However, since we do not have this pipeline at hand, we are doing this manually:
 
 ```
-kubectl apply -f TODO-v1.yaml
+kubectl create namespace sockshop-hardening
+
+kubectl apply -f https://raw.githubusercontent.com/keptn/examples/master/onboarding-carts/manifests/manifest-carts-db.yaml
+kubectl apply -f https://raw.githubusercontent.com/keptn/examples/master/onboarding-carts/manifests/manifest-carts.yaml
 ```
 
 
@@ -154,7 +157,15 @@ For more information about configuring a scrape job, see the official Prometheus
 Duration: 5:00
 
 
-Let us create a Keptn project (e.g., *sockshop*) with only one the *hardening* stage declared in the `shipyard-quality-gates.yaml` file that we have cloned from the examples Github repository earlier.
+Let us create a Keptn project (e.g., *sockshop*) with only one the *hardening* stage.
+
+Please create a `shipyard-quality-gates.yaml` file with the following content:
+```
+stages:
+  - name: "hardening"
+```
+
+With this file, we can create a Keptn project with only one stage, called `hardening`.
 
 ```
 keptn create project sockshop --shipyard=shipyard-quality-gates.yaml
