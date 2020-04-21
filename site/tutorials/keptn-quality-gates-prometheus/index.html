@@ -50,7 +50,7 @@
     
       <google-codelab-step label="Prerequisites for tutorial" duration="4">
         <p>Clone the following tutorial to your local machine to have all files at hand that we are going to use for this tutorial.</p>
-<pre><code>git clone --branch 0.6.1 https://github.com/keptn/examples.git --single-branch
+<pre><code>git clone --branch master https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts 
 </code></pre>
@@ -139,12 +139,7 @@ kubectl apply -f https://raw.githubusercontent.com/keptn/examples/master/onboard
       </google-codelab-step>
     
       <google-codelab-step label="Configure Keptn and activate the quality gate" duration="5">
-        <p>Let us create a Keptn project (e.g., <em>sockshop</em>) with only one the <em>hardening</em> stage.</p>
-<p>Please create a <code>shipyard-quality-gates.yaml</code> file with the following content:</p>
-<pre><code>stages:
-  - name: &#34;hardening&#34;
-</code></pre>
-<p>With this file, we can create a Keptn project with only one stage, called <code>hardening</code>.</p>
+        <p>Let us create a Keptn project (e.g., <em>sockshop</em>) with only one the <em>hardening</em> stage declared in the <code>shipyard-quality-gates.yaml</code> file that we have cloned from the examples Github repository earlier.</p>
 <pre><code>keptn create project sockshop --shipyard=shipyard-quality-gates.yaml
 </code></pre>
 <p>Create a Keptn service for your service (e.g., <em>carts</em>) you want to evaluate:</p>

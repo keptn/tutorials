@@ -37,7 +37,7 @@ Duration: 4:00
 Clone the following tutorial to your local machine to have all files at hand that we are going to use for this tutorial.
 
 ```
-git clone --branch 0.6.1 https://github.com/keptn/examples.git --single-branch
+git clone --branch master https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts 
 ```
@@ -157,15 +157,7 @@ For more information about configuring a scrape job, see the official Prometheus
 Duration: 5:00
 
 
-Let us create a Keptn project (e.g., *sockshop*) with only one the *hardening* stage.
-
-Please create a `shipyard-quality-gates.yaml` file with the following content:
-```
-stages:
-  - name: "hardening"
-```
-
-With this file, we can create a Keptn project with only one stage, called `hardening`.
+Let us create a Keptn project (e.g., *sockshop*) with only one the *hardening* stage declared in the `shipyard-quality-gates.yaml` file that we have cloned from the examples Github repository earlier.
 
 ```
 keptn create project sockshop --shipyard=shipyard-quality-gates.yaml

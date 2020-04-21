@@ -3,15 +3,7 @@
 Duration: 5:00
 
 
-Let us create a Keptn project (e.g., *sockshop*) with only one the *hardening* stage.
-
-Please create a `shipyard-quality-gates.yaml` file with the following content:
-```
-stages:
-  - name: "hardening"
-```
-
-With this file, we can create a Keptn project with only one stage, called `hardening`.
+Let us create a Keptn project (e.g., *sockshop*) with only one the *hardening* stage declared in the `shipyard-quality-gates.yaml` file that we have cloned from the examples Github repository earlier.
 
 ```
 keptn create project sockshop --shipyard=shipyard-quality-gates.yaml

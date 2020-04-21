@@ -37,7 +37,7 @@ Duration: 4:00
 Clone the following tutorial to your local machine to have all files at hand that we are going to use for this tutorial.
 
 ```
-git clone --branch 0.6.1 https://github.com/keptn/examples.git --single-branch
+git clone --branch master https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts 
 ```
