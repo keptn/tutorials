@@ -50,9 +50,8 @@ Negative
 ## Bring your Kubernetes cluster
 Duration: 10:00
 
-For this tutorial a Kubernetes cluster is needed. Please take a look a the different cluster installations we are providing.
+For this tutorial a Kubernetes cluster is needed. Please take a look a the [different cluster installations](https://tutorials.keptn.sh/?cat=installation) we are providing.
 
-TODO
 
 
 
@@ -99,7 +98,7 @@ Positive
 ## Install Keptn Quality Gate
 Duration: 5:00
 
-If you want to install Keptn just to explore the capabilities of quality gates, you have the option to roll-out Keptn **without** components for automated delivery and operations. Therefore, set the `use-case` flag to `quality-gates` when executing the [install(https://keptn.sh/docs/0.6.0/reference/cli/#keptn-install) command:
+If you want to install Keptn just to explore the capabilities of quality gates, you have the option to roll-out Keptn **without** components for automated delivery and operations. Therefore, set the `use-case` flag to `quality-gates` when executing the [install](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-install) command:
 
 ```
 keptn install --platform=[aks|eks|gke|pks|openshift|kubernetes] --use-case=quality-gates
@@ -212,7 +211,7 @@ Negative
 
 
 ## Setup Prometheus SLI provider 
-Duration: 3:00
+Duration: 2:00
 
 During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the *prometheus-sli-service*. This service will fetch the values for the SLIs that are referenced in a SLO configuration.
 

@@ -50,9 +50,8 @@ Negative
 ## Bring your Kubernetes cluster
 Duration: 10:00
 
-For this tutorial a Kubernetes cluster is needed. Please take a look a the different cluster installations we are providing.
+For this tutorial a Kubernetes cluster is needed. Please take a look a the [different cluster installations](https://tutorials.keptn.sh/?cat=installation) we are providing.
 
-TODO
 
 {{ snippets/install/download-keptnCLI.md }}
 

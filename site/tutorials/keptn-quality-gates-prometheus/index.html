@@ -61,8 +61,7 @@ cd examples/onboarding-carts
       </google-codelab-step>
     
       <google-codelab-step label="Bring your Kubernetes cluster" duration="10">
-        <p>For this tutorial a Kubernetes cluster is needed. Please take a look a the different cluster installations we are providing.</p>
-<p>TODO</p>
+        <p>For this tutorial a Kubernetes cluster is needed. Please take a look a the <a href="https://tutorials.keptn.sh/?cat=installation" target="_blank">different cluster installations</a> we are providing.</p>
 
 
       </google-codelab-step>
@@ -101,7 +100,7 @@ This will download and install the Keptn CLI automatically.</li>
       </google-codelab-step>
     
       <google-codelab-step label="Install Keptn Quality Gate" duration="5">
-        <p>If you want to install Keptn just to explore the capabilities of quality gates, you have the option to roll-out Keptn <strong>without</strong> components for automated delivery and operations. Therefore, set the <code>use-case</code> flag to <code>quality-gates</code> when executing the [install(https://keptn.sh/docs/0.6.0/reference/cli/#keptn-install) command:</p>
+        <p>If you want to install Keptn just to explore the capabilities of quality gates, you have the option to roll-out Keptn <strong>without</strong> components for automated delivery and operations. Therefore, set the <code>use-case</code> flag to <code>quality-gates</code> when executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-install" target="_blank">install</a> command:</p>
 <pre><code>keptn install --platform=[aks|eks|gke|pks|openshift|kubernetes] --use-case=quality-gates
 </code></pre>
 
@@ -179,7 +178,7 @@ total_score:
 
       </google-codelab-step>
     
-      <google-codelab-step label="Setup Prometheus SLI provider" duration="3">
+      <google-codelab-step label="Setup Prometheus SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the <em>prometheus-sli-service</em>. This service will fetch the values for the SLIs that are referenced in a SLO configuration.</p>
 <p>To install the <em>prometheus-sli-service</em>, execute:</p>
 <pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.1/deploy/service.yaml
