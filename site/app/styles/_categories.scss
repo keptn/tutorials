@@ -175,8 +175,11 @@ $color-google-blue, 'wear-os.svg');
   $keptnBlue, 'pivotal.png');
 @include codelab-card(['minikube'],
   $keptnBlue, 'kubernetes.png');
+@include codelab-card(['argocd'],
+  $keptnBlue, 'argocd.png');
 @include codelab-card(['php'],
   $keptnBlue, 'php.png');
+
 
 
 @include codelab-card(['design'],
