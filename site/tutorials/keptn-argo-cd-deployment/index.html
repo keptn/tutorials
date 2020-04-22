@@ -1,0 +1,276 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Argo CD for Deploying and Keptn for Testing, Evaluating, and Promoting</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="keptn-argo-cd-deployment"
+                  title="Argo CD for Deploying and Keptn for Testing, Evaluating, and Promoting"
+                  environment="web"
+                  feedback-link="https://keptn.sh">
+    
+      <google-codelab-step label="Welcome" duration="1">
+        <p>In this tutorial, <a href="https://argoproj.github.io/argo-cd/" target="_blank">Argo CD</a> is used for deploying a <a href="https://argoproj.github.io/argo-rollouts/" target="_blank">Argo Rollout</a> and Keptn is used for testing, evaluating, and promoting this rollout. More precisely, in this tutorial, Argo CD is used as deployment tool and not the Keptn built-in tool called <code>helm-service</code>. Furthermore, this tutorial uses <a href="https://argoproj.github.io/argo-rollouts/" target="_blank">Argo Rollouts</a>, which introduces a new custom resource called <code>Rollout</code> implementing deployment strategies such as Blue/Green and Canary.</p>
+<p>This tutorial provides a sample Helm chart, which contains the <code>carts</code> and <code>carts-db</code> service. These services will be deployed into a <code>production</code> environment using Argo CD. Afterwards, Keptn will be used to test the carts` service using performance tests. Using the resulting metrics provided by Prometheus, Keptn will then check whether this service passes the defined quality gate.Depending on whether the quality gate is passed or not, this service will be promoted or aborted. In case it will be promoted, this service will be released to real-users.</p>
+<h2 class="checklist" is-upgraded>What you&#39;ll learn</h2>
+<ul class="checklist">
+<li>Use Argo CD and Argo Rollout for deployment</li>
+<li>Use Keptn for initiating the tests</li>
+<li>Use Keptn for automated deployment validation (aka quality gates)</li>
+<li>Use Keptn for promotion of microservices if they pass the quality gate</li>
+</ul>
+<aside class="warning"><p>The following tutorial is a first proof-of-concept for using Argo CD as<br>deployment tool.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prerequisites" duration="5">
+        <ul>
+<li>A completed <a href="https://tutorials.keptn.sh/?cat=installation" target="_blank">Keptn installation</a></li>
+<li>Basic knowledge of <a href="https://argoproj.github.io/argo-cd/" target="_blank">Argo CD</a> and <a href="https://argoproj.github.io/argo-rollouts/" target="_blank">Argo Rollouts</a></li>
+<li>Completed <a href="https://argoproj.github.io/argo-cd/getting_started/#1-install-argo-cd" target="_blank">Argo CD installation</a> and the <code>argocd</code> CLI needs to be <a href="https://argoproj.github.io/argo-cd/getting_started/#4-login-using-the-cli" target="_blank">logged in</a></li>
+<li>Completed <a href="https://argoproj.github.io/argo-rollouts/getting-started/#install-argo-rollouts" target="_blank">Argo Rollouts installation</a></li>
+<li>Clone example files used in this tutorial:<pre><code>git clone --branch master https://github.com/keptn/examples.git --single-branch
+</code></pre>
+<pre><code>cd examples/onboarding-carts
+</code></pre>
+</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install the Keptn Argo-service" duration="2">
+        <p>The Keptn <code>argo-service</code> takes care of <em>promoting</em> or <em>aborting</em> a Rollout depending on the result of the quality gate.<br>More precisely, the <code>argo-service</code> listens for <code>sh.keptn.events.evaluation-done</code> events and depending on the evaluation result (i.e. whether the quality gate is passed or not)<br>the service promotes or aborts a rollout, respectively.</p>
+<ol type="1">
+<li>The <code>argo-service</code> is not contained in the default installation of Keptn.<br>To install the <code>argo-service</code>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/argo-service/master/deploy/service.yaml
+</code></pre>
+</li>
+<li>The <code>gatekeeper-service</code> (which is installed by the default installation of Keptn) has to be removed:<pre><code>kubectl delete deployment gatekeeper-service-evaluation-done-distributor -n keptn
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create project sockshop" duration="5">
+        <p>This tutorial sets up a single stage environment containing a <code>production</code> environment.<br>In this stage, performance tests are used to test new deployments.<br>For creating the project, the following shipyard is used:</p>
+<pre><code>stages:
+  - name: &#34;production&#34;
+    deployment_strategy: &#34;blue_green_service&#34;
+    test_strategy: &#34;performance&#34;
+</code></pre>
+<p>Create a new project for your services using the <code>keptn create project</code> command.<br>In this tutorial, the project is called <em>sockshop</em>. The Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required for configuring an upstream.<br>For details, please visit <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">select Git-based upstream</a> where instructions for GitHub, GitLab, and Bitbucket are provided.<br>Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder:</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard-argo.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create carts service" duration="5">
+        <ol type="1">
+<li>Keptn manages all service-related artifacts (like testing files, SLOs, etc.),<br>in a so-called service.<br>Create a service for <em>carts</em> using the <code>keptn create service</code> command:<pre><code>keptn create service carts --project=sockshop
+</code></pre>
+</li>
+<li>After creating the service, Keptn allows to add service-related artifacts like the performance test:<pre><code>keptn add-resource --project=sockshop --stage=production --service=carts --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up the quality gate and monitoring" duration="5">
+        <p>Keptn&#39;s quality gate is specified by <em>Service Level Objectives</em> (SLOs). In order to pass this quality gate, the service has to meet the SLOs. These SLOs are described in a file called <code>slo.yaml</code>. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/0.1.2/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
+<p>Activate the quality gates for the <code>carts</code> service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo.yaml</code> file using the <code>add-resource</code> command:</p>
+<pre><code>keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
+</code></pre>
+<p>For evaluating the SLOs, metrics from a monitoring tool are required. Currently, this tutorial supports <em>Prometheus</em> as a monitoring tool, which is set up in the following steps:</p>
+<ol type="1">
+<li>Install Prometheus in your Kubernetes cluster.<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.2/deploy/service.yaml
+</code></pre>
+</li>
+<li>Install the Prometheus SLI provider in your cluster.<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.1/deploy/service.yaml
+</code></pre>
+</li>
+<li>Configure custom SLIs for the Prometheus SLI provider as specified in <code>sli-config-argo-prometheus.yaml</code>:<pre><code>keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-argo-prometheus.yaml --resourceUri=prometheus/sli.yaml
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Configure Argo" duration="5">
+        <p>Next, this tutorial explains how to set up an Argo app and trigger Keptn after a successful deployment. Therefore, this tutorial assumes that you have completed the <a href="https://argoproj.github.io/argo-cd/getting_started/#1-install-argo-cd" target="_blank">Argo CD installation</a> and <a href="https://argoproj.github.io/argo-rollouts/getting-started/#install-argo-rollouts" target="_blank">Argo Rollouts installation</a>.</p>
+<p>This tutorial provides deployment resources (in the form of a <a href="https://helm.sh/" target="_blank">Helm chart</a>), which contains the <code>carts</code> and <code>carts-db</code> service.<br>The <code>carts</code> service is of type <code>rollout</code>, which allows a <em>blue/green deployment</em>.</p>
+<ol type="1">
+<li>Argo CD requires a Git repo where this Helm chart is stored and, here, Keptn&#39;s config-repo is re-used. Execute the following command and replace <code>GIT_REMOTE_URL</code> with the URL as you used before when creating the Keptn project:<pre><code>git clone GIT_REMOTE_URL
+cd sockshop
+git checkout production
+</code></pre>
+</li>
+<li>Copy the <code>argo</code> folder provided in the examples repo under <code>onboarding-carts/</code> into<br>the config repo in the folder <code>carts</code>.</li>
+<li>Add, commit, and push the changes:<pre><code>git add .
+git commit -m &#34;Add deployment resources&#34;
+git push
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create Argo App" duration="4">
+        <ol type="1">
+<li>Create an Argo app using the <code>argocd</code> CLI. Therefore, the app name has to follow the format <code>ServiceName-StageName</code> and the namespace has to follow the format <code>ProjectName-StageName</code>:<pre><code>argocd app create --name carts-production --repo GIT_REMOTE_URL --dest-server https://kubernetes.default.svc --dest-namespace sockshop-production --path carts/argo/carts --revision production --sync-policy none
+</code></pre>
+</li>
+<li>Create a namespace in which the app is deployed:<pre><code>kubectl create namespace sockshop-production
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Add Argo Hook for triggering Keptn" duration="2">
+        <p>In order to infrom Keptn when Argo CD does the deployment,<br>an <a href="https://argoproj.github.io/argo-cd/user-guide/resource_hooks/" target="_blank">Argo Resource Hook</a> is configured. This hook is triggered when Argo CD applies the manifests. This hook executes a script which sends a <a href="https://github.com/keptn/spec/blob/master/cloudevents.md#deployment-finished" target="_blank"><br>sh.keptn.events.deployment-finished</a> event to the Keptn API.</p>
+<pre><code>apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: app-keptn-notification-
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: keptn-notification
+        image: agrimmer/alpine-curl-uuid-kubectl:latest
+        command: [&#34;/bin/sh&#34;,&#34;-c&#34;]
+        args: [&#39;while [[ $(kubectl get rollout &#123;&#123; .Values.keptn.service }}-&#123;&#123; .Values.keptn.stage }} -n &#123;&#123; .Values.keptn.project }}-&#123;&#123; .Values.keptn.stage }} -o &#34;jsonpath={..status.conditions[?(@.type==\&#34;Progressing\&#34;)].reason}&#34;) == &#34;ReplicaSetUpdated&#34; ]]; do echo &#34;waiting for rollout&#34; &amp;&amp; sleep 1; done; UUID=$(uuidgen); KEPTN_ENDPOINT=https://api.keptn.$(kubectl get cm keptn-domain -n &#123;&#123; .Values.keptn.project }}-&#123;&#123; .Values.keptn.stage }} -ojsonpath={.data.app_domain}); KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n &#123;&#123; .Values.keptn.project }}-&#123;&#123; .Values.keptn.stage }} -ojsonpath={.data.keptn-api-token} | base64 -d);UUID=$(uuidgen); now=$(TZ=UTC date &#34;+%FT%T.00Z&#34;); curl -X POST -H &#34;Content-Type: application/cloudevents+json&#34; -H &#34;x-token: ${KEPTN_API_TOKEN}&#34; --insecure -d &#34;{\&#34;contenttype\&#34;: \&#34;application/json\&#34;, \&#34;data\&#34;: { \&#34;project\&#34;: \&#34;&#123;&#123; .Values.keptn.project }}\&#34;, \&#34;service\&#34;: \&#34;&#123;&#123; .Values.keptn.service }}\&#34;, \&#34;stage\&#34;: \&#34;&#123;&#123; .Values.keptn.stage }}\&#34;, \&#34;deploymentURILocal\&#34;: \&#34;http://&#123;&#123; .Values.keptn.service }}-canary.&#123;&#123; .Values.keptn.project }}-&#123;&#123; .Values.keptn.stage }}\&#34;, \&#34;deploymentstrategy\&#34;: \&#34;blue_green_service\&#34;, \&#34;teststrategy\&#34;: \&#34;performance\&#34;}, \&#34;id\&#34;: \&#34;${UUID}\&#34;, \&#34;source\&#34;: \&#34;argo\&#34;, \&#34;specversion\&#34;: \&#34;0.2\&#34;, \&#34;time\&#34;: \&#34;${now}\&#34;, \&#34;type\&#34;: \&#34;sh.keptn.events.deployment-finished\&#34;, \&#34;shkeptncontext\&#34;: \&#34;${UUID}\&#34;}&#34; ${KEPTN_ENDPOINT}/v1/event&#39;]
+      restartPolicy: Never
+  backoffLimit: 2
+</code></pre>
+<aside class="special"><p>In order to activate this hook, the Job has to be located in the Helm chart containing the deployment resources. The example chart in <code>onboarding-carts/argo/carts</code> already contains this Hook and, hence, it was already added in the step before.</p>
+</aside>
+<p>This hook needs to access the Keptn API and therefore requires the Keptn endpoint as well as the api-token.<br>Therefore, create a config map and a secret with the Keptn endpoint and api-token:</p>
+<pre><code>KEPTN_ENDPOINT=$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+kubectl -n sockshop-production create secret generic keptn-api-token --from-literal=&#34;keptn-api-token=$KEPTN_API_TOKEN&#34;
+kubectl -n sockshop-production create configmap keptn-domain --from-literal=&#34;app_domain=$KEPTN_ENDPOINT&#34;
+kubectl create clusterrolebinding sockshop-production --clusterrole=cluster-admin --serviceaccount=sockshop-production:default
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy with Argo and Test, Evaluate, and Promote with Keptn" duration="5">
+        <ol type="1">
+<li>Sync the Argo app using the ArgoCD UI or the <code>argocd</code> CLI:<pre><code>argocd app sync carts-production
+</code></pre>
+</li>
+<li>Check whether the hook triggered Keptn. Therefore, go to Keptn&#39;s Bridge and check whether there is a <code>sh.keptn.events.deployment-finished</code> event. You can access it by a port-forward from your local machine to the Kubernetes cluster:<pre><code>kubectl port-forward svc/bridge -n keptn 9000:8080
+</code></pre>
+The Keptn&#39;s Bridge is then available on: http://localhost:9000.</li>
+<li>Follow the events in the Keptn&#39;s Bridge.</li>
+<li>The new version (i.e. the <code>canary</code>) as well as the released version (i.e. the <code>primary</code>) of the <code>carts</code> service are exposed via a LoadBalancer. In order to access the website of the <code>carts</code> service, query the external IPs of the LoadBalancer:<pre><code>kubectl get services -n sockshop-production
+</code></pre>
+<pre><code>NAME            TYPE           CLUSTER-IP    EXTERNAL-IP     PORT(S)        AGE
+carts-canary    LoadBalancer   10.3.10.175   35.x.x.x        80:32475/TCP   47h
+carts-db        ClusterIP      10.3.1.153    &lt;none&gt;          27017/TCP      47h
+carts-primary   LoadBalancer   10.3.14.82    35.x.x.x        80:32597/TCP   47h
+</code></pre>
+</li>
+<li>Navigate to <code>http://EXTERNAL-IP</code> for viewing both versions of the <code>carts</code> service in your <code>production</code> environment.<img alt="carts v1" src="img/17c286931bf2e89b.png"></li>
+</ol>
+<p><strong>Expected Result:</strong> This version has passed the quality gate. Hence, you should see that both services serve the same content.</p>
+<p>You will see these events in the Keptn&#39;s Bridge:</p>
+<p class="image-container"><img alt="bridge" src="img/dcddb948d562a205.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy a SLOW version" duration="0">
+        <p>Next, we will deploy a slow version of the carts service, which contains an artificial slowdown of 2 second in each request. This version must should not pass the quality gate and, hence, should not be promoted to serve real-user traffic.</p>
+<ol type="1">
+<li>In your Git reposititory containing the Argo resources, go to the folder <code>carts/argo/carts</code> and open the <code>values.yaml</code> file.</li>
+<li>Edit the <code>tag</code> from <code>0.10.1</code> to <code>0.10.2</code>.</li>
+<li>Add, commit, and push these changes:<pre><code>git add .
+git commit -m &#34;Use slow version&#34;
+git push
+</code></pre>
+</li>
+<li>Sync the Argo app using the ArgoCD UI or the <code>argocd</code> CLI:<pre><code>argocd app sync carts-production
+</code></pre>
+</li>
+<li>Follow the events in the Keptn&#39;s Bridge. Please note that the performance tests will take approx. 20 minutes.<img alt="bridge" src="img/42ad43ee4468b7ba.png"></li>
+<li>Navigate to <code>http://EXTERNAL-IP</code> for viewing both versions of the <code>carts</code> service in your <code>production</code> environment.<img alt="carts canary" src="img/477ddcda7c8f204c.png"><img alt="carts primary" src="img/17c286931bf2e89b.png"></li>
+</ol>
+<p><strong>Expected Result:</strong> This version <code>0.10.2</code> should not pass the quality gate. The <code>primary</code> version should still show the last version <code>0.10.1</code>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy a fast version" duration="0">
+        <p>Finally, we will deploy a version which does <em>not</em> contain the slowdown anymore.<br>This version should now again pass the quality gate and, hence, should be promoted to serve real-user traffic.</p>
+<ol type="1">
+<li>In your Git reposititory containing the Argo resources, go to the folder <code>carts/argo/carts</code> and open the <code>values.yaml</code> file.</li>
+<li>Edit the <code>tag</code> from <code>0.10.2</code> to <code>0.10.3</code>.</li>
+<li>Add, commit, and push these changes:<pre><code>git add .
+git commit -m &#34;Use fast version&#34;
+git push
+</code></pre>
+</li>
+<li>Sync the Argo app using the ArgoCD UI or the <code>argocd</code> CLI:<pre><code>argocd app sync carts-production
+</code></pre>
+</li>
+<li>Follow the events in the Keptn&#39;s Bridge.</li>
+<li>Navigate to <code>http://EXTERNAL-IP</code> for viewing both versions of the <code>carts</code> service in your <code>production</code> environment.</li>
+</ol>
+<p><strong>Expected Result:</strong> This version <code>0.10.3</code> should pass the quality gate. The <code>primary</code> version should show version <code>0.10.3</code>.</p>
+<p class="image-container"><img alt="carts canary" src="img/d2292b82a7354437.png"></p>
+<p>Your Bridge should show an event flow similar to the one in this screenshot:</p>
+<p class="image-container"><img alt="carts canary" src="img/eb251ae4026a7edf.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Finished" duration="0">
+        <p>Congratulations!</p>
+<p>You have successfully finished the tutorial on using ArgoCD/Rollouts for deployment and Keptn for testing, evaluation and promoting your microservices.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
