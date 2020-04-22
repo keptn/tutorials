@@ -138,8 +138,8 @@ Prepare the POST request body by filling out the next JSON object:
   "type": "sh.keptn.event.start-evaluation",
   "source": "https://github.com/keptn/keptn"
   "data": {
-    "start": "2019-11-21T11:00:00.000Z",
-    "end": "2019-11-21T11:05:00.000Z",
+    "start": "2020-04-21T11:00:00.000Z",
+    "end": "2020-04-21T11:05:00.000Z",
     "project": "sockshop",
     "stage": "hardening",
     "service": "carts",
@@ -149,6 +149,9 @@ Prepare the POST request body by filling out the next JSON object:
 ```
 
 Please take attention that the above CloudEvent contains the property `"teststrategy": "manual"`. This is required to tell Keptn that a test had been manually executed; meaning that a test had been triggered by a tool other than Keptn. 
+
+Negative
+: Please note that the start and end time has to be changed to reflect the time frame you want to evaluate!
 
 Execute a quality gate evaluation by sending a POST request with the Keptn API token and the prepared payload:
 
