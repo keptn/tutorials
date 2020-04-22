@@ -54,8 +54,7 @@ Duration: 5:00
 Duration: 2:00
 
 The Keptn `argo-service` takes care of *promoting* or *aborting* a Rollout depending on the result of the quality gate.
-More precisely, the `argo-service` listens for `sh.keptn.events.evaluation-done` events and depending on the evaluation result (i.e. whether the quality gate is passed or not)
-the service promotes or aborts a rollout, respectively.
+More precisely, the `argo-service` listens for `sh.keptn.events.evaluation-done` events and depending on the evaluation result (i.e. whether the quality gate is passed or not) the service promotes or aborts a rollout, respectively.
 
 1. The `argo-service` is not contained in the default installation of Keptn.
 To install the `argo-service`, execute:
