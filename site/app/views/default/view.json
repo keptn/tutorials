@@ -9,6 +9,5 @@
   "logoUrl": "/images/logo.png",
   "toolbarBgColor": "#006bb8",
   "sort": "mainCategory",
-  "ga": "UA-133584243-1",
   "pins": ["keptn-full-tour-prometheus","keptn-full-tour-dynatrace"]
 }
