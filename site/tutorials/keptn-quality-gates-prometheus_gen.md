@@ -351,6 +351,18 @@ Open up a brower on http://localhost:8080 and you will be able to inspect all ev
 
 ![bridge](./assets/kqg-bridge-prometheus.png)
 
+## Try with more deployments
+Duration: 1:00
+
+You can now go ahead and deploy other versions of the application, send some traffic to it and do another evaluation of the quality gates.
+For the `carts` microservice, there are 3 different versions prepared to use:
+- Version 0.10.1 no slowdown, no failure rate built in
+- Version 0.10.2 slowdown of 1sec built in
+- Version 0.10.3 no slowdown, no failure rate built in
+
+You can deploy the different versions by changing it in the `manifests/manifest-carts.yaml` and applying the file.
+
+
 
 ## Finish
 Duration: 0:00
@@ -359,8 +371,45 @@ In this tutorial, you have learned how to use Keptn to validate the quality of y
 
 ### What we've covered
 
-- How to define and use service-level indicators (SLIs) and service-level objectives (SLOs)
-- Integrate Keptn Quality Gates in your existing CI/CD pipeline
+- How to define and use service-level objectives (SLOs) based on service-level indicators (SLIs) 
+  ```
+  ---
+  spec_version: "0.1.1"
+  comparison:
+    aggregate_function: "avg"
+    compare_with: "single_result"
+    include_result_with_score: "pass"
+    number_of_comparison_results: 1
+  filter:
+  objectives:
+    - sli: "response_time_p95"
+      key_sli: false
+      pass:             # pass if (relative change <= 10% AND absolute value is < 600ms)
+        - criteria:
+            - "<=+10%"  # relative values require a prefixed sign (plus or minus)
+            - "<600"    # absolute values only require a logical operator
+      warning:          # if the response time is below 800ms, the result should be a warning
+        - criteria:
+            - "<=800"
+      weight: 1
+  total_score:
+    pass: "90%"
+    warning: "75%"
+
+  ```
+
 - How to use the Keptn CLI to trigger the quality gate evaluation
+  ```
+  keptn send event start-evaluation --project=sockshop --stage=hardening --service=carts --timeframe=5m
+
+  keptn get event evaluation-done --keptn-context=6cd3e469-cbd3-4f73-xxxx-8b2fb341bb11
+  ```
 - How to use the Keptn API to trigger the quality gate evaluation
+  ```
+  curl -X POST "https://api.keptn.12.34.56.78.xip.io/v1/event" -k -H "accept: application/json" -H "x-token: YOUR_KEPTN_TOKEN" -H "Content-Type: application/json" -d "{ \"data\": { \"end\": \"2019-11-21T11:05:00.000Z\", \"project\": \"sockshop\", \"service\": \"carts\", \"stage\": \"hardening\", \"start\": \"2019-11-21T11:00:00.000Z\", \"teststrategy\": \"manual\" }, \"type\": \"sh.keptn.event.start-evaluation\", \"source\": \"https://github.com/keptn/keptn\"}"
+ 
+  curl -X GET "https://api.keptn.12.34.56.78.xip.io/v1/event?keptnContext=KEPTN_CONTEXT_ID&type=sh.keptn.events.evaluation-done" -k -H "accept: application/json" -H "x-token: YOUR_KEPTN_TOKEN"
+  ```
 - How to use the Keptn's Bridge to inspect quality gate evaluations
+  ![bridge](./assets/kqg-bridge-prometheus.png)
+  
