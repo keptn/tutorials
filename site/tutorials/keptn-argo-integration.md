@@ -53,8 +53,7 @@ Duration: 5:00
 ## Install the Keptn Argo-service
 Duration: 2:00
 
-The Keptn `argo-service` takes care of *promoting* or *aborting* a Rollout depending on the result of the quality gate.
-More precisely, the `argo-service` listens for `sh.keptn.events.evaluation-done` events and depending on the evaluation result (i.e. whether the quality gate is passed or not) the service promotes or aborts a rollout, respectively.
+The Keptn `argo-service` takes care of *promoting* or *aborting* a Rollout depending on the result of the quality gate. More precisely, the `argo-service` listens for `sh.keptn.events.evaluation-done` events and depending on the evaluation result (i.e. whether the quality gate is passed or not) the service promotes or aborts a rollout, respectively.
 
 1. The `argo-service` is not contained in the default installation of Keptn.
 To install the `argo-service`, execute:
@@ -72,9 +71,7 @@ To install the `argo-service`, execute:
 ## Create project sockshop
 Duration: 5:00
 
-This tutorial sets up a single stage environment containing a `production` environment.
-In this stage, performance tests are used to test new deployments.
-For creating the project, the following shipyard is used:
+This tutorial sets up a single stage environment containing a `production` environment. In this stage, performance tests are used to test new deployments. For creating the project, the following shipyard is used:
 
 ```
 stages:
@@ -83,9 +80,7 @@ stages:
     test_strategy: "performance"
 ```
 
-Create a new project for your services using the `keptn create project` command. 
-In this tutorial, the project is called *sockshop*. The Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required for configuring an upstream.
-For details, please visit [select Git-based upstream](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided. 
+Create a new project for your services using the `keptn create project` command. In this tutorial, the project is called *sockshop*. The Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required for configuring an upstream. For details, please visit [select Git-based upstream](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided. 
 Before executing the following command, make sure you are in the `examples/onboarding-carts` folder:
 
 ```
@@ -142,14 +137,10 @@ For evaluating the SLOs, metrics from a monitoring tool are required. Currently,
     keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-argo-prometheus.yaml --resourceUri=prometheus/sli.yaml
     ```
 
-## Configure Argo
+## Add Deployment Resources
 Duration: 5:00
 
-Next, this tutorial explains how to set up an Argo app and trigger Keptn after a successful deployment. Therefore, this tutorial assumes that you have completed the [Argo CD installation](https://argoproj.github.io/argo-cd/getting_started/#1-install-argo-cd) and [Argo Rollouts installation](https://argoproj.github.io/argo-rollouts/getting-started/#install-argo-rollouts).
-
-
-This tutorial provides deployment resources (in the form of a [Helm chart](https://helm.sh/)), which contains the `carts` and `carts-db` service. 
-The `carts` service is of type `rollout`, which allows a *blue/green deployment*.
+This tutorial provides deployment resources (in the form of a [Helm chart](https://helm.sh/)), which contains the `carts` and `carts-db` service. The `carts` service is of type `rollout`, which allows a *blue/green deployment*.
 
 1. Argo CD requires a Git repo where this Helm chart is stored and, here, Keptn's config-repo is re-used. Execute the following command and replace `GIT_REMOTE_URL` with the URL as you used before when creating the Keptn project:
 
@@ -172,6 +163,8 @@ the config repo in the folder `carts`.
 
 ## Create Argo App
 Duration: 4:00
+
+Next, we set up an Argo app. Therefore, this tutorial assumes that you have completed the [Argo CD installation](https://argoproj.github.io/argo-cd/getting_started/#1-install-argo-cd) and [Argo Rollouts installation](https://argoproj.github.io/argo-rollouts/getting-started/#install-argo-rollouts).
 
 1. Create an Argo app using the `argocd` CLI. Therefore, the app name has to follow the format `ServiceName-StageName` and the namespace has to follow the format `ProjectName-StageName`:
 
@@ -271,7 +264,7 @@ You will see these events in the Keptn's Bridge:
 
 ## Deploy a SLOW version 
 
-Next, we will deploy a slow version of the carts service, which contains an artificial slowdown of 2 second in each request. This version must should not pass the quality gate and, hence, should not be promoted to serve real-user traffic.
+Next, we will deploy a slow version of the carts service, which contains an artificial slowdown of 2 second in each request. This version must not pass the quality gate and, hence, should not be promoted to serve real-user traffic.
 
 1. In your Git reposititory containing the Argo resources, go to the folder `carts/argo/carts` and open the `values.yaml` file.
 
