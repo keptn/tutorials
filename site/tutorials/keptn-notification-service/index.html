@@ -29,7 +29,7 @@
     
       <google-codelab-step label="Welcome" duration="1">
         <p>This tutorial is a hands-on guide which will demonstrate how to write a custom Keptn &#34;notification&#34; service.</p>
-<p>If you&#39;d rather follow the official documentation, it&#39;s <a href="https://keptn.sh/docs/0.6.0/usecases/custom-service/" target="_blank">here</a>. If you prefer a Go-based example, my colleague Christian Kreuzberger gave a <a href="https://www.youtube.com/watch?v=42762GuB6C0" target="_blank">video walkthrough on Youtube</a>.</p>
+<p>If you&#39;d rather follow the official documentation, it&#39;s <a href="https://tutorials.keptn.sh/?cat=installation" target="_blank">here</a>. If you prefer a Go-based example, my colleague Christian Kreuzberger gave a <a href="https://www.youtube.com/watch?v=42762GuB6C0" target="_blank">video walkthrough on Youtube</a>.</p>
 
 
       </google-codelab-step>
@@ -50,7 +50,7 @@
 <p>A &#34;notification&#34; service workflow is something like this:</p>
 <ol type="1">
 <li>A distributor listens for a particular event</li>
-<li>The distributor distributes the event to the subscribing service on a provided port</li>
+<li>The distributor forwards the event to the subscribing service on a provided port</li>
 <li>The custom service ingests the event</li>
 <li>The custom service performs some logic (that you code)</li>
 </ol>
@@ -58,9 +58,9 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Create the Keptn Distributor" duration="2">
+      <google-codelab-step label="Create Keptn Distributor" duration="2">
         <p>Every Keptn service requires a corresponding distributor. A distributor is a component which subscribes to Keptn events and forwards them your service. Think of a distributor as the &#34;glue&#34; between the Keptn core engine and your service.</p>
-<p>Save the following content on to the Keptn machine as a file called <code>demo-service-distributor.yaml</code>:</p>
+<p>Save the following content as a file called <code>demo-service-distributor.yaml</code>:</p>
 <pre><code>apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -166,7 +166,7 @@ fclose($logFile);
       </google-codelab-step>
     
       <google-codelab-step label="Deploy Your Keptn Service" duration="5">
-        <p>Create a file on the Keptn machine called <code>demo-service.yaml</code>.</p>
+        <p>Create a file called <code>demo-service.yaml</code>.</p>
 <p>Be sure to substitute <strong>your</strong> docker ID into the <code>image:</code> line</p>
 <pre><code>---
 apiVersion: apps/v1
@@ -218,18 +218,13 @@ demo-service-distributor-*-*    1/1     Running   0   39s
 
       </google-codelab-step>
     
-      <google-codelab-step label="Create Shipyard file" duration="1">
-        <p>Every Keptn project requires a shipyard file. This defines the structure of the project.</p>
-<p>Create a basic single stage <code>shipyard.yaml</code> file now on the Keptn machine:</p>
+      <google-codelab-step label="Create Keptn Project" duration="2">
+        <p>Your custom service is now implemented and running. You&#39;re now ready to test the custom service.</p>
+<p>Every Keptn project requires a shipyard file. This defines the structure of the project.</p>
+<p>Create a basic single stage <code>shipyard.yaml</code> file:</p>
 <pre><code>stages:
   - name: &#34;quality&#34;
 </code></pre>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Create Keptn Project" duration="1">
-        <p>Now you&#39;re ready to test the custom service.</p>
 <p>Create a project then check the <code>demo-service</code> container log <code>demoService.log</code>. The creation of the project should be logged to this file.</p>
 <p>Create the project:</p>
 <pre><code>keptn create project demo-project --shipyard=shipyard.yaml
@@ -241,7 +236,6 @@ Project demo-project created
 Stage quality created
 Shipyard successfully processed
 </code></pre>
-<h2 is-upgraded>Validate The Service</h2>
 <p>Retrieve the <code>demo-service</code> pod name:</p>
 <pre><code>kubectl get pods -n keptn | grep demo
 </code></pre>
@@ -256,7 +250,7 @@ Shipyard successfully processed
       </google-codelab-step>
     
       <google-codelab-step label="Conclusion" duration="2">
-        <p>Congratulations. You&#39;ve build a custom keptn service which listens for an event and reacts to that event.</p>
+        <p>Congratulations. You&#39;ve built a custom Keptn service which listens for an event and reacts to that event.</p>
 <p>Now that you understand the basics, go forth and integrate with any other third-party tooling!</p>
 
 

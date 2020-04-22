@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2020-04-20T17:58:57+10:00",
+  "updated": "2020-04-22T17:49:10+10:00",
   "id": "keptn-notification-service",
   "duration": 21,
   "title": "Create a Custom Keptn Notification Service",
@@ -15,7 +15,8 @@
     "draft"
   ],
   "category": [
-    "tutorial"
+    "keptn",
+    "integration"
   ],
   "tags": [
     "tutorial"

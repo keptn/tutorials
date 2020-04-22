@@ -1,6 +1,6 @@
 summary: Create a Keptn Notification Service
 id: keptn-notification-service
-categories: tutorial
+categories: keptn, integration
 tags: tutorial
 status: Draft
 authors: Adam Gardner
@@ -13,7 +13,7 @@ Duration: 00:01:00
 
 This tutorial is a hands-on guide which will demonstrate how to write a custom Keptn "notification" service.
 
-If you'd rather follow the official documentation, it's [here](https://keptn.sh/docs/0.6.0/usecases/custom-service/). If you prefer a Go-based example, my colleague Christian Kreuzberger gave a [video walkthrough on Youtube](https://www.youtube.com/watch?v=42762GuB6C0).
+If you'd rather follow the official documentation, it's [here](https://tutorials.keptn.sh/?cat=installation). If you prefer a Go-based example, my colleague Christian Kreuzberger gave a [video walkthrough on Youtube](https://www.youtube.com/watch?v=42762GuB6C0).
 
 ## Prerequisites
 Duration: 00:01:00
@@ -33,16 +33,16 @@ Keptn services can be written in any language you choose.
 A "notification" service workflow is something like this:
 
 1. A distributor listens for a particular event
-2. The distributor distributes the event to the subscribing service on a provided port
+2. The distributor forwards the event to the subscribing service on a provided port
 3. The custom service ingests the event
 4. The custom service performs some logic (that you code)
 
-## Create the Keptn Distributor
+## Create Keptn Distributor
 Duration: 00:02:00
 
 Every Keptn service requires a corresponding distributor. A distributor is a component which subscribes to Keptn events and forwards them your service. Think of a distributor as the "glue" between the Keptn core engine and your service.
 
-Save the following content on to the Keptn machine as a file called `demo-service-distributor.yaml`:
+Save the following content as a file called `demo-service-distributor.yaml`:
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -161,7 +161,7 @@ docker build -t <your-docker-username>/keptn-demo-service:notification . && dock
 ## Deploy Your Keptn Service
 Duration: 00:05:00
 
-Create a file on the Keptn machine called `demo-service.yaml`.
+Create a file called `demo-service.yaml`.
 
 Be sure to substitute **your** docker ID into the `image:` line
 
@@ -218,25 +218,21 @@ demo-service-*-*                1/1     Running   0   24s
 demo-service-distributor-*-*    1/1     Running   0   39s
 ```
 
-## Create Shipyard file
-Duration: 00:01:00
+## Create Keptn Project
+Duration: 00:02:00
+
+Your custom service is now implemented and running. You're now ready to test the custom service.
 
 Every Keptn project requires a shipyard file. This defines the structure of the project.
 
-Create a basic single stage `shipyard.yaml` file on the Keptn machine:
+Create a basic single stage `shipyard.yaml` file:
 
 ```
 stages:
   - name: "quality"
 ```
 
-## Create Keptn Project
-Duration: 00:01:00
-
-Now you're ready to test the custom service.
-
-Create a project then check the `demo-service` container log `demoService.log`.
-The creation of the project should be logged to this file.
+Create a project then check the `demo-service` container log `demoService.log`. The creation of the project should be logged to this file.
 
 Create the project:
 ```
@@ -251,8 +247,6 @@ Project demo-project created
 Stage quality created
 Shipyard successfully processed
 ```
-
-### Validate The Service
 
 Retrieve the `demo-service` pod name:
 ```
@@ -272,6 +266,6 @@ Project Created: demo-project
 ## Conclusion
 Duration: 00:02:00
 
-Congratulations. You've build a custom keptn service which listens for an event and reacts to that event.
+Congratulations. You've built a custom Keptn service which listens for an event and reacts to that event.
 
 Now that you understand the basics, go forth and integrate with any other third-party tooling!
