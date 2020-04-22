@@ -177,6 +177,9 @@ $color-google-blue, 'wear-os.svg');
   $keptnBlue, 'kubernetes.png');
 @include codelab-card(['argocd'],
   $keptnBlue, 'argocd.png');
+@include codelab-card(['php'],
+  $keptnBlue, 'php.png');
+
 
 
 @include codelab-card(['design'],
