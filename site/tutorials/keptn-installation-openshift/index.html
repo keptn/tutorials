@@ -140,6 +140,19 @@ This will download and install the Keptn CLI automatically.</li>
 
       </google-codelab-step>
     
+      <google-codelab-step label="Open Keptn&#39;s bridge" duration="1">
+        <p>Now that you have installed Keptn you can take a look at its user interace aka the Keptn&#39;s Bridge.</p>
+<p>Expose the bridge via the following command to be able to access on localhost:</p>
+<pre><code>kubectl port-forward svc/bridge -n keptn 9000:8080
+</code></pre>
+<p>Open a browser and navigate to http://localhost:9000 to take look. The bridge will be empty at this point but when using Keptn it will be populated with events.</p>
+<p class="image-container"><img alt="empty bridge" src="img/cab768c2c407cddb.png"></p>
+<aside class="special"><p>We are frequently providing early access versions of the Keptn&#39;s Bridge with new functionality - <a href="https://keptn.sh/docs/0.6.0/reference/keptnsbridge/#early-access-version-of-keptn-s-bridge" target="_blank">learn more here</a>!</p>
+</aside>
+
+
+      </google-codelab-step>
+    
       <google-codelab-step label="Proceed with exploring Keptn" duration="1">
         <p>Now that you have successfully installed Keptn, you can explore other tutorials!</p>
 <p>Here are some possibilities:</p>

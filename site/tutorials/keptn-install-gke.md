@@ -23,4 +23,6 @@ Positive
 
 {{ snippets/install/installKeptn-gke.md }}
 
+{{ snippets/install/open-bridge.md }}
+
 {{ snippets/install/postinstall-tutorials.md }}

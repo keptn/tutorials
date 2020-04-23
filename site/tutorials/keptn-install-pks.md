@@ -20,4 +20,6 @@ In this tutorial we are going to learn how to install Keptn in your Kubernetes c
 
 {{ snippets/install/installKeptn-pks.md }}
 
+{{ snippets/install/open-bridge.md }}
+
 {{ snippets/install/postinstall-tutorials.md }}
