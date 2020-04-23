@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-04-16T13:57:44+02:00",
+  "updated": "2020-04-23T13:00:59+02:00",
   "id": "keptn-installation-openshift",
-  "duration": 28,
+  "duration": 29,
   "title": "Keptn Installation on OpenShift",
   "authors": "Jürgen Etzlstorfer",
   "summary": "Install Keptn on OpenShift",
-  "source": "./keptn-install-openshift_gen.md",
+  "source": "keptn-install-openshift_gen.md",
   "theme": "",
   "status": [
     "published"
