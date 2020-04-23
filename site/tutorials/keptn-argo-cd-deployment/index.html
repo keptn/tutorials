@@ -37,8 +37,6 @@
 <li>Use Keptn for automated deployment validation (aka quality gates)</li>
 <li>Use Keptn for promotion of microservices if they pass the quality gate</li>
 </ul>
-<aside class="warning"><p>The following tutorial is a first proof-of-concept for using Argo CD as<br>deployment tool.</p>
-</aside>
 
 
       </google-codelab-step>
@@ -60,7 +58,7 @@
       </google-codelab-step>
     
       <google-codelab-step label="Install the Keptn Argo-service" duration="2">
-        <p>The Keptn <code>argo-service</code> takes care of <em>promoting</em> or <em>aborting</em> a Rollout depending on the result of the quality gate.<br>More precisely, the <code>argo-service</code> listens for <code>sh.keptn.events.evaluation-done</code> events and depending on the evaluation result (i.e. whether the quality gate is passed or not)<br>the service promotes or aborts a rollout, respectively.</p>
+        <p>The Keptn <code>argo-service</code> takes care of <em>promoting</em> or <em>aborting</em> a Rollout depending on the result of the quality gate. More precisely, the <code>argo-service</code> listens for <code>sh.keptn.events.evaluation-done</code> events and depending on the evaluation result (i.e. whether the quality gate is passed or not) the service promotes or aborts a rollout, respectively.</p>
 <ol type="1">
 <li>The <code>argo-service</code> is not contained in the default installation of Keptn.<br>To install the <code>argo-service</code>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/argo-service/master/deploy/service.yaml
 </code></pre>
@@ -74,13 +72,13 @@
       </google-codelab-step>
     
       <google-codelab-step label="Create project sockshop" duration="5">
-        <p>This tutorial sets up a single stage environment containing a <code>production</code> environment.<br>In this stage, performance tests are used to test new deployments.<br>For creating the project, the following shipyard is used:</p>
+        <p>This tutorial sets up a single stage environment containing a <code>production</code> environment. In this stage, performance tests are used to test new deployments. For creating the project, the following shipyard is used:</p>
 <pre><code>stages:
   - name: &#34;production&#34;
     deployment_strategy: &#34;blue_green_service&#34;
     test_strategy: &#34;performance&#34;
 </code></pre>
-<p>Create a new project for your services using the <code>keptn create project</code> command.<br>In this tutorial, the project is called <em>sockshop</em>. The Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required for configuring an upstream.<br>For details, please visit <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">select Git-based upstream</a> where instructions for GitHub, GitLab, and Bitbucket are provided.<br>Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder:</p>
+<p>Create a new project for your services using the <code>keptn create project</code> command. In this tutorial, the project is called <em>sockshop</em>. The Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required for configuring an upstream. For details, please visit <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">select Git-based upstream</a> where instructions for GitHub, GitLab, and Bitbucket are provided.<br>Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder:</p>
 <pre><code>keptn create project sockshop --shipyard=./shipyard-argo.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
 </code></pre>
 
@@ -121,9 +119,8 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Configure Argo" duration="5">
-        <p>Next, this tutorial explains how to set up an Argo app and trigger Keptn after a successful deployment. Therefore, this tutorial assumes that you have completed the <a href="https://argoproj.github.io/argo-cd/getting_started/#1-install-argo-cd" target="_blank">Argo CD installation</a> and <a href="https://argoproj.github.io/argo-rollouts/getting-started/#install-argo-rollouts" target="_blank">Argo Rollouts installation</a>.</p>
-<p>This tutorial provides deployment resources (in the form of a <a href="https://helm.sh/" target="_blank">Helm chart</a>), which contains the <code>carts</code> and <code>carts-db</code> service.<br>The <code>carts</code> service is of type <code>rollout</code>, which allows a <em>blue/green deployment</em>.</p>
+      <google-codelab-step label="Add Deployment Resources" duration="5">
+        <p>This tutorial provides deployment resources (in the form of a <a href="https://helm.sh/" target="_blank">Helm chart</a>), which contains the <code>carts</code> and <code>carts-db</code> service. The <code>carts</code> service is of type <code>rollout</code>, which allows a <em>blue/green deployment</em>.</p>
 <ol type="1">
 <li>Argo CD requires a Git repo where this Helm chart is stored and, here, Keptn&#39;s config-repo is re-used. Execute the following command and replace <code>GIT_REMOTE_URL</code> with the URL as you used before when creating the Keptn project:<pre><code>git clone GIT_REMOTE_URL
 cd sockshop
@@ -142,7 +139,8 @@ git push
       </google-codelab-step>
     
       <google-codelab-step label="Create Argo App" duration="4">
-        <ol type="1">
+        <p>Next, we set up an Argo app. Therefore, this tutorial assumes that you have completed the <a href="https://argoproj.github.io/argo-cd/getting_started/#1-install-argo-cd" target="_blank">Argo CD installation</a> and <a href="https://argoproj.github.io/argo-rollouts/getting-started/#install-argo-rollouts" target="_blank">Argo Rollouts installation</a>.</p>
+<ol type="1">
 <li>Create an Argo app using the <code>argocd</code> CLI. Therefore, the app name has to follow the format <code>ServiceName-StageName</code> and the namespace has to follow the format <code>ProjectName-StageName</code>:<pre><code>argocd app create --name carts-production --repo GIT_REMOTE_URL --dest-server https://kubernetes.default.svc --dest-namespace sockshop-production --path carts/argo/carts --revision production --sync-policy none
 </code></pre>
 </li>
@@ -214,7 +212,7 @@ carts-primary   LoadBalancer   10.3.14.82    35.x.x.x        80:32597/TCP   47h
       </google-codelab-step>
     
       <google-codelab-step label="Deploy a SLOW version" duration="0">
-        <p>Next, we will deploy a slow version of the carts service, which contains an artificial slowdown of 2 second in each request. This version must should not pass the quality gate and, hence, should not be promoted to serve real-user traffic.</p>
+        <p>Next, we will deploy a slow version of the carts service, which contains an artificial slowdown of 2 second in each request. This version must not pass the quality gate and, hence, should not be promoted to serve real-user traffic.</p>
 <ol type="1">
 <li>In your Git reposititory containing the Argo resources, go to the folder <code>carts/argo/carts</code> and open the <code>values.yaml</code> file.</li>
 <li>Edit the <code>tag</code> from <code>0.10.1</code> to <code>0.10.2</code>.</li>
