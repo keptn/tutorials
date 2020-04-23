@@ -23,9 +23,6 @@ This tutorial provides a sample Helm chart, which contains the `carts` and `cart
 - Use Keptn for automated deployment validation (aka quality gates)
 - Use Keptn for promotion of microservices if they pass the quality gate
 
-Negative
-: The following tutorial is a first proof-of-concept for using Argo CD as
-deployment tool.
 
 
 ## Prerequisites
