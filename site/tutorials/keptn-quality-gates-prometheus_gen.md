@@ -356,9 +356,9 @@ Duration: 1:00
 
 You can now go ahead and deploy other versions of the application, send some traffic to it and do another evaluation of the quality gates.
 For the `carts` microservice, there are 3 different versions prepared to use:
-- Version 0.10.1 no slowdown, no failure rate built in
-- Version 0.10.2 slowdown of 1sec built in
-- Version 0.10.3 no slowdown, no failure rate built in
+- Version 0.11.1 no slowdown, no failure rate built in
+- Version 0.11.2 slowdown of 1sec built in
+- Version 0.11.3 no slowdown, no failure rate built in
 
 You can deploy the different versions by changing it in the `manifests/manifest-carts.yaml` and applying the file.
 

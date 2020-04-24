@@ -265,7 +265,7 @@ Next, we will deploy a slow version of the carts service, which contains an arti
 
 1. In your Git reposititory containing the Argo resources, go to the folder `carts/argo/carts` and open the `values.yaml` file.
 
-1. Edit the `tag` from `0.10.1` to `0.10.2`. 
+1. Edit the `tag` from `0.11.1` to `0.11.2`. 
 
 1. Add, commit, and push these changes:
     ```
@@ -292,7 +292,7 @@ Next, we will deploy a slow version of the carts service, which contains an arti
     ![carts primary](./assets/argo-carts-v1.png)
 
 
-**Expected Result:** This version `0.10.2` should not pass the quality gate. The `primary` version should still show the last version `0.10.1`.
+**Expected Result:** This version `0.11.2` should not pass the quality gate. The `primary` version should still show the last version `0.11.1`.
 
 ## Deploy a fast version
 
@@ -301,7 +301,7 @@ This version should now again pass the quality gate and, hence, should be promot
 
 1. In your Git reposititory containing the Argo resources, go to the folder `carts/argo/carts` and open the `values.yaml` file.
 
-1. Edit the `tag` from `0.10.2` to `0.10.3`. 
+1. Edit the `tag` from `0.11.2` to `0.11.3`. 
 
 1. Add, commit, and push these changes:
     ```
@@ -320,7 +320,7 @@ This version should now again pass the quality gate and, hence, should be promot
 
 1. Navigate to `http://EXTERNAL-IP` for viewing both versions of the `carts` service in your `production` environment.
 
-**Expected Result:** This version `0.10.3` should pass the quality gate. The `primary` version should show version `0.10.3`.
+**Expected Result:** This version `0.11.3` should pass the quality gate. The `primary` version should show version `0.11.3`.
 
   ![carts canary](./assets/argo-carts-v3.png)
 
