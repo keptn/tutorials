@@ -98,7 +98,7 @@ Duration: 5:00
 
 After creating the project, services can be onboarded to our project.
 
-1. Onboard the **carts** service using the [keptn onboard service](../../reference/cli/#keptn-onboard-service) command:
+1. Onboard the **carts** service using the [keptn onboard service](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service) command:
 
 ```
 keptn onboard service carts --project=sockshop --chart=./carts
@@ -122,7 +122,7 @@ keptn onboard service carts --project=sockshop --chart=./carts
 
 Since the carts service requires a mongodb database, a second service needs to be onboarded.
 
-* Onboard the **carts-db** service using the [keptn onboard service](../../reference/cli/#keptn-onboard-service) command. The `--deployment-strategy` flag specifies that for this service a *direct* deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.
+* Onboard the **carts-db** service using the [keptn onboard service](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service) command. The `--deployment-strategy` flag specifies that for this service a *direct* deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.
 
 ```
 keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
