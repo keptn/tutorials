@@ -1,10 +1,10 @@
 summary: Automated Upscaling with Dynatrace
 id: keptn-upscaling-dynatrace
 categories: dynatrace,upscaling,gke,aks,eks,minikube,pks,openshift,automated-operations
-tags: keptn-0.6.0
-status: Draft 
+tags: keptn06x
+status: Published 
 authors: Jürgen Etzlstorfer
-Feedback Link: https://keptn.sh
+Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
 # Automated Upscaling with Dynatrace
@@ -16,7 +16,7 @@ In this tutorial, you will learn how to use the capabilities of Keptn to provide
 
 ## Prerequisites
 
-Please make sure you already have a Keptn installatin running. Take a look at [these tutorials](../../?cat=install) to get started in case you don't have your Keptn set up yet.
+Please make sure you already have a Keptn installatin running. Take a look at [these tutorials](../../?cat=installation) to get started in case you don't have your Keptn set up yet.
 
 
 ## Create your first project
@@ -480,3 +480,4 @@ You have successfully walked through the example to scale up your application ba
 
 - Verified that Keptn executed the remediation action
   ![bridge](./assets/dt-upscaling-bridge-remediation.png)
+

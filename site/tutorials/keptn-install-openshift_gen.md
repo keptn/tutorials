@@ -4,7 +4,7 @@ categories: openshift,installation
 tags: keptn06x
 status: Published 
 authors: Jürgen Etzlstorfer
-Feedback Link: https://keptn.sh
+Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
 # Keptn Installation on OpenShift

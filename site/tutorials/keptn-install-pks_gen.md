@@ -1,10 +1,10 @@
 summary: Install Keptn on PKS
 id: keptn-installation-pks
 categories: pks,installation
-tags: install
+tags: keptn06x
 status: Published 
 authors: Jürgen Etzlstorfer
-Feedback Link: https://keptn.sh
+Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
 # Keptn Installation on PKS
