@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-04-16T16:31:10+02:00",
+  "updated": "2020-04-24T09:50:02+02:00",
   "id": "keptn-full-tour-prometheus",
   "duration": 73,
   "title": "Keptn Full Tour on Prometheus",
   "authors": "Jürgen Etzlstorfer",
   "summary": "Take a full tour on Keptn with Prometheus",
-  "source": "keptn-full-tour-prometheus_gen.md",
+  "source": "./keptn-full-tour-prometheus_gen.md",
   "theme": "",
   "status": [
     "published"

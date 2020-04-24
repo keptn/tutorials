@@ -16,7 +16,7 @@ In this tutorial, you will learn how to use the capabilities of Keptn to provide
 
 ## Prerequisites
 
-Please make sure you already have a Keptn installatin running. Take a look at [these tutorials](../../?cat=install) to get started in case you don't have your Keptn set up yet.
+Please make sure you already have a Keptn installatin running. Take a look at [these tutorials](../../?cat=installation) to get started in case you don't have your Keptn set up yet.
 
 
 ## Create your first project
@@ -138,10 +138,10 @@ After onboarding the services, a built artifact of each service can be deployed.
 keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
 ```
 
-1. Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.10.1:
+1. Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.11.1:
 
 ```
-keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.1
+keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.1
 ```
 
 1. Go to Keptn's Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:
@@ -480,3 +480,4 @@ You have successfully walked through the example to scale up your application ba
 
 - Verified that Keptn executed the remediation action
   ![bridge](./assets/dt-upscaling-bridge-remediation.png)
+
