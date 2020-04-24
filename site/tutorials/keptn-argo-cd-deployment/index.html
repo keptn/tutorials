@@ -215,7 +215,7 @@ carts-primary   LoadBalancer   10.3.14.82    35.x.x.x        80:32597/TCP   47h
         <p>Next, we will deploy a slow version of the carts service, which contains an artificial slowdown of 2 second in each request. This version must not pass the quality gate and, hence, should not be promoted to serve real-user traffic.</p>
 <ol type="1">
 <li>In your Git reposititory containing the Argo resources, go to the folder <code>carts/argo/carts</code> and open the <code>values.yaml</code> file.</li>
-<li>Edit the <code>tag</code> from <code>0.10.1</code> to <code>0.10.2</code>.</li>
+<li>Edit the <code>tag</code> from <code>0.11.1</code> to <code>0.11.2</code>.</li>
 <li>Add, commit, and push these changes:<pre><code>git add .
 git commit -m &#34;Use slow version&#34;
 git push
@@ -227,7 +227,7 @@ git push
 <li>Follow the events in the Keptn&#39;s Bridge. Please note that the performance tests will take approx. 20 minutes.<img alt="bridge" src="img/42ad43ee4468b7ba.png"></li>
 <li>Navigate to <code>http://EXTERNAL-IP</code> for viewing both versions of the <code>carts</code> service in your <code>production</code> environment.<img alt="carts canary" src="img/477ddcda7c8f204c.png"><img alt="carts primary" src="img/17c286931bf2e89b.png"></li>
 </ol>
-<p><strong>Expected Result:</strong> This version <code>0.10.2</code> should not pass the quality gate. The <code>primary</code> version should still show the last version <code>0.10.1</code>.</p>
+<p><strong>Expected Result:</strong> This version <code>0.11.2</code> should not pass the quality gate. The <code>primary</code> version should still show the last version <code>0.11.1</code>.</p>
 
 
       </google-codelab-step>
@@ -236,7 +236,7 @@ git push
         <p>Finally, we will deploy a version which does <em>not</em> contain the slowdown anymore.<br>This version should now again pass the quality gate and, hence, should be promoted to serve real-user traffic.</p>
 <ol type="1">
 <li>In your Git reposititory containing the Argo resources, go to the folder <code>carts/argo/carts</code> and open the <code>values.yaml</code> file.</li>
-<li>Edit the <code>tag</code> from <code>0.10.2</code> to <code>0.10.3</code>.</li>
+<li>Edit the <code>tag</code> from <code>0.11.2</code> to <code>0.11.3</code>.</li>
 <li>Add, commit, and push these changes:<pre><code>git add .
 git commit -m &#34;Use fast version&#34;
 git push
@@ -248,7 +248,7 @@ git push
 <li>Follow the events in the Keptn&#39;s Bridge.</li>
 <li>Navigate to <code>http://EXTERNAL-IP</code> for viewing both versions of the <code>carts</code> service in your <code>production</code> environment.</li>
 </ol>
-<p><strong>Expected Result:</strong> This version <code>0.10.3</code> should pass the quality gate. The <code>primary</code> version should show version <code>0.10.3</code>.</p>
+<p><strong>Expected Result:</strong> This version <code>0.11.3</code> should pass the quality gate. The <code>primary</code> version should show version <code>0.11.3</code>.</p>
 <p class="image-container"><img alt="carts canary" src="img/d2292b82a7354437.png"></p>
 <p>Your Bridge should show an event flow similar to the one in this screenshot:</p>
 <p class="image-container"><img alt="carts canary" src="img/eb251ae4026a7edf.png"></p>

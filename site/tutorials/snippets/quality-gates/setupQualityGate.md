@@ -68,7 +68,7 @@ Duration: 5:00
 1. Use the Keptn CLI to deploy a version of the carts service, which contains an artificial **slowdown of 1 second** in each request.
 
 ```
-keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.2
+keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.2
 ```
 
 2. Go ahead and verify that the slow build has reached your `dev` and `staging` environments by opening a browser for both environments. Get the URLs with these commands:
@@ -90,17 +90,17 @@ echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jso
 ## Quality gate in action
 Duration: 7:00 
 
-After triggering the deployment of the carts service in version v0.10.2, the following status is expected:
+After triggering the deployment of the carts service in version v0.11.2, the following status is expected:
 
 * **Dev stage:** The new version is deployed in the dev stage and the functional tests passed.
   * To verify, open a browser and navigate to: `http://carts.sockshop-dev.YOUR.DOMAIN`
 
-* **Staging stage:** In this stage, version v0.10.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.10.1 in this stage is conducted and the promotion to production is not triggered.
-  * To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) shows the deployment of v0.10.2 and then the failed test in staging including the roll-back:
+* **Staging stage:** In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.
+  * To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) shows the deployment of v0.11.2 and then the failed test in staging including the roll-back:
 
 ![Quality gate in staging](./assets/quality_gates.png)
 
-* **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.10.1 is expected to be in production.
+* **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.
   * To verify, navigate to: `http://carts.sockshop-production.YOUR.DOMAIN`
 
 
@@ -118,7 +118,7 @@ Duration: 3:00
 
 1. Use the Keptn CLI to send a new version of the *carts* artifact, which does **not** contain any slowdown:
   ```
-  keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.3
+  keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.3
   ```
 
 1. To verify the deployment in *production*, open a browser and navigate to `http://carts.sockshop-production.YOUR.DOMAIN`. As a result, you see `Version: v3`.
@@ -144,7 +144,7 @@ Duration: 3:00
     Labels:  app=carts-primary
     Containers:
       carts:
-        Image:      docker.io/keptnexamples/carts:0.10.3
+        Image:      docker.io/keptnexamples/carts:0.11.3
   ```
 
 
