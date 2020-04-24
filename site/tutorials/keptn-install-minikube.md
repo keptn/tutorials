@@ -1,10 +1,10 @@
 summary: Install Keptn on Minikube
 id: keptn-installation-minikube
 categories: minikube,installation
-tags: keptn
+tags: keptn06x
 status: Published 
 authors: Jürgen Etzlstorfer
-Feedback Link: https://keptn.sh
+Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
 # Keptn Installation on Minikube

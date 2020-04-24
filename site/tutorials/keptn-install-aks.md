@@ -1,10 +1,10 @@
 summary: Install Keptn on AKS
 id: keptn-installation-aks
 categories: aks,installation
-tags: Keptn
+tags: keptn06x
 status: Published 
 authors: Jürgen Etzlstorfer
-Feedback Link: https://keptn.sh
+Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
 # Keptn Installation on AKS

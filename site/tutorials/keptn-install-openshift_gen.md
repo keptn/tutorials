@@ -1,7 +1,7 @@
 summary: Install Keptn on OpenShift
 id: keptn-installation-openshift
 categories: openshift,installation
-tags: keptn
+tags: keptn06x
 status: Published 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://keptn.sh

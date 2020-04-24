@@ -1,10 +1,10 @@
 summary: Automated Upscaling with Dynatrace
 id: keptn-upscaling-dynatrace
 categories: dynatrace,upscaling,gke,aks,eks,minikube,pks,openshift,automated-operations
-tags: keptn-0.6.0
-status: Draft 
+tags: keptn06x
+status: Published 
 authors: Jürgen Etzlstorfer
-Feedback Link: https://keptn.sh
+Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
 # Automated Upscaling with Dynatrace
