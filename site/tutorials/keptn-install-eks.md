@@ -1,10 +1,10 @@
 summary: Install Keptn on EKS
 id: keptn-installation-eks
 categories: eks,installation
-tags: keptn
+tags: keptn06x
 status: Published 
 authors: Jürgen Etzlstorfer
-Feedback Link: https://keptn.sh
+Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
 # Keptn Installation on EKS

@@ -1,10 +1,10 @@
 summary: Keptn Quality Gates with Prometheus
 id: keptn-quality-gates-prometheus
 categories: prometheus,aks,eks,openshift,pks,minikube,gke,quality-gates
-tags: quality-gates
-status: Draft 
+tags: keptn06x
+status: Published 
 authors: Jürgen Etzlstorfer
-Feedback Link: https://keptn.sh
+Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
 # Keptn Quality Gates with Prometheus

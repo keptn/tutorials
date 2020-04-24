@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-04-24T09:50:01+02:00",
+  "updated": "2020-04-24T10:34:46+02:00",
   "id": "keptn-full-tour-dynatrace",
   "duration": 87,
   "title": "Keptn Full Tour on Dynatrace",
@@ -27,8 +27,8 @@
     "automated-operations"
   ],
   "tags": [
-    "keptn"
+    "keptn06x"
   ],
-  "feedback": "https://keptn.sh",
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
   "url": "keptn-full-tour-dynatrace"
 }
