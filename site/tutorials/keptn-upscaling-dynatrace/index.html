@@ -122,7 +122,7 @@ sockshop-staging      Active   2m16s
 <li>Deploy the carts-db service by executing the <a href="../../reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
 </code></pre>
 </li>
-<li>Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.10.1:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.1
+<li>Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.11.1:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.1
 </code></pre>
 </li>
 <li>Go to Keptn&#39;s Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:<pre><code>kubectl port-forward svc/bridge -n keptn 9000:8080

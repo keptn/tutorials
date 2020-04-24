@@ -134,7 +134,7 @@ sockshop-staging      Active   2m16s
 <li>Deploy the carts-db service by executing the <a href="../../reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
 </code></pre>
 </li>
-<li>Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.10.1:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.1
+<li>Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.11.1:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.1
 </code></pre>
 </li>
 <li>Go to Keptn&#39;s Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:<pre><code>kubectl port-forward svc/bridge -n keptn 9000:8080
@@ -254,7 +254,7 @@ total_score:
     
       <google-codelab-step label="Deploy a slow build version" duration="5">
         <ol type="1">
-<li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.2
+<li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.2
 </code></pre>
 </li>
 <li>Go ahead and verify that the slow build has reached your <code>dev</code> and <code>staging</code> environments by opening a browser for both environments. Get the URLs with these commands:<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
@@ -270,20 +270,20 @@ total_score:
       </google-codelab-step>
     
       <google-codelab-step label="Quality gate in action" duration="7">
-        <p>After triggering the deployment of the carts service in version v0.10.2, the following status is expected:</p>
+        <p>After triggering the deployment of the carts service in version v0.11.2, the following status is expected:</p>
 <ul>
 <li><strong>Dev stage:</strong> The new version is deployed in the dev stage and the functional tests passed.<ul>
 <li>To verify, open a browser and navigate to: <code>http://carts.sockshop-dev.YOUR.DOMAIN</code></li>
 </ul>
 </li>
-<li><strong>Staging stage:</strong> In this stage, version v0.10.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.10.1 in this stage is conducted and the promotion to production is not triggered.<ul>
-<li>To verify, the <a href="https://keptn.sh/docs/0.6.0/reference/keptnsbridge/" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.10.2 and then the failed test in staging including the roll-back:</li>
+<li><strong>Staging stage:</strong> In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.<ul>
+<li>To verify, the <a href="https://keptn.sh/docs/0.6.0/reference/keptnsbridge/" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.11.2 and then the failed test in staging including the roll-back:</li>
 </ul>
 </li>
 </ul>
 <p class="image-container"><img alt="Quality gate in staging" src="img/73c52a96d02e0cd5.png"></p>
 <ul>
-<li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.10.1 is expected to be in production.<br><br><ul>
+<li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.<br><br><ul>
 <li>To verify, navigate to: <code>http://carts.sockshop-production.YOUR.DOMAIN</code></li>
 </ul>
 </li>
@@ -301,7 +301,7 @@ total_score:
     
       <google-codelab-step label="Deploy a regular carts version" duration="3">
         <ol type="1">
-<li>Use the Keptn CLI to send a new version of the <em>carts</em> artifact, which does <strong>not</strong> contain any slowdown:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.3
+<li>Use the Keptn CLI to send a new version of the <em>carts</em> artifact, which does <strong>not</strong> contain any slowdown:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.3
 </code></pre>
 </li>
 <li>To verify the deployment in <em>production</em>, open a browser and navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code>. As a result, you see <code>Version: v3</code>.</li>
@@ -318,7 +318,7 @@ Pod Template:
 Labels:  app=carts-primary
 Containers:
   carts:
-    Image:      docker.io/keptnexamples/carts:0.10.3
+    Image:      docker.io/keptnexamples/carts:0.11.3
 </code></pre>
 </li>
 </ol>
