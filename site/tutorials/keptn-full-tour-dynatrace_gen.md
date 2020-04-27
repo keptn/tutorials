@@ -348,7 +348,7 @@ kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-s
 Configure the already onboarded project with the new SLI provider:
 
 ```
-keptn configure monitoring dynatrace --project=PROJECTNAME
+keptn configure monitoring dynatrace --project=sockshop
 ```
 
 Positive

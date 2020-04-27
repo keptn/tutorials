@@ -267,7 +267,7 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 <pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.3.1/deploy/service.yaml
 </code></pre>
 <p>Configure the already onboarded project with the new SLI provider:</p>
-<pre><code>keptn configure monitoring dynatrace --project=PROJECTNAME
+<pre><code>keptn configure monitoring dynatrace --project=sockshop
 </code></pre>
 <aside class="special"><p>Since we already installed the Dynatrace service, the SLI provider can fetch the credentials to connect to Dynatrace from the same secret we created earlier.</p>
 </aside>
