@@ -20,6 +20,13 @@ In this tutorial we are going to ...
 - item 2
 - item 3
 
+Positive
+: We can also make use of highlight sections in green or orange.
+
+Negative
+: We can also make use of highlight sections in green or orange.
+
+
 <!-- include snippets here -->
 {{ snippets/install/cluster-gke.md }}
 
