@@ -37,9 +37,11 @@ Start your tutorial by taking a look at the `tutorial-template.md` file in this 
     markymark tutorial-template.md
     ```
 
-1. Generate local preview (this will actually generate a new folder named after the ID you put inside your template file). This will open a browser window.
+1. Generate local preview (this will actually generate a new folder named after the ID you put inside your template file). **Please note** to use the *_gen.md* file for claat as otherwise the generates files won't show the inserted snippets. 
     ```
-    claat export tutorial-template_gen.md && claat serve
+    claat export -ga "UA-133584243-1" tutorial-template_gen.md 
+
+    claat serve
     ```
   
 ### Generate overview site
@@ -49,7 +51,7 @@ Start your tutorial by taking a look at the `tutorial-template.md` file in this 
     gulp serve 
     ```
 
-- If you want to generate the content that is also generated on the netlify build, execute the following command:
+- If you want to generate the content without starting the server for preview, execute the following command:
     ```
     gulp dist
     ```
