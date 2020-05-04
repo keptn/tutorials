@@ -1,3 +1,29 @@
+# Keptn Tutorials
+
+This repo serves as the place for all Keptn tutorials hosted on https://tutorials.keptn.sh. The repo bases on the [Google Codelab project](https://codelabs.developers.google.com/). 
+
+## Structure
+
+- **claat**: Holds the sources for the Codelabs as a Thing (Claat) CLI.
+- **codelab-elements**: Holds library elements for the codelabs
+- **sample**: Example tutorial in markdown format
+- **site**: Serves as the main folder where all Keptn tutorials are located (in the [site/tutorials](site/tutorials) folder). *This is the place where you can add your own tutorials.*
+- **third-party**: Third party build files.
+
+## Tutorials folder
+
+The main tutorials folder is located at [site/tutorials](site/tutorials) and all repos that are published at https://tutorials.keptn.sh must be added to this folder. It also holds instructions how to write your own tutorials.
+
+# Acknowledgements
+
+Since this repository bases on [Google Codelabs](https://github.com/googlecodelabs/tools), we want to acknowledge their work by remaining the original acknowledgment section:
+
+Google Codelabs exists thanks to the talents and efforts of many fine volunteers, including:
+Alex Vaghin, Marc Cohen, Shawn Simister, Ewa Gasperowicz, Eric Bidelman, Robert Kubis, Clare Bayley, Cassie Recher, Chris Broadfoot, Sam Thorogood, Ryan Seys, and the many codelab authors, inside and outside of Google, who have generated a veritable [treasure trove of content](https://g.co/codelabs).
+
+<!--
+# ORIGINAL codelabs contents
+
 # Tools for authoring and serving codelabs
 
 [![Demo](https://storage.googleapis.com/claat/demo.png)](https://storage.googleapis.com/claat/demo.mp4)
@@ -185,3 +211,5 @@ Alex Vaghin, Marc Cohen, Shawn Simister, Ewa Gasperowicz, Eric Bidelman, Robert 
 ## Notes
 
 This is not an official Google product.
+
+-->

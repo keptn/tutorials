@@ -1,3 +1,10 @@
+# Keptn Tutorials
+
+If you want to contribute tutorials, please take a look in the [tutorials folder](./tutorials) where all tutorials are located.
+
+
+*In the remainder of this readme we are keeping the original codelabs instructions to build and host your own codelab:*
+
 # Codelabs Site
 
 A site for hosting codelabs content.
