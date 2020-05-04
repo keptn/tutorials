@@ -6,9 +6,11 @@ To get a full setup of Google Codelabs you can follow this tutorial https://medi
 
 ## Tools needed
 
+- [claat](https://github.com/googlecodelabs/tools/tree/master/claat#install)
+
+For development:
 - Go language
 - Node.js v10+ and npm
-- [claat](https://github.com/googlecodelabs/tools/tree/master/claat#install)
 
 ## Write your tutorial
 
