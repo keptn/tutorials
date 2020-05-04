@@ -7,7 +7,7 @@ This repo serves as the place for all Keptn tutorials hosted on https://tutorial
 - **claat**: Holds the sources for the Codelabs as a Thing (Claat) CLI.
 - **codelab-elements**: Holds library elements for the codelabs
 - **sample**: Example tutorial in markdown format
-- **site**: Serves as the main folder where all Keptn tutorials are located (in the `site/tutorials` folder). This is the place where you can add your own tutorials
+- **site**: Serves as the main folder where all Keptn tutorials are located (in the [site/tutorials](site/tutorials) folder). This is the place where you can add your own tutorials.
 - **third-party**: Third party build files.
 
 ## Tutorials folder
