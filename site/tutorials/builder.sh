@@ -2,9 +2,7 @@
 BASE_DIR=site/tutorials/
 
 git diff --name-only > changedfiles.txt || echo ""
-
 CHANGED_FILES=$(tr '\n' ' ' < changedfiles.txt)
-
 
 for filepath in $CHANGED_FILES; do
   #echo $filepath
@@ -19,9 +17,7 @@ for filepath in $CHANGED_FILES; do
     ./markymark $newpath
     claat export -ga "UA-133584243-1" ${newpath/.md/_gen.md}
   fi
-
 done
 
-
 # now serve the content to check locally
-# claat serve
+#claat serve
