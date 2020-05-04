@@ -37,7 +37,7 @@ We are going to setup a Kubernetes cluster in the Google Cloud Platform.
 2. Create GKE cluster
   - Master version >= `1.14.x` (tested version: `1.14.10-gke.24`)
   - One **n1-standard-8** node
-  - Image type `ubuntu` or `cos` (**Note:** If you plan to use Dynatrace monitoring, select `ubuntu` for a more [convenient setup](../../reference/monitoring/dynatrace/).)
+  - Image type `ubuntu` or `cos` (**Note:** If you plan to use Dynatrace monitoring, select `ubuntu` for a more [convenient setup](https://keptn.sh/docs/0.6.0/reference/monitoring/dynatrace/#notes).)
   - Sample script to create such cluster:
 
     ```console

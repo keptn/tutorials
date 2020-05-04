@@ -121,7 +121,7 @@ Since Keptn has configured your Dynatrace tenant, let us take a look what has be
 
 - *Alerting profile:* An alerting profile with all problems set to *0 minutes* (immediate) is created. You can review this profile by navigating to **Settings > Alerting > Alerting profiles**.
 
-- *Dashboard and Mangement zone:* When creating a new Keptn project or executing the [keptn configure monitoring](../../cli/#keptn-configure-monitoring) command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.
+- *Dashboard and Mangement zone:* When creating a new Keptn project or executing the [keptn configure monitoring](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-configure-monitoring) command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.
 
 
 Negative
@@ -166,7 +166,32 @@ Duration: 5:00
 
 A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.
 
-For creating a project, this tutorial relies on a `shipyard.yaml` file as shown below:
+To get all files you need for this tutorial, please clone the example repo to your local machine.
+```
+git clone --branch 0.6.2 https://github.com/keptn/examples.git --single-branch
+
+cd examples/onboarding-carts
+```
+
+
+Create a new project for your services using the `keptn create project` command. In this example, the project is called *sockshop*. Before executing the following command, make sure you are in the `examples/onboarding-carts` folder.
+
+Create a new project with Git upstream:
+
+To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
+
+```
+keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+```
+
+
+**Alternatively:** If you don't want to use a Git upstream, you can create a new project without it:
+```
+keptn create project sockshop --shipyard=./shipyard.yaml
+```
+
+
+For creating the project, the tutorial relies on a `shipyard.yaml` file as shown below:
 
 ```
 stages:
@@ -192,29 +217,6 @@ This shipyard contains three stages: dev, staging, and production. This results 
 Positive
 : To learn more about a *shipyard* file, please take a look at the [Shipyard specification](https://github.com/keptn/spec/blob/master/shipyard.md).
 
-To get all files you need for this tutorial, please clone the example repo to your local machine.
-```
-git clone --branch 0.6.1 https://github.com/keptn/examples.git --single-branch
-
-cd examples/onboarding-carts
-```
-
-
-Create a new project for your services using the `keptn create project` command. In this example, the project is called *sockshop*. Before executing the following command, make sure you are in the `examples/onboarding-carts` folder.
-
-Create a new project with Git upstream:
-
-To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
-
-```
-keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
-```
-
-
-**Alternatively:** If you don't want to use a Git upstream, you can create a new project without it:
-```
-keptn create project sockshop --shipyard=./shipyard.yaml
-```
 
 
 
@@ -274,7 +276,7 @@ Duration: 5:00
 
 After onboarding the services, a built artifact of each service can be deployed.
 
-1. Deploy the carts-db service by executing the [keptn send event new-artifact](../../reference/cli/#keptn-send-event-new-artifact) command:
+1. Deploy the carts-db service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-send-event-new-artifact) command:
 
 ```
 keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
@@ -335,6 +337,40 @@ Duration: 2:00
   ![carts in production](./assets/carts-production-1.png)
 
 
+## Generate traffic
+Duration: 2:00
+
+Now that the service is running in all three stages, let us generate some traffic so we have some data we can base the evaluation on.
+
+Change the directory to `examples/load-generation/cartsloadgen`. If you are still in the onboarding-carts directory, use the following command or change it accordingly:
+
+```
+cd ../load-generation/cartsloadgen
+```
+
+Now let us deploy a pod that will generate some traffic for all three stages of our demo environment.
+
+```
+kubectl apply -f deploy/cartsloadgen-base.yaml 
+```
+
+The output will look similar to this.
+```
+namespace/loadgen created
+deployment.extensions/cartsloadgen created
+```
+
+Optionally, you can verify that the load generator has been started.
+```
+kubectl get pods -n loadgen
+
+NAME                            READY   STATUS    RESTARTS   AGE
+cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
+```
+
+
+
+
 
 ## Setup SLI provider
 Duration: 2:00
@@ -360,7 +396,7 @@ Duration: 4:00
 
 Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.3/sre.md).
 
-Activate the quality gates for the carts service. Therefore, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](../../reference/cli/#keptn-add-resource) command:
+Activate the quality gates for the carts service. Therefore, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-add-resource) command:
 
 ```
 keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
@@ -620,21 +656,7 @@ Now that everything is set up, next we are going to hit the application with som
 ## Run the experiment
 Duration: 5:00
 
-To simulate user traffic, we are going to execute the following script that will constantly add items to the shopping cart.
-
-1. Change into the folder with the load generation program within the examples repo:
-
-    ```
-    cd load-generation/bin
-    ```
-
-1. Start the according load generation program depending on your operating system (replace *_OS_ with either *linux, mac* or *win*):
-
-    ```
-    ./loadgenerator-_OS_ "http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')" 
-    ```
-
-1. Now, go back to your Unleash server in your browser. In this tutorial, we are going to turn on the promotional campaign, which purpose is to add promotional gifts to about 30&nbsp;% of the user interactions that put items in their shopping cart. 
+1. In this tutorial, we are going to turn on the promotional campaign, which purpose is to add promotional gifts to about 30&nbsp;% of the user interactions that put items in their shopping cart. 
 
 1. Click on the toggle next to **EnablePromotion** to enable this feature flag.
 

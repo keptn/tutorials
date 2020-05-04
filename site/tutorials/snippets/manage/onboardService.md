@@ -55,7 +55,7 @@ Duration: 5:00
 
 After onboarding the services, a built artifact of each service can be deployed.
 
-1. Deploy the carts-db service by executing the [keptn send event new-artifact](../../reference/cli/#keptn-send-event-new-artifact) command:
+1. Deploy the carts-db service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-send-event-new-artifact) command:
 
 ```
 keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
@@ -114,4 +114,38 @@ Duration: 2:00
 1. Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:
 
   ![carts in production](./assets/carts-production-1.png)
+
+
+## Generate traffic
+Duration: 2:00
+
+Now that the service is running in all three stages, let us generate some traffic so we have some data we can base the evaluation on.
+
+Change the directory to `examples/load-generation/cartsloadgen`. If you are still in the onboarding-carts directory, use the following command or change it accordingly:
+
+```
+cd ../load-generation/cartsloadgen
+```
+
+Now let us deploy a pod that will generate some traffic for all three stages of our demo environment.
+
+```
+kubectl apply -f deploy/cartsloadgen-base.yaml 
+```
+
+The output will look similar to this.
+```
+namespace/loadgen created
+deployment.extensions/cartsloadgen created
+```
+
+Optionally, you can verify that the load generator has been started.
+```
+kubectl get pods -n loadgen
+
+NAME                            READY   STATUS    RESTARTS   AGE
+cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
+```
+
+
 
