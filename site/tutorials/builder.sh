@@ -1,20 +1,27 @@
 #!/bin/bash
+BASE_DIR=site/tutorials/
 
-if [[ $1 != "" ]]; then
-  ./markymark $1
-  claat export -ga "UA-133584243-1" ${1/.md/_gen.md}
-else
+git diff --name-only > changedfiles.txt || echo ""
 
-  for file in ./*.md
-  do
-    # do not touch generated files
-    if [[ $file != *"_gen.md"* ]] && [[ $file != *"tutorial-template.md"* ]] && [[ $file != *"README.md"* ]]; then 
-      ./markymark "$file"
-      # export the generated files
-      claat export -ga "UA-133584243-1" ${file/.md/_gen.md}
-    fi
-  done
+CHANGED_FILES=$(tr '\n' ' ' < changedfiles.txt)
 
-fi
+
+for filepath in $CHANGED_FILES; do
+  #echo $filepath
+  newpath="${filepath/$BASE_DIR/}"  
+  # only build from root folder and only *.md files (no tutorial-template, no readme)
+  if [[ $newpath != *"/"* ]] && [[ $newpath == *".md"* ]] && \
+    [[ $newpath != *"_gen.md"* ]] && \
+    [[ $newpath != *"tutorial-template.md"* ]] && \
+    [[ $newpath != *"README.md"* ]]; then
+
+    echo $newpath
+    ./markymark $newpath
+    claat export -ga "UA-133584243-1" ${newpath/.md/_gen.md}
+  fi
+
+done
+
+
 # now serve the content to check locally
 # claat serve
