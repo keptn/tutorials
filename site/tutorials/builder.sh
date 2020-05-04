@@ -4,6 +4,14 @@ BASE_DIR=site/tutorials/
 git diff --name-only > changedfiles.txt || echo ""
 CHANGED_FILES=$(tr '\n' ' ' < changedfiles.txt)
 
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=linux;;
+    Darwin*)    machine=darwin;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+#echo ${machine}
+
 for filepath in $CHANGED_FILES; do
   #echo $filepath
   newpath="${filepath/$BASE_DIR/}"  
@@ -14,7 +22,7 @@ for filepath in $CHANGED_FILES; do
     [[ $newpath != *"README.md"* ]]; then
 
     echo $newpath
-    ./markymark $newpath
+    ./markymark-bin/markymark-$machine $newpath
     claat export -ga "UA-133584243-1" ${newpath/.md/_gen.md}
   fi
 done
