@@ -22,6 +22,9 @@ git diff --name-only > changedfiles.txt || echo ""
 CHANGED_FILES=$(tr '\n' ' ' < changedfiles.txt)
 
 echo "changed files: " $CHANGED_FILES
+if [[ $CHANGED_FILES == "" ]]; then
+  CHANGED_FILES=`ls *.md`
+fi
 
 for filepath in $CHANGED_FILES; do
   #echo $filepath
