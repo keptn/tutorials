@@ -41,5 +41,18 @@ for filepath in $CHANGED_FILES; do
   fi
 done
 
+git diff --name-only > updatedfiles.txt || echo ""
+UPDATED_FILES=$(tr '\n' ' ' < updatedfiles.txt)
+
+for filepath in $UPDATED_FILES; do
+  newpath="${filepath/$BASE_DIR/}" 
+  indexpath="${newpath/codelab.json/index.html}"
+  echo $indexpath
+  if [[ $newpath == *"codelab.json"* ]] && [[ $UPDATED_FILES != *"$indexpath"* ]]; then
+    echo "remove:" $newpath
+    git checkout -- $newpath
+  fi
+done
+
 # now serve the content to check locally
 #claat serve

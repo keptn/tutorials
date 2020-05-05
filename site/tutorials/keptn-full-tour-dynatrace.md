@@ -33,7 +33,6 @@ Before you can get started, please make sure to have Keptn installed on your Kub
 
 If not, please [follow one of these tutorials to install Keptn](../../?cat=installation) on your favourite Kubernetes distribution.
 
-
 <!-- include other files -->
 
 {{ snippets/monitoring/setupDynatrace.md }}
@@ -74,7 +73,7 @@ Although Keptn has even more to offer that should have given you a good overview
 ### What we've covered
 
 
-- We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the `shipyard` file
+- We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the `shipyard` file.
   ```
   stages:
     - name: "dev"
@@ -88,7 +87,7 @@ Although Keptn has even more to offer that should have given you a good overview
       remediation_strategy: "automated"
   ```
 
-- We have set up quality gates based on service level objectives in our `slo` file
+- We have set up quality gates based on service level objectives in our `slo` file.
   ```
   ---
   spec_version: "0.1.1"
@@ -117,7 +116,7 @@ Although Keptn has even more to offer that should have given you a good overview
 - We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.
   ![bridge](./assets/quality-gates-bridge.png)
 
-- We have set up self-healing by automated toggling of feature flags in Unleash
+- We have set up self-healing by automated toggling of feature flags in Unleash.
   ![unleash](./assets/unleash-promotion-toggle.png)
 
 {{ snippets/integrations/gettingStarted.md }}
