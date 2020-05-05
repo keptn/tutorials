@@ -192,3 +192,4 @@ You have successfully walked through the example to scale up your application ba
 - Verified that Keptn executed the remediation action
   ![bridge](./assets/dt-upscaling-bridge-remediation.png)
 
+
