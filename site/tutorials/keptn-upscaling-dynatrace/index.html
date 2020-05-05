@@ -41,7 +41,20 @@
     
       <google-codelab-step label="Create your first project" duration="5">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
-<p>For creating a project, this tutorial relies on a <code>shipyard.yaml</code> file as shown below:</p>
+<p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
+<pre><code>git clone --branch release-0.6.2 https://github.com/keptn/examples.git --single-branch
+
+cd examples/onboarding-carts
+</code></pre>
+<p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
+<p>Create a new project with Git upstream:</p>
+<p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+</code></pre>
+<p><strong>Alternatively:</strong> If you don&#39;t want to use a Git upstream, you can create a new project without it:</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
+</code></pre>
+<p>For creating the project, the tutorial relies on a <code>shipyard.yaml</code> file as shown below:</p>
 <pre><code>stages:
   - name: &#34;dev&#34;
     deployment_strategy: &#34;direct&#34;
@@ -61,19 +74,6 @@
 </ul>
 <aside class="special"><p>To learn more about a <em>shipyard</em> file, please take a look at the <a href="https://github.com/keptn/spec/blob/master/shipyard.md" target="_blank">Shipyard specification</a>.</p>
 </aside>
-<p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
-<pre><code>git clone --branch 0.6.1 https://github.com/keptn/examples.git --single-branch
-
-cd examples/onboarding-carts
-</code></pre>
-<p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
-<p>Create a new project with Git upstream:</p>
-<p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
-<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
-</code></pre>
-<p><strong>Alternatively:</strong> If you don&#39;t want to use a Git upstream, you can create a new project without it:</p>
-<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
-</code></pre>
 
 
       </google-codelab-step>
@@ -100,18 +100,6 @@ cd examples/onboarding-carts
 </code></pre>
 </li>
 </ul>
-<p>During the onboarding of the services, Keptn creates a namespace for each stage based on the pattern: <code>projectname-stagename</code>.</p>
-<ul>
-<li>To verify the new namespaces, execute the following command:<pre><code>kubectl get namespaces
-</code></pre>
-<pre><code>NAME                  STATUS   AGE
-...
-sockshop-dev          Active   2m16s
-sockshop-production   Active   2m16s
-sockshop-staging      Active   2m16s
-</code></pre>
-</li>
-</ul>
 
 
       </google-codelab-step>
@@ -119,7 +107,7 @@ sockshop-staging      Active   2m16s
       <google-codelab-step label="Deploy first build with Keptn" duration="5">
         <p>After onboarding the services, a built artifact of each service can be deployed.</p>
 <ol type="1">
-<li>Deploy the carts-db service by executing the <a href="../../reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
+<li>Deploy the carts-db service by executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
 </code></pre>
 </li>
 <li>Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.11.1:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.1
@@ -128,7 +116,7 @@ sockshop-staging      Active   2m16s
 <li>Go to Keptn&#39;s Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:<pre><code>kubectl port-forward svc/bridge -n keptn 9000:8080
 </code></pre>
 </li>
-<li>The Keptn&#39;s Bridge is then available on: http://localhost:9000.It shows all deployments that have been triggered. On the left-hand side, you can see the deployment start events (i.e., so-called <code>Configuration change</code> events). During a deployment, Keptn generates events for controlling the deployment process. These events will also show up in Keptn&#39;s Bridge. Please note that if events are sent at the same time, their order in the Keptn&#39;s Bridge might be arbitrary since they are sorted on the granularity of one second.<img alt="Keptn's Bridge" src="img/1d14895c19fe447d.png"></li>
+<li>The Keptn&#39;s Bridge is then available on <a href="http://localhost:9000" target="_blank">http://localhost:9000</a>.<br>It shows all deployments that have been triggered. On the left-hand side, you can see the deployment start events (i.e., so-called <code>Configuration change</code> events). During a deployment, Keptn generates events for controlling the deployment process. These events will also show up in Keptn&#39;s Bridge. Please note that if events are sent at the same time, their order in the Keptn&#39;s Bridge might be arbitrary since they are sorted on the granularity of one second.<img alt="Keptn's Bridge" src="img/1d14895c19fe447d.png"></li>
 <li><strong>Optional:</strong> Verify the pods that should have been created for services carts and carts-db:<pre><code>kubectl get pods --all-namespaces | grep carts
 </code></pre>
 <pre><code>sockshop-dev          carts-77dfdc664b-25b74                            1/1     Running     0          10m
@@ -155,7 +143,29 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 </li>
 <li>Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:</li>
 </ol>
-<p class="image-container"><img alt="carts in production" src="img/c7ffeaf0e43d6aad.png"></p>
+<p class="image-container"><img alt="carts in production" src="img/da8218ae54b69582.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Generate traffic" duration="2">
+        <p>Now that the service is running in all three stages, let us generate some traffic so we have some data we can base the evaluation on.</p>
+<p>Change the directory to <code>examples/load-generation/cartsloadgen</code>. If you are still in the onboarding-carts directory, use the following command or change it accordingly:</p>
+<pre><code>cd ../load-generation/cartsloadgen
+</code></pre>
+<p>Now let us deploy a pod that will generate some traffic for all three stages of our demo environment.</p>
+<pre><code>kubectl apply -f deploy/cartsloadgen-base.yaml 
+</code></pre>
+<p>The output will look similar to this.</p>
+<pre><code>namespace/loadgen created
+deployment.extensions/cartsloadgen created
+</code></pre>
+<p>Optionally, you can verify that the load generator has been started.</p>
+<pre><code>kubectl get pods -n loadgen
+
+NAME                            READY   STATUS    RESTARTS   AGE
+cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
+</code></pre>
 
 
       </google-codelab-step>
@@ -219,7 +229,7 @@ If you used the variables, the next command can be copied and pasted without mod
 This means that Dynatrace will automatically apply tags to your onboarded services.</li>
 <li><em>Problem notification:</em> A problem notification has been set up to inform Keptn of any problems with your services to allow auto-remediation. You can check the problem notification by navigating to <strong>Settings &gt; Integration &gt; Problem notifications</strong> and you will find a <strong>keptn remediation</strong> problem notification.</li>
 <li><em>Alerting profile:</em> An alerting profile with all problems set to <em>0 minutes</em> (immediate) is created. You can review this profile by navigating to <strong>Settings &gt; Alerting &gt; Alerting profiles</strong>.</li>
-<li><em>Dashboard and Mangement zone:</em> When creating a new Keptn project or executing the <a href="../../cli/#keptn-configure-monitoring" target="_blank">keptn configure monitoring</a> command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.</li>
+<li><em>Dashboard and Mangement zone:</em> When creating a new Keptn project or executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-configure-monitoring" target="_blank">keptn configure monitoring</a> command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.</li>
 </ul>
 <aside class="warning"><p>If the nodes in your cluster run on <em>Container-Optimized OS (cos)</em> (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary.</p>
 </aside>
@@ -292,7 +302,10 @@ This is how the file looks that we are going to add here:<pre><code>remediations
       <google-codelab-step label="Run the experiment" duration="7">
         <p>To simulate user traffic that is causing an unhealthy behavior in the carts service, please execute the following script. This will add special items into the shopping cart that cause some extensive calculation.</p>
 <ol type="1">
-<li>Move to the correct folder:<pre><code>cd ../load-generation/bin
+<li>Move to the correct folder for the load generation scripts:<pre><code>cd ../load-generation/cartsloadgen/deploy
+</code></pre>
+</li>
+<li>Start the load generation script:<pre><code>kubectl apply -f cartsloadgen-faulty.yaml
 </code></pre>
 </li>
 <li>Start the load generation script depending on your OS (replace _OS_ with linux, mac, or win):<pre><code>./loadgenerator-_OS_ &#34;http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)&#34; cpu
