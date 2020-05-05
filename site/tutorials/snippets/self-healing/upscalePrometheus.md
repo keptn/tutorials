@@ -5,8 +5,21 @@ Duration: 2:00
 
 Next, you will learn how to use the capabilities of Keptn to provide self-healing for an application without modifying code. In the next part, we configure Keptn to scale up the pods of an application if the application undergoes heavy CPU saturation. 
 
-Configure remediation actions for up-scaling based on Prometheus alerts:
+First, make sure you are in the correct folder `examples/onboarding-carts` otherwise the next commands will fail!
 
+Add an SLO file for the production stage using the Keptn CLIs add-resource command:
+```
+keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
+```
+Note: The SLO file contains an objective for response_time_p90.
+
+
+Configure Prometheus with the Keptn CLI (this configures the [Alert Manager](https://prometheus.io/docs/alerting/configuration/) based on the slo.yaml file):
+```
+keptn configure monitoring prometheus --project=sockshop --service=carts
+```
+
+Configure remediation actions for up-scaling based on Prometheus alerts:
 ```
 keptn add-resource --project=sockshop --stage=production --service=carts --resource=remediation.yaml --resourceUri=remediation.yaml
 ```
@@ -30,15 +43,15 @@ Duration: 3:00
 
 To simulate user traffic that is causing an unhealthy behavior in the carts service, please execute the following script. This will add special items into the shopping cart that cause some extensive calculation.
 
-1. Move to the correct folder:
+1. Move to the correct folder for the load generation scripts:
   ```
-  cd ../load-generation/bin
+  cd ../load-generation/cartsloadgen/deploy
   ```
 
-1. Start the load generation script depending on your OS (replace \_OS\_ with linux, mac, or win):
+1. Start the load generation script: 
 
   ```
-  ./loadgenerator-_OS_ "http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')" cpu
+  kubectl apply -f cartsloadgen-faulty.yaml
   ```
 
 1. (optional:) Verify the load in Prometheus.

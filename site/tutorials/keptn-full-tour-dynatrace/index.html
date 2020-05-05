@@ -110,7 +110,7 @@ If you used the variables, the next command can be copied and pasted without mod
 This means that Dynatrace will automatically apply tags to your onboarded services.</li>
 <li><em>Problem notification:</em> A problem notification has been set up to inform Keptn of any problems with your services to allow auto-remediation. You can check the problem notification by navigating to <strong>Settings &gt; Integration &gt; Problem notifications</strong> and you will find a <strong>keptn remediation</strong> problem notification.</li>
 <li><em>Alerting profile:</em> An alerting profile with all problems set to <em>0 minutes</em> (immediate) is created. You can review this profile by navigating to <strong>Settings &gt; Alerting &gt; Alerting profiles</strong>.</li>
-<li><em>Dashboard and Mangement zone:</em> When creating a new Keptn project or executing the <a href="../../cli/#keptn-configure-monitoring" target="_blank">keptn configure monitoring</a> command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.</li>
+<li><em>Dashboard and Mangement zone:</em> When creating a new Keptn project or executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-configure-monitoring" target="_blank">keptn configure monitoring</a> command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.</li>
 </ul>
 <aside class="warning"><p>If the nodes in your cluster run on <em>Container-Optimized OS (cos)</em> (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary.</p>
 </aside>
@@ -143,7 +143,20 @@ oneagent-k7jn6                                 1/1     Running      0          8
     
       <google-codelab-step label="Create your first project" duration="5">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
-<p>For creating a project, this tutorial relies on a <code>shipyard.yaml</code> file as shown below:</p>
+<p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
+<pre><code>git clone --branch release-0.6.2 https://github.com/keptn/examples.git --single-branch
+
+cd examples/onboarding-carts
+</code></pre>
+<p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
+<p>Create a new project with Git upstream:</p>
+<p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+</code></pre>
+<p><strong>Alternatively:</strong> If you don&#39;t want to use a Git upstream, you can create a new project without it:</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
+</code></pre>
+<p>For creating the project, the tutorial relies on a <code>shipyard.yaml</code> file as shown below:</p>
 <pre><code>stages:
   - name: &#34;dev&#34;
     deployment_strategy: &#34;direct&#34;
@@ -163,19 +176,6 @@ oneagent-k7jn6                                 1/1     Running      0          8
 </ul>
 <aside class="special"><p>To learn more about a <em>shipyard</em> file, please take a look at the <a href="https://github.com/keptn/spec/blob/master/shipyard.md" target="_blank">Shipyard specification</a>.</p>
 </aside>
-<p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
-<pre><code>git clone --branch 0.6.1 https://github.com/keptn/examples.git --single-branch
-
-cd examples/onboarding-carts
-</code></pre>
-<p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
-<p>Create a new project with Git upstream:</p>
-<p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
-<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
-</code></pre>
-<p><strong>Alternatively:</strong> If you don&#39;t want to use a Git upstream, you can create a new project without it:</p>
-<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
-</code></pre>
 
 
       </google-codelab-step>
@@ -202,18 +202,6 @@ cd examples/onboarding-carts
 </code></pre>
 </li>
 </ul>
-<p>During the onboarding of the services, Keptn creates a namespace for each stage based on the pattern: <code>projectname-stagename</code>.</p>
-<ul>
-<li>To verify the new namespaces, execute the following command:<pre><code>kubectl get namespaces
-</code></pre>
-<pre><code>NAME                  STATUS   AGE
-...
-sockshop-dev          Active   2m16s
-sockshop-production   Active   2m16s
-sockshop-staging      Active   2m16s
-</code></pre>
-</li>
-</ul>
 
 
       </google-codelab-step>
@@ -221,7 +209,7 @@ sockshop-staging      Active   2m16s
       <google-codelab-step label="Deploy first build with Keptn" duration="5">
         <p>After onboarding the services, a built artifact of each service can be deployed.</p>
 <ol type="1">
-<li>Deploy the carts-db service by executing the <a href="../../reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
+<li>Deploy the carts-db service by executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
 </code></pre>
 </li>
 <li>Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.11.1:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.1
@@ -230,7 +218,7 @@ sockshop-staging      Active   2m16s
 <li>Go to Keptn&#39;s Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:<pre><code>kubectl port-forward svc/bridge -n keptn 9000:8080
 </code></pre>
 </li>
-<li>The Keptn&#39;s Bridge is then available on: http://localhost:9000.It shows all deployments that have been triggered. On the left-hand side, you can see the deployment start events (i.e., so-called <code>Configuration change</code> events). During a deployment, Keptn generates events for controlling the deployment process. These events will also show up in Keptn&#39;s Bridge. Please note that if events are sent at the same time, their order in the Keptn&#39;s Bridge might be arbitrary since they are sorted on the granularity of one second.<img alt="Keptn's Bridge" src="img/1d14895c19fe447d.png"></li>
+<li>The Keptn&#39;s Bridge is then available on <a href="http://localhost:9000" target="_blank">http://localhost:9000</a>.<br>It shows all deployments that have been triggered. On the left-hand side, you can see the deployment start events (i.e., so-called <code>Configuration change</code> events). During a deployment, Keptn generates events for controlling the deployment process. These events will also show up in Keptn&#39;s Bridge. Please note that if events are sent at the same time, their order in the Keptn&#39;s Bridge might be arbitrary since they are sorted on the granularity of one second.<img alt="Keptn's Bridge" src="img/1d14895c19fe447d.png"></li>
 <li><strong>Optional:</strong> Verify the pods that should have been created for services carts and carts-db:<pre><code>kubectl get pods --all-namespaces | grep carts
 </code></pre>
 <pre><code>sockshop-dev          carts-77dfdc664b-25b74                            1/1     Running     0          10m
@@ -257,7 +245,29 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
 </li>
 <li>Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:</li>
 </ol>
-<p class="image-container"><img alt="carts in production" src="img/c7ffeaf0e43d6aad.png"></p>
+<p class="image-container"><img alt="carts in production" src="img/da8218ae54b69582.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Generate traffic" duration="2">
+        <p>Now that the service is running in all three stages, let us generate some traffic so we have some data we can base the evaluation on.</p>
+<p>Change the directory to <code>examples/load-generation/cartsloadgen</code>. If you are still in the onboarding-carts directory, use the following command or change it accordingly:</p>
+<pre><code>cd ../load-generation/cartsloadgen
+</code></pre>
+<p>Now let us deploy a pod that will generate some traffic for all three stages of our demo environment.</p>
+<pre><code>kubectl apply -f deploy/cartsloadgen-base.yaml 
+</code></pre>
+<p>The output will look similar to this.</p>
+<pre><code>namespace/loadgen created
+deployment.extensions/cartsloadgen created
+</code></pre>
+<p>Optionally, you can verify that the load generator has been started.</p>
+<pre><code>kubectl get pods -n loadgen
+
+NAME                            READY   STATUS    RESTARTS   AGE
+cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
+</code></pre>
 
 
       </google-codelab-step>
@@ -277,7 +287,8 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
     
       <google-codelab-step label="Set up the quality gate" duration="4">
         <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/0.1.3/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
-<p>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="../../reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command:</p>
+<p>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command:</p>
+<p>Make sure you are in the correct folder <code>examples/onboarding-carts</code>. If not, change the directory accordingly, e.g., <code>cd ../../onboarding-carts</code>.</p>
 <pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
 </code></pre>
 <p>This will add the <code>SLO.yaml</code> file to your Keptn - which is the declaritive definition of a quality gate. Let&#39;s take a look at the file contents:</p>
@@ -320,7 +331,7 @@ total_score:
 </li>
 <li>Navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code> for viewing the carts service in your <strong>production</strong> environment and you should receive an output similar to the following:</li>
 </ol>
-<p class="image-container"><img alt="carts service" src="img/c7ffeaf0e43d6aad.png"></p>
+<p class="image-container"><img alt="carts service" src="img/da8218ae54b69582.png"></p>
 
 
       </google-codelab-step>
@@ -336,8 +347,8 @@ total_score:
 </code></pre>
 </li>
 </ol>
-<p class="image-container"><img alt="carts service" src="img/900f389931b4dc11.png"></p>
-<p class="image-container"><img alt="carts service" src="img/1ba3e7fd9fe59816.png"></p>
+<p class="image-container"><img alt="carts service" src="img/ac48a3cf213a8050.png"></p>
+<p class="image-container"><img alt="carts service" src="img/e5cfc05c6bd13efb.png"></p>
 
 
       </google-codelab-step>
@@ -346,18 +357,19 @@ total_score:
         <p>After triggering the deployment of the carts service in version v0.11.2, the following status is expected:</p>
 <ul>
 <li><strong>Dev stage:</strong> The new version is deployed in the dev stage and the functional tests passed.<ul>
-<li>To verify, open a browser and navigate to: <code>http://carts.sockshop-dev.YOUR.DOMAIN</code></li>
+<li>To verify, open a browser and navigate to:<pre><code>echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+</li>
 </ul>
 </li>
 <li><strong>Staging stage:</strong> In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.<ul>
-<li>To verify, the <a href="https://keptn.sh/docs/0.6.0/reference/keptnsbridge/" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.11.2 and then the failed test in staging including the roll-back:</li>
+<li>To verify, the <a href="https://keptn.sh/docs/0.6.0/reference/keptnsbridge/" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.11.2 and then the failed test in staging including the roll-back.<br>Open the browser tab with the Keptn&#39;s Bridge and verify yourself: <a href="http://localhost:9000" target="_blank">http://localhost:9000</a><img alt="Quality gate in staging" src="img/73c52a96d02e0cd5.png"></li>
 </ul>
 </li>
-</ul>
-<p class="image-container"><img alt="Quality gate in staging" src="img/73c52a96d02e0cd5.png"></p>
-<ul>
-<li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.<br><br><ul>
-<li>To verify, navigate to: <code>http://carts.sockshop-production.YOUR.DOMAIN</code></li>
+<li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.<ul>
+<li>To verify, navigate to:<pre><code>echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)
+</code></pre>
+</li>
 </ul>
 </li>
 </ul>
@@ -377,7 +389,7 @@ total_score:
 <li>Use the Keptn CLI to send a new version of the <em>carts</em> artifact, which does <strong>not</strong> contain any slowdown:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.3
 </code></pre>
 </li>
-<li>To verify the deployment in <em>production</em>, open a browser and navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code>. As a result, you see <code>Version: v3</code>.</li>
+<li>To verify the deployment in <em>production</em> (it may take a couple of minutes), open a browser and navigate to the carts service in your production environment. As a result, you see <code>Version: v3</code>.</li>
 <li>Besides, you can verify the deployments in your Kubernetes cluster using the following commands:<pre><code>kubectl get deployments -n sockshop-production
 </code></pre>
 <pre><code>NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
@@ -478,15 +490,8 @@ using the command:<pre><code>keptn add-resource --project=sockshop --service=car
       </google-codelab-step>
     
       <google-codelab-step label="Run the experiment" duration="5">
-        <p>To simulate user traffic, we are going to execute the following script that will constantly add items to the shopping cart.</p>
-<ol type="1">
-<li>Change into the folder with the load generation program within the examples repo:<pre><code>cd load-generation/bin
-</code></pre>
-</li>
-<li>Start the according load generation program depending on your operating system (replace *<em>OS</em> with either <em>linux, mac</em> or <em>win</em>):<pre><code>./loadgenerator-_OS_ &#34;http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath=&#39;{.data.app_domain}&#39;)&#34; 
-</code></pre>
-</li>
-<li>Now, go back to your Unleash server in your browser. In this tutorial, we are going to turn on the promotional campaign, which purpose is to add promotional gifts to about 30 % of the user interactions that put items in their shopping cart.</li>
+        <ol type="1">
+<li>In this tutorial, we are going to turn on the promotional campaign, which purpose is to add promotional gifts to about 30 % of the user interactions that put items in their shopping cart.</li>
 <li>Click on the toggle next to <strong>EnablePromotion</strong> to enable this feature flag.<img alt="enable-toggle" src="img/6f3e8427811d68eb.png"></li>
 <li>By enabling this feature flag, a not implemented function is called resulting in a <em>NotImplementedFunction</em> error in the source code and a failed response. After a couple of minutes, the monitoring tool will detect an increase in the failure rate and will send out a problem notification to Keptn.</li>
 <li>Keptn will receive the problem notification/alert and look for a remediation action that matches this problem. Since we have added the <code>remediation.yaml</code> before, Keptn will find a remediation action and will trigger the corresponding action that will disable the feature flag.</li>
@@ -500,7 +505,7 @@ using the command:<pre><code>keptn add-resource --project=sockshop --service=car
         <p>Thanks for taking a full tour through Keptn!<br>Although Keptn has even more to offer that should have given you a good overview what you can do with Keptn.</p>
 <h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
 <ul class="checklist">
-<li>We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the <code>shipyard</code> file<pre><code>stages:
+<li>We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the <code>shipyard</code> file.<pre><code>stages:
 - name: &#34;dev&#34;
   deployment_strategy: &#34;direct&#34;
   test_strategy: &#34;functional&#34;
@@ -512,7 +517,7 @@ using the command:<pre><code>keptn add-resource --project=sockshop --service=car
   remediation_strategy: &#34;automated&#34;
 </code></pre>
 </li>
-<li>We have set up quality gates based on service level objectives in our <code>slo</code> file<pre><code>---
+<li>We have set up quality gates based on service level objectives in our <code>slo</code> file.<pre><code>---
 spec_version: &#34;0.1.1&#34;
 comparison:
 aggregate_function: &#34;avg&#34;
@@ -537,7 +542,7 @@ warning: &#34;75%&#34;
 </code></pre>
 </li>
 <li>We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.<br><img alt="bridge" src="img/b79edd6638955ef8.png"></li>
-<li>We have set up self-healing by automated toggling of feature flags in Unleash<br><img alt="unleash" src="img/444ec9ae9facc687.png"></li>
+<li>We have set up self-healing by automated toggling of feature flags in Unleash.<br><img alt="unleash" src="img/444ec9ae9facc687.png"></li>
 </ul>
 
 
@@ -551,6 +556,15 @@ warning: &#34;75%&#34;
 </ul>
 <aside class="special"><p>We are happy to receive your contributions - please <a href="https://github.com/keptn-sandbox/contributing" target="_blank">follow this guide</a> if you want to contribute your own services to Keptn</p>
 </aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Feedback" duration="0">
+        <aside class="special"><p>We are happy to hear your feedback!</p>
+</aside>
+<p>Please visit us in our <a href="https://bit.ly/keptn-slack" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
+<p>Also, please <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
 
 
       </google-codelab-step>

@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-04-24T10:34:47+02:00",
+  "updated": "2020-05-05T14:14:04+02:00",
   "id": "keptn-quality-gates-prometheus",
   "duration": 61,
   "title": "Keptn Quality Gates with Prometheus",
   "authors": "Jürgen Etzlstorfer",
   "summary": "Keptn Quality Gates with Prometheus",
-  "source": "./keptn-quality-gates-prometheus_gen.md",
+  "source": "keptn-quality-gates-prometheus_gen.md",
   "theme": "",
   "status": [
     "published"

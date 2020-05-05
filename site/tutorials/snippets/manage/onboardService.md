@@ -34,28 +34,14 @@ Since the carts service requires a mongodb database, a second service needs to b
 keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
 ```
 
-During the onboarding of the services, Keptn creates a namespace for each stage based on the pattern: `projectname-stagename`.
 
-* To verify the new namespaces, execute the following command:
-
-```
-kubectl get namespaces
-```
-
-```
-NAME                  STATUS   AGE
-...
-sockshop-dev          Active   2m16s
-sockshop-production   Active   2m16s
-sockshop-staging      Active   2m16s
-```
 
 ## Deploy first build with Keptn 
 Duration: 5:00
 
 After onboarding the services, a built artifact of each service can be deployed.
 
-1. Deploy the carts-db service by executing the [keptn send event new-artifact](../../reference/cli/#keptn-send-event-new-artifact) command:
+1. Deploy the carts-db service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-send-event-new-artifact) command:
 
 ```
 keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
@@ -73,8 +59,7 @@ keptn send event new-artifact --project=sockshop --service=carts --image=docker.
 kubectl port-forward svc/bridge -n keptn 9000:8080
 ```
 
-1. The Keptn's Bridge is then available on: http://localhost:9000. 
-
+1. The Keptn's Bridge is then available on [http://localhost:9000](http://localhost:9000).
     It shows all deployments that have been triggered. On the left-hand side, you can see the deployment start events (i.e., so-called `Configuration change` events). During a deployment, Keptn generates events for controlling the deployment process. These events will also show up in Keptn's Bridge. Please note that if events are sent at the same time, their order in the Keptn's Bridge might be arbitrary since they are sorted on the granularity of one second. 
 
     ![Keptn's Bridge](./assets/bridge.png)
@@ -114,4 +99,38 @@ Duration: 2:00
 1. Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:
 
   ![carts in production](./assets/carts-production-1.png)
+
+
+## Generate traffic
+Duration: 2:00
+
+Now that the service is running in all three stages, let us generate some traffic so we have some data we can base the evaluation on.
+
+Change the directory to `examples/load-generation/cartsloadgen`. If you are still in the onboarding-carts directory, use the following command or change it accordingly:
+
+```
+cd ../load-generation/cartsloadgen
+```
+
+Now let us deploy a pod that will generate some traffic for all three stages of our demo environment.
+
+```
+kubectl apply -f deploy/cartsloadgen-base.yaml 
+```
+
+The output will look similar to this.
+```
+namespace/loadgen created
+deployment.extensions/cartsloadgen created
+```
+
+Optionally, you can verify that the load generator has been started.
+```
+kubectl get pods -n loadgen
+
+NAME                            READY   STATUS    RESTARTS   AGE
+cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
+```
+
+
 

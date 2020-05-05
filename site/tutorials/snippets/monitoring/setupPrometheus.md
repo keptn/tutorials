@@ -11,7 +11,7 @@ After creating a project and service, you can setup Prometheus monitoring and co
 
 1. Execute the following command to set up the rules for the *Prometheus Alerting Manager*:
   ```
-  keptn configure monitoring prometheus --project=PROJECTNAME --service=SERVICENAME
+  keptn configure monitoring prometheus --project=sockshop --service=carts
   ```
 
 ### Optional: Verify Prometheus setup in your cluster
