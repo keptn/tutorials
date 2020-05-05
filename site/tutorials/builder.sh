@@ -7,7 +7,7 @@ case "${unameOut}" in
     Darwin*)    machine=darwin;;
     *)          machine="UNKNOWN:${unameOut}"
 esac
-#echo ${machine}
+echo ${machine}
 
 ## if file is given, generate content for this file
 if [[ $1 != "" ]]; then
