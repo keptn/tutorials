@@ -4,9 +4,9 @@
 
 To get a full setup of Google Codelabs you can follow this tutorial https://medium.com/@zarinlo/publish-technical-tutorials-in-google-codelab-format-b07ef76972c. However, not everything is needed to get started.
 
-## Tools needed
+## Tools needed if builder.sh is NOT used
 
-- [claat](https://github.com/googlecodelabs/tools/tree/master/claat#install)
+- [claat](https://github.com/googlecodelabs/tools/tree/master/claat#install) (included in this repo for mac and linux, for windows please go ahead and download it)
 
 For development:
 - Go language
@@ -26,25 +26,13 @@ Start your tutorial by taking a look at the `tutorial-template.md` file in this 
     claat serve
     ```
 
-1. Generate ALL tutorial and test it locally
+1. Generate ALL tutorials and test it locally
     ```
     ./builder.sh 
 
     claat serve
     ```
 
-### Generate without builder.sh file
-1. If you used any snippets in your tutorial markdown file use the tool [markymark](https://github.com/jetzlstorfer/markymark) to replace the placeholders in the form of `{{ path/to/file.md }}` with the actual file contents and to generate a new file called `tutorial-template_gen.md`.
-    ```
-    markymark tutorial-template.md
-    ```
-
-1. Generate local preview (this will actually generate a new folder named after the ID you put inside your template file). **Please note** to use the *_gen.md* file for claat as otherwise the generates files won't show the inserted snippets. 
-    ```
-    claat export -ga "UA-133584243-1" tutorial-template_gen.md 
-
-    claat serve
-    ```
   
 ### Generate overview site
 
