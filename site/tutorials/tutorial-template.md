@@ -1,7 +1,7 @@
 summary: My first tutorial
-id: my-first-tutorial
-categories: tutorial
-tags: install
+id: my-first-tutorial-unique-id
+categories: prometheus,gke,quality-gates
+tags: keptn06x
 status: Draft 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://keptn.sh
@@ -10,7 +10,7 @@ Feedback Link: https://keptn.sh
 # My first tutorial
 
 ## Welcome
-Duration: 2:00
+Duration: 10:00
 
 In this tutorial we are going to ...
 
