@@ -21,6 +21,8 @@ fi
 git diff --name-only > changedfiles.txt || echo ""
 CHANGED_FILES=$(tr '\n' ' ' < changedfiles.txt)
 
+echo "changed files: " $CHANGED_FILES
+
 for filepath in $CHANGED_FILES; do
   #echo $filepath
   newpath="${filepath/$BASE_DIR/}"  
