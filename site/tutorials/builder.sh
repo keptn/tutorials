@@ -11,8 +11,8 @@ echo ${machine}
 
 ## if file is given, generate content for this file
 if [[ $1 != "" ]]; then
-  ./markymark-bin/markymark-$machine $1
-  claat export -ga "UA-133584243-1" ${1/.md/_gen.md}
+  ./bin/markymark-$machine $1
+  ./bin/claat-$machine export -ga "UA-133584243-1" ${1/.md/_gen.md}
   exit 0
 fi
 
@@ -36,8 +36,8 @@ for filepath in $CHANGED_FILES; do
     [[ $newpath != *"README.md"* ]]; then
 
     echo $newpath
-    ./markymark-bin/markymark-$machine $newpath
-    claat export -ga "UA-133584243-1" ${newpath/.md/_gen.md}
+    ./bin/markymark-$machine $newpath
+    ./bin/claat-$machine export -ga "UA-133584243-1" ${newpath/.md/_gen.md}
   fi
 done
 
