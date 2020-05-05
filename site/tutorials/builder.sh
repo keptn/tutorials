@@ -19,7 +19,7 @@ fi
 
 ## if no file is given, check for changed files
 git diff --name-only > changedfiles.txt || echo ""
-CHANGED_FILES=$(tr '\n' ' ' < changedfiles.txt)
+#CHANGED_FILES=$(tr '\n' ' ' < changedfiles.txt)
 
 echo "changed files: " $CHANGED_FILES
 if [[ $CHANGED_FILES == "" ]]; then
