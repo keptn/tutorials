@@ -6,7 +6,7 @@ A project in Keptn is the logical unit that can hold multiple (micro)services. T
 
 To get all files you need for this tutorial, please clone the example repo to your local machine.
 ```
-git clone --branch 0.6.2 https://github.com/keptn/examples.git --single-branch
+git clone --branch release-0.6.2 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 ```

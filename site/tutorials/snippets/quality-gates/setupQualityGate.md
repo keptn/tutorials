@@ -6,6 +6,8 @@ Keptn requires a performance specification for the quality gate. This specificat
 
 Activate the quality gates for the carts service. Therefore, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-add-resource) command:
 
+Make sure you are in the correct folder `examples/onboarding-carts`. If not, change the directory accordingly, e.g., `cd ../../onboarding-carts`.
+
 ```
 keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
 ```
@@ -93,16 +95,22 @@ Duration: 7:00
 After triggering the deployment of the carts service in version v0.11.2, the following status is expected:
 
 * **Dev stage:** The new version is deployed in the dev stage and the functional tests passed.
-  * To verify, open a browser and navigate to: `http://carts.sockshop-dev.YOUR.DOMAIN`
+  * To verify, open a browser and navigate to: 
+  
+  ```
+  echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+  ```
 
 * **Staging stage:** In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.
-  * To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) shows the deployment of v0.11.2 and then the failed test in staging including the roll-back:
-
-![Quality gate in staging](./assets/quality_gates.png)
+  * To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) shows the deployment of v0.11.2 and then the failed test in staging including the roll-back.
+  Open the browser tab with the Keptn's Bridge and verify yourself: [http://localhost:9000](http://localhost:9000)
+  ![Quality gate in staging](./assets/quality_gates.png)
 
 * **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.
-  * To verify, navigate to: `http://carts.sockshop-production.YOUR.DOMAIN`
-
+  * To verify, navigate to: 
+  ```
+  echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+  ```
 
 ## Verify the quality gate in Keptn's Bridge
 Duration: 3:00
@@ -121,7 +129,7 @@ Duration: 3:00
   keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.3
   ```
 
-1. To verify the deployment in *production*, open a browser and navigate to `http://carts.sockshop-production.YOUR.DOMAIN`. As a result, you see `Version: v3`.
+1. To verify the deployment in *production* (it may take a couple of minutes), open a browser and navigate to the carts service in your production environment. As a result, you see `Version: v3`.
 
 1. Besides, you can verify the deployments in your Kubernetes cluster using the following commands: 
   ```

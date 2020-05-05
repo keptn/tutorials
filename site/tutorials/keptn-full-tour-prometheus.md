@@ -32,7 +32,6 @@ Before you can get started, please make sure to have Keptn installed on your Kub
 
 If not, please [follow one of these tutorials to install Keptn](../../?cat=installation) on your favourite Kubernetes distribution.
 
-
 <!-- include other files -->
 
 {{ snippets/manage/createProject.md }}
@@ -105,3 +104,5 @@ Although Keptn has even more to offer that should have given you a good overview
   ![Bridge - Remediation](./assets/bridge_remediation.png)
 
 {{ snippets/integrations/gettingStarted.md }}
+
+{{ snippets/community/feedback.md }}

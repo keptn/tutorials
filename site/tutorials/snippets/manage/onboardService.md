@@ -34,21 +34,7 @@ Since the carts service requires a mongodb database, a second service needs to b
 keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
 ```
 
-During the onboarding of the services, Keptn creates a namespace for each stage based on the pattern: `projectname-stagename`.
 
-* To verify the new namespaces, execute the following command:
-
-```
-kubectl get namespaces
-```
-
-```
-NAME                  STATUS   AGE
-...
-sockshop-dev          Active   2m16s
-sockshop-production   Active   2m16s
-sockshop-staging      Active   2m16s
-```
 
 ## Deploy first build with Keptn 
 Duration: 5:00
@@ -73,8 +59,7 @@ keptn send event new-artifact --project=sockshop --service=carts --image=docker.
 kubectl port-forward svc/bridge -n keptn 9000:8080
 ```
 
-1. The Keptn's Bridge is then available on: http://localhost:9000. 
-
+1. The Keptn's Bridge is then available on [http://localhost:9000](http://localhost:9000).
     It shows all deployments that have been triggered. On the left-hand side, you can see the deployment start events (i.e., so-called `Configuration change` events). During a deployment, Keptn generates events for controlling the deployment process. These events will also show up in Keptn's Bridge. Please note that if events are sent at the same time, their order in the Keptn's Bridge might be arbitrary since they are sorted on the granularity of one second. 
 
     ![Keptn's Bridge](./assets/bridge.png)

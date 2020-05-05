@@ -83,11 +83,16 @@ Duration: 7:00
 
 To simulate user traffic that is causing an unhealthy behavior in the carts service, please execute the following script. This will add special items into the shopping cart that cause some extensive calculation.
 
-1. Move to the correct folder:
+1. Move to the correct folder for the load generation scripts:
+  ```
+  cd ../load-generation/cartsloadgen/deploy
+  ```
 
-    ```
-    cd ../load-generation/bin
-    ```
+1. Start the load generation script: 
+
+  ```
+  kubectl apply -f cartsloadgen-faulty.yaml
+  ```
 
 1. Start the load generation script depending on your OS (replace \_OS\_ with linux, mac, or win):
 
