@@ -1,9 +1,6 @@
 #!/bin/bash
 BASE_DIR=site/tutorials/
 
-git diff --name-only > changedfiles.txt || echo ""
-CHANGED_FILES=$(tr '\n' ' ' < changedfiles.txt)
-
 unameOut="$(uname -s)"
 case "${unameOut}" in
     Linux*)     machine=linux;;
@@ -11,6 +8,18 @@ case "${unameOut}" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 #echo ${machine}
+
+## if file is given, generate content for this file
+if [[ $1 != "" ]]; then
+  ./markymark-bin/markymark-$machine $1
+  claat export -ga "UA-133584243-1" ${1/.md/_gen.md}
+  exit 0
+fi
+
+
+## if no file is given, check for changed files
+git diff --name-only > changedfiles.txt || echo ""
+CHANGED_FILES=$(tr '\n' ' ' < changedfiles.txt)
 
 for filepath in $CHANGED_FILES; do
   #echo $filepath
