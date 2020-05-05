@@ -16,12 +16,11 @@ if [[ $1 != "" ]]; then
   exit 0
 fi
 
-
 ## if no file is given, check for changed files
-git diff --name-only > changedfiles.txt || echo ""
+#git diff --name-only > changedfiles.txt || echo ""
 #CHANGED_FILES=$(tr '\n' ' ' < changedfiles.txt)
 
-echo "changed files: " $CHANGED_FILES
+#echo "changed files: " $CHANGED_FILES
 if [[ $CHANGED_FILES == "" ]]; then
   CHANGED_FILES=`ls *.md`
 fi
@@ -44,12 +43,13 @@ done
 git diff --name-only > updatedfiles.txt || echo ""
 UPDATED_FILES=$(tr '\n' ' ' < updatedfiles.txt)
 
+## revert codelab.json if nothing else has changed
 for filepath in $UPDATED_FILES; do
   newpath="${filepath/$BASE_DIR/}" 
   indexpath="${newpath/codelab.json/index.html}"
-  echo $indexpath
+  #echo $indexpath
   if [[ $newpath == *"codelab.json"* ]] && [[ $UPDATED_FILES != *"$indexpath"* ]]; then
-    echo "remove:" $newpath
+    echo "revert:" $newpath "because index.html has not changed"
     git checkout -- $newpath
   fi
 done
