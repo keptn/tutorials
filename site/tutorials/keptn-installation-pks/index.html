@@ -52,15 +52,15 @@
 </li>
 <li>Create PKS cluster on GCP<ul>
 <li>Use the provided instructions for <a href="https://docs.pivotal.io/runtimes/pks/1-4/gcp-index.html" target="_blank">Enterprise Pivotal Container Service (Enterprise PKS) installation on GCP</a></li>
-<li>Create a PKS cluster by using the PKS CLI and executing the following command:</li>
-</ul>
-<pre><code>// set environment variables
+<li>Create a PKS cluster by using the PKS CLI and executing the following command:<pre><code>// set environment variables
 CLUSTER_NAME=name_of_cluster
 HOST_NAME=host_name
 PLAN=small
 </code></pre>
 <pre><code>pks create-cluster $CLUSTER_NAME --external-hostname $HOST_NAME --plan $PLAN
 </code></pre>
+</li>
+</ul>
 </li>
 </ol>
 

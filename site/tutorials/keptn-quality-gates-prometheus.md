@@ -111,7 +111,7 @@ ID of Keptn context: 6cd3e469-cbd3-4f73-xxxx-8b2fb341bb11
 
 * Retrieve the evaluation results by using the Keptn CLI to [get event evaluation-done](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-get-event-evaluation-done): 
     
-```console
+```
 keptn get event evaluation-done --keptn-context=6cd3e469-cbd3-4f73-xxxx-8b2fb341bb11
 ```
 
