@@ -1,0 +1,302 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Azure DevOps Pipelines with Keptn Quality Gates</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-133584243-1"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="keptn-azure-devops"
+                  title="Azure DevOps Pipelines with Keptn Quality Gates"
+                  environment="web"
+                  feedback-link="https://github.com/keptn/tutorials/tree/master/site/tutorials">
+    
+      <google-codelab-step label="Welcome" duration="2">
+        <p class="image-container"><img alt="keptn on azure devops" src="img/e96ce2ed97b96093.png"></p>
+<p>In this tutorial, I&#39;m going to describe a way how to integrate Keptn Quality Gates in your Azure DevOps release pipelines. As there might be multiple ways how to do this, I will show you one that works easy and straight-forward to help you get started.</p>
+<h2 class="checklist" is-upgraded>What you&#39;ll learn</h2>
+<ul class="checklist">
+<li>Install Keptn for quality gates only use case on Azure Kubernetes Service (AKS)</li>
+<li>Create a project and service in Keptn</li>
+<li>Define Service Level Indicators (SLIs) to fetch metrics from Dynatrace</li>
+<li>Define Service Level Objectives (SLOs) to verify quality of deployed services</li>
+<li>Set up release pipeline in Azure DevOps</li>
+<li>Deploy app with Azure DevOps pipeline</li>
+<li>See Keptn quality gates in action</li>
+</ul>
+<h2 is-upgraded>Workflow</h2>
+<p>At the end of the tutorial, our environment will look like this:</p>
+<p class="image-container"><img alt="demo workflow" src="img/3a615d3ad2f0e7dc.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prequisites" duration="5">
+        <ul>
+<li>Fork the Github repository to your personal Github account: https://github.com/keptn-sandbox/keptn-azure-devops</li>
+<li>Have a Dynatrace tenant to monitor the application and we will use the Dynatrace data to validate the quality gate. You can <a href="https://www.dynatrace.com/trial/" target="_blank">sign up for a free trial</a> (no credit card required).</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prerequisites for installation" duration="5">
+        <p>Please download and install the following tools if you do not have them installed on your machine already.</p>
+<ul>
+<li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/" target="_blank">kubectl</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup Kubernetes cluster" duration="10">
+        <p>We are going to setup a Kubernetes cluster in Azure. Therefore, please download the <code>az</code> command line tool. Next, please create a cluser in the <a href="https://portal.azure.com/" target="_blank">Azure Portal</a>.</p>
+<ol type="1">
+<li>Install local tools<ul>
+<li><a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank">az</a></li>
+</ul>
+</li>
+<li>Create AKS cluster<ul>
+<li>Master version &gt;= <code>1.15.x</code> (tested version: <code>1.15.5</code>)</li>
+<li>Size of the cluster: One <strong>D8s_v3</strong> node</li>
+</ul>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install Keptn" duration="7">
+        <p>Once we have the cluser for Keptn, we are going to install Keptn on it.<br>Open your favourite terminal and execute the following steps.</p>
+<ol type="1">
+<li>Get the Keptn CLI from Keptn.sh<pre><code>curl -sL https://get.keptn.sh | sudo -E bash
+</code></pre>
+This will download the Keptn CLI for your operating system and put it into <code>usr/local/bin/keptn</code>.</li>
+<li>Now install Keptn on the AKS cluster. We are going to use only the <a href="https://keptn.sh/docs/0.6.0/usecases/quality-gates/" target="_blank">Keptn Quality Gates Use Case</a>.<pre><code>keptn install --platform=aks --use-case=quality-gates
+</code></pre>
+This command should run for about 5 minutes and install Keptn Quality Gates on your AKS cluster.</li>
+<li>Check if the installation was successful and also retrieve the public IP of your Keptn installation:<pre><code>keptn status
+</code></pre>
+Output (similar to this):<pre><code>Starting to authenticate
+Successfully authenticated
+CLI is authenticated against the Keptn cluster https://api.keptn.XXXXXXXXX.xip.io
+</code></pre>
+</li>
+<li>Expose the Keptn&#39;s bridge to get access to the user interface of Keptn.<pre><code>TODO 
+</code></pre>
+</li>
+<li>You can now access the your Keptn Bridge (it will be empty right now though):<br><img alt="bridge-empty" src="img/62f8f2478b00489.png"></li>
+</ol>
+<p>Now Keptn is installed and the bridge is exposed we can start setting up a project and services!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create a Project" duration="7">
+        <p>We are going to create a project in Keptn which will hold one or more services. Therefore, please go ahead and create a project called <code>sockshop</code>. The definition of the project is held in the <code>shipyard.yaml</code> file and is quite simple in our case:</p>
+<pre><code>stages:
+  - name: &#34;preprod&#34;
+</code></pre>
+<p>We can also link the project we are creating to a external git repository to have full visibility of all configuration files that are managed by Keptn. In my case I am using my personal Github account and personal access token to do access a repo I created for this tutorial. Please note that the repository has to already exist with at least one file, e.g., the default <code>readme.md</code> in it.</p>
+<ol type="1">
+<li>Switch into the directory with all Keptn files prepared for the tutorial:<pre><code>cd keptn-files
+</code></pre>
+</li>
+<li>Create project with Keptn CLI.<ol type="1">
+<li>Option 1: Link it to a Github repository (make sure to change the <code>git-user</code>, <code>git-remote-url</code>, and <code>git-token</code> to your own values).<pre><code>keptn create project sockshop --shipyard=./shipyard --git-user=youruser --git-remote-url=https://github.com/youruser/your-sockshop.git --git-token=XXXXX
+</code></pre>
+</li>
+<li>Option 2: Do not link it to a Github repository (you can just copy paste)<pre><code>keptn create project sockshop --shipyard=./shipyard
+</code></pre>
+</li>
+</ol>
+</li>
+<li>Now we are going to create the shopping cart service within the project. We will need this service as we will later build our quality gates for it. Please note that Keptn will not be responsible for deploying this service. (For Keptn insiders: we would use the command <code>keptn onboard service</code> and the <a href="https://keptn.sh/docs/0.6.0/installation/setup-keptn/#install-keptn" target="_blank">Keptn full installation</a> instead.)<pre><code>keptn create service carts --project=sockshop
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Define Service Level Indicators" duration="3">
+        <p>Keptn uses monitoring data for Service-Level Indicators (SLIs) upon which we can define our quality gates. Therefore we are going to define which SLIs to use for our project. Keptn has already a built-in library of SLIs, however, we are going to use our custom SLIs for this tutorial, therefore we add them to our <code>carts service already added to Keptn.<br>The file</code>dynatrace-slis.yaml` holds the following content, which are the API calls to Dynatrace to gather the data that is needed for evaluation for the quality gates. Please note that this file can be extended or changed, therefore making other SLIs available to your quality gates.</p>
+<pre><code>---
+spec_version: &#39;1.0&#39;
+indicators:
+  throughput: &#34;builtin:service.requestCount.total:merge(0):count?scope=tag(project:$PROJECT),tag(service:$SERVICE)&#34;
+  error_rate: &#34;builtin:service.errors.total.count:merge(0):avg?scope=tag(project:$PROJECT),tag(service:$SERVICE)&#34;
+  response_time_p50: &#34;builtin:service.response.time:merge(0):percentile(50)?scope=tag(project:$PROJECT),tag(service:$SERVICE)&#34;
+  response_time_p90: &#34;builtin:service.response.time:merge(0):percentile(90)?scope=tag(project:$PROJECT),tag(service:$SERVICE)&#34;
+  response_time_p95: &#34;builtin:service.response.time:merge(0):percentile(95)?scope=tag(project:$PROJECT),tag(service:$SERVICE)&#34;
+</code></pre>
+<p>We are going to add the file via the Keptn CLI to our <strong>carts</strong> service in the <strong>preprod</strong> environment of our <strong>sockshop</strong> project.</p>
+<pre><code>keptn add-resource --project=sockshop --stage=preprod --service=carts --resource=./dynatrace-slis.yaml --resourceUri=dynatrace/sli.yaml
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Configure Quality Gates" duration="4">
+        <p>Now the file has been added, we have to provide access to the Dynatrace tenant that will hold the data to Keptn. Therefore, please provide credentials for the Dynatrace SLI service to be able to fetch the metrics from Dynatrace.</p>
+<p>The <em>Dynatrace tenant ID</em> can be retrieved from the URL of your Dynatrace tenant. Please note that the tenant ID is the string between https:// and the first / after .com.</p>
+<aside class="special"><p>A valid tenant ID looks like: abc123.live.dynatrace.com</p>
+</aside>
+<aside class="warning"><p>An invalid tenant ID looks like: https://abc123.live.dyntrace.com/</p>
+</aside>
+<p>Retrieve the <em>Dynatrace API</em> token by navigating to &#34;Settings -&gt; Integration -&gt; Dynatrace API&#34; and create a new API token. Assign a new, e.g. keptn, to it and for the purpose of this tutorial enable all permissions.</p>
+<ol type="1">
+<li>Define the credentials:<pre><code>cd ../scripts
+
+./defineDynatraceCredentials.sh
+</code></pre>
+</li>
+<li>Install the Dynatrace SLI service<pre><code>./installDynatraceSLIService.sh
+</code></pre>
+</li>
+</ol>
+<p>Now the SLI service is installed, we will enable it for the <strong>sockshop</strong> project. This step is necessary, since different projects can have their own SLI provider.</p>
+<pre><code>./enableDynatraceSLIforProject.sh sockshop
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Define Service Level Objectives" duration="4">
+        <p>Now that we have defined our SLIs and how to retrieve them, we can build our Service-Level Objectives (SLOs) on top of that. In the <code>slo.yaml</code> we have defined an objective for the response time for the 95 percentile, named <code>response_time_p95</code>.</p>
+<pre><code>---
+spec_version: &#34;0.1.1&#34;
+comparison:
+  compare_with: &#34;single_result&#34;
+  include_result_with_score: &#34;pass&#34;
+  aggregate_function: &#34;avg&#34;
+objectives:
+  - sli: &#34;response_time_p95&#34;
+    pass:             # pass if (relative change &lt;= 10% AND absolute value is &lt; 600ms)
+      - criteria:
+          - &#34;&lt;=+15%&#34;  
+          - &#34;&lt;600&#34;    
+    warning:          # if the response time is below 800ms, the result should be a warning
+      - criteria:
+          - &#34;&lt;=800&#34;
+  - sli: &#34;throughput&#34;   # sli without criteria are used for information only purposes
+  - sli: &#34;error_rate&#34;
+  - sli: &#34;response_time_p50&#34;
+  - sli: &#34;response_time_p90&#34;
+total_score:          # scoring based on all objectives
+  pass: &#34;90%&#34;
+  warning: &#34;75%&#34;
+</code></pre>
+<p>We are going to add the file via the Keptn CLI to our <strong>carts</strong> service in the <strong>preprod</strong> environment of our <strong>sockshop</strong> project:</p>
+<pre><code>cd ../keptn-files
+
+keptn add-resource --project=sockshop --service=carts --stage=preprod --resource=./keptn-files/slo.yaml --resourceUri=slo.yaml
+</code></pre>
+<p><strong>Optional</strong>: we can verify all our configuration in our Github repository (if we have linked it previously):</p>
+<pre><code>We can see the added `slo.yaml` as well as the `dynatrace` folder that holds the added `sli.yaml` file.
+</code></pre>
+<p class="image-container"><img alt="github config" src="img/80dc725e4bfe9de1.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up Azure DevOps pipeline" duration="3">
+        <p>Please note that for the sake of simplicity, we are going to use the same cluster for our actual application where we also installed Keptn. But this would not be necessary and the Keptn Quality Gates installation could be on a different cluster, even in a different cloud.</p>
+<ol type="1">
+<li>Login to your Azure DevOps Portal and create a new <strong>organization</strong> if you don&#39;t already have one:<br><a href="https://aex.dev.azure.com/" target="_blank">https://aex.dev.azure.com/</a></li>
+<li>Create a new <strong>project</strong> in your organization, e.g., name it <strong>keptn-qualitygates</strong>.<br><img alt="azure devops start" src="img/db131658a93361d8.png"></li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create release pipeline" duration="3">
+        <ol type="1">
+<li>In the next step we are going to create a new release pipeline<br><img alt="create pipeline" src="img/1f48cc052d60bc2b.png"></li>
+<li>Create a stage &#34;deploy&#34; and select the template of an &#34;Empty Job&#34; since we don&#39;t need a predefined workflow.<br><img alt="select from template" src="img/4299752ed52774c4.png"></li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Connect Github" duration="4">
+        <ol type="1">
+<li>All files for this tutorial are provided in a Github repository which we are going to connect as well, to have the deployment files and other utility files ready for this example. Therefore, &#34;Add&#34; an Artifact on the left-hand side of the screen and select &#34;Github&#34; as the source type.<ul>
+<li>Set a service connection with your Github account</li>
+<li>Search for the  Github repository in the list by clicking on the &#34;...&#34; dots.</li>
+<li>The settings should be simliar as shown here:<br><img alt="create github connection" src="img/6c8dfb938c68e099.png"></li>
+</ul>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up deployment &amp; test pipeline" duration="3">
+        <ol type="1">
+<li>Once we have Github connected, we can go ahead and set up the deployment part of the pipeline, using the Kubernetes manifests from the Github account.<img alt="add job" src="img/4f0ecec22bc1953c.png"><img alt="create job" src="img/b3fac133f7599e67.png"></li>
+<li>Next, we are going to add another stage to &#34;<strong>Test &amp; Evaluate</strong>&#34; the deployment.<img alt="add bash scripts" src="img/cdcbd2fb4c9eb6a5.png"></li>
+<li>You will find a simple test script that send a given number of HTTP requests to a given service endpoint. The endpoint as well as the number of requests have to be configured in the <strong>Variables</strong> section, which we will set up just in a moment.<img alt="add tests" src="img/5477cc5749e913ea.png"></li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up Keptn Quality Gate" duration="0">
+        <ol type="1">
+<li>Now we are going to set up the Keptn Quality Gate. Once triggered it will automatically reach out to the SLI provider (in our example this is Dynatrace) and will fetch all metrics defined in the SLO file. If there are objectives defined, the Keptn quality gate will evaluate the metrics and generate a score for each individual metric, as well as total score for the whole quality gate.<img alt="add quality gate" src="img/75f9164e70422aa2.png">Let us take a look how the quality gate is implemented:<pre><code>TODO
+</code></pre>
+</li>
+<li>Let us now set the variables for the tests &amp; evaluation of the quality gates. We will need the following variables:<ul>
+<li>KEPTN_API_TOKEN</li>
+<li>KEPTN_ENDPOINT</li>
+<li>KEPTN_PROJECT</li>
+<li>KEPTN_SERVICE</li>
+<li>KEPTN_STAGE</li>
+<li>SERVICE_URL</li>
+<li>NUM_OF_REQUESTS</li>
+</ul>
+<img alt="variables" src="img/eb4da4eaea32ac09.png"></li>
+<li>Promote or decline promotion of artifact: Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Run the deployment &amp; quality gate" duration="4">
+        <p>Deploy your artifact with your release pipeline.<br>After the deployment, the second stage will start the tests followed by the evaluation of the quality gate.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Summary" duration="1">
+        <p>TODO</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
