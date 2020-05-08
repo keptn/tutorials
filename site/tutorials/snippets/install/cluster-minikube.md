@@ -32,4 +32,3 @@ Negative
   minikube tunnel 
   ``` 
 
-Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.6.0/installation/k8s-support/).
