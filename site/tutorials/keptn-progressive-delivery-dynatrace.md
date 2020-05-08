@@ -18,6 +18,8 @@ Alright - here is the complete overview on what you will learn:
 
 ![](./assets/simplenode/overview_animated.gif)
 
+You can also watch a recording of an online workshop titled [Setting up Event-based Progressive Delivery with Keptn on k8s](https://www.youtube.com/watch?v=ZuTr_enelM0)
+
 
 ### What you'll learn
 - How to create a Keptn project for multi-stage delivery
@@ -76,6 +78,12 @@ Thanks for taking a full tour through Keptn!
 Although Keptn has even more to offer that should have given you a good overview what you can do with Keptn.
 
 ### What we've covered
+
+You should have been able to achieve exactly what is shown in the following animated gif!
+
+![](./assets/simplenode/overview_animated.gif)
+
+If you have more questions you can also watch a recording of an online workshop titled [Setting up Event-based Progressive Delivery with Keptn on k8s](https://www.youtube.com/watch?v=ZuTr_enelM0)
 
 
 {{ snippets/integrations/gettingStarted.md }}
