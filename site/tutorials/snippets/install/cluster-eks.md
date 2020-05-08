@@ -15,19 +15,12 @@ We are going to setup a Kubernetes cluster in EKS.
   - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) (version >= 1.16.156)
 
 1. Create EKS cluster on AWS. You can do so either via the online portal of AWS or via `eksctl`.
-  - version >= `1.13`, version >= `1.14` recommended (tested version: `1.14`)
+  - version 1.15 (tested version: 1.15)
   - One `m5.2xlarge` node
   - Sample script using [eksctl](https://eksctl.io/introduction/installation/) to create such a cluster
 
     ```
-    eksctl create cluster --version=1.14 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
+    eksctl create cluster --version=1.15 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
     ```
 
-Negative
-: Please follow the next step if you are running EKS version 1.13
-
-Please note that for EKS version `1.13` in our testing we learned that the default CoreDNS that comes with certain EKS versions has a bug. In order to solve that issue we can use eksctl to update the CoreDNS service like this: 
-
-  ```
-  eksctl utils update-coredns --name=keptn-cluster --region=eu-west-3 --approve
-  ```
+Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.6.0/installation/k8s-support/).
