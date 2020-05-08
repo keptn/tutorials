@@ -50,19 +50,15 @@
 </ul>
 </li>
 <li>Create EKS cluster on AWS. You can do so either via the online portal of AWS or via <code>eksctl</code>.<ul>
-<li>version &gt;= <code>1.13</code>, version &gt;= <code>1.14</code> recommended (tested version: <code>1.14</code>)</li>
+<li>version 1.15 (tested version: 1.15)</li>
 <li>One <code>m5.2xlarge</code> node</li>
-<li>Sample script using <a href="https://eksctl.io/introduction/installation/" target="_blank">eksctl</a> to create such a cluster<pre><code>eksctl create cluster --version=1.14 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
+<li>Sample script using <a href="https://eksctl.io/introduction/installation/" target="_blank">eksctl</a> to create such a cluster<pre><code>eksctl create cluster --version=1.15 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
 </code></pre>
 </li>
 </ul>
 </li>
 </ol>
-<aside class="warning"><p>Please follow the next step if you are running EKS version 1.13</p>
-</aside>
-<p>Please note that for EKS version <code>1.13</code> in our testing we learned that the default CoreDNS that comes with certain EKS versions has a bug. In order to solve that issue we can use eksctl to update the CoreDNS service like this:</p>
-<pre><code>  eksctl utils update-coredns --name=keptn-cluster --region=eu-west-3 --approve
-</code></pre>
+<p>Find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.6.0/installation/k8s-support/" target="_blank">here</a>.</p>
 
 
       </google-codelab-step>
@@ -75,7 +71,7 @@
 </code></pre>
 This will download and install the Keptn CLI automatically.</li>
 <li>Another option is to manually download the current release of the Keptn CLI:<ol type="1">
-<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.6.1" target="_blank">Download CLI</a></li>
+<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.6.2" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
 </ol>
