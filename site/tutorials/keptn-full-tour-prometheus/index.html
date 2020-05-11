@@ -185,7 +185,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
       <google-codelab-step label="Setup Prometheus Monitoring" duration="3">
         <p>After creating a project and service, you can setup Prometheus monitoring and configure scrape jobs using the Keptn CLI.</p>
 <ol type="1">
-<li>To install the <em>prometheus-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.2/deploy/service.yaml
+<li>To install the <em>prometheus-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.3/deploy/service.yaml
 </code></pre>
 </li>
 <li>Execute the following command to set up the rules for the <em>Prometheus Alerting Manager</em>:<pre><code>keptn configure monitoring prometheus --project=sockshop --service=carts
@@ -206,7 +206,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
       <google-codelab-step label="Setup Prometheus SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the <em>prometheus-sli-service</em>. This service will fetch the values for the SLIs that are referenced in a SLO configuration.</p>
 <p>To install the <em>prometheus-sli-service</em>, execute:</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.1/deploy/service.yaml
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.2/deploy/service.yaml
 </code></pre>
 
 

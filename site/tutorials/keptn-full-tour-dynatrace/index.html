@@ -91,7 +91,7 @@ If you used the variables, the next command can be copied and pasted without mod
     
       <google-codelab-step label="Install Dynatrace integration" duration="5">
         <ol type="1">
-<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.6.2/deploy/manifests/dynatrace-service/dynatrace-service.yaml
+<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.7.0/deploy/manifests/dynatrace-service/dynatrace-service.yaml
 </code></pre>
 </li>
 <li>When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.<pre><code>keptn configure monitoring dynatrace
@@ -274,7 +274,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
     
       <google-codelab-step label="Setup SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Dynatrace SLI provider is required that is implemented by an internal Keptn service, the dynatrace-sli-service. This service will fetch the values for the SLIs that are referenced in an SLO configuration.</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.3.1/deploy/service.yaml
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.4.0/deploy/service.yaml
 </code></pre>
 <p>Configure the already onboarded project with the new SLI provider:</p>
 <pre><code>keptn configure monitoring dynatrace --project=sockshop
