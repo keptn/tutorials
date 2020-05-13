@@ -1,0 +1,34 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2020-05-13T10:10:01+02:00",
+  "id": "keptn-in-a-box",
+  "duration": 10,
+  "title": "Keptn in Box",
+  "authors": "Sergio Hinojosa",
+  "summary": "Take a full tour on Keptn with Dynatrace",
+  "source": "keptn-in-a-box_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "dynatrace",
+    "aks",
+    "eks",
+    "gke",
+    "openshift",
+    "pks",
+    "minikube",
+    "full-tour",
+    "quality-gates",
+    "automated-operations"
+  ],
+  "tags": [
+    "keptn06x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-in-a-box"
+}
