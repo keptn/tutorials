@@ -305,10 +305,11 @@ Duration: 1:00
 
 ### What we've covered 
 
-1. Install Keptn for quality gates only use case on Azure Kubernetes Service (AKS)
-1. Create a project and service in Keptn
-1. Define Service Level Indicators (SLIs) to fetch metrics from Dynatrace
-1. Define Service Level Objectives (SLOs) to verify quality of deployed services
-1. Set up release pipeline in Azure DevOps
-1. Deploy app with Azure DevOps pipeline
-1. See Keptn quality gates in action
+1. We installed Keptn for quality gates only use case on Azure Kubernetes Service (AKS)
+1. We created a project in Keptn
+1. We defined Service Level Indicators (SLIs) to fetch metrics from Dynatrace
+1. We defined Service Level Objectives (SLOs) to verify quality of deployed services
+1. We set up a release pipeline in Azure DevOps
+1. We deployed app with Azure DevOps pipeline
+1. We watched Keptn quality gates in action
+

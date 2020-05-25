@@ -270,7 +270,11 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
       </google-codelab-step>
     
       <google-codelab-step label="Run the deployment &amp; quality gate" duration="4">
-        <p>Deploy your artifact with your release pipeline.<br>After the deployment, the second stage will start the tests followed by the evaluation of the quality gate.</p>
+        <p>Now let&#39;s deploy your artifact with your release pipeline.</p>
+<p>Once you have deployed the version, the tests will be kicked off and will send a number of requests against our microservice.</p>
+<p>Next, the evaluation of the quality gate will start and tell you about a <em>passed</em> or <em>failed</em> quality gate.</p>
+<p>Please note that you can experiment with different version of the microservice to see the evaluation of the quality gate. The different version are located in the <code>manifest</code> folder and named <code>carts-v1.yaml</code>, <code>carts-v2.yaml</code>, and <code>carts-v3.yaml</code>.</p>
+<p>Go ahead and find out which versions will pass the quality gate and which versions will fail!</p>
 
 
       </google-codelab-step>
@@ -278,13 +282,13 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
       <google-codelab-step label="Summary" duration="1">
         <h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
 <ul class="checklist">
-<li>Install Keptn for quality gates only use case on Azure Kubernetes Service (AKS)</li>
-<li>Create a project and service in Keptn</li>
-<li>Define Service Level Indicators (SLIs) to fetch metrics from Dynatrace</li>
-<li>Define Service Level Objectives (SLOs) to verify quality of deployed services</li>
-<li>Set up release pipeline in Azure DevOps</li>
-<li>Deploy app with Azure DevOps pipeline</li>
-<li>See Keptn quality gates in action</li>
+<li>We installed Keptn for quality gates only use case on Azure Kubernetes Service (AKS)</li>
+<li>We created a project in Keptn</li>
+<li>We defined Service Level Indicators (SLIs) to fetch metrics from Dynatrace</li>
+<li>We defined Service Level Objectives (SLOs) to verify quality of deployed services</li>
+<li>We set up a release pipeline in Azure DevOps</li>
+<li>We deployed app with Azure DevOps pipeline</li>
+<li>We watched Keptn quality gates in action</li>
 </ul>
 
 
