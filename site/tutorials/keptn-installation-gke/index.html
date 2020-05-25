@@ -53,22 +53,23 @@
 </ul>
 </li>
 <li>Create GKE cluster<ul>
-<li>Master version &gt;= <code>1.14.x</code> (tested version: <code>1.14.10-gke.24</code>)</li>
+<li>Master version &gt;= <code>1.15.x</code> (tested version: <code>1.15.9-gke.22</code>)</li>
 <li>One <strong>n1-standard-8</strong> node</li>
 <li>Image type <code>ubuntu</code> or <code>cos</code> (<strong>Note:</strong> If you plan to use Dynatrace monitoring, select <code>ubuntu</code> for a more <a href="https://keptn.sh/docs/0.6.0/reference/monitoring/dynatrace/#notes" target="_blank">convenient setup</a>.)</li>
-<li>Sample script to create such cluster:</li>
-</ul>
-<pre><code>// set environment variables
+<li>Sample script to create such cluster:<pre><code>// set environment variables
 PROJECT=nameofgcloudproject
 CLUSTER_NAME=nameofcluster
 ZONE=us-central1-a
 REGION=us-central1
-GKE_VERSION=&#34;1.14&#34;
+GKE_VERSION=&#34;1.15&#34;
 </code></pre>
 <pre><code>gcloud container clusters create $CLUSTER_NAME --project $PROJECT --zone $ZONE --no-enable-basic-auth --cluster-version $GKE_VERSION --machine-type &#34;n1-standard-8&#34; --image-type &#34;UBUNTU&#34; --disk-type &#34;pd-standard&#34; --disk-size &#34;100&#34; --metadata disable-legacy-endpoints=true --scopes &#34;https://www.googleapis.com/auth/devstorage.read_only&#34;,&#34;https://www.googleapis.com/auth/logging.write&#34;,&#34;https://www.googleapis.com/auth/monitoring&#34;,&#34;https://www.googleapis.com/auth/servicecontrol&#34;,&#34;https://www.googleapis.com/auth/service.management.readonly&#34;,&#34;https://www.googleapis.com/auth/trace.append&#34; --num-nodes &#34;1&#34; --enable-stackdriver-kubernetes --no-enable-ip-alias --network &#34;projects/$PROJECT/global/networks/default&#34; --subnetwork &#34;projects/$PROJECT/regions/$REGION/subnetworks/default&#34; --addons HorizontalPodAutoscaling,HttpLoadBalancing --no-enable-autoupgrade
 </code></pre>
 </li>
+</ul>
+</li>
 </ol>
+<p>Find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.6.0/installation/k8s-support/" target="_blank">here</a>.</p>
 
 
       </google-codelab-step>
@@ -81,7 +82,7 @@ GKE_VERSION=&#34;1.14&#34;
 </code></pre>
 This will download and install the Keptn CLI automatically.</li>
 <li>Another option is to manually download the current release of the Keptn CLI:<ol type="1">
-<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.6.1" target="_blank">Download CLI</a></li>
+<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.6.2" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
 </ol>

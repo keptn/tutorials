@@ -181,7 +181,7 @@ In order to infrom Keptn when Argo CD does the deployment,
 an [Argo Resource Hook](https://argoproj.github.io/argo-cd/user-guide/resource_hooks/) is configured. This hook is triggered when Argo CD applies the manifests. This hook executes a script which sends a [`sh.keptn.events.deployment-finished`](https://github.com/keptn/spec/blob/master/cloudevents.md#deployment-finished) event to the Keptn API.
 
 
-```console
+```
 apiVersion: batch/v1
 kind: Job
 metadata:

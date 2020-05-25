@@ -22,14 +22,15 @@ Pivotal Container Service (PKS)
 
   - Create a PKS cluster by using the PKS CLI and executing the following command:
 
-    ```console
+    ```
     // set environment variables
     CLUSTER_NAME=name_of_cluster
     HOST_NAME=host_name
     PLAN=small
     ```
 
-    ```console
+    ```
     pks create-cluster $CLUSTER_NAME --external-hostname $HOST_NAME --plan $PLAN
     ```
 
+Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.6.0/installation/k8s-support/).
