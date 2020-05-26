@@ -219,8 +219,8 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
 
       </google-codelab-step>
     
-      <google-codelab-step label="Deploy demo app" duration="2">
-        <p>Let&#39;s now deploy our demo application.</p>
+      <google-codelab-step label="Deploy demo app" duration="7">
+        <p>Let&#39;s now deploy our demo application. In our use case we are deploying the demo app on the same Kubernetes cluster that we are also using for our Keptn installation. We also need to monitor this application with Dynatrace to get input data for the Keptn Quality Gate. Let us start with deploying the app.</p>
 <p>Move to the folder with the prepared manifests and apply them.</p>
 <pre><code>cd ../manifests
 </code></pre>
@@ -233,16 +233,58 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
 <p>Deploy the demo application in version 1.</p>
 <pre><code>kubectl apply -f carts-v1.yaml
 </code></pre>
-<p>Now let&#39;s wait for a couple of seconds for AKS to provide a public IP for our demo application.<br>Execute the following command until you get a public IP address.</p>
-<pre><code>kubectl get service -n preprod
 
-NAME       TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-carts      LoadBalancer   10.0.112.34    &lt;pending&gt;     80:32437/TCP   6s
-carts-db   ClusterIP      10.0.125.156   &lt;none&gt;        27017/TCP      89s
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup monitoring" duration="7">
+        <p>Let us now deploy the Dynatrace OneAgent on our cluster. Please note that this step can be automated if you choose the Keptn full installation!<br>The instructions how to install the Dynatrace OneAgent can be found on the <a href="https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/other-deployments-and-configurations/deploy-oneagent-on-kubernetes/" target="_blank">official Dynatrace documentation</a>, but are replicated here for ease of use.</p>
+<p>Create the needed objects for the OneAgent Operator:</p>
+<pre><code>kubectl create namespace dynatrace
+kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/download/v0.7.1/kubernetes.yaml
 </code></pre>
-<p>Once the <code>&lt;pending&gt;</code> state switches to a dedicated IP address, make a note of this IP and move on to the next step of the tutorial.</p>
-<aside class="warning"><p>Do not move on here until you have received an EXTERNAL-IP for the carts service.</p>
+<p>Create a secret with the needed tokens so that the OneAgent can be installed. You can create the tokens for Dynatrace in your Dynatrace tenant following these instructions:</p>
+<ol type="1">
+<li>Log in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
+<li>Access problem and event feed, metrics and topology</li>
+<li>Access logs</li>
+<li>Configure maintenance windows</li>
+<li>Read configuration</li>
+<li>Write configuration</li>
+<li>Capture request data</li>
+<li>Real user monitoring JavaScript tag management</li>
+</ul>
+</li>
+<li>Create a Dynatrace PaaS TokenIn your Dynatrace tenant, go to <strong>Settings &gt; Integration &gt; Platform as a Service</strong>, and create a new PaaS Token.</li>
+</ol>
+<p>Now that you have the API_TOKEN and PAAS_TOKEN, execute the following command. Please make sure to replace the two placeholder <code>API_TOKEN</code> and <code>PAAS_TOKEN</code> with the actual token values.</p>
+<pre><code>kubectl -n dynatrace create secret generic oneagent --from-literal=&#34;apiToken=API_TOKEN&#34; --from-literal=&#34;paasToken=PAAS_TOKEN&#34;
+</code></pre>
+<p>Next, let us download the custom resource for the Dynatrace OneAgent.</p>
+<pre><code>curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/release-0.7/deploy/cr.yaml
+</code></pre>
+<p>Now go ahead and open the file and <strong>replace</strong> the <code>apiUrl</code> with your actual URL of your Dynatrace tenant, e.g., https://abc1234.live.dynatrace.com/api and <strong>save</strong> the file.</p>
+<p>Apply the custom resource to your cluster.</p>
+<pre><code>kubectl apply -f cr.yaml
+</code></pre>
+<p>Now you have successfully instrumented your Kubernetes cluster and the demo app with the Dynatrace OneAgent!<br>Before we check the service in our Dynatrace tenant, we are going to restart the demo app making sure it is instrumented by Dynatrace correctly.</p>
+<pre><code>kubectl delete pods --all -n preprod
+</code></pre>
+<p>Wait for all pods to show a ready status of 1⁄1 before proceeding, you can check with this command:</p>
+<pre><code>kubectl get pods -n preprod
+
+NAME                        READY   STATUS    RESTARTS   AGE
+carts-994869bb5-6msjc       1/1     Running   0          85s
+carts-db-6656b66b4c-zw287   1/1     Running   0          85s
+</code></pre>
+<aside class="warning"><p>Do not move on here until you have all pods up and running.</p>
 </aside>
+<p>Last thing we need to make sure is to tag our demo application properly for the Keptn Quality Gates to query and evaluate the correct data. Therefore, first we first open the app to make sure it is running and then add tags on the app.</p>
+<p>Execute the following script to generate some test traffic for the app (this might run a second or two).</p>
+<pre><code>curl --silent --output /dev/null &#34;$(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})/carts/[1-100]/items&#34;
+</code></pre>
+<p>Next, open your Dynatrace tenant and navigate on to <strong>Transactions and services</strong> on the lefthand side. You should find a service called <strong>ItemsController</strong>. Click on it and add a tag named <strong>keptn-qualitygates</strong> like in the following screenshot.</p>
+<p class="image-container"><img alt="dt tags" src="img/cd9bfc115f227702.png"></p>
 
 
       </google-codelab-step>
@@ -287,17 +329,19 @@ carts-db   ClusterIP      10.0.125.156   &lt;none&gt;        27017/TCP      89s
         <ol type="1">
 <li>Now we are going to set up the Keptn Quality Gate. Once triggered it will automatically reach out to the SLI provider (in our example this is Dynatrace) and will fetch all metrics defined in the SLO file. If there are objectives defined, the Keptn quality gate will evaluate the metrics and generate a score for each individual metric, as well as total score for the whole quality gate.<br>Again, set up a a new <strong>Task</strong> from a <strong>Bash Script</strong> that we call <strong>keptn quality gate</strong>. Select the corresponding file from the <code>azure</code> folder as the script path.<img alt="add quality gate" src="img/75f9164e70422aa2.png">The whole logic of the quality gate is implemented in a simple bash script named <code>quality-gate.sh</code> that you&#39;ll find in the <code>azure</code> folder. Add it in the script path of your pipeline task.<br>The script will trigger the evaluation of the quality gate, and then query the Keptn API for the result of the evaluation. Depending on the monitoring tool this might take some time for all data to be processed, thus this script might take up to 2-3 minutes.</li>
 <li>Let us now set the variables for the tests &amp; evaluation of the quality gates. We will need the following variables:<ul>
-<li>KEPTN_API_TOKEN</li>
-<li>KEPTN_ENDPOINT</li>
-<li>KEPTN_PROJECT</li>
-<li>KEPTN_SERVICE</li>
-<li>KEPTN_STAGE</li>
-<li>SERVICE_URL</li>
-<li>NUM_OF_REQUESTS</li>
+<li>KEPTN_API_TOKEN see below</li>
+<li>KEPTN_ENDPOINT see below</li>
+<li>SERVICE_URL see below</li>
+<li>KEPTN_PROJECT = sockshop</li>
+<li>KEPTN_SERVICE = carts</li>
+<li>KEPTN_STAGE = preprod</li>
+<li>NUM_OF_REQUESTS = 1000</li>
 </ul>
 <img alt="variables" src="img/eb4da4eaea32ac09.png">You will receive the KEPTN_API_TOKEN with the following command:<pre><code>echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
 </code></pre>
-Get the KEPTN_ENDPOINT with executing:<pre><code>echo https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
+Get the KEPTN_ENDPOINT by executing:<pre><code>echo https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
+</code></pre>
+Get the SERVICE_URL by executing:<pre><code>echo $(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})
 </code></pre>
 Take the other values from the screenshot.</li>
 <li>TODO Promote or decline promotion of artifact: Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.</li>

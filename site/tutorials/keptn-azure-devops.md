@@ -221,9 +221,9 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
   ![github config](./assets/azure-devops/azure-devops-github-config-files.png)
 
 ## Deploy demo app 
-Duration: 2:00
+Duration: 7:00
 
-Let's now deploy our demo application.
+Let's now deploy our demo application. In our use case we are deploying the demo app on the same Kubernetes cluster that we are also using for our Keptn installation. We also need to monitor this application with Dynatrace to get input data for the Keptn Quality Gate. Let us start with deploying the app.
 
 Move to the folder with the prepared manifests and apply them.
 
@@ -244,21 +244,83 @@ Deploy the demo application in version 1.
 kubectl apply -f carts-v1.yaml
 ```
 
-Now let's wait for a couple of seconds for AKS to provide a public IP for our demo application.
-Execute the following command until you get a public IP address.
+## Setup monitoring
+Duration: 7:00
+
+Let us now deploy the Dynatrace OneAgent on our cluster. Please note that this step can be automated if you choose the Keptn full installation!
+The instructions how to install the Dynatrace OneAgent can be found on the [official Dynatrace documentation](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/other-deployments-and-configurations/deploy-oneagent-on-kubernetes/), but are replicated here for ease of use.
+
+Create the needed objects for the OneAgent Operator:
+```
+kubectl create namespace dynatrace
+kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/download/v0.7.1/kubernetes.yaml
+```
+
+Create a secret with the needed tokens so that the OneAgent can be installed. You can create the tokens for Dynatrace in your Dynatrace tenant following these instructions:
+    
+1. Log in to your Dynatrace tenant and go to **Settings > Integration > Dynatrace API**. Then, create a new API token with the following permissions:
+
+    - Access problem and event feed, metrics and topology
+    - Access logs
+    - Configure maintenance windows
+    - Read configuration
+    - Write configuration
+    - Capture request data
+    - Real user monitoring JavaScript tag management
+
+1. Create a Dynatrace PaaS Token
+
+    In your Dynatrace tenant, go to **Settings > Integration > Platform as a Service**, and create a new PaaS Token.
+
+Now that you have the API_TOKEN and PAAS_TOKEN, execute the following command. Please make sure to replace the two placeholder `API_TOKEN` and `PAAS_TOKEN` with the actual token values. 
+```
+kubectl -n dynatrace create secret generic oneagent --from-literal="apiToken=API_TOKEN" --from-literal="paasToken=PAAS_TOKEN"
+```
+
+Next, let us download the custom resource for the Dynatrace OneAgent.
 
 ```
-kubectl get service -n preprod
-
-NAME       TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-carts      LoadBalancer   10.0.112.34    <pending>     80:32437/TCP   6s
-carts-db   ClusterIP      10.0.125.156   <none>        27017/TCP      89s
+curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/release-0.7/deploy/cr.yaml
 ```
 
-Once the `<pending>` state switches to a dedicated IP address, make a note of this IP and move on to the next step of the tutorial.
+Now go ahead and open the file and **replace** the `apiUrl` with your actual URL of your Dynatrace tenant, e.g., https://abc1234.live.dynatrace.com/api and **save** the file.
+
+Apply the custom resource to your cluster.
+
+```
+kubectl apply -f cr.yaml
+```
+
+Now you have successfully instrumented your Kubernetes cluster and the demo app with the Dynatrace OneAgent!
+Before we check the service in our Dynatrace tenant, we are going to restart the demo app making sure it is instrumented by Dynatrace correctly.
+```
+kubectl delete pods --all -n preprod
+```
+
+Wait for all pods to show a ready status of 1/1 before proceeding, you can check with this command:
+```
+kubectl get pods -n preprod
+
+NAME                        READY   STATUS    RESTARTS   AGE
+carts-994869bb5-6msjc       1/1     Running   0          85s
+carts-db-6656b66b4c-zw287   1/1     Running   0          85s
+```
 
 Negative
-: Do not move on here until you have received an EXTERNAL-IP for the carts service.
+: Do not move on here until you have all pods up and running.
+
+
+Last thing we need to make sure is to tag our demo application properly for the Keptn Quality Gates to query and evaluate the correct data. Therefore, first we first open the app to make sure it is running and then add tags on the app.
+
+Execute the following script to generate some test traffic for the app (this might run a second or two).
+```
+curl --silent --output /dev/null "$(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})/carts/[1-100]/items"
+```
+
+Next, open your Dynatrace tenant and navigate on to **Transactions and services** on the lefthand side. You should find a service called **ItemsController**. Click on it and add a tag named **keptn-qualitygates** like in the following screenshot.
+
+![dt tags](./assets/azure-devops/azure-devops-dt-tagging.png)
+
 
 ## Set up Azure DevOps pipeline
 Duration: 3:00
@@ -292,7 +354,6 @@ Duration: 3:00
 Duration: 3:00
 
 1. Once we have Github connected, we can go ahead and set up the deployment part of the pipeline, using the Kubernetes manifests from the Github account. Click on **Tasks**, **deploy** and add a new task. Create a new service connection or use an existing one, depending on your setup. For the **manifest** to deploy, click on the three dots and find a `manifest/` folder in the Git repostory that we linked earlier. Select the `carts-v1.yaml` manifest.
- 
 
     ![add job](./assets/azure-devops/azure-devops-add-deploy-job.png)
 
@@ -318,13 +379,13 @@ Again, set up a a new **Task** from a **Bash Script** that we call **keptn quali
 
 1. Let us now set the variables for the tests & evaluation of the quality gates. We will need the following variables:
 
-    - KEPTN_API_TOKEN
-    - KEPTN_ENDPOINT
-    - KEPTN_PROJECT
-    - KEPTN_SERVICE
-    - KEPTN_STAGE
-    - SERVICE_URL
-    - NUM_OF_REQUESTS
+    - KEPTN_API_TOKEN see below
+    - KEPTN_ENDPOINT see below
+    - SERVICE_URL see below
+    - KEPTN_PROJECT = sockshop
+    - KEPTN_SERVICE = carts
+    - KEPTN_STAGE = preprod
+    - NUM_OF_REQUESTS = 1000
 
     ![variables](./assets/azure-devops/azure-devops-variables.png)
 
@@ -333,14 +394,17 @@ Again, set up a a new **Task** from a **Bash Script** that we call **keptn quali
     echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
     ```
     
-    Get the KEPTN_ENDPOINT with executing: 
+    Get the KEPTN_ENDPOINT by executing: 
     ```
     echo https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
     ```
 
-    Take the other values from the screenshot. 
+    Get the SERVICE_URL by executing:
+    ```
+    echo $(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})
+    ```
 
-1. TODO Promote or decline promotion of artifact: Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.
+
 
 ## Run the deployment & quality gate
 Duration: 4:00
@@ -354,6 +418,9 @@ Next, the evaluation of the quality gate will start and tell you about a *passed
 Please note that you can experiment with different version of the microservice to see the evaluation of the quality gate. The different version are located in the `manifest` folder and named `carts-v1.yaml`, `carts-v2.yaml`, and `carts-v3.yaml`.
 
 Go ahead and find out which versions will pass the quality gate and which versions will fail!
+
+Promote or decline promotion of artifact? Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.
+
 
 ## Summary
 Duration: 1:00
