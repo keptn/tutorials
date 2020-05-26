@@ -222,13 +222,16 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
       <google-codelab-step label="Deploy demo app" duration="2">
         <p>Let&#39;s now deploy our demo application.</p>
 <p>Move to the folder with the prepared manifests and apply them.</p>
-<pre><code>cd ../maifests
-
-kubectl apply -f namespace.yaml
-
-kubectl apply -f carts-db.yaml
-
-kubectl apply -f carts-v1.yaml
+<pre><code>cd ../manifests
+</code></pre>
+<p>Create the namespace.</p>
+<pre><code>kubectl apply -f namespace.yaml
+</code></pre>
+<p>Create the database for the app.</p>
+<pre><code>kubectl apply -f carts-db.yaml
+</code></pre>
+<p>Deploy the demo application in version 1.</p>
+<pre><code>kubectl apply -f carts-v1.yaml
 </code></pre>
 <p>Now let&#39;s wait for a couple of seconds for AKS to provide a public IP for our demo application.<br>Execute the following command until you get a public IP address.</p>
 <pre><code>kubectl get service -n preprod
@@ -274,7 +277,7 @@ carts-db   ClusterIP      10.0.125.156   &lt;none&gt;        27017/TCP      89s
         <ol type="1">
 <li>Once we have Github connected, we can go ahead and set up the deployment part of the pipeline, using the Kubernetes manifests from the Github account. Click on <strong>Tasks</strong>, <strong>deploy</strong> and add a new task. Create a new service connection or use an existing one, depending on your setup. For the <strong>manifest</strong> to deploy, click on the three dots and find a <code>manifest/</code> folder in the Git repostory that we linked earlier. Select the <code>carts-v1.yaml</code> manifest.<img alt="add job" src="img/4f0ecec22bc1953c.png"><img alt="create job" src="img/b3fac133f7599e67.png"></li>
 <li>Next, we are going to add another stage to &#34;<strong>Test &amp; Evaluate</strong>&#34; the deployment.<img alt="add bash scripts" src="img/cdcbd2fb4c9eb6a5.png"></li>
-<li>You will find a simple test script called <code>runTests.sh</code> in the <code>azure/</code> folder that sends a given number of HTTP requests to a given service endpoint. The endpoint as well as the number of requests have to be configured in the <strong>Variables</strong> section, which we will set up just in a moment.<img alt="add tests" src="img/5477cc5749e913ea.png"></li>
+<li>You will find a simple test script called <code>runTests.sh</code> in the <code>azure/</code> folder that sends a given number of HTTP requests to a given service endpoint. Please make sure to enter the correct script as well as the <strong>testrun</strong> reference name in the <strong>Output Variables</strong> section.<img alt="add tests" src="img/49b85e35225a0ff1.png"></li>
 </ol>
 
 

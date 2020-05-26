@@ -228,12 +228,19 @@ Let's now deploy our demo application.
 Move to the folder with the prepared manifests and apply them.
 
 ```
-cd ../maifests
+cd ../manifests
+```
 
+Create the namespace.
+```
 kubectl apply -f namespace.yaml
-
+```
+Create the database for the app.
+```
 kubectl apply -f carts-db.yaml
-
+```
+Deploy the demo application in version 1.
+```
 kubectl apply -f carts-v1.yaml
 ```
 
@@ -295,7 +302,7 @@ Duration: 3:00
 
     ![add bash scripts](./assets/azure-devops/azure-devops-create-bash-job.png)
 
-1. You will find a simple test script called `runTests.sh` in the `azure/` folder that sends a given number of HTTP requests to a given service endpoint. The endpoint as well as the number of requests have to be configured in the **Variables** section, which we will set up just in a moment.
+1. You will find a simple test script called `runTests.sh` in the `azure/` folder that sends a given number of HTTP requests to a given service endpoint. Please make sure to enter the correct script as well as the **testrun** reference name in the **Output Variables** section.
 
     ![add tests](./assets/azure-devops/azure-devops-add-tests.png)
 
