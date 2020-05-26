@@ -98,20 +98,25 @@ stages:
 
 We can also link the project we are creating to a external git repository to have full visibility of all configuration files that are managed by Keptn. In my case I am using my personal Github account and personal access token to do access a repo I created for this tutorial. Please note that the repository has to already exist with at least one file, e.g., the default `readme.md` in it.
 
+1. Clone the Github repository that you have forked in the prerequisites step. Please make sure to clone from your private repository, e.g., with: 
+    ```
+    git clone https://github.com/YOUR-GIT-USER/keptn-azure-devops.git
+    ```
+
 1. Switch into the directory with all Keptn files prepared for the tutorial:
     ```
-    cd keptn-files
+    cd keptn-azure-devops/keptn-files
     ```
 
 1. Create project with Keptn CLI.
 
     1. Option 1: Link it to a Github repository (make sure to change the `git-user`, `git-remote-url`, and `git-token` to your own values).
         ```
-        keptn create project sockshop --shipyard=./shipyard --git-user=youruser --git-remote-url=https://github.com/youruser/your-sockshop.git --git-token=XXXXX
+        keptn create project sockshop --shipyard=./shipyard.yaml --git-user=youruser --git-remote-url=https://github.com/youruser/your-sockshop.git --git-token=XXXXX
         ```
     1. Option 2: Do not link it to a Github repository (you can just copy paste)
         ```
-        keptn create project sockshop --shipyard=./shipyard
+        keptn create project sockshop --shipyard=./shipyard.yaml
         ```
 
 1. Now we are going to create the shopping cart service within the project. We will need this service as we will later build our quality gates for it. Please note that Keptn will not be responsible for deploying this service. (For Keptn insiders: we would use the command `keptn onboard service` and the [Keptn full installation](https://keptn.sh/docs/0.6.0/installation/setup-keptn/#install-keptn) instead.)
@@ -165,14 +170,13 @@ Retrieve the _Dynatrace API_ token by navigating to "Settings -> Integration -> 
     ```
 1. Install the Dynatrace SLI service
     ```
-    ./installDynatraceSLIService.sh
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.4.1/deploy/service.yaml
     ```
 
-Now the SLI service is installed, we will enable it for the **sockshop** project. This step is necessary, since different projects can have their own SLI provider.
-
-```
-./enableDynatraceSLIforProject.sh sockshop
-```
+1. Now the SLI service is installed, we will enable it for the **sockshop** project. This step is necessary, since different projects can have their own SLI provider.
+    ```
+    keptn configure monitoring dynatrace --project=sockshop --suppress-websocket
+    ```
 
 ## Define Service Level Objectives
 Duration: 4:00
@@ -208,7 +212,7 @@ We are going to add the file via the Keptn CLI to our **carts** service in the *
 ```
 cd ../keptn-files
 
-keptn add-resource --project=sockshop --service=carts --stage=preprod --resource=./keptn-files/slo.yaml --resourceUri=slo.yaml
+keptn add-resource --project=sockshop --service=carts --stage=preprod --resource=./slo.yaml --resourceUri=slo.yaml
 ```
 
 **Optional**: we can verify all our configuration in our Github repository (if we have linked it previously):
@@ -216,7 +220,38 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
 
   ![github config](./assets/azure-devops/azure-devops-github-config-files.png)
 
+## Deploy demo app 
+Duration: 2:00
 
+Let's now deploy our demo application.
+
+Move to the folder with the prepared manifests and apply them.
+
+```
+cd ../maifests
+
+kubectl apply -f namespace.yaml
+
+kubectl apply -f carts-db.yaml
+
+kubectl apply -f carts-v1.yaml
+```
+
+Now let's wait for a couple of seconds for AKS to provide a public IP for our demo application.
+Execute the following command until you get a public IP address.
+
+```
+kubectl get service -n preprod
+
+NAME       TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+carts      LoadBalancer   10.0.112.34    <pending>     80:32437/TCP   6s
+carts-db   ClusterIP      10.0.125.156   <none>        27017/TCP      89s
+```
+
+Once the `<pending>` state switches to a dedicated IP address, make a note of this IP and move on to the next step of the tutorial.
+
+Negative
+: Do not move on here until you have received an EXTERNAL-IP for the carts service.
 
 ## Set up Azure DevOps pipeline
 Duration: 3:00
@@ -235,20 +270,22 @@ Duration: 3:00
 1. In the next step we are going to create a new release pipeline
     ![create pipeline](./assets/azure-devops/azure-devops-create-pipeline.png)
 
-1. Create a stage "deploy" and select the template of an "Empty Job" since we don't need a predefined workflow.
+1. Create a stage named **deploy** and select the template of an "Empty Job" since we don't need a predefined workflow.
     ![select from template](./assets/azure-devops/azure-devops-create-stage.png)
 
-1. All files for this tutorial are provided in a Github repository which we are going to connect as well, to have the deployment files and other utility files ready for this example. Therefore, **Add** an Artifact on the left-hand side of the screen and select **Github** as the source type.
+1. All files for this tutorial are provided in a Github repository which we are going to connect as well, to have the deployment files and other utility files ready for this example. Therefore, **Add an Artifact** on the left-hand side of the screen and select **Github** as the source type.
 
     - Set a service connection with your Github account
     - Search for the  Github repository in the list by clicking on the "..." dots. 
+    - Select your source repository, default branch should be set to **master** and default version to **Latest from the default branch**.
     - The settings should be simliar as shown here:
     ![create github connection](./assets/azure-devops/azure-devops-github-connection.png)
 
 ## Set up release & test pipeline
 Duration: 3:00
 
-1. Once we have Github connected, we can go ahead and set up the deployment part of the pipeline, using the Kubernetes manifests from the Github account.
+1. Once we have Github connected, we can go ahead and set up the deployment part of the pipeline, using the Kubernetes manifests from the Github account. Click on **Tasks**, **deploy** and add a new task. Create a new service connection or use an existing one, depending on your setup. For the **manifest** to deploy, click on the three dots and find a `manifest/` folder in the Git repostory that we linked earlier. Select the `carts-v1.yaml` manifest.
+ 
 
     ![add job](./assets/azure-devops/azure-devops-add-deploy-job.png)
 
@@ -258,13 +295,14 @@ Duration: 3:00
 
     ![add bash scripts](./assets/azure-devops/azure-devops-create-bash-job.png)
 
-1. You will find a simple test script called `runTests.sh` that send a given number of HTTP requests to a given service endpoint. The endpoint as well as the number of requests have to be configured in the **Variables** section, which we will set up just in a moment.
+1. You will find a simple test script called `runTests.sh` in the `azure/` folder that sends a given number of HTTP requests to a given service endpoint. The endpoint as well as the number of requests have to be configured in the **Variables** section, which we will set up just in a moment.
 
     ![add tests](./assets/azure-devops/azure-devops-add-tests.png)
 
 ## Set up Keptn Quality Gate
 
 1. Now we are going to set up the Keptn Quality Gate. Once triggered it will automatically reach out to the SLI provider (in our example this is Dynatrace) and will fetch all metrics defined in the SLO file. If there are objectives defined, the Keptn quality gate will evaluate the metrics and generate a score for each individual metric, as well as total score for the whole quality gate. 
+Again, set up a a new **Task** from a **Bash Script** that we call **keptn quality gate**. Select the corresponding file from the `azure` folder as the script path.
 
     ![add quality gate](./assets/azure-devops/azure-devops-add-quality-gate.png)
 
@@ -283,9 +321,19 @@ Duration: 3:00
 
     ![variables](./assets/azure-devops/azure-devops-variables.png)
 
+    You will receive the KEPTN_API_TOKEN with the following command: 
+    ```
+    echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+    ```
+    
+    Get the KEPTN_ENDPOINT with executing: 
+    ```
+    echo https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
+    ```
 
+    Take the other values from the screenshot. 
 
-1. Promote or decline promotion of artifact: Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.
+1. TODO Promote or decline promotion of artifact: Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.
 
 ## Run the deployment & quality gate
 Duration: 4:00

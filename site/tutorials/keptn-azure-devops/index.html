@@ -74,11 +74,12 @@
 </ul>
 </li>
 <li>Create AKS cluster<ul>
-<li>Master version &gt;= <code>1.15.x</code> (tested version: <code>1.15.5</code>)</li>
+<li>Master version &gt;= <code>1.15.x</code> (tested version: <code>1.15.10</code>)</li>
 <li>Size of the cluster: One <strong>D8s_v3</strong> node</li>
 </ul>
 </li>
 </ol>
+<p>Find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.6.0/installation/k8s-support/" target="_blank">here</a>.</p>
 
 
       </google-codelab-step>
@@ -116,14 +117,17 @@ CLI is authenticated against the Keptn cluster https://api.keptn.XXXXXXXXX.xip.i
 </code></pre>
 <p>We can also link the project we are creating to a external git repository to have full visibility of all configuration files that are managed by Keptn. In my case I am using my personal Github account and personal access token to do access a repo I created for this tutorial. Please note that the repository has to already exist with at least one file, e.g., the default <code>readme.md</code> in it.</p>
 <ol type="1">
-<li>Switch into the directory with all Keptn files prepared for the tutorial:<pre><code>cd keptn-files
+<li>Clone the Github repository that you have forked in the prerequisites step. Please make sure to clone from your private repository, e.g., with:<pre><code>git clone https://github.com/YOUR-GIT-USER/keptn-azure-devops.git
+</code></pre>
+</li>
+<li>Switch into the directory with all Keptn files prepared for the tutorial:<pre><code>cd keptn-azure-devops/keptn-files
 </code></pre>
 </li>
 <li>Create project with Keptn CLI.<ol type="1">
-<li>Option 1: Link it to a Github repository (make sure to change the <code>git-user</code>, <code>git-remote-url</code>, and <code>git-token</code> to your own values).<pre><code>keptn create project sockshop --shipyard=./shipyard --git-user=youruser --git-remote-url=https://github.com/youruser/your-sockshop.git --git-token=XXXXX
+<li>Option 1: Link it to a Github repository (make sure to change the <code>git-user</code>, <code>git-remote-url</code>, and <code>git-token</code> to your own values).<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=youruser --git-remote-url=https://github.com/youruser/your-sockshop.git --git-token=XXXXX
 </code></pre>
 </li>
-<li>Option 2: Do not link it to a Github repository (you can just copy paste)<pre><code>keptn create project sockshop --shipyard=./shipyard
+<li>Option 2: Do not link it to a Github repository (you can just copy paste)<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
 </code></pre>
 </li>
 </ol>
@@ -168,13 +172,13 @@ indicators:
 ./defineDynatraceCredentials.sh
 </code></pre>
 </li>
-<li>Install the Dynatrace SLI service<pre><code>./installDynatraceSLIService.sh
+<li>Install the Dynatrace SLI service<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.4.1/deploy/service.yaml
+</code></pre>
+</li>
+<li>Now the SLI service is installed, we will enable it for the <strong>sockshop</strong> project. This step is necessary, since different projects can have their own SLI provider.<pre><code>keptn configure monitoring dynatrace --project=sockshop --suppress-websocket
 </code></pre>
 </li>
 </ol>
-<p>Now the SLI service is installed, we will enable it for the <strong>sockshop</strong> project. This step is necessary, since different projects can have their own SLI provider.</p>
-<pre><code>./enableDynatraceSLIforProject.sh sockshop
-</code></pre>
 
 
       </google-codelab-step>
@@ -207,10 +211,35 @@ total_score:          # scoring based on all objectives
 <p>We are going to add the file via the Keptn CLI to our <strong>carts</strong> service in the <strong>preprod</strong> environment of our <strong>sockshop</strong> project:</p>
 <pre><code>cd ../keptn-files
 
-keptn add-resource --project=sockshop --service=carts --stage=preprod --resource=./keptn-files/slo.yaml --resourceUri=slo.yaml
+keptn add-resource --project=sockshop --service=carts --stage=preprod --resource=./slo.yaml --resourceUri=slo.yaml
 </code></pre>
 <p><strong>Optional</strong>: we can verify all our configuration in our Github repository (if we have linked it previously):<br>  We can see the added <code>slo.yaml</code> as well as the <code>dynatrace</code> folder that holds the added <code>sli.yaml</code> file.</p>
 <p class="image-container"><img alt="github config" src="img/80dc725e4bfe9de1.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy demo app" duration="2">
+        <p>Let&#39;s now deploy our demo application.</p>
+<p>Move to the folder with the prepared manifests and apply them.</p>
+<pre><code>cd ../maifests
+
+kubectl apply -f namespace.yaml
+
+kubectl apply -f carts-db.yaml
+
+kubectl apply -f carts-v1.yaml
+</code></pre>
+<p>Now let&#39;s wait for a couple of seconds for AKS to provide a public IP for our demo application.<br>Execute the following command until you get a public IP address.</p>
+<pre><code>kubectl get service -n preprod
+
+NAME       TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+carts      LoadBalancer   10.0.112.34    &lt;pending&gt;     80:32437/TCP   6s
+carts-db   ClusterIP      10.0.125.156   &lt;none&gt;        27017/TCP      89s
+</code></pre>
+<p>Once the <code>&lt;pending&gt;</code> state switches to a dedicated IP address, make a note of this IP and move on to the next step of the tutorial.</p>
+<aside class="warning"><p>Do not move on here until you have received an EXTERNAL-IP for the carts service.</p>
+</aside>
 
 
       </google-codelab-step>
@@ -228,10 +257,11 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
       <google-codelab-step label="Create release pipeline" duration="3">
         <ol type="1">
 <li>In the next step we are going to create a new release pipeline<br><img alt="create pipeline" src="img/1f48cc052d60bc2b.png"></li>
-<li>Create a stage &#34;deploy&#34; and select the template of an &#34;Empty Job&#34; since we don&#39;t need a predefined workflow.<br><img alt="select from template" src="img/4299752ed52774c4.png"></li>
-<li>All files for this tutorial are provided in a Github repository which we are going to connect as well, to have the deployment files and other utility files ready for this example. Therefore, <strong>Add</strong> an Artifact on the left-hand side of the screen and select <strong>Github</strong> as the source type.<ul>
+<li>Create a stage named <strong>deploy</strong> and select the template of an &#34;Empty Job&#34; since we don&#39;t need a predefined workflow.<br><img alt="select from template" src="img/4299752ed52774c4.png"></li>
+<li>All files for this tutorial are provided in a Github repository which we are going to connect as well, to have the deployment files and other utility files ready for this example. Therefore, <strong>Add an Artifact</strong> on the left-hand side of the screen and select <strong>Github</strong> as the source type.<ul>
 <li>Set a service connection with your Github account</li>
 <li>Search for the  Github repository in the list by clicking on the &#34;...&#34; dots.</li>
+<li>Select your source repository, default branch should be set to <strong>master</strong> and default version to <strong>Latest from the default branch</strong>.</li>
 <li>The settings should be simliar as shown here:<br><img alt="create github connection" src="img/6c8dfb938c68e099.png"></li>
 </ul>
 </li>
@@ -242,9 +272,9 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
     
       <google-codelab-step label="Set up release &amp; test pipeline" duration="3">
         <ol type="1">
-<li>Once we have Github connected, we can go ahead and set up the deployment part of the pipeline, using the Kubernetes manifests from the Github account.<img alt="add job" src="img/4f0ecec22bc1953c.png"><img alt="create job" src="img/b3fac133f7599e67.png"></li>
+<li>Once we have Github connected, we can go ahead and set up the deployment part of the pipeline, using the Kubernetes manifests from the Github account. Click on <strong>Tasks</strong>, <strong>deploy</strong> and add a new task. Create a new service connection or use an existing one, depending on your setup. For the <strong>manifest</strong> to deploy, click on the three dots and find a <code>manifest/</code> folder in the Git repostory that we linked earlier. Select the <code>carts-v1.yaml</code> manifest.<img alt="add job" src="img/4f0ecec22bc1953c.png"><img alt="create job" src="img/b3fac133f7599e67.png"></li>
 <li>Next, we are going to add another stage to &#34;<strong>Test &amp; Evaluate</strong>&#34; the deployment.<img alt="add bash scripts" src="img/cdcbd2fb4c9eb6a5.png"></li>
-<li>You will find a simple test script called <code>runTests.sh</code> that send a given number of HTTP requests to a given service endpoint. The endpoint as well as the number of requests have to be configured in the <strong>Variables</strong> section, which we will set up just in a moment.<img alt="add tests" src="img/5477cc5749e913ea.png"></li>
+<li>You will find a simple test script called <code>runTests.sh</code> in the <code>azure/</code> folder that sends a given number of HTTP requests to a given service endpoint. The endpoint as well as the number of requests have to be configured in the <strong>Variables</strong> section, which we will set up just in a moment.<img alt="add tests" src="img/5477cc5749e913ea.png"></li>
 </ol>
 
 
@@ -252,7 +282,7 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
     
       <google-codelab-step label="Set up Keptn Quality Gate" duration="0">
         <ol type="1">
-<li>Now we are going to set up the Keptn Quality Gate. Once triggered it will automatically reach out to the SLI provider (in our example this is Dynatrace) and will fetch all metrics defined in the SLO file. If there are objectives defined, the Keptn quality gate will evaluate the metrics and generate a score for each individual metric, as well as total score for the whole quality gate.<img alt="add quality gate" src="img/75f9164e70422aa2.png">The whole logic of the quality gate is implemented in a simple bash script named <code>quality-gate.sh</code> that you&#39;ll find in the <code>azure</code> folder. Add it in the script path of your pipeline task.<br>The script will trigger the evaluation of the quality gate, and then query the Keptn API for the result of the evaluation. Depending on the monitoring tool this might take some time for all data to be processed, thus this script might take up to 2-3 minutes.</li>
+<li>Now we are going to set up the Keptn Quality Gate. Once triggered it will automatically reach out to the SLI provider (in our example this is Dynatrace) and will fetch all metrics defined in the SLO file. If there are objectives defined, the Keptn quality gate will evaluate the metrics and generate a score for each individual metric, as well as total score for the whole quality gate.<br>Again, set up a a new <strong>Task</strong> from a <strong>Bash Script</strong> that we call <strong>keptn quality gate</strong>. Select the corresponding file from the <code>azure</code> folder as the script path.<img alt="add quality gate" src="img/75f9164e70422aa2.png">The whole logic of the quality gate is implemented in a simple bash script named <code>quality-gate.sh</code> that you&#39;ll find in the <code>azure</code> folder. Add it in the script path of your pipeline task.<br>The script will trigger the evaluation of the quality gate, and then query the Keptn API for the result of the evaluation. Depending on the monitoring tool this might take some time for all data to be processed, thus this script might take up to 2-3 minutes.</li>
 <li>Let us now set the variables for the tests &amp; evaluation of the quality gates. We will need the following variables:<ul>
 <li>KEPTN_API_TOKEN</li>
 <li>KEPTN_ENDPOINT</li>
@@ -262,8 +292,12 @@ keptn add-resource --project=sockshop --service=carts --stage=preprod --resource
 <li>SERVICE_URL</li>
 <li>NUM_OF_REQUESTS</li>
 </ul>
-<img alt="variables" src="img/eb4da4eaea32ac09.png"></li>
-<li>Promote or decline promotion of artifact: Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.</li>
+<img alt="variables" src="img/eb4da4eaea32ac09.png">You will receive the KEPTN_API_TOKEN with the following command:<pre><code>echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+</code></pre>
+Get the KEPTN_ENDPOINT with executing:<pre><code>echo https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
+</code></pre>
+Take the other values from the screenshot.</li>
+<li>TODO Promote or decline promotion of artifact: Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.</li>
 </ol>
 
 
