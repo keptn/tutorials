@@ -174,9 +174,7 @@ indicators:
 </aside>
 <p>Retrieve the <em>Dynatrace API</em> token by navigating to &#34;Settings -&gt; Integration -&gt; Dynatrace API&#34; and create a new API token. Assign a new, e.g. keptn, to it and for the purpose of this tutorial enable all permissions.</p>
 <ol type="1">
-<li>Define the credentials:<pre><code>cd ../scripts
-
-./defineDynatraceCredentials.sh
+<li>Define the credentials by adding them in a Kubernetes secret for the Keptn services to fetch.<br><strong>Important</strong> replace <code>YOURTENANT</code> with your tenant id and <code>YOURAPITOKEN</code> with your actual Dynatrace API token.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=YOURTENANT&#34; --from-literal=&#34;DT_API_TOKEN=YOURAPITOKEN&#34;
 </code></pre>
 </li>
 <li>Install the Dynatrace SLI service<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.4.1/deploy/service.yaml
