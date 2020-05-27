@@ -47,10 +47,9 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Prequisites for tutorial" duration="5">
+      <google-codelab-step label="Prequisites for tutorial" duration="2">
         <ul>
-<li><a href="https://github.com" target="_blank">Github</a> account</li>
-<li>Fork the following Github repository to your personal Github account: <a href="https://github.com/keptn-sandbox/keptn-azure-devops" target="_blank">https://github.com/keptn-sandbox/keptn-azure-devops</a></li>
+<li>Access to <a href="https://azure.microsoft.com/en-us/services/devops/" target="_blank">Azure DevOps</a> and permissions to create a project</li>
 <li>Have a Dynatrace tenant to monitor the application and we will use the Dynatrace data to validate the quality gate. You can <a href="https://www.dynatrace.com/trial/" target="_blank">sign up for a free trial</a> (no credit card required).</li>
 </ul>
 
@@ -111,16 +110,18 @@ CLI is authenticated against the Keptn cluster https://api.keptn.XXXXXXXXX.xip.i
       </google-codelab-step>
     
       <google-codelab-step label="Create a Project" duration="7">
-        <p>Keptn stores its configuration files in a Git repository. In this tutorial, we are going to use the Azure DevOps git to have all the Keptn configuration in one place. Therefore, please go ahead and create a <em>personal access</em> token with <em>Read &amp; Write access</em> for Azure DevOps.</p>
+        <p>Keptn stores its configuration files in a Git repository. In this tutorial, we are going to use the Azure DevOps git to have all the Keptn configuration in one place.</p>
 <ol type="1">
-<li>Create a <a href="https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page" target="_blank">personal access token</a>.<br><img alt="access token" src="img/f68ff9874744e0bb.png"></li>
-<li>Go ahead and create a project in Azure DevOps.<br><img alt="create project" src="img/10cf73f4aa22d90d.png"></li>
-<li>Retrieve the URL of the repo.<br><strong>Important:</strong> Remove the User from the URL before passing it to Keptn. For example, in the picture below the URL would be https://dev.azure.com/YOUR-ORG/keptn/_git/keptn.<img alt="retrieve repo url" src="img/75447c1f5947f3f8.png"><img alt="access token" src="img/7a841adbb8488a8.png"></li>
-<li>Clone the Github repository that you have forked in the prerequisites step. Please make sure to clone from your private repository, e.g., with:<pre><code>git clone https://github.com/YOUR-GIT-USER/keptn-azure-devops.git
+<li>Login to your <a href="https://dev.azure.com/" target="_blank">Azure DevOps environment</a> and create a new project.</li>
+<li>Name it, e.g., <strong>keptn-qualitygate</strong>. You can make it either public or private.<br><img alt="create project" src="img/fd363782e195271e.png"></li>
+<li>Retrieve the URL of the repo by moving to the <em>repo</em> section on the left-hand side menu. Generate the <strong>Git credentials</strong> here and save them somewhere for later. Click on <strong>Initialize</strong> at the end of this screen.<img alt="access token" src="img/87702dc5244489a4.png">This repo will hold as the config repo and we are going to need it a bit later.</li>
+<li>Next, we are going to import all prepared resources we need into a new repository.<br><img alt="import repo" src="img/947b6751bb0d8a1d.png"></li>
+<li>Use <code>https://github.com/keptn-sandbox/keptn-azure-devops</code> as the import URL.<br><img alt="import repo" src="img/6023757bdc4ed9f0.png"></li>
+<li>Clone the repo to your local machine to have all the files you need also locally. Click on the <strong>Clone</strong> button and generate a new Git token (this is different from the previous one). This time you can copy the full URL of the repo and execute something similar to the next snippet. Please replace the user and organization accordingly (or just copy your URL from the Azure platform).<pre><code>git clone https://juergenetzlstorfer@dev.azure.com/juergenetzlstorfer/keptn-qualitygate/_git/keptn-azure-devops
 </code></pre>
-</li>
+When prompted, enter the Git token that you just copied.</li>
 </ol>
-<p>We are going to create a project in Keptn which will hold one or more services. Therefore, please go ahead and create a project called <code>sockshop</code>. The definition of the project is held in the <code>shipyard.yaml</code> file and is quite simple in our case:</p>
+<p>Next, we are going to create a project in Keptn which will hold one or more services. Therefore, please go ahead and create a project called <code>sockshop</code>. The definition of the project is held in the <code>shipyard.yaml</code> file and is quite simple in our case:</p>
 <pre><code>stages:
   - name: &#34;preprod&#34;
 </code></pre>
@@ -130,10 +131,10 @@ CLI is authenticated against the Keptn cluster https://api.keptn.XXXXXXXXX.xip.i
 </code></pre>
 </li>
 <li>Create project with Keptn CLI.<ol type="1">
-<li>Option 1: Link it to a Github repository (make sure to change the <code>git-user</code>, <code>git-remote-url</code>, and <code>git-token</code> to your own values).<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=youruser --git-remote-url=https://github.com/youruser/your-sockshop.git --git-token=XXXXX
+<li>Option 1: Link it to a Azure DevOps Git repository (make sure to change the <code>git-user</code>, <code>git-remote-url</code>, and <code>git-token</code> to your own values).<br><strong>Important</strong>: we are using the Git config repo that we created in the first step of this page and NOT the one that we imported. Remove the User from the URL before passing it to Keptn - in more detail remove the part between https:// and dev.azure.com. For example, in the picture below the correct URL would be https://dev.azure.com/YOUR-ORG/keptn-qualitygate/_git/keptn-qualitygate. Also, make sure to use the correct token.<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=youruser --git-remote-url=https://dev.azure.com/YOUR-ORG/keptn-qualitygate/_git/keptn-qualitygate --git-token=XXXXX
 </code></pre>
 </li>
-<li>Option 2: Do not link it to a Github repository (you can just copy paste)<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
+<li>Option 2: Do not link it to a Git repository (you can just copy paste but the config repo won&#39;t be visible in your Azure Git repo)<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
 </code></pre>
 </li>
 </ol>
@@ -151,11 +152,11 @@ CLI is authenticated against the Keptn cluster https://api.keptn.XXXXXXXXX.xip.i
 <pre><code>---
 spec_version: &#39;1.0&#39;
 indicators:
-  throughput: &#34;builtin:service.requestCount.total:merge(0):count?scope=tag(project:$PROJECT),tag(service:$SERVICE)&#34;
-  error_rate: &#34;builtin:service.errors.total.count:merge(0):avg?scope=tag(project:$PROJECT),tag(service:$SERVICE)&#34;
-  response_time_p50: &#34;builtin:service.response.time:merge(0):percentile(50)?scope=tag(project:$PROJECT),tag(service:$SERVICE)&#34;
-  response_time_p90: &#34;builtin:service.response.time:merge(0):percentile(90)?scope=tag(project:$PROJECT),tag(service:$SERVICE)&#34;
-  response_time_p95: &#34;builtin:service.response.time:merge(0):percentile(95)?scope=tag(project:$PROJECT),tag(service:$SERVICE)&#34;
+  throughput: &#34;builtin:service.requestCount.total:merge(0):count?scope=tag(keptn-qualitygates)&#34;
+  error_rate: &#34;builtin:service.errors.total.count:merge(0):avg?scope=tag(keptn-qualitygates)&#34;
+  response_time_p50: &#34;builtin:service.response.time:merge(0):percentile(50)?scope=tag(keptn-qualitygates)&#34;
+  response_time_p90: &#34;builtin:service.response.time:merge(0):percentile(90)?scope=tag(keptn-qualitygates)&#34;
+  response_time_p95: &#34;builtin:service.response.time:merge(0):percentile(95)?scope=tag(keptn-qualitygates)&#34;
 </code></pre>
 <p>We are going to add the file via the Keptn CLI to our <strong>carts</strong> service in the <strong>preprod</strong> environment of our <strong>sockshop</strong> project.</p>
 <pre><code>keptn add-resource --project=sockshop --stage=preprod --service=carts --resource=./dynatrace-slis.yaml --resourceUri=dynatrace/sli.yaml
@@ -219,8 +220,8 @@ total_score:          # scoring based on all objectives
 
 keptn add-resource --project=sockshop --service=carts --stage=preprod --resource=./slo.yaml --resourceUri=slo.yaml
 </code></pre>
-<p><strong>Optional</strong>: we can verify all our configuration in our Github repository (if we have linked it previously):<br>  We can see the added <code>slo.yaml</code> as well as the <code>dynatrace</code> folder that holds the added <code>sli.yaml</code> file.</p>
-<p class="image-container"><img alt="github config" src="img/80dc725e4bfe9de1.png"></p>
+<p><strong>Optional</strong>: we can verify all our configuration in our Config repository (if we have linked it previously):<br>  We can see the added <code>slo.yaml</code> as well as the <code>dynatrace</code> folder that holds the added <code>sli.yaml</code> file.</p>
+<p class="image-container"><img alt="config" src="img/5cd93077fc842e14.png"></p>
 
 
       </google-codelab-step>
@@ -254,7 +255,6 @@ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releas
 <li>Log in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
 <li>Access problem and event feed, metrics and topology</li>
 <li>Access logs</li>
-<li>Configure maintenance windows</li>
 <li>Read configuration</li>
 <li>Write configuration</li>
 <li>Capture request data</li>
@@ -298,34 +298,19 @@ carts-db-6656b66b4c-zw287   1/1     Running   0          85s
       <google-codelab-step label="Set up Azure DevOps pipeline" duration="3">
         <p>Please note that for the sake of simplicity, we are going to use the same cluster for our actual application where we also installed Keptn. But this would not be necessary and the Keptn Quality Gates installation could be on a different cluster, even in a different cloud.</p>
 <ol type="1">
-<li>Login to your Azure DevOps Portal and create a new <strong>organization</strong> if you don&#39;t already have one:<br><a href="https://aex.dev.azure.com/" target="_blank">https://aex.dev.azure.com/</a></li>
-<li>Create a new <strong>project</strong> in your organization, e.g., name it <strong>keptn-qualitygates</strong>.<br><img alt="azure devops start" src="img/db131658a93361d8.png"></li>
+<li>In the first step we are going to create a new release pipeline that we are using for testing and evaluating.<br><img alt="create pipeline" src="img/1f48cc052d60bc2b.png"></li>
+<li>Select the template <strong>Empty Job</strong> since we don&#39;t need a predefined workflow and create a stage named <strong>test &amp; evaluate</strong>.<br><img alt="select from template" src="img/2af4f60b171e2d5f.png"></li>
+<li>We have already incluced all files we need for this tutorial into our repo. We are going to connect it to our pipeline. Click on <strong>Add an Artifact</strong> and select your repo as can be seen in the screenshot. Select <strong>keptn-qualitygate</strong> as the project, <strong>keptn-azure-devops</strong> as the source and the <strong>master</strong> as the default branch.<br><img alt="add repo" src="img/e98fda5e1b714ef5.png"></li>
 </ol>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="Create release pipeline" duration="3">
+      <google-codelab-step label="Config release &amp; test pipeline" duration="3">
         <ol type="1">
-<li>In the next step we are going to create a new release pipeline<br><img alt="create pipeline" src="img/1f48cc052d60bc2b.png"></li>
-<li>Create a stage named <strong>deploy</strong> and select the template of an &#34;Empty Job&#34; since we don&#39;t need a predefined workflow.<br><img alt="select from template" src="img/4299752ed52774c4.png"></li>
-<li>All files for this tutorial are provided in a Github repository which we are going to connect as well, to have the deployment files and other utility files ready for this example. Therefore, <strong>Add an Artifact</strong> on the left-hand side of the screen and select <strong>Github</strong> as the source type.<ul>
-<li>Set a service connection with your Github account</li>
-<li>Search for the  Github repository in the list by clicking on the &#34;...&#34; dots.</li>
-<li>Select your source repository, default branch should be set to <strong>master</strong> and default version to <strong>Latest from the default branch</strong>.</li>
-<li>The settings should be simliar as shown here:<br><img alt="create github connection" src="img/6c8dfb938c68e099.png"></li>
-</ul>
-</li>
-</ol>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Set up release &amp; test pipeline" duration="3">
-        <ol type="1">
-<li>Once we have Github connected, we can go ahead and set up the deployment part of the pipeline, using the Kubernetes manifests from the Github account. Click on <strong>Tasks</strong>, <strong>deploy</strong> and add a new task. Create a new service connection or use an existing one, depending on your setup. For the <strong>manifest</strong> to deploy, click on the three dots and find a <code>manifest/</code> folder in the Git repostory that we linked earlier. Select the <code>carts-v1.yaml</code> manifest.<img alt="add job" src="img/4f0ecec22bc1953c.png"><img alt="create job" src="img/b3fac133f7599e67.png"></li>
-<li>Next, we are going to add another stage to &#34;<strong>Test &amp; Evaluate</strong>&#34; the deployment.<img alt="add bash scripts" src="img/cdcbd2fb4c9eb6a5.png"></li>
-<li>You will find a simple test script called <code>runTests.sh</code> in the <code>azure/</code> folder that sends a given number of HTTP requests to a given service endpoint. Please make sure to enter the correct script as well as the <strong>testrun</strong> reference name in the <strong>Output Variables</strong> section.<img alt="add tests" src="img/49b85e35225a0ff1.png"></li>
+<li>Once we have the repo connected, we can go ahead and set up the pipeline, using the Kubernetes manifests from the repo. Click on <strong>Tasks</strong>, <strong>test &amp; evaluate</strong> and add a new task.</li>
+<li>Next, we are going to add another task named &#34;run tests&#34; to the &#34;<strong>Test &amp; Evaluate</strong>&#34; stage.<img alt="add bash scripts" src="img/bc9c9faa63787593.png"></li>
+<li>You will find a simple test script called <code>runTests.sh</code> in the <code>azure/</code> folder that sends a given number of HTTP requests to a given service endpoint. Please make sure to enter the correct script as well as the <strong>testrun</strong> reference name in the <strong>Output Variables</strong> section.<img alt="add tests" src="img/aee725eb9b71928e.png"></li>
 </ol>
 
 
@@ -333,7 +318,7 @@ carts-db-6656b66b4c-zw287   1/1     Running   0          85s
     
       <google-codelab-step label="Set up Keptn Quality Gate" duration="0">
         <ol type="1">
-<li>Now we are going to set up the Keptn Quality Gate. Once triggered it will automatically reach out to the SLI provider (in our example this is Dynatrace) and will fetch all metrics defined in the SLO file. If there are objectives defined, the Keptn quality gate will evaluate the metrics and generate a score for each individual metric, as well as total score for the whole quality gate.<br>Again, set up a a new <strong>Task</strong> from a <strong>Bash Script</strong> that we call <strong>keptn quality gate</strong>. Select the corresponding file from the <code>azure</code> folder as the script path.<img alt="add quality gate" src="img/75f9164e70422aa2.png">The whole logic of the quality gate is implemented in a simple bash script named <code>quality-gate.sh</code> that you&#39;ll find in the <code>azure</code> folder. Add it in the script path of your pipeline task.<br>The script will trigger the evaluation of the quality gate, and then query the Keptn API for the result of the evaluation. Depending on the monitoring tool this might take some time for all data to be processed, thus this script might take up to 2-3 minutes.</li>
+<li>Now we are going to set up the Keptn Quality Gate. Once triggered it will automatically reach out to the SLI provider (in our example this is Dynatrace) and will fetch all metrics defined in the SLO file. If there are objectives defined, the Keptn quality gate will evaluate the metrics and generate a score for each individual metric, as well as total score for the whole quality gate.<br>Again, set up a a new step from a <strong>Bash Script</strong> that we call <strong>keptn quality gate</strong>. Select the corresponding file from the <code>azure</code> folder as the script path.<img alt="add quality gate" src="img/ba3eebaa1862590d.png">The whole logic of the quality gate is implemented in a simple bash script named <code>quality-gate.sh</code> that you&#39;ll find in the <code>azure</code> folder. Add it in the script path of your pipeline task.<br>The script will trigger the evaluation of the quality gate, and then query the Keptn API for the result of the evaluation. Depending on the monitoring tool this might take some time for all data to be processed, thus this script might take up to 2-3 minutes.</li>
 <li>Let us now set the variables for the tests &amp; evaluation of the quality gates. We will need the following variables:<ul>
 <li>KEPTN_API_TOKEN see below</li>
 <li>KEPTN_ENDPOINT see below</li>
@@ -343,11 +328,11 @@ carts-db-6656b66b4c-zw287   1/1     Running   0          85s
 <li>KEPTN_STAGE = preprod</li>
 <li>NUM_OF_REQUESTS = 1000</li>
 </ul>
-<img alt="variables" src="img/eb4da4eaea32ac09.png">You will receive the KEPTN_API_TOKEN with the following command:<pre><code>echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+<img alt="variables" src="img/b96a9fac96f5b828.png">You will receive the KEPTN_API_TOKEN with the following command:<pre><code>echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
 </code></pre>
 Get the KEPTN_ENDPOINT by executing:<pre><code>echo https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
 </code></pre>
-Get the SERVICE_URL by executing:<pre><code>echo $(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})
+Get the SERVICE_URL by executing:<pre><code>echo http://$(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})/
 </code></pre>
 </li>
 </ol>
@@ -356,11 +341,19 @@ Get the SERVICE_URL by executing:<pre><code>echo $(kubectl get svc carts -n prep
       </google-codelab-step>
     
       <google-codelab-step label="Run the deployment &amp; quality gate" duration="4">
-        <p>Now let&#39;s deploy your artifact with your release pipeline.</p>
-<p>Once you have deployed the version, the tests will be kicked off and will send a number of requests against our microservice.</p>
-<p>Next, the evaluation of the quality gate will start and tell you about a <em>passed</em> or <em>failed</em> quality gate.</p>
-<p>Please note that you can experiment with different version of the microservice to see the evaluation of the quality gate. The different version are located in the <code>manifest</code> folder and named <code>carts-v1.yaml</code>, <code>carts-v2.yaml</code>, and <code>carts-v3.yaml</code>.</p>
-<p>Go ahead and find out which versions will pass the quality gate and which versions will fail!</p>
+        <p>Now that we have everything in place, we can run a test and check the evaluation of the quality gate.</p>
+<p>Start the pipeline by clicking on <strong>Create release</strong>. The Azure DevOps pipeline will start to run the tests and then evaluate the quality gate.</p>
+<p>Take a look at the logs for the Quality Gate evaluation and you will see the quality gate passed:</p>
+<p class="image-container"><img alt="pass" src="img/f9aa40177e983ac0.png"></p>
+<p>Let us now apply a new version of the application from the <code>manifest/</code> folder.</p>
+<pre><code>kubectl apply -f carts-v2.yaml
+</code></pre>
+<p>After the deployment to the preprod stage we again run the Keptn Quality Gate in our Azure Devops pipeline and watch check the result in the logs:<br><img alt="fail" src="img/60436e9a33af526f.png"></p>
+<p>We can see that the quality gate evaluation has failed! Before we investigate why is has failed, let us run another version and do the evaluation.</p>
+<pre><code>kubectl apply -f carts-v3.yaml
+</code></pre>
+<p>We can investigate all evaluations of the quality gates in the Keptn&#39;s bridge - it is the UI with all details of Keptn workflows for all services and stages. We have made the bridge publicly available earlier. Open it in a browser and take a look at all the evaluation details we can see there.</p>
+<p class="image-container"><img alt="bridge" src="img/d33680b8c4a6e499.png"></p>
 <p>Promote or decline promotion of artifact? Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.</p>
 
 
@@ -369,14 +362,54 @@ Get the SERVICE_URL by executing:<pre><code>echo $(kubectl get svc carts -n prep
       <google-codelab-step label="Summary" duration="1">
         <h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
 <ul class="checklist">
-<li>We installed Keptn for quality gates only use case on Azure Kubernetes Service (AKS)</li>
-<li>We created a project in Keptn</li>
-<li>We defined Service Level Indicators (SLIs) to fetch metrics from Dynatrace</li>
-<li>We defined Service Level Objectives (SLOs) to verify quality of deployed services</li>
-<li>We set up a release pipeline in Azure DevOps</li>
-<li>We deployed app with Azure DevOps pipeline</li>
-<li>We watched Keptn quality gates in action</li>
+<li>We created a pipeline with tests and the Keptn quality gate</li>
+<li>We configured Dynatrace as an SLI provider<pre><code>---
+spec_version: &#39;1.0&#39;
+indicators:
+throughput: &#34;builtin:service.requestCount.total:merge(0):count?scope=tag(keptn-qualitygates)&#34;
+error_rate: &#34;builtin:service.errors.total.count:merge(0):avg?scope=tag(keptn-qualitygates)&#34;
+response_time_p50: &#34;builtin:service.response.time:merge(0):percentile(50)?scope=tag(keptn-qualitygates)&#34;
+response_time_p90: &#34;builtin:service.response.time:merge(0):percentile(90)?scope=tag(keptn-qualitygates)&#34;
+response_time_p95: &#34;builtin:service.response.time:merge(0):percentile(95)?scope=tag(keptn-qualitygates)&#34;
+</code></pre>
+</li>
+<li>We created a SLO file with the quality gate definition<pre><code>---
+spec_version: &#34;0.1.1&#34;
+comparison:
+compare_with: &#34;single_result&#34;
+include_result_with_score: &#34;pass&#34;
+aggregate_function: &#34;avg&#34;
+objectives:
+- sli: &#34;response_time_p95&#34;
+    pass:             # pass if (relative change &lt;= 10% AND absolute value is &lt; 600ms)
+    - criteria:
+        - &#34;&lt;=+15%&#34;  
+        - &#34;&lt;600&#34;    
+    warning:          # if the response time is below 800ms, the result should be a warning
+    - criteria:
+        - &#34;&lt;=800&#34;
+- sli: &#34;throughput&#34;   # sli without criteria are used for information only purposes
+- sli: &#34;error_rate&#34;
+- sli: &#34;response_time_p50&#34;
+- sli: &#34;response_time_p90&#34;
+total_score:          # scoring based on all objectives
+pass: &#34;90%&#34;
+warning: &#34;75%&#34;
+</code></pre>
+</li>
+<li>We deployed and evaluated a version that passed the quality gate<br><img alt="bridge" src="img/f9aa40177e983ac0.png"></li>
+<li>We deployed and evaluated a version that did not pass the quality gate<br><img alt="bridge" src="img/60436e9a33af526f.png"></li>
+<li>We invested the evaluations in the Keptn&#39;s bridge<br><img alt="bridge" src="img/d33680b8c4a6e499.png"></li>
 </ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Feedback" duration="0">
+        <aside class="special"><p>We are happy to hear your feedback!</p>
+</aside>
+<p>Please visit us in our <a href="https://bit.ly/keptn-slack" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
+<p>Also, please <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
 
 
       </google-codelab-step>

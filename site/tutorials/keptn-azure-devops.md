@@ -34,11 +34,9 @@ At the end of the tutorial, our environment will look like this:
 ![demo workflow](./assets/azure-devops/azure-devops-demo-workflow.png)
 
 ## Prequisites for tutorial
-Duration: 5:00
+Duration: 2:00
 
-- [Github](https://github.com) account
-
-- Fork the following Github repository to your personal Github account: [https://github.com/keptn-sandbox/keptn-azure-devops](https://github.com/keptn-sandbox/keptn-azure-devops)
+- Access to [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) and permissions to create a project
 
 - Have a Dynatrace tenant to monitor the application and we will use the Dynatrace data to validate the quality gate. You can [sign up for a free trial](https://www.dynatrace.com/trial/) (no credit card required).
 
@@ -87,34 +85,32 @@ Now Keptn is installed and the bridge is exposed we can start setting up a proje
 ## Create a Project
 Duration: 7:00
 
-Keptn stores its configuration files in a Git repository. In this tutorial, we are going to use the Azure DevOps git to have all the Keptn configuration in one place. Therefore, please go ahead and create a *personal access* token with *Read & Write access* for Azure DevOps.
+Keptn stores its configuration files in a Git repository. In this tutorial, we are going to use the Azure DevOps git to have all the Keptn configuration in one place. 
 
-1. Create a [personal access token](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page).
-    ![access token](./assets/azure-devops/azure-devops-access-token.png)
+1. Login to your [Azure DevOps environment](https://dev.azure.com/) and create a new project.
 
+1. Name it, e.g., **keptn-qualitygate**. You can make it either public or private.
+    ![create project](./assets/azure-devops/azure-devops-create-project.png)
 
-
-1. Go ahead and create a project in Azure DevOps.
-    ![create project](./assets/azure-devops/azure-devops-create-repo.png)
-
-1. Retrieve the URL of the repo. 
-  **Important:** Remove the User from the URL before passing it to Keptn. For example, in the picture below the URL would be https://dev.azure.com/YOUR-ORG/keptn/_git/keptn.
-
-    ![retrieve repo url](./assets/azure-devops/azure-devops-clone-repo.png)
+1. Retrieve the URL of the repo by moving to the *repo* section on the left-hand side menu. Generate the **Git credentials** here and save them somewhere for later. Click on **Initialize** at the end of this screen.
 
     ![access token](./assets/azure-devops/azure-devops-git-creds.png)
 
+    This repo will hold as the config repo and we are going to need it a bit later.
 
-TODO add sources from the git repo to the azure repo
+1. Next, we are going to import all prepared resources we need into a new repository.
+    ![import repo](./assets/azure-devops/azure-devops-import-repo.png)
 
-1. Clone the Github repository that you have forked in the prerequisites step. Please make sure to clone from your private repository, e.g., with: 
+1. Use `https://github.com/keptn-sandbox/keptn-azure-devops` as the import URL.
+    ![import repo](./assets/azure-devops/azure-devops-import-repo2.png)
+
+1. Clone the repo to your local machine to have all the files you need also locally. Click on the **Clone** button and generate a new Git token (this is different from the previous one). This time you can copy the full URL of the repo and execute something similar to the next snippet. Please replace the user and organization accordingly (or just copy your URL from the Azure platform).
     ```
-    git clone https://github.com/YOUR-GIT-USER/keptn-azure-devops.git
+    git clone https://juergenetzlstorfer@dev.azure.com/juergenetzlstorfer/keptn-qualitygate/_git/keptn-azure-devops
     ```
+    When prompted, enter the Git token that you just copied.
 
-
-
-We are going to create a project in Keptn which will hold one or more services. Therefore, please go ahead and create a project called `sockshop`. The definition of the project is held in the `shipyard.yaml` file and is quite simple in our case:
+Next, we are going to create a project in Keptn which will hold one or more services. Therefore, please go ahead and create a project called `sockshop`. The definition of the project is held in the `shipyard.yaml` file and is quite simple in our case:
 
 ```
 stages:
@@ -123,8 +119,6 @@ stages:
 
 We can also link the project we are creating to a DevOps git repository to have full visibility of all configuration files that are managed by Keptn. 
 
-
-
 1. Switch into the directory with all Keptn files prepared for the tutorial:
     ```
     cd keptn-azure-devops/keptn-files
@@ -132,11 +126,12 @@ We can also link the project we are creating to a DevOps git repository to have 
 
 1. Create project with Keptn CLI.
 
-    1. Option 1: Link it to a Github repository (make sure to change the `git-user`, `git-remote-url`, and `git-token` to your own values).
+    1. Option 1: Link it to a Azure DevOps Git repository (make sure to change the `git-user`, `git-remote-url`, and `git-token` to your own values).
+    **Important**: we are using the Git config repo that we created in the first step of this page and NOT the one that we imported. Remove the User from the URL before passing it to Keptn - in more detail remove the part between https:// and dev.azure.com. For example, in the picture below the correct URL would be https://dev.azure.com/YOUR-ORG/keptn-qualitygate/_git/keptn-qualitygate. Also, make sure to use the correct token.
         ```
-        keptn create project sockshop --shipyard=./shipyard.yaml --git-user=youruser --git-remote-url=https://github.com/youruser/your-sockshop.git --git-token=XXXXX
+        keptn create project sockshop --shipyard=./shipyard.yaml --git-user=youruser --git-remote-url=https://dev.azure.com/YOUR-ORG/keptn-qualitygate/_git/keptn-qualitygate --git-token=XXXXX
         ```
-    1. Option 2: Do not link it to a Github repository (you can just copy paste)
+    1. Option 2: Do not link it to a Git repository (you can just copy paste but the config repo won't be visible in your Azure Git repo)
         ```
         keptn create project sockshop --shipyard=./shipyard.yaml
         ```
@@ -156,11 +151,11 @@ The file `dynatrace-slis.yaml` holds the following content, which are the API ca
 ---
 spec_version: '1.0'
 indicators:
-  throughput: "builtin:service.requestCount.total:merge(0):count?scope=tag(project:$PROJECT),tag(service:$SERVICE)"
-  error_rate: "builtin:service.errors.total.count:merge(0):avg?scope=tag(project:$PROJECT),tag(service:$SERVICE)"
-  response_time_p50: "builtin:service.response.time:merge(0):percentile(50)?scope=tag(project:$PROJECT),tag(service:$SERVICE)"
-  response_time_p90: "builtin:service.response.time:merge(0):percentile(90)?scope=tag(project:$PROJECT),tag(service:$SERVICE)"
-  response_time_p95: "builtin:service.response.time:merge(0):percentile(95)?scope=tag(project:$PROJECT),tag(service:$SERVICE)"
+  throughput: "builtin:service.requestCount.total:merge(0):count?scope=tag(keptn-qualitygates)"
+  error_rate: "builtin:service.errors.total.count:merge(0):avg?scope=tag(keptn-qualitygates)"
+  response_time_p50: "builtin:service.response.time:merge(0):percentile(50)?scope=tag(keptn-qualitygates)"
+  response_time_p90: "builtin:service.response.time:merge(0):percentile(90)?scope=tag(keptn-qualitygates)"
+  response_time_p95: "builtin:service.response.time:merge(0):percentile(95)?scope=tag(keptn-qualitygates)"
 ```
 
 We are going to add the file via the Keptn CLI to our **carts** service in the **preprod** environment of our **sockshop** project.
@@ -237,10 +232,10 @@ cd ../keptn-files
 keptn add-resource --project=sockshop --service=carts --stage=preprod --resource=./slo.yaml --resourceUri=slo.yaml
 ```
 
-**Optional**: we can verify all our configuration in our Github repository (if we have linked it previously):
+**Optional**: we can verify all our configuration in our Config repository (if we have linked it previously):
   We can see the added `slo.yaml` as well as the `dynatrace` folder that holds the added `sli.yaml` file.
 
-  ![github config](./assets/azure-devops/azure-devops-github-config-files.png)
+  ![config](./assets/azure-devops/azure-devops-repo-config-files.png)
 
 ## Deploy demo app 
 Duration: 7:00
@@ -284,7 +279,6 @@ Create a secret with the needed tokens so that the OneAgent can be installed. Yo
 
     - Access problem and event feed, metrics and topology
     - Access logs
-    - Configure maintenance windows
     - Read configuration
     - Write configuration
     - Capture request data
@@ -349,52 +343,35 @@ Duration: 3:00
 
 Please note that for the sake of simplicity, we are going to use the same cluster for our actual application where we also installed Keptn. But this would not be necessary and the Keptn Quality Gates installation could be on a different cluster, even in a different cloud. 
 
-1. Login to your Azure DevOps Portal and create a new **organization** if you don't already have one:
-[https://aex.dev.azure.com/](https://aex.dev.azure.com/)
-
-1. Create a new **project** in your organization, e.g., name it **keptn-qualitygates**.
-    ![azure devops start](./assets/azure-devops/azure-devops-azure-start.png)
-
-## Create release pipeline
-Duration: 3:00
-
-1. In the next step we are going to create a new release pipeline
+1. In the first step we are going to create a new release pipeline that we are using for testing and evaluating.
     ![create pipeline](./assets/azure-devops/azure-devops-create-pipeline.png)
 
-1. Create a stage named **deploy** and select the template of an "Empty Job" since we don't need a predefined workflow.
-    ![select from template](./assets/azure-devops/azure-devops-create-stage.png)
+1. Select the template **Empty Job** since we don't need a predefined workflow and create a stage named **test & evaluate**.
+    ![select from template](./assets/azure-devops/azure-devops-add-test-stage.png)
 
-1. All files for this tutorial are provided in a Github repository which we are going to connect as well, to have the deployment files and other utility files ready for this example. Therefore, **Add an Artifact** on the left-hand side of the screen and select **Github** as the source type.
+1. We have already incluced all files we need for this tutorial into our repo. We are going to connect it to our pipeline. Click on **Add an Artifact** and select your repo as can be seen in the screenshot. Select **keptn-qualitygate** as the project, **keptn-azure-devops** as the source and the **master** as the default branch.
+    ![add repo](./assets/azure-devops/azure-devops-add-artifact-repo.png)
 
-    - Set a service connection with your Github account
-    - Search for the  Github repository in the list by clicking on the "..." dots. 
-    - Select your source repository, default branch should be set to **master** and default version to **Latest from the default branch**.
-    - The settings should be simliar as shown here:
-    ![create github connection](./assets/azure-devops/azure-devops-github-connection.png)
 
-## Set up release & test pipeline
+## Config release & test pipeline
 Duration: 3:00
 
-1. Once we have Github connected, we can go ahead and set up the deployment part of the pipeline, using the Kubernetes manifests from the Github account. Click on **Tasks**, **deploy** and add a new task. Create a new service connection or use an existing one, depending on your setup. For the **manifest** to deploy, click on the three dots and find a `manifest/` folder in the Git repostory that we linked earlier. Select the `carts-v1.yaml` manifest.
+1. Once we have the repo connected, we can go ahead and set up the pipeline, using the Kubernetes manifests from the repo. Click on **Tasks**, **test & evaluate** and add a new task. 
 
-    ![add job](./assets/azure-devops/azure-devops-add-deploy-job.png)
+1. Next, we are going to add another task named "run tests" to the "**Test & Evaluate**" stage.
 
-    ![create job](./assets/azure-devops/azure-devops-create-deploy-job.png)
-
-1. Next, we are going to add another stage to "**Test & Evaluate**" the deployment. 
-
-    ![add bash scripts](./assets/azure-devops/azure-devops-create-bash-job.png)
+    ![add bash scripts](./assets/azure-devops/azure-devops-add-test-bash.png)
 
 1. You will find a simple test script called `runTests.sh` in the `azure/` folder that sends a given number of HTTP requests to a given service endpoint. Please make sure to enter the correct script as well as the **testrun** reference name in the **Output Variables** section.
 
-    ![add tests](./assets/azure-devops/azure-devops-add-tests.png)
+    ![add tests](./assets/azure-devops/azure-devops-add-test-script.png)
 
 ## Set up Keptn Quality Gate
 
 1. Now we are going to set up the Keptn Quality Gate. Once triggered it will automatically reach out to the SLI provider (in our example this is Dynatrace) and will fetch all metrics defined in the SLO file. If there are objectives defined, the Keptn quality gate will evaluate the metrics and generate a score for each individual metric, as well as total score for the whole quality gate. 
-Again, set up a a new **Task** from a **Bash Script** that we call **keptn quality gate**. Select the corresponding file from the `azure` folder as the script path.
+Again, set up a a new step from a **Bash Script** that we call **keptn quality gate**. Select the corresponding file from the `azure` folder as the script path.
 
-    ![add quality gate](./assets/azure-devops/azure-devops-add-quality-gate.png)
+    ![add quality gate](./assets/azure-devops/azure-devops-add-qg.png)
 
     The whole logic of the quality gate is implemented in a simple bash script named `quality-gate.sh` that you'll find in the `azure` folder. Add it in the script path of your pipeline task. 
     The script will trigger the evaluation of the quality gate, and then query the Keptn API for the result of the evaluation. Depending on the monitoring tool this might take some time for all data to be processed, thus this script might take up to 2-3 minutes.
@@ -423,7 +400,7 @@ Again, set up a a new **Task** from a **Bash Script** that we call **keptn quali
 
     Get the SERVICE_URL by executing:
     ```
-    echo $(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})
+    echo http://$(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})/
     ```
 
 
@@ -431,15 +408,35 @@ Again, set up a a new **Task** from a **Bash Script** that we call **keptn quali
 ## Run the deployment & quality gate
 Duration: 4:00
 
-Now let's deploy your artifact with your release pipeline. 
+Now that we have everything in place, we can run a test and check the evaluation of the quality gate.
 
-Once you have deployed the version, the tests will be kicked off and will send a number of requests against our microservice. 
+Start the pipeline by clicking on **Create release**. The Azure DevOps pipeline will start to run the tests and then evaluate the quality gate.
 
-Next, the evaluation of the quality gate will start and tell you about a *passed* or *failed* quality gate.
+Take a look at the logs for the Quality Gate evaluation and you will see the quality gate passed:
 
-Please note that you can experiment with different version of the microservice to see the evaluation of the quality gate. The different version are located in the `manifest` folder and named `carts-v1.yaml`, `carts-v2.yaml`, and `carts-v3.yaml`.
+![pass](./assets/azure-devops/azure-devops-qg-pass.png)
 
-Go ahead and find out which versions will pass the quality gate and which versions will fail!
+
+Let us now apply a new version of the application from the `manifest/ ` folder.
+
+```
+kubectl apply -f carts-v2.yaml
+```
+
+After the deployment to the preprod stage we again run the Keptn Quality Gate in our Azure Devops pipeline and watch check the result in the logs:
+![fail](./assets/azure-devops/azure-devops-qg-fail.png)
+
+
+We can see that the quality gate evaluation has failed! Before we investigate why is has failed, let us run another version and do the evaluation.
+
+```
+kubectl apply -f carts-v3.yaml
+```
+
+We can investigate all evaluations of the quality gates in the Keptn's bridge - it is the UI with all details of Keptn workflows for all services and stages. We have made the bridge publicly available earlier. Open it in a browser and take a look at all the evaluation details we can see there.
+
+![bridge](./assets/azure-devops/azure-devops-keptns-bridge.png)
+
 
 Promote or decline promotion of artifact? Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.
 
@@ -449,11 +446,51 @@ Duration: 1:00
 
 ### What we've covered 
 
-1. We installed Keptn for quality gates only use case on Azure Kubernetes Service (AKS)
-1. We created a project in Keptn
-1. We defined Service Level Indicators (SLIs) to fetch metrics from Dynatrace
-1. We defined Service Level Objectives (SLOs) to verify quality of deployed services
-1. We set up a release pipeline in Azure DevOps
-1. We deployed app with Azure DevOps pipeline
-1. We watched Keptn quality gates in action
+1. We created a pipeline with tests and the Keptn quality gate
+1. We configured Dynatrace as an SLI provider
+    ```
+    ---
+    spec_version: '1.0'
+    indicators:
+    throughput: "builtin:service.requestCount.total:merge(0):count?scope=tag(keptn-qualitygates)"
+    error_rate: "builtin:service.errors.total.count:merge(0):avg?scope=tag(keptn-qualitygates)"
+    response_time_p50: "builtin:service.response.time:merge(0):percentile(50)?scope=tag(keptn-qualitygates)"
+    response_time_p90: "builtin:service.response.time:merge(0):percentile(90)?scope=tag(keptn-qualitygates)"
+    response_time_p95: "builtin:service.response.time:merge(0):percentile(95)?scope=tag(keptn-qualitygates)"
+    ```
+1. We created a SLO file with the quality gate definition
+    ```
+    ---
+    spec_version: "0.1.1"
+    comparison:
+    compare_with: "single_result"
+    include_result_with_score: "pass"
+    aggregate_function: "avg"
+    objectives:
+    - sli: "response_time_p95"
+        pass:             # pass if (relative change <= 10% AND absolute value is < 600ms)
+        - criteria:
+            - "<=+15%"  
+            - "<600"    
+        warning:          # if the response time is below 800ms, the result should be a warning
+        - criteria:
+            - "<=800"
+    - sli: "throughput"   # sli without criteria are used for information only purposes
+    - sli: "error_rate"
+    - sli: "response_time_p50"
+    - sli: "response_time_p90"
+    total_score:          # scoring based on all objectives
+    pass: "90%"
+    warning: "75%"
+    ```
+1. We deployed and evaluated a version that passed the quality gate
+    ![bridge](./assets/azure-devops/azure-devops-qg-pass.png)
 
+1. We deployed and evaluated a version that did not pass the quality gate
+    ![bridge](./assets/azure-devops/azure-devops-qg-fail.png)
+
+1. We invested the evaluations in the Keptn's bridge
+    ![bridge](./assets/azure-devops/azure-devops-keptns-bridge.png)
+
+
+{{ snippets/community/feedback.md }}
