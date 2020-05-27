@@ -457,21 +457,21 @@ kube-system    kubernetes-ingress          kubernetes.192-168-0-10.nip.io       
 </code></pre>
 <h2 is-upgraded>🏠The home directory</h2>
 <p>List the content of the home directory:</p>
-<pre><code>&gt;ls 
+<pre><code>ls 
 examples keptn-in-a-box snap
 </code></pre>
 <p>You&#39;ll have 3 directories; a clone of the <strong>keptn examples</strong>, a clone of <strong>keptn-in-a-box</strong> repository and the configuration of microk8s in snap.</p>
 <h2 is-upgraded>💻 Configured clients</h2>
 <p>The clients are configured and ready to use <code>helm</code>, <code>istioctl</code>,<code>kubectl</code>, <code>docker</code> and <code>keptn</code>.</p>
 <p>For example type:</p>
-<pre><code>&gt;keptn status
+<pre><code>keptn status
 Starting to authenticate
 Successfully authenticated
 Using a file-based storage for the key because the password-store seems to be not set up.
 CLI is authenticated against the Keptn cluster https://api.keptn.192-168-0-10.nip.io
 </code></pre>
 <p>to see that keptn is installed and already configured or type</p>
-<pre><code>&gt;kubectl get all -n sockshop-dev
+<pre><code>kubectl get all -n sockshop-dev
 </code></pre>
 <p>to list the cart sample pods and services of the development stage. You&#39;ll notice that autocomplete is also enabled.</p>
 <h2 is-upgraded>💻 Available services</h2>
@@ -495,15 +495,15 @@ CLI is authenticated against the Keptn cluster https://api.keptn.192-168-0-10.ni
 <tr><td colspan="1" rowspan="1"><p>Keptn Bridge</p>
 </td><td colspan="1" rowspan="1"><p>https://bridge.keptn.192-168-0-10.nip.io</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>Unleashed</p>
-</td><td colspan="1" rowspan="1"><p>https://api.keptn.192-168-0-10.nip.io</p>
+<tr><td colspan="1" rowspan="1"><p>Unleash</p>
+</td><td colspan="1" rowspan="1"><p>https://unleash.unleash-dev.192-168-0-10.nip.io</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>Carts pipeline overview</p>
-</td><td colspan="1" rowspan="1"><p>https://35-178-178-171.nip.io/pipeline/</p>
+</td><td colspan="1" rowspan="1"><p>https://192-168-0-10.nip.io/pipeline/</p>
 </td></tr>
 </table>
 <p>The Teaser contains links to most of the available services. You can print also the services by showing the configured ingresses in kubernetes</p>
-<pre><code>&gt;kubectl get ing -A
+<pre><code>kubectl get ing -A
 </code></pre>
 <h2 is-upgraded>Continue innovating 🚀</h2>
 <p>Now that you have your single node Kubernetes Cluster configured and up and running, you are all set to continue your journey to the autonomous cloud. Start typing <code>kubectl</code> commands, onboard applications with <code>keptn</code>, or maybe create your own <strong>unbreakable pipeline</strong> locally? What about creating your own Keptn Service? Take a look at more <a href="https://tutorials.keptn.sh/" target="_blank">Keptn tutorials</a>.</p>

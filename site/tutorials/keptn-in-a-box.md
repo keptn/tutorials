@@ -337,7 +337,7 @@ ssh dynatrace@192-168-0-10.nip.io
 ### 🏠The home directory
 List the content of the home directory:
 ```bash
->ls 
+ls 
 examples keptn-in-a-box snap
 ```
 You'll have 3 directories; a clone of the **keptn examples**, a clone of **keptn-in-a-box** repository and the configuration of microk8s in snap.
@@ -347,7 +347,7 @@ The clients are configured and ready to use `helm`, `istioctl`,`kubectl`, `docke
 
 For example type:
 ```bash
->keptn status
+keptn status
 Starting to authenticate
 Successfully authenticated
 Using a file-based storage for the key because the password-store seems to be not set up.
@@ -356,7 +356,7 @@ CLI is authenticated against the Keptn cluster https://api.keptn.192-168-0-10.ni
 to see that keptn is installed and already configured or type
 
 ```bash
->kubectl get all -n sockshop-dev
+kubectl get all -n sockshop-dev
 ```
 to list the cart sample pods and services of the development stage. You'll notice that autocomplete is also enabled.
 
@@ -369,12 +369,12 @@ to list the cart sample pods and services of the development stage. You'll notic
 |Kubernetes API          | https://api.kubernetes.192-168-0-10.nip.io             |
 |Keptn API (swagger)     | https://api.keptn.192-168-0-10.nip.io/swagger-ui       |
 |Keptn Bridge            | https://bridge.keptn.192-168-0-10.nip.io               |
-|Unleashed               | https://api.keptn.192-168-0-10.nip.io                  |
-|Carts pipeline overview | https://35-178-178-171.nip.io/pipeline/                |
+|Unleash                 | https://unleash.unleash-dev.192-168-0-10.nip.io        |
+|Carts pipeline overview | https://192-168-0-10.nip.io/pipeline/                  |
 
 The Teaser contains links to most of the available services. You can print also the services by showing the configured ingresses in kubernetes
 ```bash
->kubectl get ing -A
+kubectl get ing -A
 ```
 
 ###  Continue innovating 🚀
