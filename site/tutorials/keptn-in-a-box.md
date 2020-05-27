@@ -1,12 +1,12 @@
 summary: Keptn-in-a-Box with Dynatrace Software Intelligence empowered
 id: keptn-in-a-box
-categories: installation,dynatrace,microkubernetes, microk8s,full-tour,quality-gates,performance-as-a-service,automated-operations
+categories: dynatrace,installation, microkubernetes, microk8s,full-tour,quality-gates,performance-as-a-service,automated-operations
 tags: keptn06x
 status: Published 
 authors: Sergio Hinojosa
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
-# 🎁 Keptn in a Box 
+# Keptn in a Box
 
 ## Welcome  
 Duration: 2:00 
@@ -134,11 +134,10 @@ Duration: 6:00
 Log in to your Dynatrace tenant and go to **Settings > Integration > Dynatrace API**. Then, create anew API token with the following permissions
 - Access problem and event feed, metrics and topology
 - Access logs
-- Configure maintenance windows
 - Read configuration
 - Write configuration
 - Capture request data
-- Real user monitoring JavaScript tag managemen
+- Real user monitoring JavaScript tag management
     
 Take a look at this screenshot to double check the right token permissions for you.
 ![Dynatrace API Token](./assets/dt_api_token.png)
@@ -311,7 +310,7 @@ less +F /tmp/install.log
 ```
 This will open the installation log and read from the input stream. To exit just type `CTRL + C` and then `quit`.
 
-### Installation complete
+### Installation complete 🙌
 At the end of the installation file you should see something similar
 
 ```bash
@@ -331,7 +330,7 @@ Duration: 4:00
 
 Let's say we selected the 🧩**installationBundleWorkshop** and we installed keptn-in-a-box in a VM in our home network and the student is `dynatrace` with the password `dynatrace` and the domain is 192-168-0-10.nip.io (for ip 192.168.0.10)
 
-After a shell login 
+After a shell login
 ```bash
 ssh dynatrace@192-168-0-10.nip.io
 ```
@@ -377,6 +376,10 @@ The Teaser contains links to most of the available services. You can print also 
 ```bash
 >kubectl get ing -A
 ```
+
+###  Continue innovating 🚀
+
+Now that you have your single node Kubernetes Cluster configured and up and running, you are all set to continue your journey to the autonomous cloud. Start typing `kubectl` commands, onboard applications with `keptn`, or maybe create your own **unbreakable pipeline** locally? What about creating your own Keptn Service? Take a look at more [Keptn tutorials](https://tutorials.keptn.sh/).
 
 {{ snippets/community/feedback.md }}
 
