@@ -179,6 +179,8 @@ $color-google-blue, 'wear-os.svg');
   $keptnBlue, 'argocd.png');
 @include codelab-card(['php'],
   $keptnBlue, 'php.png');
+@include codelab-card(['jenkins'],
+  $keptnBlue, 'jenkins.png');
 
 
 
