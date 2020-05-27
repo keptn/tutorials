@@ -1,0 +1,32 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2020-05-27T11:41:17+02:00",
+  "id": "keptn-quality-gates-dynatrace",
+  "duration": 55,
+  "title": "Keptn Quality Gates with Dynatrace",
+  "authors": "Andreas Grabner",
+  "summary": "Keptn Quality Gates with Dynatrace",
+  "source": "keptn-quality-gates-dynatrace_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "dynatrace",
+    "aks",
+    "eks",
+    "openshift",
+    "pks",
+    "minikube",
+    "gke",
+    "quality-gates"
+  ],
+  "tags": [
+    "keptn06x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-quality-gates-dynatrace"
+}
