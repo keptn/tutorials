@@ -7,6 +7,7 @@ authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
+
 # Keptn Quality Gates with Prometheus
 
 ## Welcome
@@ -37,7 +38,7 @@ Duration: 4:00
 Clone the following tutorial to your local machine to have all files at hand that we are going to use for this tutorial.
 
 ```
-git clone --branch master https://github.com/keptn/examples.git --single-branch
+git clone --branch release-0.6.2 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts 
 ```
