@@ -17,7 +17,7 @@ We are going to setup a Kubernetes cluster in EKS.
 1. Create EKS cluster on AWS. You can do so either via the online portal of AWS or via `eksctl`.
   - version 1.15 (tested version: 1.15)
   - One `m5.2xlarge` node
-  - Sample script using [eksctl](https://eksctl.io/introduction/installation/) to create such a cluster
+  - Sample script using [eksctl](https://eksctl.io/introduction/#installation) to create such a cluster
 
     ```
     eksctl create cluster --version=1.15 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
