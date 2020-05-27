@@ -19,11 +19,11 @@ In this tutorial, I'm going to describe a way how to integrate Keptn Quality Gat
 
 ### What you'll learn
 
-1. Install Keptn for quality gates only use case on Azure Kubernetes Service (AKS)
+1. Install Keptn for a quality gates use case on Azure Kubernetes Service (AKS)
 1. Create a project and service in Keptn
 1. Define Service Level Indicators (SLIs) to fetch metrics from Dynatrace
 1. Define Service Level Objectives (SLOs) to verify quality of deployed services
-1. Set up release pipeline in Azure DevOps
+1. Set up testing and evaluation pipeline in Azure DevOps
 1. Deploy app with Azure DevOps pipeline
 1. See Keptn quality gates in action
 
@@ -87,6 +87,32 @@ Now Keptn is installed and the bridge is exposed we can start setting up a proje
 ## Create a Project
 Duration: 7:00
 
+Keptn stores its configuration files in a Git repository. In this tutorial, we are going to use the Azure DevOps git to have all the Keptn configuration in one place. Therefore, please go ahead and create a *personal access* token with *Read & Write access* for Azure DevOps.
+
+1. Create a [personal access token](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page).
+    ![access token](./assets/azure-devops/azure-devops-access-token.png)
+
+
+
+1. Go ahead and create a project in Azure DevOps.
+    ![create project](./assets/azure-devops/azure-devops-create-repo.png)
+
+1. Retrieve the URL of the repo. 
+  **Important:** Remove the User from the URL before passing it to Keptn. For example, in the picture below the URL would be https://dev.azure.com/YOUR-ORG/keptn/_git/keptn.
+
+    ![retrieve repo url](./assets/azure-devops/azure-devops-clone-repo.png)
+
+    ![access token](./assets/azure-devops/azure-devops-git-creds.png)
+
+
+TODO add sources from the git repo to the azure repo
+
+1. Clone the Github repository that you have forked in the prerequisites step. Please make sure to clone from your private repository, e.g., with: 
+    ```
+    git clone https://github.com/YOUR-GIT-USER/keptn-azure-devops.git
+    ```
+
+
 
 We are going to create a project in Keptn which will hold one or more services. Therefore, please go ahead and create a project called `sockshop`. The definition of the project is held in the `shipyard.yaml` file and is quite simple in our case:
 
@@ -95,13 +121,9 @@ stages:
   - name: "preprod"
 ```
 
+We can also link the project we are creating to a DevOps git repository to have full visibility of all configuration files that are managed by Keptn. 
 
-We can also link the project we are creating to a external git repository to have full visibility of all configuration files that are managed by Keptn. In my case I am using my personal Github account and personal access token to do access a repo I created for this tutorial. Please note that the repository has to already exist with at least one file, e.g., the default `readme.md` in it.
 
-1. Clone the Github repository that you have forked in the prerequisites step. Please make sure to clone from your private repository, e.g., with: 
-    ```
-    git clone https://github.com/YOUR-GIT-USER/keptn-azure-devops.git
-    ```
 
 1. Switch into the directory with all Keptn files prepared for the tutorial:
     ```

@@ -32,11 +32,11 @@
 <p>In this tutorial, I&#39;m going to describe a way how to integrate Keptn Quality Gates in your Azure DevOps release pipelines. As there might be multiple ways how to do this, I will show you one that works easy and straight-forward to help you get started.</p>
 <h2 class="checklist" is-upgraded>What you&#39;ll learn</h2>
 <ul class="checklist">
-<li>Install Keptn for quality gates only use case on Azure Kubernetes Service (AKS)</li>
+<li>Install Keptn for a quality gates use case on Azure Kubernetes Service (AKS)</li>
 <li>Create a project and service in Keptn</li>
 <li>Define Service Level Indicators (SLIs) to fetch metrics from Dynatrace</li>
 <li>Define Service Level Objectives (SLOs) to verify quality of deployed services</li>
-<li>Set up release pipeline in Azure DevOps</li>
+<li>Set up testing and evaluation pipeline in Azure DevOps</li>
 <li>Deploy app with Azure DevOps pipeline</li>
 <li>See Keptn quality gates in action</li>
 </ul>
@@ -111,15 +111,21 @@ CLI is authenticated against the Keptn cluster https://api.keptn.XXXXXXXXX.xip.i
       </google-codelab-step>
     
       <google-codelab-step label="Create a Project" duration="7">
-        <p>We are going to create a project in Keptn which will hold one or more services. Therefore, please go ahead and create a project called <code>sockshop</code>. The definition of the project is held in the <code>shipyard.yaml</code> file and is quite simple in our case:</p>
-<pre><code>stages:
-  - name: &#34;preprod&#34;
-</code></pre>
-<p>We can also link the project we are creating to a external git repository to have full visibility of all configuration files that are managed by Keptn. In my case I am using my personal Github account and personal access token to do access a repo I created for this tutorial. Please note that the repository has to already exist with at least one file, e.g., the default <code>readme.md</code> in it.</p>
+        <p>Keptn stores its configuration files in a Git repository. In this tutorial, we are going to use the Azure DevOps git to have all the Keptn configuration in one place. Therefore, please go ahead and create a <em>personal access</em> token with <em>Read &amp; Write access</em> for Azure DevOps.</p>
 <ol type="1">
+<li>Create a <a href="https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page" target="_blank">personal access token</a>.<br><img alt="access token" src="img/f68ff9874744e0bb.png"></li>
+<li>Go ahead and create a project in Azure DevOps.<br><img alt="create project" src="img/10cf73f4aa22d90d.png"></li>
+<li>Retrieve the URL of the repo.<br><strong>Important:</strong> Remove the User from the URL before passing it to Keptn. For example, in the picture below the URL would be https://dev.azure.com/YOUR-ORG/keptn/_git/keptn.<img alt="retrieve repo url" src="img/75447c1f5947f3f8.png"><img alt="access token" src="img/7a841adbb8488a8.png"></li>
 <li>Clone the Github repository that you have forked in the prerequisites step. Please make sure to clone from your private repository, e.g., with:<pre><code>git clone https://github.com/YOUR-GIT-USER/keptn-azure-devops.git
 </code></pre>
 </li>
+</ol>
+<p>We are going to create a project in Keptn which will hold one or more services. Therefore, please go ahead and create a project called <code>sockshop</code>. The definition of the project is held in the <code>shipyard.yaml</code> file and is quite simple in our case:</p>
+<pre><code>stages:
+  - name: &#34;preprod&#34;
+</code></pre>
+<p>We can also link the project we are creating to a DevOps git repository to have full visibility of all configuration files that are managed by Keptn.</p>
+<ol type="1">
 <li>Switch into the directory with all Keptn files prepared for the tutorial:<pre><code>cd keptn-azure-devops/keptn-files
 </code></pre>
 </li>
@@ -343,8 +349,7 @@ Get the KEPTN_ENDPOINT by executing:<pre><code>echo https://api.keptn.$(kubectl 
 </code></pre>
 Get the SERVICE_URL by executing:<pre><code>echo $(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})
 </code></pre>
-Take the other values from the screenshot.</li>
-<li>TODO Promote or decline promotion of artifact: Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.</li>
+</li>
 </ol>
 
 
@@ -356,6 +361,7 @@ Take the other values from the screenshot.</li>
 <p>Next, the evaluation of the quality gate will start and tell you about a <em>passed</em> or <em>failed</em> quality gate.</p>
 <p>Please note that you can experiment with different version of the microservice to see the evaluation of the quality gate. The different version are located in the <code>manifest</code> folder and named <code>carts-v1.yaml</code>, <code>carts-v2.yaml</code>, and <code>carts-v3.yaml</code>.</p>
 <p>Go ahead and find out which versions will pass the quality gate and which versions will fail!</p>
+<p>Promote or decline promotion of artifact? Now you can decide based on the score of the Keptn quality gate if you want to promote the artifact to the next stage or if you want to take other actions like rolling back, stopping a canary or whatever actions your deployment strategy offers you.</p>
 
 
       </google-codelab-step>
