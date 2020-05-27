@@ -7,7 +7,7 @@ To get all files you need for this tutorial, please clone the example repo to yo
 ```
 git clone --branch release-0.6.2 https://github.com/keptn/examples.git --single-branch
 
-cd examples/simplenode
+cd examples/simplenodeservice
 ```
 
 Create a new project for your services using the `keptn create project` command. In this example, the project is called *simplenodeproject*. Before executing the following command, make sure you are in the `examples/simplenodeservice/keptn` folder.
