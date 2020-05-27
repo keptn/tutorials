@@ -1,6 +1,6 @@
 summary: Keptn-in-a-Box with Dynatrace Software Intelligence empowered
 id: keptn-in-a-box
-categories: dynatrace,installation, microkubernetes, microk8s,full-tour,quality-gates,performance-as-a-service,automated-operations
+categories: microk8s, dynatrace,installation, microkubernetes, microk8s,full-tour,quality-gates,performance-as-a-service,automated-operations
 tags: keptn06x
 status: Published 
 authors: Sergio Hinojosa
@@ -366,11 +366,11 @@ to list the cart sample pods and services of the development stage. You'll notic
 |**Service**             | **URL**                                                |
 |Teaser                  | https://192-168-0-10.nip.io                            |
 |Kubernetes Dashb.       | https://kubernetes.192-168-0-10.nip.io                 |
-|Kubernetes API (swagger)| https://api.kubernetes.192-168-0-10.nip.io/swagger-ui  |
-|Keptn API               | https://api.keptn.192-168-0-10.nip.io                  |
+|Kubernetes API          | https://api.kubernetes.192-168-0-10.nip.io             |
+|Keptn API (swagger)     | https://api.keptn.192-168-0-10.nip.io/swagger-ui       |
 |Keptn Bridge            | https://bridge.keptn.192-168-0-10.nip.io               |
 |Unleashed               | https://api.keptn.192-168-0-10.nip.io                  |
-|Carts pipelin overview  | https://35-178-178-171.nip.io/pipeline/                |
+|Carts pipeline overview | https://35-178-178-171.nip.io/pipeline/                |
 
 The Teaser contains links to most of the available services. You can print also the services by showing the configured ingresses in kubernetes
 ```bash
