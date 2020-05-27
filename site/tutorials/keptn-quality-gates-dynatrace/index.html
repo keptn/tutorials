@@ -415,12 +415,18 @@ KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.
 </code></pre>
 <p>The result comes in the form of the <code>evaluation-done</code> event, which is specified <a href="https://github.com/keptn/spec/blob/0.1.3/cloudevents.md#evaluation-done" target="_blank">here</a>.</p>
 <p>Here the screenshot of the response in Swagger UI:<br><img src="img/5e37d823161a00c7.png"></p>
+<ol type="1">
+<li>Evaluate in Bridge &amp; Dynatrace</li>
+</ol>
+<p>Just as we did before you can also validate the data in the Keptn&#39;s Bridge as well as in Dynatrace!</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Finish" duration="0">
-        <p>In this tutorial, you have learned how to use Keptn to validate the quality of your deployments by evaluating a set of SLIs (Service Level Indicators) against your SLOs (Service Level Objectives) for a specified timeframe!</p>
+        <p>In this tutorial, you have learned how to use Keptn to validate the quality of your deployments by evaluating a set of SLIs (Service Level Indicators) against your SLOs (Service Level Objectives) for a specified timeframe! The overall goal is to use this capability to automate the manual evaluation of metrics through dashboards.</p>
+<p>As you have now learned how to setup Keptn for pulling metrics out of Dynatrace the next step is that you do this with metrics that are important for your services, applications, processes and hosts. Think about how you can convert your Dynatrace dashboards into SLIs and SLOs and then have Keptn automate the analysis for you:</p>
+<p class="image-container"><img src="img/7c651a5eb1b5f93a.gif"></p>
 <h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
 <ul class="checklist">
 <li>Install Keptn and setup a Keptn Project for Quality Gate evaluation</li>
@@ -429,6 +435,15 @@ KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.
 <li>How to trigger a Keptn Quality Gate evaluation using the CLI and the API</li>
 <li>How to use the Keptns Bridge to inspect your Quality Gate Results</li>
 </ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Feedback" duration="0">
+        <aside class="special"><p>We are happy to hear your feedback!</p>
+</aside>
+<p>Please visit us in our <a href="https://bit.ly/keptn-slack" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
+<p>Also, please <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
 
 
       </google-codelab-step>

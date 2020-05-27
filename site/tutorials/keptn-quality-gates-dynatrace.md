@@ -87,3 +87,5 @@ As you have now learned how to setup Keptn for pulling metrics out of Dynatrace 
 - Learn how to define and use service-level indicators (SLIs) and service-level objectives (SLOs)
 - How to trigger a Keptn Quality Gate evaluation using the CLI and the API
 - How to use the Keptns Bridge to inspect your Quality Gate Results
+
+{{ snippets/community/feedback.md }}
