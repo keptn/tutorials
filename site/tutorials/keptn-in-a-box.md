@@ -1,6 +1,6 @@
 summary: Keptn-in-a-Box with Dynatrace Software Intelligence empowered
 id: keptn-in-a-box
-categories: dynatrace,installation, microkubernetes, microk8s,full-tour,quality-gates,performance-as-a-service,automated-operations
+categories: microk8s, dynatrace,installation, microkubernetes, microk8s,full-tour,quality-gates,performance-as-a-service,automated-operations
 tags: keptn06x
 status: Published 
 authors: Sergio Hinojosa

@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-05-27T12:26:40+02:00",
+  "updated": "2020-05-27T12:38:18+02:00",
   "id": "keptn-in-a-box",
   "duration": 36,
   "title": "Keptn in a Box",
@@ -15,6 +15,7 @@
     "published"
   ],
   "category": [
+    "microk8s",
     "dynatrace",
     "installation",
     "microkubernetes",
