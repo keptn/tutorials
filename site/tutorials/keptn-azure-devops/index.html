@@ -172,7 +172,15 @@ indicators:
 </aside>
 <aside class="warning"><p>An invalid tenant ID looks like: https://abc123.live.dyntrace.com/</p>
 </aside>
-<p>Retrieve the <em>Dynatrace API</em> token by navigating to &#34;Settings -&gt; Integration -&gt; Dynatrace API&#34; and create a new API token. Assign a new, e.g. keptn, to it and for the purpose of this tutorial enable all permissions.</p>
+<p>Retrieve the <em>Dynatrace API</em> token by navigating to &#34;Settings -&gt; Integration -&gt; Dynatrace API&#34; and create a new API token. Assign a new, e.g. keptn, to it and for the purpose of this tutorial enable these permissions:</p>
+<ul>
+<li>Access problem and event feed, metrics and topology</li>
+<li>Access logs</li>
+<li>Read configuration</li>
+<li>Write configuration</li>
+<li>Capture request data</li>
+</ul>
+<p>Let&#39;s configure Keptn.</p>
 <ol type="1">
 <li>Define the credentials by adding them in a Kubernetes secret for the Keptn services to fetch.<br><strong>Important</strong> replace <code>YOURTENANT</code> with your tenant id and <code>YOURAPITOKEN</code> with your actual Dynatrace API token.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=YOURTENANT&#34; --from-literal=&#34;DT_API_TOKEN=YOURAPITOKEN&#34;
 </code></pre>

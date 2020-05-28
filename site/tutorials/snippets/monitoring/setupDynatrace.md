@@ -19,12 +19,9 @@ Duration: 6:00
 
     - Access problem and event feed, metrics and topology
     - Access logs
-    - Configure maintenance windows
     - Read configuration
     - Write configuration
     - Capture request data
-    - Real user monitoring JavaScript tag management
-
 
     Take a look at this screenshot to double check the right token permissions for you.
 
