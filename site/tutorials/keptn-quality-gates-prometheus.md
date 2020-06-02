@@ -84,6 +84,13 @@ indicators:
   response_time_p95: histogram_quantile(0.95, sum by(le) (rate(http_response_time_milliseconds_bucket{handler="ItemsController.addToCart",job="$SERVICE-$PROJECT-$STAGE"}[$DURATION_SECONDS])))
 ```
 
+
+Execute the following command to configure Keptn to use Prometheus:
+```
+keptn configure monitoring prometheus --project=sockshop --service=carts
+```
+
+
 ## Quality Gates in action
 Duration: 1:00
 
