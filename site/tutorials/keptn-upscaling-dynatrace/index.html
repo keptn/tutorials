@@ -81,7 +81,7 @@ cd examples/onboarding-carts
       <google-codelab-step label="Onboard first microservice" duration="5">
         <p>After creating the project, services can be onboarded to our project.</p>
 <ol type="1">
-<li>Onboard the <strong>carts</strong> service using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command:<pre><code>keptn onboard service carts --project=sockshop --chart=./carts
+<li>Onboard the <strong>carts</strong> service using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_onboard_service/" target="_blank">keptn onboard service</a> command:<pre><code>keptn onboard service carts --project=sockshop --chart=./carts
 </code></pre>
 </li>
 <li>After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:<ul>
@@ -96,7 +96,7 @@ cd examples/onboarding-carts
 </ol>
 <p>Since the carts service requires a mongodb database, a second service needs to be onboarded.</p>
 <ul>
-<li>Onboard the <strong>carts-db</strong> service using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command. The <code>--deployment-strategy</code> flag specifies that for this service a <em>direct</em> deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.<pre><code>keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
+<li>Onboard the <strong>carts-db</strong> service using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_onboard_service/" target="_blank">keptn onboard service</a> command. The <code>--deployment-strategy</code> flag specifies that for this service a <em>direct</em> deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.<pre><code>keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
 </code></pre>
 </li>
 </ul>
@@ -107,7 +107,7 @@ cd examples/onboarding-carts
       <google-codelab-step label="Deploy first build with Keptn" duration="5">
         <p>After onboarding the services, a built artifact of each service can be deployed.</p>
 <ol type="1">
-<li>Deploy the carts-db service by executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
+<li>Deploy the carts-db service by executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_send_event_new-artifact/" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
 </code></pre>
 </li>
 <li>Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.11.1:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.1
@@ -227,7 +227,7 @@ If you used the variables, the next command can be copied and pasted without mod
 This means that Dynatrace will automatically apply tags to your onboarded services.</li>
 <li><em>Problem notification:</em> A problem notification has been set up to inform Keptn of any problems with your services to allow auto-remediation. You can check the problem notification by navigating to <strong>Settings &gt; Integration &gt; Problem notifications</strong> and you will find a <strong>keptn remediation</strong> problem notification.</li>
 <li><em>Alerting profile:</em> An alerting profile with all problems set to <em>0 minutes</em> (immediate) is created. You can review this profile by navigating to <strong>Settings &gt; Alerting &gt; Alerting profiles</strong>.</li>
-<li><em>Dashboard and Mangement zone:</em> When creating a new Keptn project or executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-configure-monitoring" target="_blank">keptn configure monitoring</a> command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.</li>
+<li><em>Dashboard and Mangement zone:</em> When creating a new Keptn project or executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_configure_monitoring/" target="_blank">keptn configure monitoring</a> command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.</li>
 </ul>
 <aside class="warning"><p>If the nodes in your cluster run on <em>Container-Optimized OS (cos)</em> (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary.</p>
 </aside>

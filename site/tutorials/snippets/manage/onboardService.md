@@ -4,7 +4,7 @@ Duration: 5:00
 
 After creating the project, services can be onboarded to our project.
 
-1. Onboard the **carts** service using the [keptn onboard service](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service) command:
+1. Onboard the **carts** service using the [keptn onboard service](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_onboard_service/) command:
 
 ```
 keptn onboard service carts --project=sockshop --chart=./carts
@@ -28,7 +28,7 @@ keptn onboard service carts --project=sockshop --chart=./carts
 
 Since the carts service requires a mongodb database, a second service needs to be onboarded.
 
-* Onboard the **carts-db** service using the [keptn onboard service](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service) command. The `--deployment-strategy` flag specifies that for this service a *direct* deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.
+* Onboard the **carts-db** service using the [keptn onboard service](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_onboard_service/) command. The `--deployment-strategy` flag specifies that for this service a *direct* deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.
 
 ```
 keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
@@ -41,7 +41,7 @@ Duration: 5:00
 
 After onboarding the services, a built artifact of each service can be deployed.
 
-1. Deploy the carts-db service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.6.0/reference/cli/#keptn-send-event-new-artifact) command:
+1. Deploy the carts-db service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_send_event_new-artifact/) command:
 
 ```
 keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
