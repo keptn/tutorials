@@ -93,7 +93,7 @@ cd examples/onboarding-carts
       <google-codelab-step label="Onboard first microservice" duration="5">
         <p>After creating the project, services can be onboarded to our project.</p>
 <ol type="1">
-<li>Onboard the <strong>carts</strong> service using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command:<pre><code>keptn onboard service carts --project=sockshop --chart=./carts
+<li>Onboard the <strong>carts</strong> service using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_onboard_service/" target="_blank">keptn onboard service</a> command:<pre><code>keptn onboard service carts --project=sockshop --chart=./carts
 </code></pre>
 </li>
 <li>After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:<ul>
@@ -108,7 +108,7 @@ cd examples/onboarding-carts
 </ol>
 <p>Since the carts service requires a mongodb database, a second service needs to be onboarded.</p>
 <ul>
-<li>Onboard the <strong>carts-db</strong> service using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command. The <code>--deployment-strategy</code> flag specifies that for this service a <em>direct</em> deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.<pre><code>keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
+<li>Onboard the <strong>carts-db</strong> service using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_onboard_service/" target="_blank">keptn onboard service</a> command. The <code>--deployment-strategy</code> flag specifies that for this service a <em>direct</em> deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.<pre><code>keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
 </code></pre>
 </li>
 </ul>
@@ -119,7 +119,7 @@ cd examples/onboarding-carts
       <google-codelab-step label="Deploy first build with Keptn" duration="5">
         <p>After onboarding the services, a built artifact of each service can be deployed.</p>
 <ol type="1">
-<li>Deploy the carts-db service by executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
+<li>Deploy the carts-db service by executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_send_event_new-artifact/" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
 </code></pre>
 </li>
 <li>Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.11.1:<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.1
@@ -214,7 +214,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
     
       <google-codelab-step label="Set up the quality gate" duration="4">
         <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/0.1.3/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
-<p>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command:</p>
+<p>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_add-resource/" target="_blank">add-resource</a> command:</p>
 <p>Make sure you are in the correct folder <code>examples/onboarding-carts</code>. If not, change the directory accordingly, e.g., <code>cd ../../onboarding-carts</code>.</p>
 <pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
 </code></pre>
