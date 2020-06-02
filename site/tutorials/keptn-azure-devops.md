@@ -33,7 +33,7 @@ At the end of the tutorial, our environment will look like this:
 
 ![demo workflow](./assets/azure-devops/azure-devops-demo-workflow.png)
 
-## Prequisites for tutorial
+## Prerequisites for tutorial
 Duration: 2:00
 
 - Access to [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) and permissions to create a project
@@ -144,7 +144,7 @@ We can also link the project we are creating to a DevOps git repository to have 
 ## Define Service Level Indicators
 Duration: 3:00
 
-Keptn uses monitoring data for Service-Level Indicators (SLIs) upon which we can define our quality gates. Therefore we are going to define which SLIs to use for our project. Keptn has already a built-in library of SLIs, however, we are going to use our custom SLIs for this tutorial, therefore we add them to our `carts service already added to Keptn.
+Keptn uses monitoring data for Service-Level Indicators (SLIs) upon which we can define our quality gates. Therefore we are going to define which SLIs to use for our project. Keptn has already a built-in library of SLIs, however, we are going to use our custom SLIs for this tutorial, therefore we add them to our `carts` service already added to Keptn.
 The file `dynatrace-slis.yaml` holds the following content, which are the API calls to Dynatrace to gather the data that is needed for evaluation for the quality gates. Please note that this file can be extended or changed, therefore making other SLIs available to your quality gates.
 
 ```
@@ -177,7 +177,7 @@ Positive
 Negative
 : An invalid tenant ID looks like: https://abc123.live.dyntrace.com/
 
-Retrieve the _Dynatrace API_ token by navigating to "Settings -> Integration -> Dynatrace API" and create a new API token. Assign a new, e.g. keptn, to it and for the purpose of this tutorial enable these permissions:
+Retrieve the _Dynatrace API_ token by navigating to "Settings -> Integration -> Dynatrace API" and create a new API token. Assign a name, e.g. keptn, to it and for the purpose of this tutorial enable these permissions:
 
   - Access problem and event feed, metrics and topology
   - Access logs
@@ -274,7 +274,7 @@ Duration: 7:00
 Let us now deploy the Dynatrace OneAgent on our cluster. Please note that this step can be automated if you choose the Keptn full installation!
 The instructions how to install the Dynatrace OneAgent can be found on the [official Dynatrace documentation](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/other-deployments-and-configurations/deploy-oneagent-on-kubernetes/), but are replicated here for ease of use.
 
-Create the needed objects for the OneAgent Operator:
+Create the required objects for the OneAgent Operator:
 ```
 kubectl create namespace dynatrace
 kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/download/v0.7.1/kubernetes.yaml
@@ -293,9 +293,9 @@ Create a secret with the needed tokens so that the OneAgent can be installed. Yo
 
 1. Create a Dynatrace PaaS Token
 
-    In your Dynatrace tenant, go to **Settings > Integration > Platform as a Service**, and create a new PaaS Token.
+  In your Dynatrace tenant, go to **Settings > Integration > Platform as a Service**, and create a new PaaS Token.
 
-Now that you have the API_TOKEN and PAAS_TOKEN, execute the following command. Please make sure to replace the two placeholder `API_TOKEN` and `PAAS_TOKEN` with the actual token values. 
+Now that you have the API_TOKEN and PAAS_TOKEN, execute the following command. Please make sure to replace the two placeholders `API_TOKEN` and `PAAS_TOKEN` with the actual token values. 
 ```
 kubectl -n dynatrace create secret generic oneagent --from-literal="apiToken=API_TOKEN" --from-literal="paasToken=PAAS_TOKEN"
 ```
@@ -356,7 +356,7 @@ Please note that for the sake of simplicity, we are going to use the same cluste
 1. Select the template **Empty Job** since we don't need a predefined workflow and create a stage named **test & evaluate**.
     ![select from template](./assets/azure-devops/azure-devops-add-test-stage.png)
 
-1. We have already incluced all files we need for this tutorial into our repo. We are going to connect it to our pipeline. Click on **Add an Artifact** and select your repo as can be seen in the screenshot. Select **keptn-qualitygate** as the project, **keptn-azure-devops** as the source and the **master** as the default branch.
+1. We have already included all files we need for this tutorial into our repo. We are going to connect it to our pipeline. Click on **Add an Artifact** and select your repo as can be seen in the screenshot. Select **keptn-qualitygate** as the project, **keptn-azure-devops** as the source and the **master** as the default branch.
     ![add repo](./assets/azure-devops/azure-devops-add-artifact-repo.png)
 
 
@@ -496,7 +496,7 @@ Duration: 1:00
 1. We deployed and evaluated a version that did not pass the quality gate
     ![bridge](./assets/azure-devops/azure-devops-qg-fail.png)
 
-1. We invested the evaluations in the Keptn's bridge
+1. We investigated the evaluations in the Keptn's bridge
     ![bridge](./assets/azure-devops/azure-devops-keptns-bridge.png)
 
 
