@@ -111,7 +111,7 @@ This will download and install the Keptn CLI automatically.</li>
         <p>This tutorial is slightly different compared to others because you need to bring your own monitored service. However, we are helping you here to use our infamous sockshop application with its carts microservice.</p>
 <p>If you want to use your own service, please adopt references to <em>sockshop</em> and <em>carts</em> in the remainder of this tutorial with your own service names.</p>
 <p>Install the Prometheus service in your Keptn installation:</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.2/deploy/service.yaml
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.3/deploy/service.yaml
 </code></pre>
 <p>Deploy the sample application with <code>kubectl</code> into your Kubernetes cluster. This part would actually be done by your CI/CD pipeline. However, since we do not have this pipeline at hand, we are doing this manually:</p>
 <pre><code>kubectl create namespace sockshop-hardening

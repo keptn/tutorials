@@ -9,7 +9,7 @@ If you want to use your own service, please adopt references to _sockshop_ and _
 Install the Prometheus service in your Keptn installation:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.2/deploy/service.yaml
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.3/deploy/service.yaml
 ```
 
 Deploy the sample application with `kubectl` into your Kubernetes cluster. This part would actually be done by your CI/CD pipeline. However, since we do not have this pipeline at hand, we are doing this manually:

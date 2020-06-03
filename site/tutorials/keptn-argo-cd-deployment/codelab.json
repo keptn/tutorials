@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-04-23T15:26:51+02:00",
+  "updated": "2020-06-03T13:15:54+02:00",
   "id": "keptn-argo-cd-deployment",
   "duration": 39,
   "title": "Argo CD for Deploying and Keptn for Testing, Evaluating, and Promoting",
   "authors": "Andreas Grimmer, Jürgen Etzlstorfer",
   "summary": "Argo CD for Deploying and Keptn for Testing, Evaluating, and Promoting",
-  "source": "keptn-argo-integration.md",
+  "source": "keptn-argo-integration_gen.md",
   "theme": "",
   "status": [
     "published"
