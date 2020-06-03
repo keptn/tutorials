@@ -108,7 +108,7 @@
 <li>Install Prometheus in your Kubernetes cluster.<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.3/deploy/service.yaml
 </code></pre>
 </li>
-<li>Install the Prometheus SLI provider in your cluster.<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.1/deploy/service.yaml
+<li>Install the Prometheus SLI provider in your cluster.<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.2/deploy/service.yaml
 </code></pre>
 </li>
 <li>Configure custom SLIs for the Prometheus SLI provider as specified in <code>sli-config-argo-prometheus.yaml</code>:<pre><code>keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-argo-prometheus.yaml --resourceUri=prometheus/sli.yaml
