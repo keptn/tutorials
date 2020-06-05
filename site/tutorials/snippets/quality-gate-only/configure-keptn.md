@@ -3,10 +3,10 @@
 Duration: 5:00
 
 
-Let us create a Keptn project (e.g., *sockshop*) with only one the *hardening* stage declared in the `shipyard-quality-gates.yaml` file that we have cloned from the examples Github repository earlier.
+Let us create a Keptn project (e.g., *sockshop*) with only one the *hardening* stage declared in the `shipyard-quality-gates.yaml` file that we have cloned from the examples Github repository earlier. Please note that [defining a Git upstream](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) is recommended, but in case that is not wanted the parameters `git-user`, `git-token` and `git-remote-url` can be omitted.
 
 ```
-keptn create project sockshop --shipyard=shipyard-quality-gates.yaml
+keptn create project sockshop --shipyard=shipyard-quality-gates.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
 ```
 
 Create a Keptn service for your service (e.g., *carts*) you want to evaluate:

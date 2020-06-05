@@ -14,7 +14,7 @@ cd examples/onboarding-carts
 
 Create a new project for your services using the `keptn create project` command. In this example, the project is called *sockshop*. Before executing the following command, make sure you are in the `examples/onboarding-carts` folder.
 
-Create a new project with Git upstream:
+**Recommended:** Create a new project with Git upstream:
 
 To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
 
@@ -23,7 +23,7 @@ keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --g
 ```
 
 
-**Alternatively:** If you don't want to use a Git upstream, you can create a new project without it:
+**Alternatively:** If you don't want to use a Git upstream, you can create a new project without it but please note that this is not the recommended way:
 ```
 keptn create project sockshop --shipyard=./shipyard.yaml
 ```

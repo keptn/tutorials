@@ -139,8 +139,8 @@ kubectl apply -f https://raw.githubusercontent.com/keptn/examples/master/onboard
       </google-codelab-step>
     
       <google-codelab-step label="Configure Keptn and activate the quality gate" duration="5">
-        <p>Let us create a Keptn project (e.g., <em>sockshop</em>) with only one the <em>hardening</em> stage declared in the <code>shipyard-quality-gates.yaml</code> file that we have cloned from the examples Github repository earlier.</p>
-<pre><code>keptn create project sockshop --shipyard=shipyard-quality-gates.yaml
+        <p>Let us create a Keptn project (e.g., <em>sockshop</em>) with only one the <em>hardening</em> stage declared in the <code>shipyard-quality-gates.yaml</code> file that we have cloned from the examples Github repository earlier. Please note that <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">defining a Git upstream</a> is recommended, but in case that is not wanted the parameters <code>git-user</code>, <code>git-token</code> and <code>git-remote-url</code> can be omitted.</p>
+<pre><code>keptn create project sockshop --shipyard=shipyard-quality-gates.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
 </code></pre>
 <p>Create a Keptn service for your service (e.g., <em>carts</em>) you want to evaluate:</p>
 <pre><code>keptn create service carts --project=sockshop
