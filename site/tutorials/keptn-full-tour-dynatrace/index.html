@@ -147,11 +147,11 @@ oneagent-k7jn6                                 1/1     Running      0          8
 cd examples/onboarding-carts
 </code></pre>
 <p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
-<p>Create a new project with Git upstream:</p>
+<p><strong>Recommended:</strong> Create a new project with Git upstream:</p>
 <p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
 <pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
 </code></pre>
-<p><strong>Alternatively:</strong> If you don&#39;t want to use a Git upstream, you can create a new project without it:</p>
+<p><strong>Alternatively:</strong> If you don&#39;t want to use a Git upstream, you can create a new project without it but please note that this is not the recommended way:</p>
 <pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
 </code></pre>
 <p>For creating the project, the tutorial relies on a <code>shipyard.yaml</code> file as shown below:</p>
