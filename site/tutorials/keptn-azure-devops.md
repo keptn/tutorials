@@ -101,7 +101,7 @@ Keptn stores its configuration files in a Git repository. In this tutorial, we a
 1. Next, we are going to import all prepared resources we need into a new repository.
     ![import repo](./assets/azure-devops/azure-devops-import-repo.png)
 
-1. Use `https://github.com/keptn-sandbox/keptn-azure-devops` as the import URL.
+1. Use `https://github.com/keptn-sandbox/keptn-azure-devops-tutorial-scripts` as the import URL.
     ![import repo](./assets/azure-devops/azure-devops-import-repo2.png)
 
 1. Clone the repo to your local machine to have all the files you need also locally. Click on the **Clone** button and generate a new Git token (this is different from the previous one). This time you can copy the full URL of the repo and execute something similar to the next snippet. Please replace the user and organization accordingly (or just copy your URL from the Azure platform).
