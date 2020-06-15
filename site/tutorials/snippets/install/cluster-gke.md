@@ -13,7 +13,6 @@ We are going to setup a Kubernetes cluster in the Google Cloud Platform.
 
 1. Install local tools
   - [gcloud](https://cloud.google.com/sdk/gcloud/)
-  - [python 2.7](https://www.python.org/downloads/release/python-2716/) (required for Ubuntu 19.04)
 
 2. Create GKE cluster
   - Master version >= `1.15.x` (tested version: `1.15.9-gke.22`)
