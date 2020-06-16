@@ -92,7 +92,7 @@ keptn configure monitoring prometheus --project=sockshop --service=carts
 
 
 ## Quality Gates in action
-Duration: 1:00
+Duration: 3:00
 
 At this point, your service is ready and you can now start triggering evaluations of the SLO. A quality gate is a two-step procedure that consists of starting the evaluation and polling for the results.
 
@@ -100,6 +100,14 @@ At a specific point in time, e.g., after you have executed your tests or you hav
 
 Positive
 : We will use both the Keptn CLI as well as the Keptn API for the evaluation of the quality gates.
+
+Before we are going to do that, let us generate some traffic on our application.
+Let us simply use `curl` to do this: 
+
+```
+curl -X POST http://$(kubectl get svc carts -n sockshop-hardening -o jsonpath='{.status.loadBalancer.ingress[0].ip}')/carts/[1-100]/items -H "Content-Type: application/json" -d '{"id":"1", "itemId":"1", "price":"1"}'
+```
+
 
 ## Quality Gate evaluation with Keptn CLI
 Duration: 5:00
