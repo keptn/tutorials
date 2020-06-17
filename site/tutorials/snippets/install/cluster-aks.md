@@ -11,7 +11,7 @@ Duration: 10:00
 We are going to setup a Kubernetes cluster in Azure. Therefore, please download the `az` command line tool. Next, please create a cluser in the [Azure Portal](https://portal.azure.com/).
 
 1. Install local tools
-  - [az](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and make sure to be logged in to your Kubernetes cluster (with `az login`)
+  - [az](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and make sure to be logged in to your Azure account (with `az login`)
 
 1. Create AKS cluster
   - Master version >= `1.15.x` (tested version: `1.15.10`)

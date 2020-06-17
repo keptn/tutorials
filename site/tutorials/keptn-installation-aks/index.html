@@ -46,7 +46,7 @@
         <p>We are going to setup a Kubernetes cluster in Azure. Therefore, please download the <code>az</code> command line tool. Next, please create a cluser in the <a href="https://portal.azure.com/" target="_blank">Azure Portal</a>.</p>
 <ol type="1">
 <li>Install local tools<ul>
-<li><a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank">az</a> and make sure to be logged in to your Kubernetes cluster (with <code>az login</code>)</li>
+<li><a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank">az</a> and make sure to be logged in to your Azure account (with <code>az login</code>)</li>
 </ul>
 </li>
 <li>Create AKS cluster<ul>
@@ -99,7 +99,7 @@ This will download and install the Keptn CLI automatically.</li>
 </code></pre>
 <aside class="special"><p>The installation process will take about 5-10 minutes.</p>
 </aside>
-<aside class="warning"><p>If the installation fails, please double check that you are logged in to the Kubernetes cluster with <code>az login</code></p>
+<aside class="warning"><p>If the installation fails, please double check that you are logged in to your Azure account with <code>az login</code></p>
 </aside>
 <h2 is-upgraded>Installation details</h2>
 <p>In the Kubernetes cluster, this command creates the <strong>keptn</strong>, <strong>keptn-datastore</strong>, and <strong>istio-system</strong> namespace. While istio-system contains all Istio related resources, keptn and keptn-datastore contain the complete infrastructure to run Keptn.</p>
