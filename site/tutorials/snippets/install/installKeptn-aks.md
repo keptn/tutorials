@@ -13,7 +13,7 @@ Positive
 : The installation process will take about 5-10 minutes.
 
 Negative
-: If the installation fails, please double check that you are logged in to the Kubernetes cluster with `az login`
+: If the installation fails, please double check that you are logged in to your Azure account with `az login`
 
 ### Installation details 
 
