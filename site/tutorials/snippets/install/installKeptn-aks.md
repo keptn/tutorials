@@ -12,6 +12,9 @@ keptn install --platform=aks
 Positive
 : The installation process will take about 5-10 minutes.
 
+Negative
+: If the installation fails, please double check that you are logged in to the Kubernetes cluster with `az login`
+
 ### Installation details 
 
 In the Kubernetes cluster, this command creates the **keptn**, **keptn-datastore**, and **istio-system** namespace. While istio-system contains all Istio related resources, keptn and keptn-datastore contain the complete infrastructure to run Keptn. 
