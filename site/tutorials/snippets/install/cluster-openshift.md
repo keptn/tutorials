@@ -7,18 +7,18 @@ Please download and install the following tools if you do not have them installe
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
 
-## Setup Kubernetes cluster
+## Configure OpenShift cluster
 Duration: 10:00
 
-We are going to setup an OpenShift cluster.
+Negative
+: Please note that you have to bring your own OpenShift cluster in version 3.11
 
 
-OpenShift 3.11
-
-1. Install local tools
+1. Install local tools if not already present on your machine.
 
   - [oc CLI - v3.11](https://github.com/openshift/origin/releases/tag/v3.11.0)
 
+1. Make sure you are connected with your `oc` CLI to your OpenShift cluster.
 
 1. On the OpenShift master node, execute the following steps:
 

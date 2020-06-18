@@ -42,14 +42,15 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Setup Kubernetes cluster" duration="10">
-        <p>We are going to setup an OpenShift cluster.</p>
-<p>OpenShift 3.11</p>
+      <google-codelab-step label="Configure OpenShift cluster" duration="10">
+        <aside class="warning"><p>Please note that you have to bring your own OpenShift cluster in version 3.11</p>
+</aside>
 <ol type="1">
-<li>Install local tools<ul>
+<li>Install local tools if not already present on your machine.<ul>
 <li><a href="https://github.com/openshift/origin/releases/tag/v3.11.0" target="_blank">oc CLI - v3.11</a></li>
 </ul>
 </li>
+<li>Make sure you are connected with your <code>oc</code> CLI to your OpenShift cluster.</li>
 <li>On the OpenShift master node, execute the following steps:</li>
 </ol>
 <ul>
