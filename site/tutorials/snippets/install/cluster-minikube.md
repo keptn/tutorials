@@ -16,7 +16,7 @@ Negative
 : Please note that at the moment only specific Minikube versions are supported.
 
 
-1. Install Minikube in [version 1.2](https://github.com/kubernetes/minikube/releases/tag/v1.2.0) (newer versions to not work at the moment).
+1. Install Minikube in [version 1.2](https://github.com/kubernetes/minikube/releases/tag/v1.2.0) (newer versions do not work at the moment).
 
 1. Setup a Minikube VM with at least 6 CPU cores and 12 GB memory using:
 
