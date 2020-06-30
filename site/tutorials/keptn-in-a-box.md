@@ -219,41 +219,54 @@ Before selecting the installation Bundle, let's understand how `Keptn-in-a-box.s
 
 [keptn-in-a-box.sh](https://github.com/keptn-sandbox/keptn-in-a-box/blob/master/keptn-in-a-box.sh) is the controller. Here we have been defining our variables. When executing this script, it will download and load the functions defined in [functions.sh](https://github.com/keptn-sandbox/keptn-in-a-box/blob/master/functions.sh). Which **⨍ functions** to execute are controled by their **🚦control flags**. Now, an **🧩installation Bundle** is the enablement for multiple **control flags**. 
 
-### 🧩installation Bundles
+### 🧩installation Bundles & 🚦control flags
 Now that we have understood the delegation of the program's logic and it's main components, here is a table of the installation Bundles and their respective enabled flags:
 
+#### 🧩installation Bundles
+- installationBundleDemo
+- installationBundleWorkshop
+- installationBundleKeptnOnly
+- installationBundleKeptnQualityGates
+- installationBundlePerformanceAsAService
+- installationBundleAll
 
-|                                     |           |            |              |              |
-|-------------------------------------|-----------|------------|--------------|--------------|    
-|**🚦control flag**                     |**🧩Demo** |**🧩Workshop**|**🧩KeptnOnly**|**🧩All**|    
-| update_ubuntu                       |     ✅    |     ✅     |      ✅     |      ✅     |    
-| docker_install                      |     ✅    |     ✅     |      ✅     |      ✅     |    
-| microk8s_install                    |     ✅    |     ✅     |      ✅     |      ✅     |    
-| setup_proaliases                    |     ✅    |     ✅     |      ✅     |      ✅     |    
-| enable_k8dashboard                  |     ✅    |     ✅     |      -      |      ✅     |    
-| enable_registry                     |     -     |     ✅      |      -     |      ✅     |    
-| istio_install                       |     ✅    |     ✅     |      ✅     |      ✅     |    
-| helm_install                        |     ✅    |     ✅     |      ✅     |      ✅     |    
-| certmanager_install                 |     -     |     -      |      -      |       ✅     |    
-| certmanager_enable                  |     -     |     -      |      -      |       ✅     |     
-| keptn_install                       |     ✅    |     ✅     |      ✅     |      ✅     |    
-| keptn_examples_clone                |     ✅    |     ✅     |      ✅     |      ✅     |    
-| resources_clone                     |     ✅    |     ✅     |      ✅     |      ✅     |     
-| resources_route_istio_ingress       |     ✅    |     ✅     |      ✅     |      ✅     |         
-| dynatrace_savecredentials           |     ✅    |     ✅     |      ✅     |      ✅     |     
-| dynatrace_configure_monitoring      |     ✅    |     ✅     |      ✅     |      ✅     |     
-| dynatrace_activegate_install        |     ✅    |     ✅     |      ✅     |      ✅     |       
-| dynatrace_configure_workloads       |     ✅    |     ✅     |      ✅     |      ✅     |     
-| keptn_bridge_expose                 |     ✅    |     ✅     |      ✅     |      ✅     |
-| keptndemo_teaser_pipeline           |     ✅    |     ✅     |      ✅     |      ✅     |    
-| keptndemo_cartsload                 |     ✅    |     ✅     |      -      |      ✅     |    
-| keptndemo_unleash                   |     ✅    |     ✅     |      -      |      ✅     |    
-| keptndemo_cartsonboard              |     ✅    |     ✅     |      -      |      ✅     |    
-| microk8s_expose_kubernetes_api      |     ✅    |     ✅     |      ✅     |      ✅     |    
-| microk8s_expose_kubernetes_dashboard|     ✅    |     ✅     |      -      |      ✅     |    
-| create_workshop_user                |     -     |     ✅     |      -      |      ✅     |
+#### 🚦control Flags
 
-The **dynatrace_*** control flags will be disabled if you don't enter your Dynatrace credentials.
+|                                     |           |            |              |              |              |             |
+|-------------------------------------|-----------|------------|--------------|--------------|--------------|-------------|    
+|**🚦control flag**                   |**Demo**  |**Workshop** |**KeptnOnly** |**QualityGates**|**PerfAaS** |  **All**    |    
+| update_ubuntu                       |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
+| docker_install                      |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
+| microk8s_install                    |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
+| setup_proaliases                    |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
+| enable_k8dashboard                  |     ✅    |     ✅     |      -      |        ✅     |      ✅     |      ✅     |    
+| enable_registry                     |     -     |     ✅      |      -     |         -     |      -      |      ✅     |    
+| istio_install                       |     ✅    |     ✅     |      ✅     |        -      |      -      |      ✅     |    
+| helm_install                        |     ✅    |     ✅     |      ✅     |        -      |      ✅    |       ✅     |   
+| certmanager_install                 |     -     |     -      |      -      |        -      |       -     |       ✅     |   
+| certmanager_enable                  |     -     |     -      |      -      |        -      |       -     |       ✅     |    
+| keptn_install                       |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
+| keptn_examples_clone                |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
+| resources_clone                     |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |        
+| dynatrace_savecredentials           |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |     
+| dynatrace_configure_monitoring      |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |     
+| dynatrace_activegate_install        |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |       
+| dynatrace_configure_workloads       |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |     
+| keptndeploy_homepage                |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
+| keptndemo_cartsload                 |     ✅    |     ✅     |      -      |        -      |      -      |      ✅     |    
+| keptndemo_unleash                   |     ✅    |     ✅     |      -      |        -      |      -      |      ✅     |    
+| keptndemo_cartsonboard              |     ✅    |     ✅     |      -      |        -      |      -      |      ✅     |    
+| expose_kubernetes_api               |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
+| expose_kubernetes_dashboard         |     ✅    |     ✅     |      -      |        ✅     |      ✅     |      ✅     |    
+| patch_kubernetes_dashboard          |     ✅    |     ✅     |      -      |        -      |      -      |      ✅     |    
+| create_workshop_user                |     -     |     -     |      -       |        -       |      -     |     ✅     | 
+| jenkins_deploy                      |     -     |     -     |      -       |        -       |      -     |     ✅     | 
+| jmeter_extended_service             |     -     |     -     |      -       |       ✅       |      ✅    |     ✅     | 
+| keptn_install_qualitygates          |     -     |     -     |      -       |       ✅       |      ✅    |     ✅     | 
+| certmanager_install                 |     -     |     -     |      -       |       ✅       |      ✅    |     ✅     | 
+| certmanager_install                 |     -     |     -     |      -       |       ✅       |      ✅    |     ✅     | 
+
+The **dynatrace_** control flags will be disabled if you don't enter your Dynatrace credentials.
 
 ### The Default Installation Bundle
 🧩The default installation bundle is **installationBundleDemo**. You can change installation bundles by commenting them out in the section. 
