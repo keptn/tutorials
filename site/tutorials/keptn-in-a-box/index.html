@@ -222,17 +222,31 @@ NEWPWD=&#34;dynatrace&#34;
         <h2 is-upgraded>↳ Programs logic</h2>
 <p>Before selecting the installation Bundle, let&#39;s understand how <code>Keptn-in-a-box.sh</code> works and what it will do.</p>
 <p><a href="https://github.com/keptn-sandbox/keptn-in-a-box/blob/master/keptn-in-a-box.sh" target="_blank">keptn-in-a-box.sh</a> is the controller. Here we have been defining our variables. When executing this script, it will download and load the functions defined in <a href="https://github.com/keptn-sandbox/keptn-in-a-box/blob/master/functions.sh" target="_blank">functions.sh</a>. Which <strong>⨍ functions</strong> to execute are controled by their <strong>🚦control flags</strong>. Now, an <strong>🧩installation Bundle</strong> is the enablement for multiple <strong>control flags</strong>.</p>
-<h2 is-upgraded>🧩installation Bundles</h2>
+<h2 is-upgraded>🧩installation Bundles &amp; 🚦control flags</h2>
 <p>Now that we have understood the delegation of the program&#39;s logic and it&#39;s main components, here is a table of the installation Bundles and their respective enabled flags:</p>
+<h3 is-upgraded>🧩installation Bundles</h3>
+<ul>
+<li>installationBundleDemo</li>
+<li>installationBundleWorkshop</li>
+<li>installationBundleKeptnOnly</li>
+<li>installationBundleKeptnQualityGates</li>
+<li>installationBundlePerformanceAsAService</li>
+<li>installationBundleAll</li>
+</ul>
+<h3 is-upgraded>🚦control Flags</h3>
 <table>
 <tr></tr>
 <tr><td colspan="1" rowspan="1"><p><strong>🚦control flag</strong></p>
-</td><td colspan="1" rowspan="1"><p><strong>🧩Demo</strong></p>
-</td><td colspan="1" rowspan="1"><p><strong>🧩Workshop</strong></p>
-</td><td colspan="1" rowspan="1"><p><strong>🧩KeptnOnly</strong></p>
-</td><td colspan="1" rowspan="1"><p><strong>🧩All</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>Demo</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>Workshop</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>KeptnOnly</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>QualityGates</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>PerfAaS</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>All</strong></p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>update_ubuntu</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
@@ -243,8 +257,12 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>microk8s_install</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
@@ -255,16 +273,22 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>enable_k8dashboard</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>enable_registry</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
@@ -272,11 +296,15 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>helm_install</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
@@ -284,9 +312,13 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>certmanager_enable</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
@@ -297,8 +329,12 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>keptn_examples_clone</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
@@ -309,14 +345,12 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>resources_route_istio_ingress</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>dynatrace_savecredentials</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
@@ -327,8 +361,12 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>dynatrace_activegate_install</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
@@ -339,14 +377,12 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>keptn_bridge_expose</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>keptndemo_teaser_pipeline</p>
+<tr><td colspan="1" rowspan="1"><p>keptndeploy_homepage</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
@@ -356,11 +392,15 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>keptndemo_unleash</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
@@ -368,28 +408,84 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>microk8s_expose_kubernetes_api</p>
+<tr><td colspan="1" rowspan="1"><p>expose_kubernetes_api</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>microk8s_expose_kubernetes_dashboard</p>
+<tr><td colspan="1" rowspan="1"><p>expose_kubernetes_dashboard</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>patch_kubernetes_dashboard</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>create_workshop_user</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
+<tr><td colspan="1" rowspan="1"><p>jenkins_deploy</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>jmeter_extended_service</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>keptn_install_qualitygates</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>certmanager_install</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>certmanager_install</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td></tr>
 </table>
-<p>The <strong>dynatrace_</strong>* control flags will be disabled if you don&#39;t enter your Dynatrace credentials.</p>
+<p>The <strong>dynatrace_</strong> control flags will be disabled if you don&#39;t enter your Dynatrace credentials.</p>
 <h2 is-upgraded>The Default Installation Bundle</h2>
 <p>🧩The default installation bundle is <strong>installationBundleDemo</strong>. You can change installation bundles by commenting them out in the section.</p>
 <pre><code># ==================================================
