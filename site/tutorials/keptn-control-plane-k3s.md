@@ -18,7 +18,7 @@ In this tutorial we are going to learn how to install keptn on k3s.
 
 - Find out what k3s is and why it is a good boat for keptn
 - Install the keptn control plane on k3s 
-- Take the next steps ...
+- How to take the next steps ...
 
 ## Before you start
 
@@ -35,13 +35,13 @@ What is K3s?
 * k3s is shipped as a single binary (including kubectl and all k8s components)
 * Very simple installation
 * Ingress and HostPath Provisioner included
-* Further reading: https://k3s.io
+* Further reading: [k3s.io](https://k3s.io)
 
 ### Disclaimer
 Negative
-: Although the k3s installation is running smoothly, it is currently a sandbox project. Therefore, keep following things in mind:
+: Although the [k3s](https://k3s.io) installation is running smoothly, [keptn-on-k3s](https://github.com/keptn-sandbox/keptn-on-k3s) is currently a sandbox project. Therefore, keep following things in mind:
  * Currently, this is only working for the control plane (quality gates)
- * It is using the expermental manifest installation (https://keptn.sh/docs/develop/operate/manifest_installation/)
+ * It is using the experimental [manifest installation](https://keptn.sh/docs/develop/operate/manifest_installation/)
  * Upgrading via the keptn CLI is not supported
  * Do not use this in production (at the moment)
  
@@ -60,10 +60,10 @@ Currently, this has been tested using following distributions:
 * Debian on GCP
 * Amazon Linux
 
-Hardware Requirements:
+### Hardware Requirements:
 * 1(v)CPU and 4GB of memory
 
-Cloud Providers "supported" (Mechanism for detecting the external IP is available)
+### Cloud Providers "supported" (Mechanism for detecting the external IP is available)
 * Google Cloud Platform
 * Amazon Web Services
 * Digital Ocean
