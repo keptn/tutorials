@@ -1,0 +1,30 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2020-07-02T09:05:09+02:00",
+  "id": "keptn-control-plane-k3s",
+  "duration": 19,
+  "title": "Install Keptn on K3s",
+  "authors": "Thomas Schuetz",
+  "summary": "My first tutorial",
+  "source": "keptn-control-plane-k3s_gen.md",
+  "theme": "",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "k3s",
+    "dynatrace",
+    "prometheus",
+    "quality-gates",
+    "automated-operations",
+    "installation"
+  ],
+  "tags": [
+    "keptn06x"
+  ],
+  "feedback": "https://keptn.sh",
+  "url": "keptn-control-plane-k3s"
+}
