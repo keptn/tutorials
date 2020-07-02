@@ -183,7 +183,8 @@ $color-google-blue, 'wear-os.svg');
   $keptnBlue, 'microk8s.png');
 @include codelab-card(['jenkins'],
   $keptnBlue, 'jenkins.png');
-
+  @include codelab-card(['k3s'],
+  $keptnBlue, 'k3s.png');
 
 
 @include codelab-card(['design'],

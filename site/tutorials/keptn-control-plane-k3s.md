@@ -1,6 +1,6 @@
 summary: My first tutorial
 id: keptn-control-plane-k3s
-categories: Dynatrace,Prometheus,quality-gates,automated-operations
+categories: k3s,Dynatrace,Prometheus,quality-gates,automated-operations,installation
 tags: keptn06x
 status: Draft 
 authors: Thomas Schuetz
