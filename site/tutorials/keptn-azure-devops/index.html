@@ -69,7 +69,7 @@
         <p>We are going to setup a Kubernetes cluster in Azure. Therefore, please download the <code>az</code> command line tool. Next, please create a cluser in the <a href="https://portal.azure.com/" target="_blank">Azure Portal</a>.</p>
 <ol type="1">
 <li>Install local tools<ul>
-<li><a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank">az</a></li>
+<li><a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank">az</a> and make sure to be logged in to your Azure account (with <code>az login</code>)</li>
 </ul>
 </li>
 <li>Create AKS cluster<ul>
@@ -327,13 +327,13 @@ carts-db-6656b66b4c-zw287   1/1     Running   0          85s
         <ol type="1">
 <li>Now we are going to set up the Keptn Quality Gate. Once triggered it will automatically reach out to the SLI provider (in our example this is Dynatrace) and will fetch all metrics defined in the SLO file. If there are objectives defined, the Keptn quality gate will evaluate the metrics and generate a score for each individual metric, as well as total score for the whole quality gate.<br>Again, set up a a new step from a <strong>Bash Script</strong> that we call <strong>keptn quality gate</strong>. Select the corresponding file from the <code>azure</code> folder as the script path.<img alt="add quality gate" src="img/ba3eebaa1862590d.png">The whole logic of the quality gate is implemented in a simple bash script named <code>quality-gate.sh</code> that you&#39;ll find in the <code>azure</code> folder. Add it in the script path of your pipeline task.<br>The script will trigger the evaluation of the quality gate, and then query the Keptn API for the result of the evaluation. Depending on the monitoring tool this might take some time for all data to be processed, thus this script might take up to 2-3 minutes.</li>
 <li>Let us now set the variables for the tests &amp; evaluation of the quality gates. We will need the following variables:<ul>
-<li>KEPTN_API_TOKEN see below</li>
-<li>KEPTN_ENDPOINT see below</li>
-<li>SERVICE_URL see below</li>
-<li>KEPTN_PROJECT = sockshop</li>
-<li>KEPTN_SERVICE = carts</li>
-<li>KEPTN_STAGE = preprod</li>
-<li>NUM_OF_REQUESTS = 1000</li>
+<li><code>KEPTN_API_TOKEN</code> see below</li>
+<li><code>KEPTN_ENDPOINT</code> see below</li>
+<li><code>SERVICE_URL</code> see below</li>
+<li><code>KEPTN_PROJECT</code> = sockshop</li>
+<li><code>KEPTN_SERVICE</code> = carts</li>
+<li><code>KEPTN_STAGE</code> = preprod</li>
+<li><code>NUM_OF_REQUESTS</code> = 1000</li>
 </ul>
 <img alt="variables" src="img/b96a9fac96f5b828.png">You will receive the KEPTN_API_TOKEN with the following command:<pre><code>echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
 </code></pre>
@@ -343,6 +343,8 @@ Get the SERVICE_URL by executing:<pre><code>echo http://$(kubectl get svc carts 
 </code></pre>
 </li>
 </ol>
+<p>Finally, please double check that you have set all environment variables correctly.</p>
+<p class="image-container"><img alt="vars" src="img/d6c6ca433ec00e3d.png"></p>
 
 
       </google-codelab-step>

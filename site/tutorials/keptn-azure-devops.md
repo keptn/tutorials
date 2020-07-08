@@ -385,13 +385,13 @@ Again, set up a a new step from a **Bash Script** that we call **keptn quality g
 
 1. Let us now set the variables for the tests & evaluation of the quality gates. We will need the following variables:
 
-    - KEPTN_API_TOKEN see below
-    - KEPTN_ENDPOINT see below
-    - SERVICE_URL see below
-    - KEPTN_PROJECT = sockshop
-    - KEPTN_SERVICE = carts
-    - KEPTN_STAGE = preprod
-    - NUM_OF_REQUESTS = 1000
+    - `KEPTN_API_TOKEN` see below
+    - `KEPTN_ENDPOINT` see below
+    - `SERVICE_URL` see below
+    - `KEPTN_PROJECT` = sockshop
+    - `KEPTN_SERVICE` = carts
+    - `KEPTN_STAGE` = preprod
+    - `NUM_OF_REQUESTS` = 1000
 
     ![variables](./assets/azure-devops/azure-devops-variables.png)
 
@@ -410,7 +410,9 @@ Again, set up a a new step from a **Bash Script** that we call **keptn quality g
     echo http://$(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})/
     ```
 
+Finally, please double check that you have set all environment variables correctly.
 
+![vars](./assets/azure-devops/azdevops-env-vars.png)
 
 ## Run the deployment & quality gate
 Duration: 4:00
