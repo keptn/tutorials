@@ -4,7 +4,7 @@ Duration: 5:00
 
 After creating the project, services can be onboarded to our project.
 
-1. Onboard the **carts** service using the [keptn onboard service](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_onboard_service/) command:
+1. Onboard the **carts** service using the [keptn onboard service](https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_onboard_service/) command:
 
 ```
 keptn onboard service carts --project=sockshop --chart=./carts
@@ -28,12 +28,14 @@ keptn onboard service carts --project=sockshop --chart=./carts
 
 Since the carts service requires a mongodb database, a second service needs to be onboarded.
 
-* Onboard the **carts-db** service using the [keptn onboard service](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_onboard_service/) command. The `--deployment-strategy` flag specifies that for this service a *direct* deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.
+* Onboard the **carts-db** service using the [keptn onboard service](https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_onboard_service/) command. The `--deployment-strategy` flag specifies that for this service a *direct* deployment strategy in all stages should be used regardless of the deployment strategy specified in the shipyard. Thus, the database is not blue/green deployed.
 
 ```
 keptn onboard service carts-db --project=sockshop --chart=./carts-db --deployment-strategy=direct
 ```
 
+Take a look in your Keptn's Bridge and see the newly onboarded services.
+![bridge services](./assets/bridge-new-services.png)
 
 
 ## Deploy first build with Keptn 
@@ -41,7 +43,7 @@ Duration: 5:00
 
 After onboarding the services, a built artifact of each service can be deployed.
 
-1. Deploy the carts-db service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_send_event_new-artifact/) command:
+1. Deploy the carts-db service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_send_event_new-artifact/) command:
 
 ```
 keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2
@@ -53,21 +55,14 @@ keptn send event new-artifact --project=sockshop --service=carts-db --image=dock
 keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.1
 ```
 
-1. Go to Keptn's Bridge and check which events have already been generated. You can access it by a port-forward from your local machine to the Kubernetes cluster:
+1. Go to Keptn's Bridge and check which events have already been generated.
+  ![bridge](./assets/bridge.png)
 
-``` 
-kubectl port-forward svc/bridge -n keptn 9000:8080
-```
-
-1. The Keptn's Bridge is then available on [http://localhost:9000](http://localhost:9000).
-    It shows all deployments that have been triggered. On the left-hand side, you can see the deployment start events (i.e., so-called `Configuration change` events). During a deployment, Keptn generates events for controlling the deployment process. These events will also show up in Keptn's Bridge. Please note that if events are sent at the same time, their order in the Keptn's Bridge might be arbitrary since they are sorted on the granularity of one second. 
-
-    ![Keptn's Bridge](./assets/bridge.png)
 
 1. **Optional:** Verify the pods that should have been created for services carts and carts-db:
 
 ```
-kubectl get pods --all-namespaces | grep carts
+kubectl get pods --all-namespaces | grep carts-
 ```
 
 ```
@@ -85,15 +80,15 @@ Duration: 2:00
 1. Get the URL for your carts service with the following commands in the respective namespaces:
 
   ```
-  echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+  echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
   ```
 
   ```
-  echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+  echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
   ```
 
   ```
-  echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+  echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
   ```
 
 1. Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:

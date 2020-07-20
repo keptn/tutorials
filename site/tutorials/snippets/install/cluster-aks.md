@@ -14,7 +14,7 @@ We are going to setup a Kubernetes cluster in Azure. Therefore, please download 
   - [az](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and make sure to be logged in to your Azure account (with `az login`)
 
 1. Create AKS cluster
-  - Master version >= `1.15.x` (tested version: `1.15.10`)
+  - Master version >= `1.16.x` (tested version: `1.16.10`)
   - Size of the cluster: One **D8s_v3** node
 
-Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.6.0/installation/k8s-support/).
+Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.7.x/installation/k8s-support/).

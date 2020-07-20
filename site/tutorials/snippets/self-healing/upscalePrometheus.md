@@ -5,9 +5,10 @@ Duration: 2:00
 
 Next, you will learn how to use the capabilities of Keptn to provide self-healing for an application without modifying code. In the next part, we configure Keptn to scale up the pods of an application if the application undergoes heavy CPU saturation. 
 
-First, make sure you are in the correct folder `examples/onboarding-carts` otherwise the next commands will fail!
+Negative
+: First, make sure you are in the correct folder `examples/onboarding-carts` otherwise the next commands will fail.
 
-Add an SLO file for the production stage using the Keptn CLIs add-resource command:
+Add the prepared SLO file for self-healing to the production stage using the Keptn CLIs add-resource command:
 ```
 keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
 ```
@@ -27,15 +28,24 @@ keptn add-resource --project=sockshop --stage=production --service=carts --resou
 This is the content of the file that has being added:
 
 ```
-remediations:
-- name: response_time_p90
-  actions:
-  - action: scaling
-    value: +1
-- name: Response time degradation
-  actions:
-  - action: scaling
-    value: +1
+apiVersion: spec.keptn.sh/0.1.4
+kind: Remediation
+metadata:
+  name: carts-remediation
+spec:
+  remediations:
+    - problemType: Response time degradation
+      actionsOnOpen:
+        - action: scaling
+          name: scaling
+          description: Scale up
+          value: 1
+    - problemType: response_time_p90
+      actionsOnOpen:
+        - action: scaling
+          name: scaling
+          description: Scale up
+          value: 1
 ```
 
 ## Generate load for the service
@@ -61,7 +71,7 @@ To simulate user traffic that is causing an unhealthy behavior in the carts serv
     kubectl port-forward svc/prometheus-service -n monitoring 8080:8080
     ```
     
-    - Access Prometheus from your browser on http://localhost:8080.
+    - Access Prometheus from your browser on [http://localhost:8080](http://localhost:8080).
 
     - In the **Graph** tab, add the expression 
 
@@ -79,7 +89,7 @@ To simulate user traffic that is causing an unhealthy behavior in the carts serv
 ## Watch self-healing in action
 Duration: 10:00
 
-After approximately 10-15 minutes, the *Alert Manager* will send out an alert since the service level objective is not met anymore. 
+After approximately 10-15 minutes, the *Alert Manager* will send out an alert since the *service level objective* is not met anymore. 
 
 To verify that an alert was fired, select the *Alerts* view where you should see that the alert `response_time_p90` is in the `firing` state:
 
@@ -116,18 +126,16 @@ In this tutorial, the number of pods will be increased to remediate the issue of
     carts-primary-7c96d87df9-78fh2    2/2     Running   0          5m
     ```
 
-1. To get an overview of the actions that got triggered by the response time SLO violation, you can use the Keptn's Bridge. You can access it by a port-forward from your local machine to the Kubernetes cluster:
-
-    ``` 
-    kubectl port-forward svc/bridge -n keptn 9000:8080
-    ```
-
-    Now, access the bridge from your browser on http://localhost:9000. 
+1. To get an overview of the actions that got triggered by the response time SLO violation, you can use the Keptn's Bridge.
 
     In this example, the bridge shows that the remediation service triggered an update of the configuration of the carts service by increasing the number of replicas to 2. When the additional replica was available, the wait-service waited for ten minutes for the remediation action to take effect. Afterwards, an evaluation by the lighthouse-service was triggered to check if the remediation action resolved the problem. In this case, increasing the number of replicas achieved the desired effect, since the evaluation of the service level objectives has been successful.
     
-    ![Bridge - Remediation](./assets/bridge_remediation.png)
+    ![Bridge - Remediation](./assets/bridge-remediation-flow.png)
 
 1. Furthermore, you can use Prometheus to double-check the response time:
 
     ![Prometheus](./assets/prometheus-load-reduced.png)
+
+1. Also, the Prometheus Alert Manager will show zero active alerts.
+
+    ![prometheus](./assets/prometheus-alerts-zero.png)

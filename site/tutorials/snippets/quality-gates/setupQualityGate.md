@@ -2,9 +2,9 @@
 ## Set up the quality gate
 Duration: 4:00
 
-Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.3/sre.md).
+Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/master/sre.md).
 
-Activate the quality gates for the carts service. Therefore, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_add-resource/) command:
+Activate the quality gates for the carts service. Therefore, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_add-resource/) command:
 
 Make sure you are in the correct folder `examples/onboarding-carts`. If not, change the directory accordingly, e.g., `cd ../../onboarding-carts`.
 
@@ -16,7 +16,7 @@ This will add the `SLO.yaml` file to your Keptn - which is the declaritive defin
 
 ```
 ---
-spec_version: "0.1.1"
+spec_version: "1.0"
 comparison:
   aggregate_function: "avg"
   compare_with: "single_result"
@@ -46,17 +46,17 @@ You can take a look at the currently deployed version of our "carts" microservic
 
 1. Get the URL for your carts service with the following commands in the respective stages:
 
-```
-echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-```
+  ```
+  echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+  ```
 
-```
-echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-```
+  ```
+  echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+  ```
 
-```
-echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-```
+  ```
+  echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+  ```
 
 2. Navigate to `http://carts.sockshop-production.YOUR.DOMAIN` for viewing the carts service in your **production** environment and you should receive an output similar to the following:
 
@@ -76,11 +76,11 @@ keptn send event new-artifact --project=sockshop --service=carts --image=docker.
 2. Go ahead and verify that the slow build has reached your `dev` and `staging` environments by opening a browser for both environments. Get the URLs with these commands:
 
 ```
-echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
 ```
 
 ```
-echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
 ```
 
 
@@ -98,26 +98,25 @@ After triggering the deployment of the carts service in version v0.11.2, the fol
   * To verify, open a browser and navigate to: 
   
   ```
-  echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+  echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
   ```
 
 * **Staging stage:** In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.
-  * To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) shows the deployment of v0.11.2 and then the failed test in staging including the roll-back.
-  Open the browser tab with the Keptn's Bridge and verify yourself: [http://localhost:9000](http://localhost:9000)
-  ![Quality gate in staging](./assets/quality_gates.png)
+  * To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.7.x/reference/bridge/) shows the deployment of v0.11.2 and then the failed test in staging including the roll-back.
+  ![Quality gate in staging](./assets/bridge-quality-gate.png)
 
 * **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.
   * To verify, navigate to: 
   ```
-  echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+  echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
   ```
 
 ## Verify the quality gate in Keptn's Bridge
 Duration: 3:00
 
-Take a look in the Keptn's bridge (that you opened earlier in this tutorial) and navigate to the last deployment. You will find a quality gate evaluation that got a `fail` result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won't be promoted to production but instead automatically rolled back.
+Take a look in the Keptn's bridge and navigate to the last deployment. You will find a quality gate evaluation that got a `fail` result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won't be promoted to production but instead automatically rolled back.
 
-![Keptn's bridge](./assets/quality-gates-bridge.png)
+![Keptn's bridge](./assets/bridge-quality-gate.png)
 
 
 
@@ -155,4 +154,4 @@ Duration: 3:00
         Image:      docker.io/keptnexamples/carts:0.11.3
   ```
 
-
+1. Take another look into the Keptn's Bridge and you will see this new version passed the quality gate and thus, is now running in production!
