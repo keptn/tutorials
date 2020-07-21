@@ -39,17 +39,17 @@ In this tutorial, we are going to install Keptn on a Kubernetes cluster, along w
 
 {{ snippets/07/install/authCLI-istio.md }}
 
-{{ snippets/manage/createProject.md }}
+{{ snippets/07/manage/createProject.md }}
 
-{{ snippets/manage/onboardService.md }}
+{{ snippets/07/manage/onboardService.md }}
 
-{{ snippets/monitoring/setupPrometheus.md }}
+{{ snippets/07/monitoring/setupPrometheus.md }}
 
-{{ snippets/monitoring/install-sliprovider-prometheus.md }}
+{{ snippets/07/monitoring/install-sli-provider-prometheus.md }}
 
-{{ snippets/quality-gates/setupQualityGate.md }}
+{{ snippets/07/quality-gates/setupQualityGate.md }}
 
-{{ snippets/self-healing/upscalePrometheus.md }}
+{{ snippets/07/self-healing/upscalePrometheus.md }}
 
 
 ## Finish
@@ -114,6 +114,6 @@ Although Keptn has even more to offer that should have given you a good overview
 - We have set up self-healing to automatically scale our application 
   ![Bridge - Remediation](./assets/bridge-remediation-flow.png)
 
-{{ snippets/integrations/gettingStarted.md }}
+{{ snippets/07/integrations/gettingStarted.md }}
 
-{{ snippets/community/feedback.md }}
+{{ snippets/07/community/feedback.md }}

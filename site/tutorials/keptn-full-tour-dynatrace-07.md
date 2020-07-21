@@ -44,9 +44,9 @@ In this tutorial, we are going to install Keptn on a Kubernetes cluster, along w
 
 {{ snippets/07/monitoring/setupDynatrace.md }}
 
-{{ snippets/manage/createProject.md }}
+{{ snippets/07/manage/createProject.md }}
 
-{{ snippets/manage/onboardService.md }}
+{{ snippets/07/manage/onboardService.md }}
 
 ## Setup SLI provider
 Duration: 2:00
@@ -72,9 +72,9 @@ keptn configure monitoring dynatrace --project=sockshop
 Positive
 : Since we already installed the Dynatrace service, the SLI provider can fetch the credentials to connect to Dynatrace from the same secret we created earlier.
 
-{{ snippets/quality-gates/setupQualityGate.md }}
+{{ snippets/07/quality-gates/setupQualityGate.md }}
 
-{{ snippets/self-healing/featureFlagsDynatrace.md }}
+{{ snippets/07/self-healing/featureFlagsDynatrace.md }}
 
 
 
@@ -141,6 +141,6 @@ stages:
 - We have set up self-healing by automated toggling of feature flags in Unleash.
   ![unleash](./assets/unleash-promotion-toggle.png)
 
-{{ snippets/integrations/gettingStarted.md }}
+{{ snippets/07/integrations/gettingStarted.md }}
 
-{{ snippets/community/feedback.md }}
+{{ snippets/07/community/feedback.md }}

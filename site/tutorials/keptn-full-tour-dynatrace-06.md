@@ -1,16 +1,17 @@
-summary: Take a full tour on Keptn with Prometheus
-id: keptn-full-tour-prometheus
-categories: Prometheus,aks,eks,gke,openshift,pks,minikube,full-tour,quality-gates,automated-operations
+summary: Take a full tour on Keptn with Dynatrace
+id: keptn-full-tour-dynatrace
+categories: Dynatrace,aks,eks,gke,openshift,pks,minikube,full-tour,quality-gates,automated-operations
 tags: keptn06x
 status: Published 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
-# Keptn Full Tour on Prometheus
+# Keptn Full Tour on Dynatrace
 
 ## Welcome
 Duration: 2:00 
+
 
 In this tutorial you'll get a full tour through Keptn. Before we get started you'll get to know what you will learn while you walk yourself through this tutorial.
 
@@ -34,17 +35,34 @@ If not, please [follow one of these tutorials to install Keptn](../../?cat=insta
 
 <!-- include other files -->
 
-{{ snippets/manage/createProject.md }}
+{{ snippets/06/monitoring/setupDynatrace.md }}
 
-{{ snippets/manage/onboardService.md }}
+{{ snippets/06/manage/createProject.md }}
 
-{{ snippets/monitoring/setupPrometheus.md }}
+{{ snippets/06/manage/onboardService.md }}
 
-{{ snippets/monitoring/install-sliprovider-prometheus.md }}
+## Setup SLI provider
+Duration: 2:00
 
-{{ snippets/quality-gates/setupQualityGate.md }}
+During the evaluation of a quality gate, the Dynatrace SLI provider is required that is implemented by an internal Keptn service, the dynatrace-sli-service. This service will fetch the values for the SLIs that are referenced in an SLO configuration.
 
-{{ snippets/self-healing/upscalePrometheus.md }}
+```
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.4.1/deploy/service.yaml
+```
+
+Configure the already onboarded project with the new SLI provider:
+
+```
+keptn configure monitoring dynatrace --project=sockshop
+```
+
+Positive
+: Since we already installed the Dynatrace service, the SLI provider can fetch the credentials to connect to Dynatrace from the same secret we created earlier.
+
+{{ snippets/06/quality-gates/setupQualityGate.md }}
+
+{{ snippets/06/self-healing/featureFlagsDynatrace.md }}
+
 
 
 ## Finish
@@ -55,7 +73,8 @@ Although Keptn has even more to offer that should have given you a good overview
 
 ### What we've covered
 
-- We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the `shipyard` file
+
+- We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the `shipyard` file.
   ```
   stages:
     - name: "dev"
@@ -69,7 +88,7 @@ Although Keptn has even more to offer that should have given you a good overview
       remediation_strategy: "automated"
   ```
 
-- We have set up quality gates based on service level objectives in our `slo` file
+- We have set up quality gates based on service level objectives in our `slo` file.
   ```
   ---
   spec_version: "0.1.1"
@@ -95,14 +114,12 @@ Although Keptn has even more to offer that should have given you a good overview
     warning: "75%"
   ```
 
-
 - We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.
   ![bridge](./assets/quality-gates-bridge.png)
 
+- We have set up self-healing by automated toggling of feature flags in Unleash.
+  ![unleash](./assets/unleash-promotion-toggle.png)
 
-- We have set up self-healing to automatically scale our application 
-  ![Bridge - Remediation](./assets/bridge_remediation.png)
+{{ snippets/06/integrations/gettingStarted.md }}
 
-{{ snippets/integrations/gettingStarted.md }}
-
-{{ snippets/community/feedback.md }}
+{{ snippets/06/community/feedback.md }}

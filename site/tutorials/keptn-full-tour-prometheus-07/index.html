@@ -386,7 +386,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
 <p>We are going to add the configuration for our SLIs in terms of an SLI file that maps the <em>name</em> of an indicator to a PromQL statement how to actually query it.</p>
 <pre><code>keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-prometheus-selfhealing.yaml --resourceUri=prometheus/sli.yaml 
 </code></pre>
-<p>For you information, the contents of the file are:</p>
+<p>For your information, the contents of the file are as follows:</p>
 <pre><code>---
 spec_version: &#39;1.0&#39;
 indicators:
@@ -475,10 +475,7 @@ total_score:
 </li>
 </ul>
 </li>
-<li><strong>Staging stage:</strong> In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.<ul>
-<li>To verify, the <a href="https://keptn.sh/docs/0.7.x/reference/bridge/" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.11.2 and then the failed test in staging including the roll-back.<br><img alt="Quality gate in staging" src="img/718efaeab0e383eb.png"></li>
-</ul>
-</li>
+<li><strong>Staging stage:</strong> In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.</li>
 <li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.<ul>
 <li>To verify, navigate to:<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
 </code></pre>
@@ -492,6 +489,7 @@ total_score:
     
       <google-codelab-step label="Verify the quality gate in Keptn&#39;s Bridge" duration="3">
         <p>Take a look in the Keptn&#39;s bridge and navigate to the last deployment. You will find a quality gate evaluation that got a <code>fail</code> result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won&#39;t be promoted to production but instead automatically rolled back.</p>
+<p>To verify, the <a href="https://keptn.sh/docs/0.7.x/reference/bridge/" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.11.2 and then the failed test in staging including the roll-back.</p>
 <p class="image-container"><img alt="Keptn's bridge" src="img/718efaeab0e383eb.png"></p>
 
 
@@ -688,7 +686,7 @@ warning: &#34;75%&#34;
         <aside class="special"><p>We are happy to hear your feedback!</p>
 </aside>
 <p>Please visit us in our <a href="https://bit.ly/keptn-slack" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
-<p>Also, please <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
+<p>Also, make sure to <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
 
 
       </google-codelab-step>

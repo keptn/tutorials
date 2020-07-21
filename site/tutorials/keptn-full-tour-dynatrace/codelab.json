@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-06-05T13:55:25+02:00",
+  "updated": "2020-07-21T15:14:23+02:00",
   "id": "keptn-full-tour-dynatrace",
   "duration": 91,
   "title": "Keptn Full Tour on Dynatrace",
   "authors": "Jürgen Etzlstorfer",
   "summary": "Take a full tour on Keptn with Dynatrace",
-  "source": "keptn-full-tour-dynatrace_gen.md",
+  "source": "keptn-full-tour-dynatrace-06_gen.md",
   "theme": "",
   "status": [
     "published"
