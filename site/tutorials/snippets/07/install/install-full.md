@@ -11,9 +11,6 @@ keptn install --keptn-api-service-type=ClusterIP --use-case=continuous-delivery
 Positive
 : The installation process will take about 3-5 minutes.
 
-Negative
-: If the installation fails, please double check that you are logged in to your Azure account with `az login`
-
 ### Installation details 
 
 In the Keptn namespace, the following deployments should be found:

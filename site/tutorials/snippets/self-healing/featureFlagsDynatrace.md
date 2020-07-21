@@ -39,7 +39,7 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
 1. Get the URL (`unleash.unleash-dev.KEPTN_DOMAIN`):
 
     ```
-    echo http://unleash.unleash-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+    echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
     ```
 
 1. Open the URL in your browser and log in using the following credentials:
@@ -81,25 +81,37 @@ As said, in this tutorial we can use the following command as it is:
     kubectl -n keptn create secret generic unleash --from-literal="UNLEASH_SERVER_URL=http://unleash.unleash-dev/api" --from-literal="UNLEASH_USER=keptn" --from-literal="UNLEASH_TOKEN=keptn"
     ```
 
-1. Keptn has to be aware of the new secret to connect to the Unleash server and to set the feature toggles. Therefore, the *remediation-service* must be restarted:
-
+1. Install the Unleash action provider which is responsible for acting upon an alert, thus it is the part that will actually resolve issues by changing the stage of the feature flags.
     ```
-    kubectl delete pod -l=run=remediation-service -n keptn
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.1.0/deploy/service.yaml
     ```
 
 1. Finally, switch to the carts example (`cd examples/onboarding-carts`) and add the following remediation instructions
 
-        remediations:
-        - name: "Response time degradation"
-          actions:
-          - action: featuretoggle
-            value: EnableItemCache:on
-        - name: "Failure rate increase"
-          actions:
-          - action: featuretoggle
-            value: EnablePromotion:off
+    ```
+    apiVersion: spec.keptn.sh/0.1.4
+    kind: Remediation
+    metadata:
+      name: carts-remediation
+    spec:
+      remediations:
+        - problemType: Response time degradation
+          actionsOnOpen:
+            - action: toggle-feature
+              name: Toogle feature flag
+              description: Toogle feature flag EnableItemCache to ON
+              value:
+                EnableItemCache: "on"
+        - problemType: Failure rate increase
+          actionsOnOpen:
+            - action: toggle-feature
+              name: Toogle feature flag
+              description: Toogle feature flag EnablePromotion to OFF
+              value:
+                EnablePromotion: "off"
+    ```
 
-    using the command:
+    using the following command. Please make sure you are in the correct folder `examples/onboardin-carts`.
 
     ```
     keptn add-resource --project=sockshop --service=carts --stage=production --resource=remediation_feature_toggle.yaml --resourceUri=remediation.yaml
@@ -120,9 +132,10 @@ Duration: 5:00
 
 1. By enabling this feature flag, a not implemented function is called resulting in a *NotImplementedFunction* error in the source code and a failed response. After a couple of minutes, the monitoring tool will detect an increase in the failure rate and will send out a problem notification to Keptn.
 
-1. Keptn will receive the problem notification/alert and look for a remediation action that matches this problem. Since we have added the `remediation.yaml` before, Keptn will find a remediation action and will trigger the corresponding action that will disable the feature flag.
+1. Keptn will receive the problem notification/alert and look for a remediation action that matches this problem. Since we have added the `remediation.yaml` before, Keptn will find a remediation action and will trigger the corresponding action by reaching out to the action provider that will disable the feature flag.
 
-1. Finally, take a look into the Keptn's Bridge to see that an open problem has been resolved:
+1. Finally, take a look into the Keptn's Bridge to see that an open problem has been resolved. You might notice that also the other stages like _dev_, and _staging_ received the error. The reason is that they all receive the same feature flag configuration and all receive traffic from the load generator. However, for _dev_ and _staging_ there is no `remediation.yaml` added and thus, no remediation will be performed if problems in this stages are detected. If you want to change this behaviour, go ahead and also add the `remediation.yaml` file to the other stages by executing another `keptn add-resource` command. For this tutorial, we are fine by only having self-healing for our production stage!
     
-    ![bridge unleash](./assets/bridge_remediation_unleash.png)
+    ![bridge unleash](./assets/bridge-unleash-remediation.png)
 
+1. 10 minutes after Keptn disables the feature flag, Keptn will also trigger another evaluation to make sure the trigger remediation action did actually resolve the problem. In case the problem is not resolved and the remediation file would hold more remediation actions, Keptn would go ahead and trigger them. For our tutorial Keptn has resolved the issue already, so no need for a second try!

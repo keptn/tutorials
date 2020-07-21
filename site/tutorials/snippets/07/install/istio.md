@@ -13,3 +13,12 @@ Check the version of Istio that has been downloaded and execute the installer fr
 ```
 
 The installation of Istio should be finished within a couple of minutes.
+
+```
+This will install the default Istio profile into the cluster. Proceed? (y/N) y
+✔ Istio core installed
+✔ Istiod installed
+✔ Ingress gateways installed
+✔ Addons installed
+✔ Installation complete
+```

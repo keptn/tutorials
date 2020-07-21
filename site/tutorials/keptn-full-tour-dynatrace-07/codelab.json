@@ -3,19 +3,19 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-07-21T11:46:43+02:00",
-  "id": "keptn-full-tour-prometheus-07",
-  "duration": 88,
-  "title": "Keptn Full Tour on Prometheus",
+  "updated": "2020-07-21T14:38:34+02:00",
+  "id": "keptn-full-tour-dynatrace-07",
+  "duration": 104,
+  "title": "Keptn Full Tour on Dynatrace",
   "authors": "Jürgen Etzlstorfer",
-  "summary": "Take a full tour on Keptn with Prometheus",
-  "source": "keptn-full-tour-prometheus-07_gen.md",
+  "summary": "Take a full tour on Keptn with Dynatrace",
+  "source": "keptn-full-tour-dynatrace-07_gen.md",
   "theme": "",
   "status": [
     "published"
   ],
   "category": [
-    "prometheus",
+    "dynatrace",
     "aks",
     "eks",
     "gke",
@@ -30,5 +30,5 @@
     "keptn07x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
-  "url": "keptn-full-tour-prometheus-07"
+  "url": "keptn-full-tour-dynatrace-07"
 }

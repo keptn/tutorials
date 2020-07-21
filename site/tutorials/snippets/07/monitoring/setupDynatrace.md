@@ -9,7 +9,6 @@ Positive
 
 If you don't have a Dynatrace tenant yet, sign up for a [free trial](https://www.dynatrace.com/trial/) or a [developer account](https://www.dynatrace.com/developer/).
 
-
 ## Gather Dynatrace tokens
 Duration: 6:00
 
@@ -42,9 +41,61 @@ Duration: 6:00
     DT_API_TOKEN=yourAPItoken
     DT_PAAS_TOKEN=yourPAAStoken
     ```
-    If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variable, please make sure to set the right values in the next command.
+
+    Negative
+    : Please make sure your DT_TENANT does _not contain_ any trailing slashes nor a https:// in the beginning.
+
+    If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.
     ```
-    kubectl -n keptn create secret generic dynatrace --from-literal="DT_TENANT=$DT_TENANT" --from-literal="DT_API_TOKEN=$DT_API_TOKEN"  --from-literal="DT_PAAS_TOKEN=$DT_PAAS_TOKEN"
+    kubectl -n keptn create secret generic dynatrace --from-literal="DT_TENANT=$DT_TENANT" --from-literal="DT_API_TOKEN=$DT_API_TOKEN"  --from-literal="DT_PAAS_TOKEN=$DT_PAAS_TOKEN" --from-literal="KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api" --from-literal="KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)" -oyaml --dry-run | kubectl replace -f -
+    ```
+
+
+KEPTN_ENDPOINT=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+
+## Deploy Dynatrace OneAgent Operator
+
+We are following the official Dynatrace docs to deploy the Dynatrace OneAgent Operator on our Kubernetes cluster. You don't have to switch to the docs, but instead can just follow along in this tutorial, we cover all necessary steps here.
+
+1. Deploy the operator
+    ```
+    kubectl create namespace dynatrace
+    kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/kubernetes.yaml
+    ```
+
+2. We are going to reuse the variables that we set in the previous step for the creation of the secret for the OneAgent operator.
+    ```
+    kubectl -n dynatrace create secret generic oneagent --from-literal="apiToken=$DT_API_TOKEN" --from-literal="paasToken=$DT_PAAS_TOKEN"
+    ```
+
+3. Download the custom resource definition and edit it.
+    ```
+    curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/master/deploy/cr.yaml
+    ```
+
+4. Set the _apiUrl_ correctly to your ENVIRONMENTID (please note that the ENVIRONMENTID is the unique ID of your Dynatrace tenant) and save the file.
+    ```
+    spec:
+      # dynatrace api url including `/api` path at the end
+      # either set ENVIRONMENTID to the proper tenant id or change the apiUrl as a whole, e.q. for Managed
+      apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api
+    ```
+
+5. Apply the custom resource.
+    ```
+    kubectl apply -f cr.yaml
+    ```
+
+6. Optional: Verify if all pods in the Dynatrace namespace are running.
+    ```
+    kubectl get pods -n dynatrace
+    ```
+
+    ```
+    dynatrace-oneagent-operator-696fd89b76-n9d9n   1/1     Running   0          6m26s
+    dynatrace-oneagent-webhook-78b6d99c85-h9759    2/2     Running   0          6m25s
+    oneagent-g9m42                                 1/1     Running   0          69s
     ```
 
 
@@ -54,13 +105,29 @@ Duration: 5:00
 1. The Dynatrace integration into Keptn is handled by the *dynatrace-service*. To install the *dynatrace-service*, execute:
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.7.1/deploy/manifests/dynatrace-service/dynatrace-service.yaml
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
     ```
 
 1. When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.
 
     ```
     keptn configure monitoring dynatrace
+    ```
+
+    Output should be similar to this:
+    ```
+    ID of Keptn context: 79f19c36-b718-4bb6-88d5-cb79f163289b
+    Configuring Dynatrace monitoring
+    Dynatrace OneAgent Operator is installed on cluster
+    Setting up auto-tagging rules in Dynatrace Tenant
+    Tagging rule keptn_service already exists
+    Tagging rule keptn_stage already exists
+    Tagging rule keptn_project already exists
+    Tagging rule keptn_deployment already exists
+    Setting up problem notifications in Dynatrace Tenant
+    Checking Keptn alerting profile availability
+    Keptn alerting profile available
+    Dynatrace Monitoring setup done
     ```
 
 **Verify Dynatrace configuration**

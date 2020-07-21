@@ -29,7 +29,7 @@ spec:
           servicePort: 80
 ```
 
-Next, make sure to replace the `<IP-ADDRESS>` with the actual IP of the ingress gateway that you just copied.
+Next, make sure to replace the `<IP-ADDRESS>` with the actual IP of the ingress gateway that you just copied. Please note that we are using [nip.io](https://nip.io/) (a wildcard DNS resolver) only for the purpose of this tutorial. In a production environment, you might want to use your own domain name here.
 
 Now let's apply the manifest to the cluster.
 
@@ -61,7 +61,7 @@ spec:
 kubectl apply -f gateway-manifest.yaml
 ```
 
-Create a `ConfigMap` for Keptn to pick up with all the needed information. Therefore execute the folowing statement that will create the configmap.
+Create a `ConfigMap` for Keptn to pick up with all the needed information. Therefore execute the following statement that will create the configmap.
 ```
 kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host}) --from-literal=ingress_port=${INGRESS_PORT} --from-literal=ingress_protocol=${INGRESS_PROTOCOL} --from-literal=istio_gateway=${ISTIO_GATEWAY} -oyaml --dry-run | kubectl replace -f -
 ```

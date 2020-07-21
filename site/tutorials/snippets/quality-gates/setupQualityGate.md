@@ -102,8 +102,7 @@ After triggering the deployment of the carts service in version v0.11.2, the fol
   ```
 
 * **Staging stage:** In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.
-  * To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.7.x/reference/bridge/) shows the deployment of v0.11.2 and then the failed test in staging including the roll-back.
-  ![Quality gate in staging](./assets/bridge-quality-gate.png)
+
 
 * **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.
   * To verify, navigate to: 
@@ -115,6 +114,8 @@ After triggering the deployment of the carts service in version v0.11.2, the fol
 Duration: 3:00
 
 Take a look in the Keptn's bridge and navigate to the last deployment. You will find a quality gate evaluation that got a `fail` result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won't be promoted to production but instead automatically rolled back.
+
+To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.7.x/reference/bridge/) shows the deployment of v0.11.2 and then the failed test in staging including the roll-back.
 
 ![Keptn's bridge](./assets/bridge-quality-gate.png)
 

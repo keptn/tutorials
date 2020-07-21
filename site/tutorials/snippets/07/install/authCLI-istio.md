@@ -21,3 +21,9 @@ Successfully authenticated
 Positive
 : Congratulations - Keptn is successfully installed and your CLI is connected to your Keptn installation!
 
+If you want, you can go ahead and take a look at the Keptn API by navigating to the endpoint that is given via
+```
+echo $KEPTN_ENDPOINT
+```
+
+![api](./assets/keptn-api.png)

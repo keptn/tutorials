@@ -68,5 +68,4 @@ else
 fi
     ```
 
-Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.6.0/installation/k8s-support/).
-
+Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.7.x/installation/k8s-support/).
