@@ -25,7 +25,14 @@ In this tutorial you'll get a full tour through Keptn. Before we get started you
 
 You'll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.
 
+
 In this tutorial, we are going to install Keptn on a Kubernetes cluster, along with Istio for traffic routing and ingress control.
+
+- [Keptn](https://keptn.sh) as a control-plane for continuous delivery and automated operations
+- [Istio](https://istio.io) as the ingress and service mesh within the cluster for traffic routing between blue/green versions of our services
+
+The full setup that we are going to deploy is sketched in the following image.
+![demo setup](./assets/full-tour-prometheus.png)
 
 {{ snippets/07/install/cluster.md }}
 

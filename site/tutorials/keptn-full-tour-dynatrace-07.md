@@ -28,6 +28,15 @@ You'll find a time estimate until the end of this tutorial in the right top corn
 
 In this tutorial, we are going to install Keptn on a Kubernetes cluster, along with Istio for traffic routing and ingress control.
 
+- [Keptn](https://keptn.sh) as a control-plane for continuous delivery and automated operations
+- [Istio](https://istio.io) as the ingress and service mesh within the cluster for traffic routing between blue/green versions of our services
+- [Unleash](https://unleash.github.io/) as a feature toggle framework that is connected to Keptn to toggle features based on monitoring data
+
+
+The full setup that we are going to deploy is sketched in the following image.
+![demo setup](./assets/full-tour-dynatrace.png)
+
+
 {{ snippets/07/install/cluster.md }}
 
 {{ snippets/07/install/istio.md }}
