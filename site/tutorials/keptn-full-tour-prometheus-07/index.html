@@ -93,7 +93,38 @@ This will download and install the Keptn CLI automatically.</li>
 </ul>
 <aside class="special"><p>For the rest of the documentation we will stick to the <em>Linux / macOS</em> version of the commands.</p>
 </aside>
-<p>&#123;&#123; snippets/install/install07-full.md }}</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install Keptn in your cluster" duration="5">
+        <p>To install the latest release of Keptn in your Kubernetes cluster, execute the <code>keptn install</code> command.</p>
+<pre><code>keptn install --keptn-api-service-type=ClusterIP --use-case=continuous-delivery
+</code></pre>
+<aside class="special"><p>The installation process will take about 3-5 minutes.</p>
+</aside>
+<aside class="warning"><p>If the installation fails, please double check that you are logged in to your Azure account with <code>az login</code></p>
+</aside>
+<h2 is-upgraded>Installation details</h2>
+<p>In the Keptn namespace, the following deployments should be found:</p>
+<pre><code>kubectl get deployments -n keptn
+
+NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
+api-gateway-nginx                                1/1     1            1           2m44s
+api-service                                      1/1     1            1           2m44s
+bridge                                           1/1     1            1           2m44s
+configuration-service                            1/1     1            1           2m44s
+eventbroker-go                                   1/1     1            1           2m44s
+gatekeeper-service                               1/1     1            1           2m44s
+helm-service                                     1/1     1            1           2m44s
+helm-service-continuous-deployment-distributor   1/1     1            1           2m44s
+jmeter-service                                   1/1     1            1           2m44s
+lighthouse-service                               1/1     1            1           2m44s
+mongodb                                          1/1     1            1           2m44s
+mongodb-datastore                                1/1     1            1           2m44s
+remediation-service                              1/1     1            1           2m44s
+shipyard-service                                 1/1     1            1           2m44s
+</code></pre>
 
 
       </google-codelab-step>
