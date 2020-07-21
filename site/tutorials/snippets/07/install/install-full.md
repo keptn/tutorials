@@ -2,7 +2,7 @@
 ## Install Keptn in your cluster
 Duration: 5:00
 
-To install the latest release of Keptn in your Kubernetes cluster, execute the `keptn install` command.
+To install the latest release of Keptn with full _quality gate + continuous delivery capabilities_ in your Kubernetes cluster, execute the `keptn install` command.
 
 ```
 keptn install --keptn-api-service-type=ClusterIP --use-case=continuous-delivery
@@ -10,6 +10,9 @@ keptn install --keptn-api-service-type=ClusterIP --use-case=continuous-delivery
 
 Positive
 : The installation process will take about 3-5 minutes.
+
+Positive
+: Please note that Keptn comes with different installation options, all of the described in detail in the [Keptn docs](https://keptn.sh/docs/0.7.x/operate/install/).
 
 ### Installation details 
 

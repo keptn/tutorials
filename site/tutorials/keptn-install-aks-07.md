@@ -1,7 +1,7 @@
 summary: Install Keptn on AKS
-id: keptn-installation-aks
+id: keptn-installation-aks-07
 categories: aks,installation
-tags: keptn06x
+tags: keptn07x
 status: Published 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
@@ -14,12 +14,14 @@ Duration: 2:00
 
 In this tutorial we are going to learn how to install Keptn in your Kubernetes cluster running in Azure Kubernetes Services (AKS) in the Azure Cloud.
 
-{{ snippets/install/cluster-aks.md }}
+{{ snippets/07/install/cluster-aks.md }}
 
-{{ snippets/install/download-keptnCLI.md }}
+{{ snippets/07/install/download-keptnCLI.md }}
 
-{{ snippets/install/installKeptn-aks.md }}
+{{ snippets/07/install/install-full.md }}
 
-{{ snippets/install/open-bridge.md }}
+{{ snippets/07/install/authCLI-clusterIP.md }}
 
-{{ snippets/install/postinstall-tutorials.md }}
+{{ snippets/07/install/open-bridge.md }}
+
+{{ snippets/07/install/postinstall-tutorials.md }}
