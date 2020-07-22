@@ -5,7 +5,7 @@ Duration: 5:00
 To install the latest release of Keptn with full _quality gate + continuous delivery capabilities_ in your Kubernetes cluster, execute the `keptn install` command.
 
 ```
-keptn install --keptn-api-service-type=ClusterIP --use-case=continuous-delivery
+keptn install --endpoint-service-type=ClusterIP --use-case=continuous-delivery
 ```
 
 Positive
