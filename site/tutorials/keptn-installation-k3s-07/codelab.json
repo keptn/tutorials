@@ -1,0 +1,26 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2020-07-22T08:49:13+02:00",
+  "id": "keptn-installation-k3s-07",
+  "duration": 29,
+  "title": "Keptn Installation on K3s",
+  "authors": "Jürgen Etzlstorfer",
+  "summary": "Install Keptn on K3s",
+  "source": "keptn-install-k3s-07_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "k3s",
+    "installation"
+  ],
+  "tags": [
+    "keptn07x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-installation-k3s-07"
+}

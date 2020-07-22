@@ -1,0 +1,26 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2020-07-22T08:09:28+02:00",
+  "id": "keptn-installation-gke-07",
+  "duration": 29,
+  "title": "Keptn Installation on GKE",
+  "authors": "Jürgen Etzlstorfer",
+  "summary": "Install Keptn on GKE",
+  "source": "keptn-install-gke-07_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "gke",
+    "installation"
+  ],
+  "tags": [
+    "keptn07x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-installation-gke-07"
+}

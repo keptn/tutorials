@@ -1,7 +1,7 @@
 {
   "title": "Keptn Tutorials",
   "description": "We provide a collection of guided, hands-on tutorials to help you get started using Keptn",
-  "tags": ["keptn06x"],
+  "tags": ["keptn07x"],
   "categories": [],
   "exclude": [
     "^lang-.*"
@@ -9,5 +9,5 @@
   "logoUrl": "/images/logo.png",
   "toolbarBgColor": "#006bb8",
   "sort": "mainCategory",
-  "pins": ["keptn-full-tour-prometheus","keptn-full-tour-dynatrace"]
+  "pins": ["keptn-full-tour-prometheus","keptn-full-tour-dynatrace","keptn-full-tour-prometheus-07","keptn-full-tour-dynatrace-07"]
 }

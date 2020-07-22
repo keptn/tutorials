@@ -123,6 +123,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             With this collection of guided, hands-on tutorials you will learn how to use Keptn - from installation to continuous delivery with quality gates and automated operations.
 
             We suggest to start with a <a href="?cat=full-tour">full tour</a> to learn about all aspects of Keptn. But feel free to explore all other tutorials as well.
+            <br>
+            The default overview shows tutorials for Keptn version 0.7 - but we provide tutorials for Keptn 0.6 as well that can be selected via the version dropdown.
           </p>
         {%- else -%}
           <div class="banner-description">
@@ -148,10 +150,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </paper-tabs>
         </div>
 
-      <!--
+      
         {% if view.id == 'default' %}
         <paper-dropdown-menu
-          label="Choose an event"
+          label="Choose a version"
           class="dropdown-filter"
           no-label-float
           noink no-animations
@@ -171,7 +173,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </paper-listbox>
         </paper-dropdown-menu>
         {% endif %}
-      -->
+      
 
         {%- if showcats -%}
         <paper-dropdown-menu

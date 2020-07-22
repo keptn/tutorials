@@ -1,0 +1,33 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2020-07-22T13:08:54+02:00",
+  "id": "keptn-upscaling-dynatrace-07",
+  "duration": 88,
+  "title": "Automated Upscaling with Dynatrace",
+  "authors": "Jürgen Etzlstorfer",
+  "summary": "Automated Upscaling with Dynatrace",
+  "source": "keptn-upscaling-dynatrace-07_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "dynatrace",
+    "upscaling",
+    "gke",
+    "aks",
+    "eks",
+    "minikube",
+    "pks",
+    "openshift",
+    "automated-operations"
+  ],
+  "tags": [
+    "keptn07x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-upscaling-dynatrace-07"
+}
