@@ -3,24 +3,24 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-07-22T07:48:10+02:00",
-  "id": "keptn-installation-eks",
+  "updated": "2020-07-22T08:09:28+02:00",
+  "id": "keptn-installation-gke-07",
   "duration": 29,
-  "title": "Keptn Installation on EKS",
+  "title": "Keptn Installation on GKE",
   "authors": "Jürgen Etzlstorfer",
-  "summary": "Install Keptn on EKS",
-  "source": "keptn-install-eks-07_gen.md",
+  "summary": "Install Keptn on GKE",
+  "source": "keptn-install-gke-07_gen.md",
   "theme": "",
   "status": [
     "published"
   ],
   "category": [
-    "eks",
+    "gke",
     "installation"
   ],
   "tags": [
-    "keptn06x"
+    "keptn07x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
-  "url": "keptn-installation-eks"
+  "url": "keptn-installation-gke-07"
 }

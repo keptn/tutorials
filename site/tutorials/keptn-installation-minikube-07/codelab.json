@@ -3,24 +3,24 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-07-22T07:48:10+02:00",
-  "id": "keptn-installation-eks",
+  "updated": "2020-07-22T08:14:31+02:00",
+  "id": "keptn-installation-minikube-07",
   "duration": 29,
-  "title": "Keptn Installation on EKS",
+  "title": "Keptn Installation on Minikube",
   "authors": "Jürgen Etzlstorfer",
-  "summary": "Install Keptn on EKS",
-  "source": "keptn-install-eks-07_gen.md",
+  "summary": "Install Keptn on Minikube",
+  "source": "keptn-install-minikube-07_gen.md",
   "theme": "",
   "status": [
-    "published"
+    "draft"
   ],
   "category": [
-    "eks",
+    "minikube",
     "installation"
   ],
   "tags": [
     "keptn06x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
-  "url": "keptn-installation-eks"
+  "url": "keptn-installation-minikube-07"
 }

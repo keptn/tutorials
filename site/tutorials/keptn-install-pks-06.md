@@ -14,12 +14,12 @@ Duration: 2:00
 
 In this tutorial we are going to learn how to install Keptn in your Kubernetes cluster running in Pivotal Container Service (PKS).
 
-{{ snippets/install/cluster-pks.md }}
+{{ snippets/06/install/cluster-pks.md }}
 
-{{ snippets/install/download-keptnCLI.md }}
+{{ snippets/06/install/download-keptnCLI.md }}
 
-{{ snippets/install/installKeptn-pks.md }}
+{{ snippets/06/install/installKeptn-pks.md }}
 
-{{ snippets/install/open-bridge.md }}
+{{ snippets/06/install/open-bridge.md }}
 
-{{ snippets/install/postinstall-tutorials.md }}
+{{ snippets/06/install/postinstall-tutorials.md }}

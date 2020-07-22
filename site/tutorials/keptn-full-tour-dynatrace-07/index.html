@@ -54,6 +54,8 @@
       <google-codelab-step label="Bring your own Kubernetes cluster" duration="0">
         <p>Keptn can be installed on a variety of Kubernetes distributions. Please find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.7.x/installation/k8s-support/" target="_blank">here</a>.</p>
 <p>Please find tutorials <a href="../../?cat=installation" target="_blank">how to set up your cluster here</a>.</p>
+<aside class="special"><p>Please note that if you are following one of the installation tutorials only steps ①-③ are needed (setup of cluster) since we are going to install Keptn as part of this tutorial.</p>
+</aside>
 
 
       </google-codelab-step>
@@ -111,10 +113,12 @@ This will download and install the Keptn CLI automatically.</li>
       </google-codelab-step>
     
       <google-codelab-step label="Install Keptn in your cluster" duration="5">
-        <p>To install the latest release of Keptn in your Kubernetes cluster, execute the <code>keptn install</code> command.</p>
+        <p>To install the latest release of Keptn with full <em>quality gate + continuous delivery capabilities</em> in your Kubernetes cluster, execute the <code>keptn install</code> command.</p>
 <pre><code>keptn install --keptn-api-service-type=ClusterIP --use-case=continuous-delivery
 </code></pre>
 <aside class="special"><p>The installation process will take about 3-5 minutes.</p>
+</aside>
+<aside class="special"><p>Please note that Keptn comes with different installation options, all of the described in detail in the <a href="https://keptn.sh/docs/0.7.x/operate/install/" target="_blank">Keptn docs</a>.</p>
 </aside>
 <h2 is-upgraded>Installation details</h2>
 <p>In the Keptn namespace, the following deployments should be found:</p>

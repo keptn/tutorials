@@ -22,7 +22,7 @@
 <body>
   <google-codelab-analytics gaid="UA-133584243-1"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
-                  id="keptn-installation-eks"
+                  id="keptn-installation-eks-07"
                   title="Keptn Installation on EKS"
                   environment="web"
                   feedback-link="https://github.com/keptn/tutorials/tree/master/site/tutorials">
@@ -50,15 +50,15 @@
 </ul>
 </li>
 <li>Create EKS cluster on AWS. You can do so either via the online portal of AWS or via <code>eksctl</code>.<ul>
-<li>version 1.15 (tested version: 1.15)</li>
-<li>One <code>m5.2xlarge</code> node</li>
-<li>Sample script using <a href="https://eksctl.io/introduction/#installation" target="_blank">eksctl</a> to create such a cluster<pre><code>eksctl create cluster --version=1.15 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
+<li>version 1.17 (tested version: 1.17)</li>
+<li>One <code>m5.2xlarge</code> node. Please note that you might go for a smaller or larger size cluster depending on the concrete use case. The suggested sizing is based on the recommendation for the <a href="../../?cat=full-tour" target="_blank">full tour</a> tutorials.</li>
+<li>Sample script using <a href="https://eksctl.io/introduction/#installation" target="_blank">eksctl</a> to create such a cluster<pre><code>eksctl create cluster --version=1.17 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
 </code></pre>
 </li>
 </ul>
 </li>
 </ol>
-<p>Find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.6.0/installation/k8s-support/" target="_blank">here</a>.</p>
+<p>Find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.7.x/installation/k8s-support/" target="_blank">here</a>.</p>
 
 
       </google-codelab-step>
@@ -129,10 +129,10 @@ shipyard-service                                 1/1     1            1         
       </google-codelab-step>
     
       <google-codelab-step label="Authenticate Keptn CLI" duration="2">
-        <p>Expose the Keptn endpoint via the following command to be able to access on localhost:</p>
+        <p>Expose the Keptn endpoint via the following command to be able to access on localhost. Please note that the port-forward must be kept open for the next commands to succeed, therefore we recommend doing this in a separate terminal.</p>
 <pre><code>kubectl -n keptn port-forward service/api-gateway-nginx 8080:80
 </code></pre>
-<p>Set the following variables to make it easy to connec to Keptn.</p>
+<p>Set the following variables to make it easy to connect to Keptn.</p>
 <pre><code>KEPTN_ENDPOINT=http://localhost:8080/api
 KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
 </code></pre>

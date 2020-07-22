@@ -14,12 +14,12 @@ Duration: 2:00
 
 In this tutorial we are going to learn how to install Keptn in your Minikube cluster.
 
-{{ snippets/install/cluster-minikube.md }}
+{{ snippets/06/install/cluster-minikube.md }}
 
-{{ snippets/install/download-keptnCLI.md }}
+{{ snippets/06/install/download-keptnCLI.md }}
 
-{{ snippets/install/installKeptn-minikube.md }}
+{{ snippets/06/install/installKeptn-minikube.md }}
 
-{{ snippets/install/open-bridge.md }}
+{{ snippets/06/install/open-bridge.md }}
 
-{{ snippets/install/postinstall-tutorials.md }}
+{{ snippets/06/install/postinstall-tutorials.md }}

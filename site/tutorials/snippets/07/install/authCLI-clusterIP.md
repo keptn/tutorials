@@ -2,13 +2,13 @@
 ## Authenticate Keptn CLI
 Duration: 2:00
 
-Expose the Keptn endpoint via the following command to be able to access on localhost:
+Expose the Keptn endpoint via the following command to be able to access on localhost. Please note that the port-forward must be kept open for the next commands to succeed, therefore we recommend doing this in a separate terminal.
 
 ```
 kubectl -n keptn port-forward service/api-gateway-nginx 8080:80
 ```
 
-Set the following variables to make it easy to connec to Keptn.
+Set the following variables to make it easy to connect to Keptn.
 
 ```
 KEPTN_ENDPOINT=http://localhost:8080/api

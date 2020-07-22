@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>Keptn Installation on EKS</title>
+  <title>Keptn Installation on K3s</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
@@ -22,13 +22,13 @@
 <body>
   <google-codelab-analytics gaid="UA-133584243-1"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
-                  id="keptn-installation-eks"
-                  title="Keptn Installation on EKS"
+                  id="keptn-installation-k3s-07"
+                  title="Keptn Installation on K3s"
                   environment="web"
                   feedback-link="https://github.com/keptn/tutorials/tree/master/site/tutorials">
     
       <google-codelab-step label="Welcome" duration="2">
-        <p>In this tutorial we are going to learn how to install Keptn in your Kubernetes cluster running in Elastic Kubernetes Services (EKS) in AWS.</p>
+        <p>In this tutorial we are going to learn how to install Keptn in your Kubernetes cluster running as <a href="https://k3s.io/" target="_blank">K3s</a>.</p>
 
 
       </google-codelab-step>
@@ -42,23 +42,20 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Setup Kubernetes cluster" duration="10">
-        <p>We are going to setup a Kubernetes cluster in EKS.</p>
+      <google-codelab-step label="Setup Kubernetes cluster with K3s" duration="10">
+        <p>We are going to setup a Kubernetes cluster with <a href="https://k3s.io" target="_blank">K3s</a>. Please note that K3s is natively available for Linux, therefore the following commands are for Linux hosts.</p>
 <ol type="1">
-<li>Install local tools<ul>
-<li><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html" target="_blank">AWS CLI</a> (version &gt;= 1.16.156)</li>
-</ul>
-</li>
-<li>Create EKS cluster on AWS. You can do so either via the online portal of AWS or via <code>eksctl</code>.<ul>
-<li>version 1.15 (tested version: 1.15)</li>
-<li>One <code>m5.2xlarge</code> node</li>
-<li>Sample script using <a href="https://eksctl.io/introduction/#installation" target="_blank">eksctl</a> to create such a cluster<pre><code>eksctl create cluster --version=1.15 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
+<li>Download, install K3s (tested with versions 1.16 to 1.18) and run K3s using the following command<pre><code>curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.18.3+k3s1 K3S_KUBECONFIG_MODE=&#34;644&#34; sh -s - --no-deploy=traefik
+</code></pre>
+This installs version <code>v1.18.3+k3s1</code> (please refer to the <a href="https://github.com/rancher/k3s/releases" target="_blank">K3s GitHub releases page</a> for newer releases), sets file permissions <code>644</code> on <code>/etc/rancher/k3s/k3s.yaml</code> and disables <code>traefik</code> as an ingress controller.</li>
+<li>Export the Kubernetes profile using<pre><code>export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 </code></pre>
 </li>
-</ul>
+<li>Verify that the connection to the cluster works:<pre><code>kubectl get nodes   
+</code></pre>
 </li>
 </ol>
-<p>Find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.6.0/installation/k8s-support/" target="_blank">here</a>.</p>
+<p>Find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.7.x/operate/k8s_support/" target="_blank">here</a>.</p>
 
 
       </google-codelab-step>
@@ -129,10 +126,10 @@ shipyard-service                                 1/1     1            1         
       </google-codelab-step>
     
       <google-codelab-step label="Authenticate Keptn CLI" duration="2">
-        <p>Expose the Keptn endpoint via the following command to be able to access on localhost:</p>
+        <p>Expose the Keptn endpoint via the following command to be able to access on localhost. Please note that the port-forward must be kept open for the next commands to succeed, therefore we recommend doing this in a separate terminal.</p>
 <pre><code>kubectl -n keptn port-forward service/api-gateway-nginx 8080:80
 </code></pre>
-<p>Set the following variables to make it easy to connec to Keptn.</p>
+<p>Set the following variables to make it easy to connect to Keptn.</p>
 <pre><code>KEPTN_ENDPOINT=http://localhost:8080/api
 KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
 </code></pre>

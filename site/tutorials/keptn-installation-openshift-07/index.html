@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>Keptn Installation on EKS</title>
+  <title>Keptn Installation on OpenShift</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
@@ -22,13 +22,13 @@
 <body>
   <google-codelab-analytics gaid="UA-133584243-1"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
-                  id="keptn-installation-eks"
-                  title="Keptn Installation on EKS"
+                  id="keptn-installation-openshift-07"
+                  title="Keptn Installation on OpenShift"
                   environment="web"
                   feedback-link="https://github.com/keptn/tutorials/tree/master/site/tutorials">
     
       <google-codelab-step label="Welcome" duration="2">
-        <p>In this tutorial we are going to learn how to install Keptn in your Kubernetes cluster running in Elastic Kubernetes Services (EKS) in AWS.</p>
+        <p>In this tutorial we are going to learn how to install Keptn in your OpenShift cluster.</p>
 
 
       </google-codelab-step>
@@ -42,23 +42,57 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Setup Kubernetes cluster" duration="10">
-        <p>We are going to setup a Kubernetes cluster in EKS.</p>
+      <google-codelab-step label="Configure OpenShift cluster" duration="10">
+        <aside class="warning"><p>Please note that you have to bring your own OpenShift cluster in version 3.11</p>
+</aside>
 <ol type="1">
-<li>Install local tools<ul>
-<li><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html" target="_blank">AWS CLI</a> (version &gt;= 1.16.156)</li>
+<li>Install local tools if not already present on your machine.<ul>
+<li><a href="https://github.com/openshift/origin/releases/tag/v3.11.0" target="_blank">oc CLI - v3.11</a></li>
 </ul>
 </li>
-<li>Create EKS cluster on AWS. You can do so either via the online portal of AWS or via <code>eksctl</code>.<ul>
-<li>version 1.15 (tested version: 1.15)</li>
-<li>One <code>m5.2xlarge</code> node</li>
-<li>Sample script using <a href="https://eksctl.io/introduction/#installation" target="_blank">eksctl</a> to create such a cluster<pre><code>eksctl create cluster --version=1.15 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
+<li>Make sure you are connected with your <code>oc</code> CLI to your OpenShift cluster.</li>
+<li>On the OpenShift master node, execute the following steps:</li>
+</ol>
+<ul>
+<li>Set up the required permissions for your user:<pre><code>oc adm policy --as system:admin add-cluster-role-to-user cluster-admin &lt;OPENSHIFT_USER_NAME&gt;
+</code></pre>
+</li>
+<li>Set up the required permissions for the installer pod:<pre><code>oc adm policy  add-cluster-role-to-user cluster-admin system:serviceaccount:default:default
+oc adm policy  add-cluster-role-to-user cluster-admin system:serviceaccount:kube-system:default
+</code></pre>
+</li>
+<li>Enable admission WebHooks on your OpenShift master node:<pre><code>sudo -i
+cp -n /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.backup
+oc ex config patch /etc/origin/master/master-config.yaml --type=merge -p &#39;{
+&#34;admissionConfig&#34;: {
+    &#34;pluginConfig&#34;: {
+    &#34;ValidatingAdmissionWebhook&#34;: {
+        &#34;configuration&#34;: {
+        &#34;apiVersion&#34;: &#34;apiserver.config.k8s.io/v1alpha1&#34;,
+        &#34;kind&#34;: &#34;WebhookAdmission&#34;,
+        &#34;kubeConfigFile&#34;: &#34;/dev/null&#34;
+        }
+    },
+    &#34;MutatingAdmissionWebhook&#34;: {
+        &#34;configuration&#34;: {
+        &#34;apiVersion&#34;: &#34;apiserver.config.k8s.io/v1alpha1&#34;,
+        &#34;kind&#34;: &#34;WebhookAdmission&#34;,
+        &#34;kubeConfigFile&#34;: &#34;/dev/null&#34;
+        }
+    }
+    }
+}
+}&#39; &gt;/etc/origin/master/master-config.yaml.patched
+if [ $? == 0 ]; then
+mv -f /etc/origin/master/master-config.yaml.patched /etc/origin/master/master-config.yaml
+/usr/local/bin/master-restart api &amp;&amp; /usr/local/bin/master-restart controllers
+else
+exit
+fi
 </code></pre>
 </li>
 </ul>
-</li>
-</ol>
-<p>Find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.6.0/installation/k8s-support/" target="_blank">here</a>.</p>
+<p>Find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.7.x/operate/k8s_support/" target="_blank">here</a>.</p>
 
 
       </google-codelab-step>
@@ -129,10 +163,10 @@ shipyard-service                                 1/1     1            1         
       </google-codelab-step>
     
       <google-codelab-step label="Authenticate Keptn CLI" duration="2">
-        <p>Expose the Keptn endpoint via the following command to be able to access on localhost:</p>
+        <p>Expose the Keptn endpoint via the following command to be able to access on localhost. Please note that the port-forward must be kept open for the next commands to succeed, therefore we recommend doing this in a separate terminal.</p>
 <pre><code>kubectl -n keptn port-forward service/api-gateway-nginx 8080:80
 </code></pre>
-<p>Set the following variables to make it easy to connec to Keptn.</p>
+<p>Set the following variables to make it easy to connect to Keptn.</p>
 <pre><code>KEPTN_ENDPOINT=http://localhost:8080/api
 KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
 </code></pre>

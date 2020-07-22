@@ -14,12 +14,12 @@ Duration: 2:00
 
 In this tutorial we are going to learn how to install Keptn in your OpenShift cluster.
 
-{{ snippets/install/cluster-openshift.md }}
+{{ snippets/06/install/cluster-openshift.md }}
 
-{{ snippets/install/download-keptnCLI.md }}
+{{ snippets/06/install/download-keptnCLI.md }}
 
-{{ snippets/install/installKeptn-openshift.md }}
+{{ snippets/06/install/installKeptn-openshift.md }}
 
-{{ snippets/install/open-bridge.md }}
+{{ snippets/06/install/open-bridge.md }}
 
-{{ snippets/install/postinstall-tutorials.md }}
+{{ snippets/06/install/postinstall-tutorials.md }}

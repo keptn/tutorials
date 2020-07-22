@@ -3,8 +3,8 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-07-22T07:48:10+02:00",
-  "id": "keptn-installation-eks",
+  "updated": "2020-07-22T07:58:46+02:00",
+  "id": "keptn-installation-eks-07",
   "duration": 29,
   "title": "Keptn Installation on EKS",
   "authors": "Jürgen Etzlstorfer",
@@ -19,8 +19,8 @@
     "installation"
   ],
   "tags": [
-    "keptn06x"
+    "keptn07x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
-  "url": "keptn-installation-eks"
+  "url": "keptn-installation-eks-07"
 }
