@@ -1,7 +1,7 @@
 summary: Automated Upscaling with Dynatrace
-id: keptn-upscaling-dynatrace
+id: keptn-upscaling-dynatrace-07
 categories: dynatrace,upscaling,gke,aks,eks,minikube,pks,openshift,automated-operations
-tags: keptn06x
+tags: keptn07x
 status: Published 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
@@ -14,17 +14,39 @@ Duration: 2:00
 
 In this tutorial, you will learn how to use the capabilities of Keptn to provide self-healing for an application without modifying code. The following tutorial will scale up the pods of an application if the application undergoes heavy CPU saturation. 
 
-## Prerequisites
+### What you'll learn
+- How to create a sample project
+- How to onboard a first microservice
+- How to deploy your first microservice with blue/green deployments
+- How to define a remedation file 
+- How Keptn can automatically execute remediation actions based on issues detected by Dynatrace
 
-Please make sure you already have a Keptn installatin running. Take a look at [these tutorials](../../?cat=installation) to get started in case you don't have your Keptn set up yet.
+You'll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.
 
-{{ snippets/manage/createProject.md }}
+{{ snippets/07/install/cluster.md }}
 
-{{ snippets/manage/onboardService.md }}
+{{ snippets/07/install/istio.md }}
 
-{{ snippets/monitoring/setupDynatrace.md }}
+{{ snippets/07/install/download-keptnCLI.md }}
 
-## Configure Dynatrace with Keptn
+{{ snippets/07/install/install-full.md }}
+
+{{ snippets/07/install/configureIstio.md }}
+
+{{ snippets/07/install/authCLI-istio.md }}
+
+{{ snippets/07/monitoring/setupDynatrace.md }}
+
+
+{{ snippets/07/manage/createProject.md }}
+
+{{ snippets/07/manage/onboardService.md }}
+
+{{ snippets/07/monitoring/install-sli-provider-dynatrace.md }}
+
+
+
+## Add remediation instructions to Keptn
 Duration: 4:00
 
 To inform Keptn about any issues in a production environment, monitoring has to be set up correctly. The Keptn CLI helps with the automated setup and configuration of Dynatrace as the monitoring solution running in the Kubernetes cluster. 
@@ -45,21 +67,29 @@ To add these files to Keptn and to automatically configure Dynatrace, execute th
     This is how the file looks that we are going to add here:
 
     ```
-    remediations:
-    - name: response_time_p90
-      actions:
-      - action: scaling
-        value: +1
-    - name: Response time degradation
-      actions:
-      - action: scaling
-        value: +1
+    apiVersion: spec.keptn.sh/0.1.4
+    kind: Remediation
+    metadata:
+      name: service-remediation
+    spec:
+      remediations:
+        - problemType: Response time degradation
+          actionsOnOpen:
+          - action: scaling
+            name: scaling
+            description: Scale up
+            value: 1
+        - problemType: response_time_p90
+          actionsOnOpen:
+            - action: scaling
+              name: scaling
+              description: Scale up
+              value: 1
     ```
 
-1. Configure Dynatrace with the Keptn CLI (we have done this earlier already but we make sure that our project is configured correctly):
-
+1. Add an SLO file to the production stage for Keptn to do an evaluation if the remediation action was successful.
     ```
-    keptn configure monitoring dynatrace --project=sockshop
+    keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
     ```
 
 ## Configure your Dynatrace tenant
@@ -93,12 +123,6 @@ To simulate user traffic that is causing an unhealthy behavior in the carts serv
   ```
   kubectl apply -f cartsloadgen-faulty.yaml
   ```
-
-1. Start the load generation script depending on your OS (replace \_OS\_ with linux, mac, or win):
-
-    ```
-    ./loadgenerator-_OS_ "http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')" cpu
-    ```
 
 1. **Optional:** Verify the load in Dynatrace
 
@@ -148,17 +172,13 @@ In this tutorial, the number of pods will be increased to remediate the issue of
     carts-primary-7c96d87df9-78fh2    2/2     Running   0          5m
     ```
 
-1. To get an overview of the actions that got triggered by the response time SLO violation, you can use the Keptn's Bridge. You can access it by a port-forward from your local machine to the Kubernetes cluster:
-
-    ``` 
-    kubectl port-forward svc/bridge -n keptn 9000:8080
-    ```
-
-    Now access the bridge from your browser on http://localhost:9000. 
+1. To get an overview of the actions that got triggered by the response time violation, you can use the Keptn's Bridge.
 
     In this example, the bridge shows that the remediation service triggered an update of the configuration of the carts service by increasing the number of replicas to 2. When the additional replica was available, the wait-service waited for 10 minutes for the remediation action to take effect. Afterwards, an evaluation by the lighthouse-service was triggered to check if the remediation action resolved the problem. In this case, increasing the number of replicas achieved the desired effect since the evaluation of the service level objectives has been successful.
     
-    ![bridge](./assets/dt-upscaling-bridge-remediation.png)
+    ![bridge](./assets/dt-bridge-remediation-upscale.png)
+    
+    ![bridge](./assets/dt-bridge-remediation-evaluation-done.png)
 
 1. Furthermore, you can see how the response time of the service decreased by viewing the time series chart in Dynatrace:
 
@@ -173,23 +193,37 @@ You have successfully walked through the example to scale up your application ba
 
 ### What we've covered
 
-- Setting up auto-remediation with a `remediation` file
+- Setting up auto-remediation with a `remediation.yaml` file
   ```
-  remediations:
-  - name: response_time_p90
-    actions:
-    - action: scaling
-      value: +1
-  - name: Response time degradation
-    actions:
-    - action: scaling
-      value: +1
+    apiVersion: spec.keptn.sh/0.1.4
+    kind: Remediation
+    metadata:
+      name: service-remediation
+    spec:
+      remediations:
+        - problemType: Response time degradation
+          actionsOnOpen:
+          - action: scaling
+            name: scaling
+            description: Scale up
+            value: 1
+        - problemType: response_time_p90
+          actionsOnOpen:
+            - action: scaling
+              name: scaling
+              description: Scale up
+              value: 1
   ```
 
 - Execute an experiment to see self-healing in action
   ![response time](./assets/dt-upscaling-response-time.png)
 
 - Verified that Keptn executed the remediation action
-  ![bridge](./assets/dt-upscaling-bridge-remediation.png)
+  ![bridge](./assets/dt-bridge-remediation-upscale.png)
 
+Positive
+: Congratulations for a successful auto-remediation with Keptn!
 
+{{ snippets/07/integrations/gettingStarted.md }}
+
+{{ snippets/07/community/feedback.md }}

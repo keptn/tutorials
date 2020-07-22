@@ -86,7 +86,7 @@ As said, in this tutorial we can use the following command as it is:
     kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.1.0/deploy/service.yaml
     ```
 
-1. Finally, switch to the carts example (`cd examples/onboarding-carts`) and add the following remediation instructions
+1. Switch to the carts example (`cd examples/onboarding-carts`) and add the following remediation instructions
 
     ```
     apiVersion: spec.keptn.sh/0.1.4
@@ -111,13 +111,18 @@ As said, in this tutorial we can use the following command as it is:
                 EnablePromotion: "off"
     ```
 
-    using the following command. Please make sure you are in the correct folder `examples/onboardin-carts`.
-
+    using the following command. Please make sure you are in the correct folder `examples/onboarding-carts`.
+    
     ```
     keptn add-resource --project=sockshop --service=carts --stage=production --resource=remediation_feature_toggle.yaml --resourceUri=remediation.yaml
     ```
 
     **Note:** The file describes remediation actions (e.g., `featuretoggle`) in response to problems/alerts (e.g., `Response time degradation`) that are sent to Keptn.
+
+1. We are also going to add an SLO file so that Keptn can evaluate if the remediation action was successful.
+    ```
+    keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
+    ```
 
 Now that everything is set up, next we are going to hit the application with some load and toggle the feature flags.
 

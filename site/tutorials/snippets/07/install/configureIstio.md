@@ -3,7 +3,8 @@
 Get the `EXTERNAL-IP` from the `istio-ingressgateway` as you will need it in the next step
 ```
 kubectl -n istio-system get svc istio-ingressgateway
-
+```
+```
 NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)                                                      AGE
 istio-ingressgateway   LoadBalancer   10.0.171.50   40.125.XXX.XXX   15021:30094/TCP,80:32076/TCP,443:31452/TCP,15443:31721/TCP   2m36s
 ```
