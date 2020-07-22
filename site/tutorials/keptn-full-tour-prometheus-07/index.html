@@ -53,7 +53,7 @@
       <google-codelab-step label="Bring your own Kubernetes cluster" duration="0">
         <p>Keptn can be installed on a variety of Kubernetes distributions. Please find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.7.x/installation/k8s-support/" target="_blank">here</a>.</p>
 <p>Please find tutorials <a href="../../?cat=installation" target="_blank">how to set up your cluster here</a>.</p>
-<aside class="special"><p>Please note that if you are following one of the installation tutorials only steps ①-③ are needed (setup of cluster) since we are going to install Keptn as part of this tutorial.</p>
+<aside class="special"><p>Please note that if you are following one of the installation tutorials, only steps ①-③ are needed (setup of cluster) since we are going to install Keptn as part of this tutorial.</p>
 </aside>
 
 
@@ -146,8 +146,8 @@ shipyard-service                                 1/1     1            1         
       <google-codelab-step label="Configure Istio and Keptn" duration="0">
         <p>Get the <code>EXTERNAL-IP</code> from the <code>istio-ingressgateway</code> as you will need it in the next step</p>
 <pre><code>kubectl -n istio-system get svc istio-ingressgateway
-
-NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)                                                      AGE
+</code></pre>
+<pre><code>NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)                                                      AGE
 istio-ingressgateway   LoadBalancer   10.0.171.50   40.125.XXX.XXX   15021:30094/TCP,80:32076/TCP,443:31452/TCP,15443:31721/TCP   2m36s
 </code></pre>
 <p>In my case it is something like <code>40.125.XXX.XXX</code>.</p>
@@ -392,7 +392,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
 <p>To install the <em>prometheus-sli-service</em>, execute:</p>
 <pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.2/deploy/service.yaml
 </code></pre>
-<p>We are going to add the configuration for our SLIs in terms of an SLI file that maps the <em>name</em> of an indicator to a PromQL statement how to actually query it.</p>
+<p>We are going to add the configuration for our SLIs in terms of an SLI file that maps the <em>name</em> of an indicator to a PromQL statement how to actually query it. Please make sure you are in the correct folder <code>examples/onboarding-carts</code>.</p>
 <pre><code>keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-prometheus-selfhealing.yaml --resourceUri=prometheus/sli.yaml 
 </code></pre>
 <p>For your information, the contents of the file are as follows:</p>
@@ -499,7 +499,7 @@ total_score:
       <google-codelab-step label="Verify the quality gate in Keptn&#39;s Bridge" duration="3">
         <p>Take a look in the Keptn&#39;s bridge and navigate to the last deployment. You will find a quality gate evaluation that got a <code>fail</code> result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won&#39;t be promoted to production but instead automatically rolled back.</p>
 <p>To verify, the <a href="https://keptn.sh/docs/0.7.x/reference/bridge/" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.11.2 and then the failed test in staging including the roll-back.</p>
-<p class="image-container"><img alt="Keptn's bridge" src="img/718efaeab0e383eb.png"></p>
+<p class="image-container"><img alt="Keptn's bridge" src="img/f80e40846609edcd.png"></p>
 
 
       </google-codelab-step>
@@ -618,7 +618,7 @@ carts-primary-7c96d87df9-75pg7    2/2     Running   0          33m
 carts-primary-7c96d87df9-78fh2    2/2     Running   0          5m
 </code></pre>
 </li>
-<li>To get an overview of the actions that got triggered by the response time SLO violation, you can use the Keptn&#39;s Bridge.In this example, the bridge shows that the remediation service triggered an update of the configuration of the carts service by increasing the number of replicas to 2. When the additional replica was available, the wait-service waited for ten minutes for the remediation action to take effect. Afterwards, an evaluation by the lighthouse-service was triggered to check if the remediation action resolved the problem. In this case, increasing the number of replicas achieved the desired effect, since the evaluation of the service level objectives has been successful.<img alt="Bridge - Remediation" src="img/ca581d187026cfc7.png"></li>
+<li>To get an overview of the actions that got triggered by the response time SLO violation, you can use the Keptn&#39;s Bridge.In this example, the bridge shows that the remediation service triggered an update of the configuration of the carts service by increasing the number of replicas to 2. When the additional replica was available, the wait-service waited for ten minutes for the remediation action to take effect. Afterwards, an evaluation by the lighthouse-service was triggered to check if the remediation action resolved the problem. In this case, increasing the number of replicas achieved the desired effect, since the evaluation of the service level objectives has been successful.<img alt="Bridge - Remediation" src="img/6b02621cab92eea7.png"><img alt="Bridge - Remediation" src="img/ccf883d77e1bcfe5.png"></li>
 <li>Furthermore, you can use Prometheus to double-check the response time:<img alt="Prometheus" src="img/fa77b4c459dd46a9.png"></li>
 <li>Also, the Prometheus Alert Manager will show zero active alerts.<img alt="prometheus" src="img/bd08cd79fd021748.png"></li>
 </ol>
@@ -672,7 +672,7 @@ pass: &#34;90%&#34;
 warning: &#34;75%&#34;
 </code></pre>
 </li>
-<li>We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.<br><img alt="bridge" src="img/718efaeab0e383eb.png"></li>
+<li>We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.<br><img alt="bridge" src="img/f80e40846609edcd.png"></li>
 <li>We have set up self-healing to automatically scale our application<br><img alt="Bridge - Remediation" src="img/ca581d187026cfc7.png"></li>
 </ul>
 
@@ -694,7 +694,7 @@ warning: &#34;75%&#34;
       <google-codelab-step label="Feedback" duration="0">
         <aside class="special"><p>We are happy to hear your feedback!</p>
 </aside>
-<p>Please visit us in our <a href="https://bit.ly/keptn-slack" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
+<p>Please visit us in our <a href="https://slack.keptn.sh" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
 <p>Also, make sure to <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
 
 

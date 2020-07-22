@@ -130,7 +130,8 @@ In this tutorial, the number of pods will be increased to remediate the issue of
 
     In this example, the bridge shows that the remediation service triggered an update of the configuration of the carts service by increasing the number of replicas to 2. When the additional replica was available, the wait-service waited for ten minutes for the remediation action to take effect. Afterwards, an evaluation by the lighthouse-service was triggered to check if the remediation action resolved the problem. In this case, increasing the number of replicas achieved the desired effect, since the evaluation of the service level objectives has been successful.
     
-    ![Bridge - Remediation](./assets/bridge-remediation-flow.png)
+    ![Bridge - Remediation](./assets/bridge-remediation-flow1.png)
+    ![Bridge - Remediation](./assets/bridge-remediation-flow2.png)
 
 1. Furthermore, you can use Prometheus to double-check the response time:
 

@@ -54,7 +54,7 @@
       <google-codelab-step label="Bring your own Kubernetes cluster" duration="0">
         <p>Keptn can be installed on a variety of Kubernetes distributions. Please find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.7.x/installation/k8s-support/" target="_blank">here</a>.</p>
 <p>Please find tutorials <a href="../../?cat=installation" target="_blank">how to set up your cluster here</a>.</p>
-<aside class="special"><p>Please note that if you are following one of the installation tutorials only steps ①-③ are needed (setup of cluster) since we are going to install Keptn as part of this tutorial.</p>
+<aside class="special"><p>Please note that if you are following one of the installation tutorials, only steps ①-③ are needed (setup of cluster) since we are going to install Keptn as part of this tutorial.</p>
 </aside>
 
 
@@ -147,8 +147,8 @@ shipyard-service                                 1/1     1            1         
       <google-codelab-step label="Configure Istio and Keptn" duration="0">
         <p>Get the <code>EXTERNAL-IP</code> from the <code>istio-ingressgateway</code> as you will need it in the next step</p>
 <pre><code>kubectl -n istio-system get svc istio-ingressgateway
-
-NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)                                                      AGE
+</code></pre>
+<pre><code>NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)                                                      AGE
 istio-ingressgateway   LoadBalancer   10.0.171.50   40.125.XXX.XXX   15021:30094/TCP,80:32076/TCP,443:31452/TCP,15443:31721/TCP   2m36s
 </code></pre>
 <p>In my case it is something like <code>40.125.XXX.XXX</code>.</p>
@@ -255,11 +255,10 @@ DT_PAAS_TOKEN=yourPAAStoken
 </code></pre>
 <aside class="warning"><p>Please make sure your DT_TENANT does <em>not contain</em> any trailing slashes nor a https:// in the beginning.</p>
 </aside>
-If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34; --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; -oyaml --dry-run | kubectl replace -f -
+If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34; --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; 
 </code></pre>
 </li>
 </ol>
-<p>KEPTN_ENDPOINT=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api<br>KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 –decode)</p>
 
 
       </google-codelab-step>
@@ -286,7 +285,7 @@ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releas
 <li>Apply the custom resource.<pre><code>kubectl apply -f cr.yaml
 </code></pre>
 </li>
-<li>Optional: Verify if all pods in the Dynatrace namespace are running.<pre><code>kubectl get pods -n dynatrace
+<li>Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.<pre><code>kubectl get pods -n dynatrace
 </code></pre>
 <pre><code>dynatrace-oneagent-operator-696fd89b76-n9d9n   1/1     Running   0          6m26s
 dynatrace-oneagent-webhook-78b6d99c85-h9759    2/2     Running   0          6m25s
@@ -613,7 +612,7 @@ total_score:
       <google-codelab-step label="Verify the quality gate in Keptn&#39;s Bridge" duration="3">
         <p>Take a look in the Keptn&#39;s bridge and navigate to the last deployment. You will find a quality gate evaluation that got a <code>fail</code> result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won&#39;t be promoted to production but instead automatically rolled back.</p>
 <p>To verify, the <a href="https://keptn.sh/docs/0.7.x/reference/bridge/" target="_blank">Keptn&#39;s Bridge</a> shows the deployment of v0.11.2 and then the failed test in staging including the roll-back.</p>
-<p class="image-container"><img alt="Keptn's bridge" src="img/718efaeab0e383eb.png"></p>
+<p class="image-container"><img alt="Keptn's bridge" src="img/f80e40846609edcd.png"></p>
 
 
       </google-codelab-step>
@@ -705,7 +704,7 @@ keptn send event new-artifact --project=unleash --service=unleash --image=docker
 <li>Install the Unleash action provider which is responsible for acting upon an alert, thus it is the part that will actually resolve issues by changing the stage of the feature flags.<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.1.0/deploy/service.yaml
 </code></pre>
 </li>
-<li>Finally, switch to the carts example (<code>cd examples/onboarding-carts</code>) and add the following remediation instructions<pre><code>apiVersion: spec.keptn.sh/0.1.4
+<li>Switch to the carts example (<code>cd examples/onboarding-carts</code>) and add the following remediation instructions<pre><code>apiVersion: spec.keptn.sh/0.1.4
 kind: Remediation
 metadata:
   name: carts-remediation
@@ -726,9 +725,12 @@ spec:
           value:
             EnablePromotion: &#34;off&#34;
 </code></pre>
-using the following command. Please make sure you are in the correct folder <code>examples/onboardin-carts</code>.<pre><code>keptn add-resource --project=sockshop --service=carts --stage=production --resource=remediation_feature_toggle.yaml --resourceUri=remediation.yaml
+using the following command. Please make sure you are in the correct folder <code>examples/onboarding-carts</code>.<pre><code>keptn add-resource --project=sockshop --service=carts --stage=production --resource=remediation_feature_toggle.yaml --resourceUri=remediation.yaml
 </code></pre>
 <strong>Note:</strong> The file describes remediation actions (e.g., <code>featuretoggle</code>) in response to problems/alerts (e.g., <code>Response time degradation</code>) that are sent to Keptn.</li>
+<li>We are also going to add an SLO file so that Keptn can evaluate if the remediation action was successful.<pre><code>keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
+</code></pre>
+</li>
 </ol>
 <p>Now that everything is set up, next we are going to hit the application with some load and toggle the feature flags.</p>
 
@@ -795,7 +797,7 @@ pass: &#34;90%&#34;
 warning: &#34;75%&#34;
 </code></pre>
 </li>
-<li>We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.<br><img alt="bridge" src="img/718efaeab0e383eb.png"></li>
+<li>We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.<br><img alt="bridge" src="img/f80e40846609edcd.png"></li>
 <li>We have set up self-healing by automated toggling of feature flags in Unleash.<br><img alt="unleash" src="img/444ec9ae9facc687.png"></li>
 </ul>
 
@@ -817,7 +819,7 @@ warning: &#34;75%&#34;
       <google-codelab-step label="Feedback" duration="0">
         <aside class="special"><p>We are happy to hear your feedback!</p>
 </aside>
-<p>Please visit us in our <a href="https://bit.ly/keptn-slack" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
+<p>Please visit us in our <a href="https://slack.keptn.sh" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
 <p>Also, make sure to <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
 
 
