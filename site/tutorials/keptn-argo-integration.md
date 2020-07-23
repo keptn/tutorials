@@ -13,7 +13,7 @@ Duration: 1:00
 
 In this tutorial, [Argo CD](https://argoproj.github.io/argo-cd/) is used for deploying a [Argo Rollout](https://argoproj.github.io/argo-rollouts/) and Keptn is used for testing, evaluating, and promoting this rollout. More precisely, in this tutorial, Argo CD is used as deployment tool and not the Keptn built-in tool called `helm-service`. Furthermore, this tutorial uses [Argo Rollouts](https://argoproj.github.io/argo-rollouts/), which introduces a new custom resource called `Rollout` implementing deployment strategies such as Blue/Green and Canary.
 
-This tutorial provides a sample Helm chart, which contains the `carts` and `carts-db` service. These services will be deployed into a `production` environment using Argo CD. Afterwards, Keptn will be used to test the carts` service using performance tests. Using the resulting metrics provided by Prometheus, Keptn will then check whether this service passes the defined quality gate.Depending on whether the quality gate is passed or not, this service will be promoted or aborted. In case it will be promoted, this service will be released to real-users.
+This tutorial provides a sample Helm chart, which contains the `carts` and `carts-db` service. These services will be deployed into a `production` environment using Argo CD. Afterwards, Keptn will be used to test the carts service using performance tests. Using the resulting metrics provided by Prometheus, Keptn will then check whether this service passes the defined quality gate. Depending on whether the quality gate is passed or not, this service will be promoted or aborted. In case it will be promoted, this service will be released to real-users.
 
 
 ### What you'll learn
@@ -28,7 +28,7 @@ This tutorial provides a sample Helm chart, which contains the `carts` and `cart
 ## Prerequisites
 Duration: 5:00
 
-* A completed [Keptn installation](https://tutorials.keptn.sh/?cat=installation)
+* A completed [Keptn installation](https://tutorials.keptn.sh/?cat=installation) (i.e. `keptn install` with flag `--use-case=continuous-delivery`)
 
 * Basic knowledge of [Argo CD](https://argoproj.github.io/argo-cd/) and [Argo Rollouts](https://argoproj.github.io/argo-rollouts/)
 
@@ -39,7 +39,7 @@ Duration: 5:00
 * Clone example files used in this tutorial:
 
     ```
-    git clone --branch master https://github.com/keptn/examples.git --single-branch
+    git clone --branch 0.7.0 https://github.com/keptn/examples.git --single-branch
     ```
 
     ```
@@ -56,13 +56,13 @@ The Keptn `argo-service` takes care of *promoting* or *aborting* a Rollout depen
 To install the `argo-service`, execute:
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/argo-service/master/deploy/service.yaml
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/argo-service/0.1.0/deploy/service.yaml
     ```
 
 1. The `gatekeeper-service` (which is installed by the default installation of Keptn) has to be removed:
 
     ```
-    kubectl delete deployment gatekeeper-service-evaluation-done-distributor -n keptn
+    kubectl delete deployment gatekeeper-service -n keptn
     ```
 
 ## Create project sockshop
@@ -77,7 +77,7 @@ stages:
     test_strategy: "performance"
 ```
 
-Create a new project for your services using the `keptn create project` command. In this tutorial, the project is called *sockshop*. The Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required for configuring an upstream. For details, please visit [select Git-based upstream](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided. 
+Create a new project for your services using the `keptn create project` command. In this tutorial, the project is called *sockshop*. The Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required for configuring an upstream. For details, please visit [select Git-based upstream](https://keptn.sh/docs/0.7.x/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided. 
 Before executing the following command, make sure you are in the `examples/onboarding-carts` folder:
 
 ```
@@ -116,16 +116,22 @@ keptn add-resource --project=sockshop --stage=production --service=carts --resou
 
 For evaluating the SLOs, metrics from a monitoring tool are required. Currently, this tutorial supports *Prometheus* as a monitoring tool, which is set up in the following steps:
 
-1. Install Prometheus in your Kubernetes cluster.
+1. Install the Keptn Prometheus-service in your Kubernetes cluster.
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.3/deploy/service.yaml
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.5/deploy/service.yaml
     ```
 
 1. Install the Prometheus SLI provider in your cluster.
 
     ```
     kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.2/deploy/service.yaml
+    ```
+
+1. Configure Prometheus as monitoring solution.
+
+    ```
+    keptn configure monitoring prometheus --project=sockshop --service=carts
     ```
 
 1. Configure custom SLIs for the Prometheus SLI provider as specified in `sli-config-argo-prometheus.yaml`:
@@ -180,6 +186,15 @@ Duration: 2:00
 In order to infrom Keptn when Argo CD does the deployment,
 an [Argo Resource Hook](https://argoproj.github.io/argo-cd/user-guide/resource_hooks/) is configured. This hook is triggered when Argo CD applies the manifests. This hook executes a script which sends a [`sh.keptn.events.deployment-finished`](https://github.com/keptn/spec/blob/master/cloudevents.md#deployment-finished) event to the Keptn API.
 
+Therefore, this hook needs to access the Keptn API and, hence, requires the Keptn endpoint as well as the api-token.
+Please create a secret with the Keptn endpoint and api-token:
+
+```
+KEPTN_API_URL=<KEPTN_API_URL>
+KEPTN_API_TOKEN=<KEPTN_API_TOKEN>
+kubectl -n sockshop-production create secret generic argo --from-literal="KEPTN_API_URL=$KEPTN_API_URL" --from-literal="KEPTN_API_TOKEN=$KEPTN_API_TOKEN"
+```
+
 
 ```
 apiVersion: batch/v1
@@ -196,25 +211,24 @@ spec:
       - name: keptn-notification
         image: agrimmer/alpine-curl-uuid-kubectl:latest
         command: ["/bin/sh","-c"]
-        args: ['while [[ $(kubectl get rollout {{ .Values.keptn.service }}-{{ .Values.keptn.stage }} -n {{ .Values.keptn.project }}-{{ .Values.keptn.stage }} -o "jsonpath={..status.conditions[?(@.type==\"Progressing\")].reason}") == "ReplicaSetUpdated" ]]; do echo "waiting for rollout" && sleep 1; done; UUID=$(uuidgen); KEPTN_ENDPOINT=https://api.keptn.$(kubectl get cm keptn-domain -n {{ .Values.keptn.project }}-{{ .Values.keptn.stage }} -ojsonpath={.data.app_domain}); KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n {{ .Values.keptn.project }}-{{ .Values.keptn.stage }} -ojsonpath={.data.keptn-api-token} | base64 -d);UUID=$(uuidgen); now=$(TZ=UTC date "+%FT%T.00Z"); curl -X POST -H "Content-Type: application/cloudevents+json" -H "x-token: ${KEPTN_API_TOKEN}" --insecure -d "{\"contenttype\": \"application/json\", \"data\": { \"project\": \"{{ .Values.keptn.project }}\", \"service\": \"{{ .Values.keptn.service }}\", \"stage\": \"{{ .Values.keptn.stage }}\", \"deploymentURILocal\": \"http://{{ .Values.keptn.service }}-canary.{{ .Values.keptn.project }}-{{ .Values.keptn.stage }}\", \"deploymentstrategy\": \"blue_green_service\", \"teststrategy\": \"performance\"}, \"id\": \"${UUID}\", \"source\": \"argo\", \"specversion\": \"0.2\", \"time\": \"${now}\", \"type\": \"sh.keptn.events.deployment-finished\", \"shkeptncontext\": \"${UUID}\"}" ${KEPTN_ENDPOINT}/v1/event']
+        args: ['while [[ $(kubectl get rollout {{ .Values.keptn.service }}-{{ .Values.keptn.stage }} -n {{ .Values.keptn.project }}-{{ .Values.keptn.stage }} -o "jsonpath={..status.conditions[?(@.type==\"Progressing\")].reason}") == "ReplicaSetUpdated" ]]; do echo "waiting for rollout" && sleep 1; done; UUID=$(uuidgen); UUID=$(uuidgen); now=$(TZ=UTC date "+%FT%T.00Z"); curl -X POST -H "Content-Type: application/cloudevents+json" -H "x-token: ${KEPTN_API_TOKEN}" --insecure -d "{\"contenttype\": \"application/json\", \"data\": { \"project\": \"{{ .Values.keptn.project }}\", \"service\": \"{{ .Values.keptn.service }}\", \"stage\": \"{{ .Values.keptn.stage }}\", \"deploymentURILocal\": \"http://{{ .Values.keptn.service }}-canary.{{ .Values.keptn.project }}-{{ .Values.keptn.stage }}\", \"deploymentstrategy\": \"blue_green_service\", \"teststrategy\": \"performance\"}, \"id\": \"${UUID}\", \"source\": \"argo\", \"specversion\": \"0.2\", \"time\": \"${now}\", \"type\": \"sh.keptn.events.deployment-finished\", \"shkeptncontext\": \"${UUID}\"}" ${KEPTN_API_URL}/v1/event']
+        env:
+          - name: KEPTN_API_URL
+            valueFrom:
+              secretKeyRef:
+                name: argo
+                key: KEPTN_API_URL
+            - name: KEPTN_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: argo
+                  key: KEPTN_API_TOKEN
       restartPolicy: Never
   backoffLimit: 2
 ```
 
 Positive
 : In order to activate this hook, the Job has to be located in the Helm chart containing the deployment resources. The example chart in `onboarding-carts/argo/carts` already contains this Hook and, hence, it was already added in the step before.
-
-This hook needs to access the Keptn API and therefore requires the Keptn endpoint as well as the api-token.
-Therefore, create a config map and a secret with the Keptn endpoint and api-token:
-
-```
-KEPTN_ENDPOINT=$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
-KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
-kubectl -n sockshop-production create secret generic keptn-api-token --from-literal="keptn-api-token=$KEPTN_API_TOKEN"
-kubectl -n sockshop-production create configmap keptn-domain --from-literal="app_domain=$KEPTN_ENDPOINT"
-kubectl create clusterrolebinding sockshop-production --clusterrole=cluster-admin --serviceaccount=sockshop-production:default
-```
-
 
 ## Deploy with Argo and Test, Evaluate, and Promote with Keptn
 Duration: 5:00
@@ -225,14 +239,9 @@ Duration: 5:00
     argocd app sync carts-production
     ```
 
-1. Check whether the hook triggered Keptn. Therefore, go to Keptn's Bridge and check whether there is a `sh.keptn.events.deployment-finished` event. You can access it by a port-forward from your local machine to the Kubernetes cluster:
+1. Check whether the hook triggered Keptn. Therefore, go to Keptn's Bridge and check whether there is a `sh.keptn.events.deployment-finished` event.
 
-    ``` 
-    kubectl port-forward svc/bridge -n keptn 9000:8080
-    ```
-    The Keptn's Bridge is then available on: http://localhost:9000. 
-
-1. Follow the events in the Keptn's Bridge.
+1. Follow the events in the Keptn's Bridge and compare it to the screenshot below.
 
 1. The new version (i.e. the `canary`) as well as the released version (i.e. the `primary`) of the `carts` service are exposed via a LoadBalancer. In order to access the website of the `carts` service, query the external IPs of the LoadBalancer:
 
@@ -280,7 +289,7 @@ Next, we will deploy a slow version of the carts service, which contains an arti
     argocd app sync carts-production
     ```
 
-1. Follow the events in the Keptn's Bridge. Please note that the performance tests will take approx. 20 minutes.
+1. Follow the events in the Keptn's Bridge and compare it to the screenshot below. Please note that the performance tests will take approx. 20 minutes.
 
     ![bridge](./assets/argo-quality-gate-not-passed.png)
 
@@ -316,7 +325,7 @@ This version should now again pass the quality gate and, hence, should be promot
     argocd app sync carts-production
     ```
 
-1. Follow the events in the Keptn's Bridge. 
+1. Follow the events in the Keptn's Bridge and compare it to the screenshot below. 
 
 1. Navigate to `http://EXTERNAL-IP` for viewing both versions of the `carts` service in your `production` environment.
 
