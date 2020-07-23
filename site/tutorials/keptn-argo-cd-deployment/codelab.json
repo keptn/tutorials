@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-07-23T09:54:42+02:00",
+  "updated": "2020-07-23T11:21:46+02:00",
   "id": "keptn-argo-cd-deployment",
   "duration": 39,
   "title": "Argo CD for Deploying and Keptn for Testing, Evaluating, and Promoting",

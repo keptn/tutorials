@@ -60,7 +60,7 @@
       <google-codelab-step label="Install the Keptn Argo-service" duration="2">
         <p>The Keptn <code>argo-service</code> takes care of <em>promoting</em> or <em>aborting</em> a Rollout depending on the result of the quality gate. More precisely, the <code>argo-service</code> listens for <code>sh.keptn.events.evaluation-done</code> events and depending on the evaluation result (i.e. whether the quality gate is passed or not) the service promotes or aborts a rollout, respectively.</p>
 <ol type="1">
-<li>The <code>argo-service</code> is not contained in the default installation of Keptn.<br>To install the <code>argo-service</code>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/argo-service/0.1.0/deploy/service.yaml
+<li>The <code>argo-service</code> is not contained in the default installation of Keptn.<br>To install the <code>argo-service</code>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/argo-service/0.1.1/deploy/service.yaml
 </code></pre>
 </li>
 <li>The <code>gatekeeper-service</code> (which is installed by the default installation of Keptn) has to be removed:<pre><code>kubectl delete deployment gatekeeper-service -n keptn
