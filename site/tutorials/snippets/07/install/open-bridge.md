@@ -16,7 +16,7 @@ keptn configure bridge --output
 ![empty bridge](./assets/bridge-empty.png)
 
 Positive
-: We are frequently providing early access versions of the Keptn's Bridge with new functionality - [learn more here](https://keptn.sh/docs/0.7.x/reference/keptnsbridge/#early-access-version-of-keptn-s-bridge)!
+: We are frequently providing early access versions of the Keptn's Bridge with new functionality - [learn more here](https://keptn.sh/docs/0.7.x/reference/bridge/#early-access-version-of-keptn-bridge)!
 
 ### Keptn API
 
