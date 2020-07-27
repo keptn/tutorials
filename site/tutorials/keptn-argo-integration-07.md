@@ -1,7 +1,7 @@
 summary: Argo CD for Deploying and Keptn for Testing, Evaluating, and Promoting
-id: keptn-argo-cd-deployment
+id: keptn-argo-cd-deployment-07
 categories: argocd,quality-gates
-tags: keptn06x
+tags: keptn07x
 status: Published
 authors: Andreas Grimmer, Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
