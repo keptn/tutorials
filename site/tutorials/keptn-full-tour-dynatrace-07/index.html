@@ -255,7 +255,7 @@ DT_PAAS_TOKEN=yourPAAStoken
 </code></pre>
 <aside class="warning"><p>Please make sure your DT_TENANT does <em>not contain</em> any trailing slashes nor a https:// in the beginning.</p>
 </aside>
-If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34; --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; 
+If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34; --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; --from-literal=&#34;KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge&#34; 
 </code></pre>
 </li>
 </ol>
