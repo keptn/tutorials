@@ -3,8 +3,8 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-07-23T11:21:46+02:00",
-  "id": "keptn-argo-cd-deployment",
+  "updated": "2020-07-27T08:54:46+02:00",
+  "id": "keptn-argo-cd-deployment-07",
   "duration": 39,
   "title": "Argo CD for Deploying and Keptn for Testing, Evaluating, and Promoting",
   "authors": "Andreas Grimmer, Jürgen Etzlstorfer",
@@ -19,8 +19,8 @@
     "quality-gates"
   ],
   "tags": [
-    "keptn06x"
+    "keptn07x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
-  "url": "keptn-argo-cd-deployment"
+  "url": "keptn-argo-cd-deployment-07"
 }
