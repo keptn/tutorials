@@ -55,7 +55,7 @@
 <li>Master version &gt;= <code>1.15.x</code> (tested version: <code>1.15.9-gke.22</code>)</li>
 <li>One <strong>n1-standard-8</strong> node. Please note that you might go for a smaller or larger size cluster depending on the concrete use case. The suggested sizing is based on the recommendation for the <a href="../../?cat=full-tour" target="_blank">full tour</a> tutorials.</li>
 <li>Image type <code>ubuntu</code> or <code>cos</code> (<strong>Note:</strong> If you plan to use Dynatrace monitoring, select <code>ubuntu</code> for a more <a href="https://keptn.sh/docs/0.7.x/monitoring/dynatrace/install/#notes" target="_blank">convenient setup</a>.)</li>
-<li>Sample script to create such cluster:<pre><code>// set environment variables
+<li>Sample script to create such cluster:<pre><code># set environment variables
 PROJECT=nameofgcloudproject
 CLUSTER_NAME=nameofcluster
 ZONE=us-central1-a
@@ -168,7 +168,7 @@ Successfully authenticated
 <pre><code>keptn configure bridge --output
 </code></pre>
 <p class="image-container"><img alt="empty bridge" src="img/6f96567a81c6b3cf.png"></p>
-<aside class="special"><p>We are frequently providing early access versions of the Keptn&#39;s Bridge with new functionality - <a href="https://keptn.sh/docs/0.7.x/reference/bridge/#early-access-version-of-keptn-s-bridge" target="_blank">learn more here</a>!</p>
+<aside class="special"><p>We are frequently providing early access versions of the Keptn&#39;s Bridge with new functionality - <a href="https://keptn.sh/docs/0.7.x/reference/bridge/#early-access-version-of-keptn-bridge" target="_blank">learn more here</a>!</p>
 </aside>
 <h2 is-upgraded>Keptn API</h2>
 <p>Besides the Keptn&#39;s Bridge, please consider also taking a look at the Keptn API endpoint if you are interested to interact with Keptn via the API. Keptn comes with a fully documented swagger-API that can be found under the <code>/api</code> endpoint.</p>
