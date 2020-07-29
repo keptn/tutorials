@@ -21,7 +21,7 @@ We are going to setup a Kubernetes cluster in the Google Cloud Platform.
   - Sample script to create such cluster:
 
     ```
-    // set environment variables
+    # set environment variables
     PROJECT=nameofgcloudproject
     CLUSTER_NAME=nameofcluster
     ZONE=us-central1-a
