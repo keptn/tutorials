@@ -22,7 +22,7 @@
 <body>
   <google-codelab-analytics gaid="UA-133584243-1"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
-                  id="keptn-progressive-delivery-dynatrace"
+                  id="keptn-progressive-delivery-dynatrace-07"
                   title="Progressive Delivery with Keptn using Dynatrace"
                   environment="web"
                   feedback-link="https://github.com/keptn/tutorials/tree/master/site/tutorials">
@@ -57,7 +57,7 @@
       </google-codelab-step>
     
       <google-codelab-step label="Setup Dynatrace" duration="7">
-        <p>For enabling the Keptn Quality Gates, we are going to use Dynatrace as the data provider. Therefore, we are going to setup Dynatrace in our Kubernetes cluster to have our sample application monitored and we can use the monitoring data for both the basis for evaluating quality gates as well as a trigger to start self-healing.</p>
+        <p>For enabling the Keptn Quality Gates and for production monitoring, we are going to use Dynatrace as the data provider. Therefore, we are going to setup Dynatrace in our Kubernetes cluster to have our sample application monitored and we can use the monitoring data for both the basis for evaluating quality gates as well as a trigger to start self-healing.</p>
 <aside class="special"><p>You have to bring your own Dynatrace tenant</p>
 </aside>
 <p>If you don&#39;t have a Dynatrace tenant yet, sign up for a <a href="https://www.dynatrace.com/trial/" target="_blank">free trial</a> or a <a href="https://www.dynatrace.com/developer/" target="_blank">developer account</a>.</p>
@@ -75,7 +75,6 @@
 <li>Capture request data</li>
 </ul>
 Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/52347510b2b53317.png"></li>
-<li>Create a Dynatrace PaaS TokenIn your Dynatrace tenant, go to <strong>Settings &gt; Integration &gt; Platform as a Service</strong>, and create a new PaaS Token.</li>
 <li>Store your credentials in a Kubernetes secret by executing the following command. The <code>DT_TENANT</code> has to be set according to the appropriate pattern:<ul>
 <li>Dynatrace SaaS tenant (this format is most likely for you): <code>{your-environment-id}.live.dynatrace.com</code></li>
 <li>Dynatrace-managed tenant: <code>{your-domain}/e/{your-environment-id}</code></li>
@@ -84,7 +83,43 @@ If running on a Unix/Linux based system, you can use variables for ease of use. 
 DT_API_TOKEN=yourAPItoken
 DT_PAAS_TOKEN=yourPAAStoken
 </code></pre>
-If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variable, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34;
+<aside class="warning"><p>Please make sure your DT_TENANT does <em>not contain</em> any trailing slashes nor a https:// in the beginning.</p>
+</aside>
+If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; --from-literal=&#34;KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge&#34; 
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy Dynatrace OneAgent Operator" duration="0">
+        <p>We are following the official Dynatrace docs to deploy the Dynatrace OneAgent Operator on our Kubernetes cluster. You don&#39;t have to switch to the docs, but instead can just follow along in this tutorial, we cover all necessary steps here.</p>
+<ol type="1">
+<li>Deploy the operator<pre><code>kubectl create namespace dynatrace
+kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/kubernetes.yaml
+</code></pre>
+</li>
+<li>We are going to reuse the variables that we set in the previous step for the creation of the secret for the OneAgent operator.<pre><code>kubectl -n dynatrace create secret generic oneagent --from-literal=&#34;apiToken=$DT_API_TOKEN&#34; --from-literal=&#34;paasToken=$DT_PAAS_TOKEN&#34;
+</code></pre>
+</li>
+<li>Download the custom resource definition and edit it.<pre><code>curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/master/deploy/cr.yaml
+</code></pre>
+</li>
+<li>Set the <em>apiUrl</em> correctly to your ENVIRONMENTID (please note that the ENVIRONMENTID is the unique ID of your Dynatrace tenant) and save the file.<pre><code>spec:
+  # dynatrace api url including `/api` path at the end
+  # either set ENVIRONMENTID to the proper tenant id or change the apiUrl as a whole, e.q. for Managed
+  apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api
+</code></pre>
+</li>
+<li>Apply the custom resource.<pre><code>kubectl apply -f cr.yaml
+</code></pre>
+</li>
+<li>Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.<pre><code>kubectl get pods -n dynatrace
+</code></pre>
+<pre><code>dynatrace-oneagent-operator-696fd89b76-n9d9n   1/1     Running   0          6m26s
+dynatrace-oneagent-webhook-78b6d99c85-h9759    2/2     Running   0          6m25s
+oneagent-g9m42                                 1/1     Running   0          69s
 </code></pre>
 </li>
 </ol>
@@ -94,10 +129,23 @@ If you used the variables, the next command can be copied and pasted without mod
     
       <google-codelab-step label="Install Dynatrace integration" duration="5">
         <ol type="1">
-<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.7.1/deploy/manifests/dynatrace-service/dynatrace-service.yaml
+<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
 </code></pre>
 </li>
 <li>When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.<pre><code>keptn configure monitoring dynatrace
+</code></pre>
+Output should be similar to this:<pre><code>ID of Keptn context: 79f19c36-b718-4bb6-88d5-cb79f163289b
+Configuring Dynatrace monitoring
+Dynatrace OneAgent Operator is installed on cluster
+Setting up auto-tagging rules in Dynatrace Tenant
+Tagging rule keptn_service already exists
+Tagging rule keptn_stage already exists
+Tagging rule keptn_project already exists
+Tagging rule keptn_deployment already exists
+Setting up problem notifications in Dynatrace Tenant
+Checking Keptn alerting profile availability
+Keptn alerting profile available
+Dynatrace Monitoring setup done
 </code></pre>
 </li>
 </ol>
@@ -147,11 +195,11 @@ oneagent-k7jn6                                 1/1     Running      0          8
       <google-codelab-step label="Create a Keptn Project" duration="2">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
 <p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
-<pre><code>git clone --branch release-0.6.2 https://github.com/keptn/examples.git --single-branch
+<pre><code>git clone --branch release-0.7.0 https://github.com/keptn/examples.git --single-branch
 
 cd examples/simplenodeservice
 </code></pre>
-<p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>simplenodeproject</em>. Before executing the following command, make sure you are in the <code>examples/simplenodeservice/keptn</code> folder.<br>Please note that <a href="https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream" target="_blank">defining a Git upstream</a> is recommended, but in case that is not wanted the parameters <code>git-user</code>, <code>git-token</code> and <code>git-remote-url</code> can be omitted.</p>
+<p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>simplenodeproject</em>. Before executing the following command, make sure you are in the <code>examples/simplenodeservice/keptn</code> folder.<br>Please note that <a href="https://keptn.sh/docs/0.7.x/manage/project/#select-git-based-upstream" target="_blank">defining a Git upstream</a> is recommended, but in case that is not wanted the parameters <code>git-user</code>, <code>git-token</code> and <code>git-remote-url</code> can be omitted.</p>
 <pre><code>keptn create project simplenodeproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
 </code></pre>
 <p>For creating the project, the tutorial relies on a <code>shipyard.yaml</code> file as shown below:</p>
@@ -177,7 +225,7 @@ cd examples/simplenodeservice
       <google-codelab-step label="Onboard our microservice to our project" duration="2">
         <p>After creating the project, services can be onboarded to our project.</p>
 <ol type="1">
-<li>Onboard the <strong>simplenode</strong> service using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command:<pre><code>keptn onboard service simplenode --project=simplenodeproject --chart=./carts
+<li>Onboard the <strong>simplenode</strong> service using the <a href="https://keptn.sh/docs/0.7.x/reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command:<pre><code>keptn onboard service simplenode --project=simplenodeproject --chart=./carts
 </code></pre>
 </li>
 </ol>
@@ -189,7 +237,7 @@ cd examples/simplenodeservice
       <google-codelab-step label="Deploy first build with Keptn" duration="2">
         <p>After onboarding our service we can immediately start using Keptn to deploy an artifact.</p>
 <ol type="1">
-<li>Lets deploy version 1 of our simplenode service by executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=simplenodeproject --service=simplenode --image=grabnerandi/simplenodeservice --tag=1.0.0
+<li>Lets deploy version 1 of our simplenode service by executing the <a href="https://keptn.sh/docs/0.7.x/reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=simplenodeproject --service=simplenode --image=grabnerandi/simplenodeservice --tag=1.0.0
 </code></pre>
 </li>
 </ol>
@@ -234,7 +282,7 @@ simplenodeproject-staging simplenode-54d9b6775-rm8rw     1/1     Running     0  
     
       <google-codelab-step label="Setup SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Dynatrace SLI provider is required that is implemented by an internal Keptn service, the dynatrace-sli-service. This service will fetch the values for the SLIs that are referenced in an SLO configuration.</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.4.2/deploy/service.yaml
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.5.0/deploy/service.yaml
 </code></pre>
 <p>Configure the already onboarded project with the new SLI provider:</p>
 <pre><code>keptn configure monitoring dynatrace --project=simplenodeproject
@@ -252,7 +300,7 @@ simplenodeproject-staging simplenode-54d9b6775-rm8rw     1/1     Running     0  
 <li>SLOs (Service Level Objectives): what conditions (=objectives) must be met to consider this a good or a bad value per indicator</li>
 </ul>
 <p>In Keptn we therefore need to provide an <code>sli.yaml</code> that defines how to query certain metrics from a specific tool, e.g: Dynatrace. We also need to provide an <code>slo.yaml</code> that defines the conditions - this file is tool independant.<br>To learn more about the <em>sli.yaml</em> and <em>slo.yaml</em> files, go to <a href="https://github.com/keptn/spec/blob/0.1.3/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
-<p>Our example comes with a basic and an extended set of SLIs and SLOs. In this step we focus on the basic version.<br>We have to upload two files using the <a href="https://keptn.sh/docs/0.6.0/reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command.<br>Ensure you navigate to the <code>examples/simplenode/keptn</code> folder.</p>
+<p>Our example comes with a basic and an extended set of SLIs and SLOs. In this step we focus on the basic version.<br>We have to upload two files using the <a href="https://keptn.sh/docs/0.7.x/reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command.<br>Ensure you navigate to the <code>examples/simplenode/keptn</code> folder.</p>
 <ol type="1">
 <li>First, lets upload our <code>dynatrace/sli_basic.yaml</code> as <code>dynatrace/sli.yaml</code>!<pre><code>keptn add-resource --project=simplenodeproject --stage=staging --service=simplenode --resource=dynatrace/sli_basic.yaml --resourceUri=dynatrace/sli.yaml
 </code></pre>
@@ -517,8 +565,8 @@ keptn add-resource --project=simplenodeproject --stage=prod --service=simplenode
       <google-codelab-step label="Feedback" duration="0">
         <aside class="special"><p>We are happy to hear your feedback!</p>
 </aside>
-<p>Please visit us in our <a href="https://bit.ly/keptn-slack" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
-<p>Also, please <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
+<p>Please visit us in our <a href="https://slack.keptn.sh" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
+<p>Also, make sure to <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
 
 
       </google-codelab-step>
