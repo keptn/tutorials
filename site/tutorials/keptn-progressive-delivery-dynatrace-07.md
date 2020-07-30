@@ -1,7 +1,7 @@
 summary: Progressive Delivery with Keptn using Dynatrace
-id: keptn-progressive-delivery-dynatrace
+id: keptn-progressive-delivery-dynatrace-07
 categories: Dynatrace,aks,eks,gke,openshift,pks,minikube,full-tour,quality-gates
-tags: keptn06x
+tags: keptn07x
 status: Published 
 authors: Andreas Grabner
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
@@ -48,27 +48,27 @@ What you need in order to complete this tutorial is
 
 <!-- include other files -->
 
-{{ snippets/monitoring/setupDynatrace.md }}
+{{ snippets/07/monitoring/setupDynatrace.md }}
 
-{{ snippets/manage/simplenode/createProject.md }}
+{{ snippets/07/manage/simplenode/createProject.md }}
 
-{{ snippets/manage/simplenode/onboardService.md }}
+{{ snippets/07/manage/simplenode/onboardService.md }}
 
-{{ snippets/manage/simplenode/validateFirstServiceDeployment.md }}
+{{ snippets/07/manage/simplenode/validateFirstServiceDeployment.md }}
 
-{{ snippets/monitoring/simplenode/validateMonitoringData.md }}
+{{ snippets/07/monitoring/simplenode/validateMonitoringData.md }}
 
-{{ snippets/monitoring/simplenode/setupDynatraceSLIProvider.md }}
+{{ snippets/07/monitoring/simplenode/setupDynatraceSLIProvider.md }}
 
-{{ snippets/quality-gates/simplenode/setupBasicQualityGate.md }}
+{{ snippets/07/quality-gates/simplenode/setupBasicQualityGate.md }}
 
-{{ snippets/quality-gates/simplenode/setupQualityGateInProd.md }}
+{{ snippets/07/quality-gates/simplenode/setupQualityGateInProd.md }}
 
-{{ snippets/quality-gates/simplenode/validateQualityGatesWithMultipleDeployments.md }}
+{{ snippets/07/quality-gates/simplenode/validateQualityGatesWithMultipleDeployments.md }}
 
-{{ snippets/quality-gates/simplenode/extendQualityGatesWithTestMetrics.md }}
+{{ snippets/07/quality-gates/simplenode/extendQualityGatesWithTestMetrics.md }}
 
-{{ snippets/monitoring/simplenode/createLoadTestingDashboard.md }}
+{{ snippets/07/monitoring/simplenode/createLoadTestingDashboard.md }}
 
 
 ## Finish
@@ -86,6 +86,6 @@ You should have been able to achieve exactly what is shown in the following anim
 If you have more questions you can also watch a recording of an online workshop titled [Setting up Event-based Progressive Delivery with Keptn on k8s](https://www.youtube.com/watch?v=ZuTr_enelM0)
 
 
-{{ snippets/integrations/gettingStarted.md }}
+{{ snippets/07/integrations/gettingStarted.md }}
 
-{{ snippets/community/feedback.md }}
+{{ snippets/07/community/feedback.md }}
