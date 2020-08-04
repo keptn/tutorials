@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-08-04T19:15:21+02:00",
-  "id": "keptn-in-a-box",
+  "updated": "2020-08-04T19:23:15+02:00",
+  "id": "keptn-in-a-box-07",
   "duration": 36,
   "title": "Keptn in a Box",
   "authors": "Sergio Hinojosa",
   "summary": "Keptn-in-a-Box with Dynatrace Software Intelligence empowered",
-  "source": "keptn-in-a-box-06_gen.md",
+  "source": "keptn-in-a-box-07_gen.md",
   "theme": "",
   "status": [
     "published"
@@ -26,8 +26,8 @@
     "automated-operations"
   ],
   "tags": [
-    "keptn06x"
+    "keptn07x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
-  "url": "keptn-in-a-box"
+  "url": "keptn-in-a-box-07"
 }

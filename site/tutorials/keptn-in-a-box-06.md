@@ -394,7 +394,7 @@ kubectl get ing -A
 
 Now that you have your single node Kubernetes Cluster configured and up and running, you are all set to continue your journey to the autonomous cloud. Start typing `kubectl` commands, onboard applications with `keptn`, or maybe create your own **unbreakable pipeline** locally? What about creating your own Keptn Service? Take a look at more [Keptn tutorials](https://tutorials.keptn.sh/).
 
-{{ snippets/community/feedback.md }}
+{{ snippets/06/community/feedback.md }}
 
 
 
