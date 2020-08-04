@@ -4,9 +4,17 @@ Duration: 5:00
 
 To install the latest release of Keptn with full _quality gate + continuous delivery capabilities_ in your Kubernetes cluster, execute the `keptn install` command.
 
+<!-- bash 
+echo "{}" > creds.json
+ 
+keptn install --endpoint-service-type=ClusterIP --use-case=continuous-delivery -c ./creds.json
+-->
+
 ```
 keptn install --endpoint-service-type=ClusterIP --use-case=continuous-delivery
 ```
+
+<!-- bash verify_test_step $? "keptn install failed" -->
 
 Positive
 : The installation process will take about 3-5 minutes.
@@ -18,9 +26,14 @@ Positive
 
 In the Keptn namespace, the following deployments should be found:
 
+<!-- command -->
 ```
 kubectl get deployments -n keptn
+```
 
+Here is the output of the command:
+
+```
 NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
 api-gateway-nginx                                1/1     1            1           2m44s
 api-service                                      1/1     1            1           2m44s

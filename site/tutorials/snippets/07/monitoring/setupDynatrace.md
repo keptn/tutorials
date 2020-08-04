@@ -36,6 +36,10 @@ Duration: 6:00
 
     If running on a Unix/Linux based system, you can use variables for ease of use. Naturally, it is also fine to just replace the values in the `kubectl` command itself.
 
+    <!-- var DT_TENANT -->
+    <!-- var DT_API_TOKEN -->
+    <!-- var DT_PAAS_TOKEN -->
+
     ```
     DT_TENANT=yourtenant.live.dynatrace.com
     DT_API_TOKEN=yourAPItoken
@@ -55,22 +59,32 @@ Duration: 6:00
 We are following the official Dynatrace docs to deploy the Dynatrace OneAgent Operator on our Kubernetes cluster. You don't have to switch to the docs, but instead can just follow along in this tutorial, we cover all necessary steps here.
 
 1. Deploy the operator
+
+    <!-- command -->
     ```
     kubectl create namespace dynatrace
     kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/kubernetes.yaml
     ```
 
 2. We are going to reuse the variables that we set in the previous step for the creation of the secret for the OneAgent operator.
+    <!-- command -->
     ```
     kubectl -n dynatrace create secret generic oneagent --from-literal="apiToken=$DT_API_TOKEN" --from-literal="paasToken=$DT_PAAS_TOKEN"
     ```
 
 3. Download the custom resource definition and edit it.
+    <!-- command -->
     ```
     curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/master/deploy/cr.yaml
     ```
 
 4. Set the _apiUrl_ correctly to your ENVIRONMENTID (please note that the ENVIRONMENTID is the unique ID of your Dynatrace tenant) and save the file.
+
+    <!-- bash
+     URL=https://ENVIRONMENTID.live.dynatrace.com/api
+     replace_value_in_yaml_file $URL https://${DT_TENANT}/api cr.yaml
+     -->
+
     ```
     spec:
       # dynatrace api url including `/api` path at the end
@@ -79,11 +93,16 @@ We are following the official Dynatrace docs to deploy the Dynatrace OneAgent Op
     ```
 
 5. Apply the custom resource.
+    <!-- command -->
     ```
     kubectl apply -f cr.yaml
     ```
 
+    <!-- bash sleep 20 -->
+
 6. Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.
+
+    <!-- debug -->
     ```
     kubectl get pods -n dynatrace
     ```
@@ -100,12 +119,14 @@ Duration: 5:00
 
 1. The Dynatrace integration into Keptn is handled by the *dynatrace-service*. To install the *dynatrace-service*, execute:
 
+    <!-- command -->
     ```
     kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
     ```
 
 1. When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.
 
+    <!-- command -->
     ```
     keptn configure monitoring dynatrace
     ```
@@ -150,6 +171,8 @@ Negative
 : If the nodes in your cluster run on *Container-Optimized OS (cos)* (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary. 
 
 Follow the next steps only if your Dynatrace OneAgent does not work properly.
+
+<!-- bash kubectl get pods -n dynatrace -->
 
 1. To check if the OneAgent does not work properly, the output of `kubectl get pods -n dynatrace` might look as follows:
 

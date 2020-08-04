@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-07-22T07:48:10+02:00",
+  "updated": "2020-08-04T09:47:40+02:00",
   "id": "keptn-installation-eks",
   "duration": 29,
   "title": "Keptn Installation on EKS",
   "authors": "Jürgen Etzlstorfer",
   "summary": "Install Keptn on EKS",
-  "source": "keptn-install-eks-07_gen.md",
+  "source": "keptn-install-eks-06_gen.md",
   "theme": "",
   "status": [
     "published"

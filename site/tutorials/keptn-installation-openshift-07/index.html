@@ -108,9 +108,9 @@ This will download and install the Keptn CLI automatically.</li>
 <li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.0" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
+<li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
 </ol>
 <ul>
-<li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
 <li><em>Windows</em>: Copy the executable to the desired folder and add the executable to your PATH environment variable.</li>
 </ul>
 </li>
@@ -141,8 +141,9 @@ This will download and install the Keptn CLI automatically.</li>
 <h2 is-upgraded>Installation details</h2>
 <p>In the Keptn namespace, the following deployments should be found:</p>
 <pre><code>kubectl get deployments -n keptn
-
-NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
+</code></pre>
+<p>Here is the output of the command:</p>
+<pre><code>NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
 api-gateway-nginx                                1/1     1            1           2m44s
 api-service                                      1/1     1            1           2m44s
 bridge                                           1/1     1            1           2m44s
@@ -192,7 +193,7 @@ Successfully authenticated
 <pre><code>keptn configure bridge --output
 </code></pre>
 <p class="image-container"><img alt="empty bridge" src="img/6f96567a81c6b3cf.png"></p>
-<aside class="special"><p>We are frequently providing early access versions of the Keptn&#39;s Bridge with new functionality - <a href="https://keptn.sh/docs/0.7.x/reference/bridge/#early-access-version-of-keptn-s-bridge" target="_blank">learn more here</a>!</p>
+<aside class="special"><p>We are frequently providing early access versions of the Keptn&#39;s Bridge with new functionality - <a href="https://keptn.sh/docs/0.7.x/reference/bridge/#early-access-version-of-keptn-bridge" target="_blank">learn more here</a>!</p>
 </aside>
 <h2 is-upgraded>Keptn API</h2>
 <p>Besides the Keptn&#39;s Bridge, please consider also taking a look at the Keptn API endpoint if you are interested to interact with Keptn via the API. Keptn comes with a fully documented swagger-API that can be found under the <code>/api</code> endpoint.</p>

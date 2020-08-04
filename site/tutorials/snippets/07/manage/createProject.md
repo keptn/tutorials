@@ -5,6 +5,9 @@ Duration: 5:00
 A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.
 
 To get all files you need for this tutorial, please clone the example repo to your local machine.
+
+<!-- command -->
+
 ```
 git clone --branch release-0.7.0 https://github.com/keptn/examples.git --single-branch
 
@@ -18,12 +21,16 @@ Create a new project for your services using the `keptn create project` command.
 
 To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.7.0/manage/git_upstream/) where instructions for GitHub, GitLab, and Bitbucket are provided.
 
+
+<!-- command -->
 ```
 keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
 ```
 
 
 **Alternatively:** If you don't want to use a Git upstream, you can create a new project without it but please note that this is not the recommended way:
+
+<!-- command -->
 ```
 keptn create project sockshop --shipyard=./shipyard.yaml
 ```
@@ -63,12 +70,15 @@ Positive
 
 Let's take a look at the project that we have just created. We can find all this information in the Keptn's Bridge.
 Therefore, we need the credentials that have been automatically generated for us.
+
+<!-- command -->
 ```
 keptn configure bridge --output
 ```
 
 Now use these credentials to access it on your Keptn endpoint.
 
+<!-- command -->
 ```
 echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge
 ```

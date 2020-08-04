@@ -53,7 +53,7 @@
     
       <google-codelab-step label="Install Istio" duration="10">
         <p>Download the Istio command line tool by <a href="https://istio.io/latest/docs/setup/install/" target="_blank">following the official instructions</a> or by executing the following steps.</p>
-<pre><code>curl -L https://istio.io/downloadIstio | sh -
+<pre><code>curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.5 sh -
 </code></pre>
 <p>Check the version of Istio that has been downloaded and execute the installer from the corresponding folder, e.g.,</p>
 <pre><code>./istio-1.6.5/bin/istioctl install
@@ -81,9 +81,9 @@ This will download and install the Keptn CLI automatically.</li>
 <li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.0" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
+<li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
 </ol>
 <ul>
-<li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
 <li><em>Windows</em>: Copy the executable to the desired folder and add the executable to your PATH environment variable.</li>
 </ul>
 </li>
@@ -114,8 +114,9 @@ This will download and install the Keptn CLI automatically.</li>
 <h2 is-upgraded>Installation details</h2>
 <p>In the Keptn namespace, the following deployments should be found:</p>
 <pre><code>kubectl get deployments -n keptn
-
-NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
+</code></pre>
+<p>Here is the output of the command:</p>
+<pre><code>NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
 api-gateway-nginx                                1/1     1            1           2m44s
 api-service                                      1/1     1            1           2m44s
 bridge                                           1/1     1            1           2m44s
@@ -185,7 +186,7 @@ spec:
 <pre><code>kubectl apply -f gateway-manifest.yaml
 </code></pre>
 <p>Create a <code>ConfigMap</code> for Keptn to pick up with all the needed information. Therefore execute the following statement that will create the configmap.</p>
-<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host}) --from-literal=ingress_port=${INGRESS_PORT} --from-literal=ingress_protocol=${INGRESS_PROTOCOL} --from-literal=istio_gateway=${ISTIO_GATEWAY} -oyaml --dry-run | kubectl replace -f -
+<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;) --from-literal=ingress_port=80 --from-literal=ingress_protocol=http --from-literal=istio_gateway=public-gateway.istio-system -oyaml --dry-run | kubectl replace -f -
 </code></pre>
 <p>Finally, restart the Helm service of Keptn to pick up the just created configuration.</p>
 <pre><code>kubectl delete pod -n keptn -lapp.kubernetes.io/name=helm-service
@@ -246,7 +247,7 @@ DT_PAAS_TOKEN=yourPAAStoken
 </code></pre>
 <aside class="warning"><p>Please make sure your DT_TENANT does <em>not contain</em> any trailing slashes nor a https:// in the beginning.</p>
 </aside>
-If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34; --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; 
+If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34; --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; --from-literal=&#34;KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge&#34; 
 </code></pre>
 </li>
 </ol>
@@ -261,10 +262,10 @@ If you used the variables, the next command can be copied and pasted without mod
 kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/kubernetes.yaml
 </code></pre>
 </li>
-<li>We are going to reuse the variables that we set in the previous step for the creation of the secret for the OneAgent operator.<pre><code>kubectl -n dynatrace create secret generic oneagent --from-literal=&#34;apiToken=$DT_API_TOKEN&#34; --from-literal=&#34;paasToken=$DT_PAAS_TOKEN&#34;
+<li>We are going to reuse the variables that we set in the previous step for the creation of the secret for the OneAgent operator.<br><pre><code>kubectl -n dynatrace create secret generic oneagent --from-literal=&#34;apiToken=$DT_API_TOKEN&#34; --from-literal=&#34;paasToken=$DT_PAAS_TOKEN&#34;
 </code></pre>
 </li>
-<li>Download the custom resource definition and edit it.<pre><code>curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/master/deploy/cr.yaml
+<li>Download the custom resource definition and edit it.<br><pre><code>curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/master/deploy/cr.yaml
 </code></pre>
 </li>
 <li>Set the <em>apiUrl</em> correctly to your ENVIRONMENTID (please note that the ENVIRONMENTID is the unique ID of your Dynatrace tenant) and save the file.<pre><code>spec:
@@ -273,7 +274,7 @@ kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releas
   apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api
 </code></pre>
 </li>
-<li>Apply the custom resource.<pre><code>kubectl apply -f cr.yaml
+<li>Apply the custom resource.<br><pre><code>kubectl apply -f cr.yaml
 </code></pre>
 </li>
 <li>Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.<pre><code>kubectl get pods -n dynatrace
@@ -412,13 +413,15 @@ cd examples/onboarding-carts
 </code></pre>
 </li>
 <li>After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:<ul>
-<li>Functional tests for <em>dev</em> stage:<pre><code>keptn add-resource --project=sockshop --stage=dev --service=carts --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-</code></pre>
-</li>
-<li>Performance tests for <em>staging</em> stage:<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-</code></pre>
-</li>
+<li>Functional tests for <em>dev</em> stage:</li>
 </ul>
+<pre><code>keptn add-resource --project=sockshop --stage=dev --service=carts --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+</code></pre>
+<ul>
+<li>Performance tests for <em>staging</em> stage:</li>
+</ul>
+<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+</code></pre>
 <strong>Note:</strong> You can adapt the tests in <code>basiccheck.jmx</code> as well as <code>load.jmx</code> for your service. However, you must not rename the files because there is a hardcoded dependency on these file names in the current implementation of Keptn&#39;s jmeter-service.</li>
 </ol>
 <p>Since the carts service requires a mongodb database, a second service needs to be onboarded.</p>
@@ -487,8 +490,8 @@ deployment.extensions/cartsloadgen created
 </code></pre>
 <p>Optionally, you can verify that the load generator has been started.</p>
 <pre><code>kubectl get pods -n loadgen
-
-NAME                            READY   STATUS    RESTARTS   AGE
+</code></pre>
+<pre><code>NAME                            READY   STATUS    RESTARTS   AGE
 cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
 </code></pre>
 

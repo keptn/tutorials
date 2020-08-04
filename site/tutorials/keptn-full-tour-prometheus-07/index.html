@@ -61,7 +61,7 @@
     
       <google-codelab-step label="Install Istio" duration="10">
         <p>Download the Istio command line tool by <a href="https://istio.io/latest/docs/setup/install/" target="_blank">following the official instructions</a> or by executing the following steps.</p>
-<pre><code>curl -L https://istio.io/downloadIstio | sh -
+<pre><code>curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.5 sh -
 </code></pre>
 <p>Check the version of Istio that has been downloaded and execute the installer from the corresponding folder, e.g.,</p>
 <pre><code>./istio-1.6.5/bin/istioctl install
@@ -89,9 +89,9 @@ This will download and install the Keptn CLI automatically.</li>
 <li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.0" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
+<li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
 </ol>
 <ul>
-<li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
 <li><em>Windows</em>: Copy the executable to the desired folder and add the executable to your PATH environment variable.</li>
 </ul>
 </li>
@@ -122,8 +122,9 @@ This will download and install the Keptn CLI automatically.</li>
 <h2 is-upgraded>Installation details</h2>
 <p>In the Keptn namespace, the following deployments should be found:</p>
 <pre><code>kubectl get deployments -n keptn
-
-NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
+</code></pre>
+<p>Here is the output of the command:</p>
+<pre><code>NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
 api-gateway-nginx                                1/1     1            1           2m44s
 api-service                                      1/1     1            1           2m44s
 bridge                                           1/1     1            1           2m44s
@@ -283,13 +284,15 @@ cd examples/onboarding-carts
 </code></pre>
 </li>
 <li>After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:<ul>
-<li>Functional tests for <em>dev</em> stage:<pre><code>keptn add-resource --project=sockshop --stage=dev --service=carts --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-</code></pre>
-</li>
-<li>Performance tests for <em>staging</em> stage:<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-</code></pre>
-</li>
+<li>Functional tests for <em>dev</em> stage:</li>
 </ul>
+<pre><code>keptn add-resource --project=sockshop --stage=dev --service=carts --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+</code></pre>
+<ul>
+<li>Performance tests for <em>staging</em> stage:</li>
+</ul>
+<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+</code></pre>
 <strong>Note:</strong> You can adapt the tests in <code>basiccheck.jmx</code> as well as <code>load.jmx</code> for your service. However, you must not rename the files because there is a hardcoded dependency on these file names in the current implementation of Keptn&#39;s jmeter-service.</li>
 </ol>
 <p>Since the carts service requires a mongodb database, a second service needs to be onboarded.</p>
@@ -358,8 +361,8 @@ deployment.extensions/cartsloadgen created
 </code></pre>
 <p>Optionally, you can verify that the load generator has been started.</p>
 <pre><code>kubectl get pods -n loadgen
-
-NAME                            READY   STATUS    RESTARTS   AGE
+</code></pre>
+<pre><code>NAME                            READY   STATUS    RESTARTS   AGE
 cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
 </code></pre>
 
@@ -479,14 +482,14 @@ total_score:
         <p>After triggering the deployment of the carts service in version v0.11.2, the following status is expected:</p>
 <ul>
 <li><strong>Dev stage:</strong> The new version is deployed in the dev stage and the functional tests passed.<ul>
-<li>To verify, open a browser and navigate to:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>To verify, open a browser and navigate to:<br><pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
 </code></pre>
 </li>
 </ul>
 </li>
 <li><strong>Staging stage:</strong> In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.</li>
 <li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.<ul>
-<li>To verify, navigate to:<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>To verify, navigate to:<br><pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
 </code></pre>
 </li>
 </ul>
