@@ -22,7 +22,7 @@ sleep 30
 <!-- bash 
 export INGRESS_IP=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}') 
 
-echo "
+kubectl apply -f - <<EOF
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
@@ -38,7 +38,7 @@ spec:
       - backend:
           serviceName: api-gateway-nginx
           servicePort: 80
-" > ingress-manifest.yaml
+EOF
 -->
 
 Create a file `ingress-manifest.yaml` and copy the following content.
@@ -64,7 +64,6 @@ Next, make sure to replace the `<IP-ADDRESS>` with the actual IP of the ingress 
 
 Now let's apply the manifest to the cluster.
 
-<!-- command -->
 ```
 kubectl apply -f ingress-manifest.yaml
 ```
@@ -72,7 +71,7 @@ kubectl apply -f ingress-manifest.yaml
 Next, we will also need a Gateway for Keptn. Therefore copy and paste the following content into a file named `gateway.yaml` and apply it to your Kubernetes cluster.
 
 <!-- bash 
-echo "
+kubectl apply -f - <<EOF
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -88,7 +87,8 @@ spec:
       number: 80
       protocol: HTTP
     hosts:
-    - '*'" > gateway-manifest.yaml
+    - '*'
+EOF
 -->
 
 ```
@@ -110,7 +110,6 @@ spec:
     - '*'
 ```
 
-<!-- command -->
 ```
 kubectl apply -f gateway-manifest.yaml
 ```
