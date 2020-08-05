@@ -72,6 +72,46 @@ In this tutorial, we are going to introduce feature toggles for two scenarios:
 
 To set up both feature flags, navigate to your Unleash server and log in. 
 
+<!-- bash 
+export TOKEN=$(echo -n keptn:keptn | base64)
+export BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host}))
+
+curl --request POST \
+  --url ${BASE_URL}/api/admin/features/ \
+  --header "authorization: Basic ${TOKEN}" \
+  --header 'content-type: application/json' \
+  --data '{
+  "name": "EnableItemCache",
+  "description": "carts",
+  "enabled": false,
+	"strategies": [
+    {
+      "name": "default",
+      "parameters": {}
+    }
+  ]
+}'
+
+curl --request POST \
+  --url ${BASE_URL}/api/admin/features/ \
+  --header "authorization: Basic ${TOKEN}" \
+  --header 'content-type: application/json' \
+  --data '{
+  "name": "EnablePromotion",
+  "description": "carts",
+  "enabled": false,
+	"strategies": [
+    {
+      "name": "default",
+      "parameters": {}
+    }
+  ]
+}'
+
+echo "Waiting for a minute!"
+sleep 60
+-->
+
 1. Click on the red **+** to add a new feature toggle.
   ![unleash-add](./assets/unleash-add.png)
 
@@ -153,6 +193,12 @@ Duration: 5:00
 
 1. Click on the toggle next to **EnablePromotion** to enable this feature flag.
 
+    <!-- bash 
+    curl --request POST \
+      --url ${BASE_URL}/api/admin/features/EnablePromotion/toggle/on \
+      --header "authorization: Basic ${TOKEN}"
+    -->
+    
     ![enable-toggle](./assets/unleash-promotion-toggle-on.png)
 
 1. By enabling this feature flag, a not implemented function is called resulting in a *NotImplementedFunction* error in the source code and a failed response. After a couple of minutes, the monitoring tool will detect an increase in the failure rate and will send out a problem notification to Keptn.
@@ -164,3 +210,8 @@ Duration: 5:00
     ![bridge unleash](./assets/bridge-unleash-remediation.png)
 
 1. 10 minutes after Keptn disables the feature flag, Keptn will also trigger another evaluation to make sure the trigger remediation action did actually resolve the problem. In case the problem is not resolved and the remediation file would hold more remediation actions, Keptn would go ahead and trigger them. For our tutorial Keptn has resolved the issue already, so no need for a second try!
+
+<!-- bash 
+echo "Waiting for Keptn to disable the feature flag"
+sleep 600
+-->
