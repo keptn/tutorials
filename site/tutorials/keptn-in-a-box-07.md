@@ -352,8 +352,8 @@ kube-system    k8-dashboard-ingress   <none>   kubernetes.192-168-0-10.nip.io   
 [Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
 [Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Jenkins-Server Access ============
 [Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
-[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Username: admin <-<-<|
-[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Password: password <-<-<|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Username: keptn <-<-<|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Password: keptn <-<-<|
 [Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
 [Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Workshop User Access (SSH Access) ============
 [Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
