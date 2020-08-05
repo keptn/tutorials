@@ -25,8 +25,7 @@ Positive
 : Spend **more** time **innovating** 😄⚗️ and *less* time *configuring* 😣🛠
 
 
-![keptn-in-a-box](./assets/keptninabox/keptn-in-a-box.png)
-<!--TODO Cambiar esta foto fea-->
+![keptn-in-a-box](./assets/keptninabox/keptn-in-a-box-autonomous-cloud-devops.gif)
 
 *You can actually just run the program without any customization, but let's take the time to understand what Keptn-in-a-Box does for you and how you can customize the installation.*
 
