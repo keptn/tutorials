@@ -1,7 +1,7 @@
 summary: Keptn-in-a-Box with Dynatrace Software Intelligence empowered
-id: keptn-in-a-box
+id: keptn-in-a-box-07
 categories: microk8s, dynatrace,installation, microkubernetes, microk8s,full-tour,quality-gates,performance-as-a-service,automated-operations
-tags: keptn06x
+tags: keptn07x
 status: Published 
 authors: Sergio Hinojosa
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
@@ -25,8 +25,7 @@ Positive
 : Spend **more** time **innovating** 😄⚗️ and *less* time *configuring* 😣🛠
 
 
-![keptn-in-a-box](./assets/keptninabox/keptn-in-a-box.png)
-<!--TODO Cambiar esta foto fea-->
+![keptn-in-a-box](./assets/keptninabox/keptn-in-a-box-autonomous-cloud-devops.gif)
 
 *You can actually just run the program without any customization, but let's take the time to understand what Keptn-in-a-Box does for you and how you can customize the installation.*
 
@@ -102,7 +101,7 @@ ssh yourusername@the-bind-ip-or-dns
 ### Download `keptn-in-a-box.sh`
 Now let's download the `keptn-in-a-box.sh` file and make it executable.
 ```bash
-curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/master/keptn-in-a-box.sh
+curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.7.0/keptn-in-a-box.sh
 chmod +x keptn-in-a-box.sh
 ```
 
@@ -177,7 +176,7 @@ Positive
 Negative
 : If your box does **not** have a public ip, you'll have to configure the domain so you can access the services from outside the box.  
 
-For example, I want to run Keptn-in-a-Box inside my home network and the VM get's the ip `192.168.0.10`. I will convert the IP to a magic domain. This way the requests to any subdomain, for example to [https://api.keptn.192.168.0.10.nip.io](https://api.keptn.192.168.0.10.nip.io) will get resolved to `192.168.0.10` and then kubernetes will take care of forwarding the request internally to the Keptn API service.
+For example, I want to run Keptn-in-a-Box inside my home network and the VM get's the ip `192.168.0.10`. I will convert the IP to a magic domain. This way the requests to any subdomain, for example to [https://keptn.192.168.0.10.nip.io/api](https://keptn.192.168.0.10.nip.io/api) will get resolved to `192.168.0.10` and then kubernetes will take care of forwarding the request internally to the Keptn API service.
 
 Just enter the IP in a magic domain notation as shown below. The ip can contain dashes (-) or dots (.). I just like dashes more, they are prettier 💄.
 
@@ -261,10 +260,9 @@ Now that we have understood the delegation of the program's logic and it's main 
 | patch_kubernetes_dashboard          |     ✅    |     ✅     |      -      |        -      |      -      |      ✅     |    
 | create_workshop_user                |     -     |     -     |      -       |        -       |      -     |     ✅     | 
 | jenkins_deploy                      |     -     |     -     |      -       |        -       |      -     |     ✅     | 
-| jmeter_extended_service             |     -     |     -     |      -       |       ✅       |      ✅    |     ✅     | 
+| keptn_bridge_disable_login          |     ✅    |     ✅    |      -       |        -       |      -     |      -     | 
 | keptn_install_qualitygates          |     -     |     -     |      -       |       ✅       |      ✅    |     ✅     | 
-| certmanager_install                 |     -     |     -     |      -       |       ✅       |      ✅    |     ✅     | 
-| certmanager_install                 |     -     |     -     |      -       |       ✅       |      ✅    |     ✅     | 
+
 
 The **dynatrace_** control flags will be disabled if you don't enter your Dynatrace credentials.
 
@@ -327,15 +325,40 @@ This will open the installation log and read from the input stream. To exit just
 At the end of the installation file you should see something similar
 
 ```bash
-[Keptn-In-A-Box|INFO] [2020-05-25 10:54:40] |======================================================================
-[Keptn-In-A-Box|INFO] [2020-05-25 10:54:40] |============ Installation complete :) ============
-[Keptn-In-A-Box|INFO] [2020-05-25 10:54:40] |______________________________________________________________________
-[Keptn-In-A-Box|INFO] [2020-05-25 10:54:40] |>->-> It took 8 minutes and 57 seconds <-<-<|
-[Keptn-In-A-Box|INFO] [2020-05-25 10:54:40] |>->-> Keptn & Kubernetes Exposed Ingress Endpoints <-<-<|
-NAMESPACE      NAME                        HOSTS                                                                                                  ADDRESS     PORTS     AGE
-default        kubernetes-api-ingress      api.kubernetes.192-168-0-10.nip.io                                                                   127.0.0.1   80, 443   4m51s
-istio-system   istio-ingress               192-168-0-10.nip.io,api.keptn.192-168-0-10.nip.io,bridge.keptn.192-168-0-10.nip.io + 5 more...       127.0.0.1   80, 443   4m50s
-kube-system    kubernetes-ingress          kubernetes.192-168-0-10.nip.io                                                                       127.0.0.1   80, 443   4m51s
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Installation complete :) ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> It took 8 minutes and 10 seconds <-<-<|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Keptn & Kubernetes Exposed Ingress Endpoints ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Below youll find the adresses and the credentials to the exposed services. <-<-<|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> We wish you a lot of fun in your Autonomous Cloud journey! <-<-<|
+
+NAMESPACE      NAME                   CLASS    HOSTS                                                                                                                                ADDRESS     PORTS     AGE
+default        homepage-ingress       <none>   192-168-0-10.nip.io                                                                                                                 127.0.0.1   80, 443   2m48s
+default        k8-api-ingress         <none>   api.kubernetes.192-168-0-10.nip.io                                                                                                  127.0.0.1   80, 443   4m16s
+istio-system   istio-ingress          <none>   *                                                                                                                                    127.0.0.1   80, 443   4m16s
+istio-system   sockshop-ingress       <none>   carts.sockshop-dev.192-168-0-10.nip.io,carts.sockshop-staging.192-168-0-10.nip.io,carts.sockshop-production.192-168-0-10.nip.io     127.0.0.1   80, 443   12s
+istio-system   unleash-ingress        <none>   unleash.unleash-dev.192-168-0-10.nip.io                                                                                             127.0.0.1   80, 443   2m22s
+jenkins        jenkins-ingress        <none>   jenkins.192-168-0-10.nip.io                                                                                                         127.0.0.1   80, 443   2m1s
+keptn          api-keptn-ingress      <none>   keptn.192-168-0-10.nip.io                                                                                                           127.0.0.1   80, 443   2m54s
+kube-system    k8-dashboard-ingress   <none>   kubernetes.192-168-0-10.nip.io                                                                                                      127.0.0.1   80, 443   4m16s
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Unleash-Server Access ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Username: keptn <-<-<|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Password: keptn <-<-<|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Jenkins-Server Access ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Username: keptn <-<-<|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Password: keptn <-<-<|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Workshop User Access (SSH Access) ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> ssh student@192-168-0-10.nip.io <-<-<|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Password: secr3t <-<-<|
 ```
 
 ## Access your services and innovate
@@ -364,7 +387,7 @@ keptn status
 Starting to authenticate
 Successfully authenticated
 Using a file-based storage for the key because the password-store seems to be not set up.
-CLI is authenticated against the Keptn cluster https://api.keptn.192-168-0-10.nip.io
+CLI is authenticated against the Keptn cluster https://keptn.192-168-0-10.nip.io/api
 ```
 to see that keptn is installed and already configured or type
 
@@ -380,8 +403,8 @@ to list the cart sample pods and services of the development stage. You'll notic
 |Teaser                  | https://192-168-0-10.nip.io                            |
 |Kubernetes Dashb.       | https://kubernetes.192-168-0-10.nip.io                 |
 |Kubernetes API          | https://api.kubernetes.192-168-0-10.nip.io             |
-|Keptn API (swagger)     | https://api.keptn.192-168-0-10.nip.io/swagger-ui       |
-|Keptn Bridge            | https://bridge.keptn.192-168-0-10.nip.io               |
+|Keptn API (swagger)     | https://keptn.192-168-0-10.nip.io/api/swagger-ui       |
+|Keptn Bridge            | https://keptn.192-168-0-10.nip.io/bridge               |
 |Unleash                 | https://unleash.unleash-dev.192-168-0-10.nip.io        |
 |Carts pipeline overview | https://192-168-0-10.nip.io/pipeline/                  |
 
@@ -394,7 +417,7 @@ kubectl get ing -A
 
 Now that you have your single node Kubernetes Cluster configured and up and running, you are all set to continue your journey to the autonomous cloud. Start typing `kubectl` commands, onboard applications with `keptn`, or maybe create your own **unbreakable pipeline** locally? What about creating your own Keptn Service? Take a look at more [Keptn tutorials](https://tutorials.keptn.sh/).
 
-{{ snippets/community/feedback.md }}
+{{ snippets/07/community/feedback.md }}
 
 
 

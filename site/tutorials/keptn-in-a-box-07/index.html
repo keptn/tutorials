@@ -22,7 +22,7 @@
 <body>
   <google-codelab-analytics gaid="UA-133584243-1"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
-                  id="keptn-in-a-box"
+                  id="keptn-in-a-box-07"
                   title="Keptn in a Box"
                   environment="web"
                   feedback-link="https://github.com/keptn/tutorials/tree/master/site/tutorials">
@@ -126,7 +126,7 @@
 </code></pre>
 <h2 is-upgraded>Download <code>keptn-in-a-box.sh</code></h2>
 <p>Now let&#39;s download the <code>keptn-in-a-box.sh</code> file and make it executable.</p>
-<pre><code>curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.6.2/keptn-in-a-box.sh
+<pre><code>curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.7.0/keptn-in-a-box.sh
 chmod +x keptn-in-a-box.sh
 </code></pre>
 <aside class="special"><p>Any 🎨customization will take place in the <code>keptn-in-a-box.sh</code> file you just downloaded.</p>
@@ -190,7 +190,7 @@ APITOKEN=&#34;myDynatraceApiToken&#34;
 <h2 is-upgraded>Configuration for an internal IP</h2>
 <aside class="warning"><p>If your box does <strong>not</strong> have a public ip, you&#39;ll have to configure the domain so you can access the services from outside the box.<br></p>
 </aside>
-<p>For example, I want to run Keptn-in-a-Box inside my home network and the VM get&#39;s the ip <code>192.168.0.10</code>. I will convert the IP to a magic domain. This way the requests to any subdomain, for example to <a href="https://api.keptn.192.168.0.10.nip.io" target="_blank">https://api.keptn.192.168.0.10.nip.io</a> will get resolved to <code>192.168.0.10</code> and then kubernetes will take care of forwarding the request internally to the Keptn API service.</p>
+<p>For example, I want to run Keptn-in-a-Box inside my home network and the VM get&#39;s the ip <code>192.168.0.10</code>. I will convert the IP to a magic domain. This way the requests to any subdomain, for example to <a href="https://keptn.192.168.0.10.nip.io/api" target="_blank">https://keptn.192.168.0.10.nip.io/api</a> will get resolved to <code>192.168.0.10</code> and then kubernetes will take care of forwarding the request internally to the Keptn API service.</p>
 <p>Just enter the IP in a magic domain notation as shown below. The ip can contain dashes (-) or dots (.). I just like dashes more, they are prettier 💄.</p>
 <pre><code># ---- Define your Domain ----   
 DOMAIN=&#34;192-168-0-10.nip.io&#34;
@@ -452,31 +452,15 @@ NEWPWD=&#34;dynatrace&#34;
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>✅</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>jmeter_extended_service</p>
+<tr><td colspan="1" rowspan="1"><p>keptn_bridge_disable_login</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>✅</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>keptn_install_qualitygates</p>
-</td><td colspan="1" rowspan="1"><p>-</p>
-</td><td colspan="1" rowspan="1"><p>-</p>
-</td><td colspan="1" rowspan="1"><p>-</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>certmanager_install</p>
-</td><td colspan="1" rowspan="1"><p>-</p>
-</td><td colspan="1" rowspan="1"><p>-</p>
-</td><td colspan="1" rowspan="1"><p>-</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
-</td><td colspan="1" rowspan="1"><p>✅</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>certmanager_install</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
 </td><td colspan="1" rowspan="1"><p>-</p>
@@ -532,15 +516,40 @@ doInstallation
 <p>This will open the installation log and read from the input stream. To exit just type <code>CTRL + C</code> and then <code>quit</code>.</p>
 <h2 is-upgraded>Installation complete 🙌</h2>
 <p>At the end of the installation file you should see something similar</p>
-<pre><code>[Keptn-In-A-Box|INFO] [2020-05-25 10:54:40] |======================================================================
-[Keptn-In-A-Box|INFO] [2020-05-25 10:54:40] |============ Installation complete :) ============
-[Keptn-In-A-Box|INFO] [2020-05-25 10:54:40] |______________________________________________________________________
-[Keptn-In-A-Box|INFO] [2020-05-25 10:54:40] |&gt;-&gt;-&gt; It took 8 minutes and 57 seconds &lt;-&lt;-&lt;|
-[Keptn-In-A-Box|INFO] [2020-05-25 10:54:40] |&gt;-&gt;-&gt; Keptn &amp; Kubernetes Exposed Ingress Endpoints &lt;-&lt;-&lt;|
-NAMESPACE      NAME                        HOSTS                                                                                                  ADDRESS     PORTS     AGE
-default        kubernetes-api-ingress      api.kubernetes.192-168-0-10.nip.io                                                                   127.0.0.1   80, 443   4m51s
-istio-system   istio-ingress               192-168-0-10.nip.io,api.keptn.192-168-0-10.nip.io,bridge.keptn.192-168-0-10.nip.io + 5 more...       127.0.0.1   80, 443   4m50s
-kube-system    kubernetes-ingress          kubernetes.192-168-0-10.nip.io                                                                       127.0.0.1   80, 443   4m51s
+<pre><code>[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Installation complete :) ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |&gt;-&gt;-&gt; It took 8 minutes and 10 seconds &lt;-&lt;-&lt;|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Keptn &amp; Kubernetes Exposed Ingress Endpoints ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |&gt;-&gt;-&gt; Below youll find the adresses and the credentials to the exposed services. &lt;-&lt;-&lt;|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |&gt;-&gt;-&gt; We wish you a lot of fun in your Autonomous Cloud journey! &lt;-&lt;-&lt;|
+
+NAMESPACE      NAME                   CLASS    HOSTS                                                                                                                                ADDRESS     PORTS     AGE
+default        homepage-ingress       &lt;none&gt;   192-168-0-10.nip.io                                                                                                                 127.0.0.1   80, 443   2m48s
+default        k8-api-ingress         &lt;none&gt;   api.kubernetes.192-168-0-10.nip.io                                                                                                  127.0.0.1   80, 443   4m16s
+istio-system   istio-ingress          &lt;none&gt;   *                                                                                                                                    127.0.0.1   80, 443   4m16s
+istio-system   sockshop-ingress       &lt;none&gt;   carts.sockshop-dev.192-168-0-10.nip.io,carts.sockshop-staging.192-168-0-10.nip.io,carts.sockshop-production.192-168-0-10.nip.io     127.0.0.1   80, 443   12s
+istio-system   unleash-ingress        &lt;none&gt;   unleash.unleash-dev.192-168-0-10.nip.io                                                                                             127.0.0.1   80, 443   2m22s
+jenkins        jenkins-ingress        &lt;none&gt;   jenkins.192-168-0-10.nip.io                                                                                                         127.0.0.1   80, 443   2m1s
+keptn          api-keptn-ingress      &lt;none&gt;   keptn.192-168-0-10.nip.io                                                                                                           127.0.0.1   80, 443   2m54s
+kube-system    k8-dashboard-ingress   &lt;none&gt;   kubernetes.192-168-0-10.nip.io                                                                                                      127.0.0.1   80, 443   4m16s
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Unleash-Server Access ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |&gt;-&gt;-&gt; Username: keptn &lt;-&lt;-&lt;|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |&gt;-&gt;-&gt; Password: keptn &lt;-&lt;-&lt;|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Jenkins-Server Access ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |&gt;-&gt;-&gt; Username: keptn &lt;-&lt;-&lt;|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |&gt;-&gt;-&gt; Password: keptn &lt;-&lt;-&lt;|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Workshop User Access (SSH Access) ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |&gt;-&gt;-&gt; ssh student@192-168-0-10.nip.io &lt;-&lt;-&lt;|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |&gt;-&gt;-&gt; Password: secr3t &lt;-&lt;-&lt;|
 </code></pre>
 
 
@@ -564,7 +573,7 @@ examples keptn-in-a-box snap
 Starting to authenticate
 Successfully authenticated
 Using a file-based storage for the key because the password-store seems to be not set up.
-CLI is authenticated against the Keptn cluster https://api.keptn.192-168-0-10.nip.io
+CLI is authenticated against the Keptn cluster https://keptn.192-168-0-10.nip.io/api
 </code></pre>
 <p>to see that keptn is installed and already configured or type</p>
 <pre><code>kubectl get all -n sockshop-dev
@@ -586,10 +595,10 @@ CLI is authenticated against the Keptn cluster https://api.keptn.192-168-0-10.ni
 </td><td colspan="1" rowspan="1"><p>https://api.kubernetes.192-168-0-10.nip.io</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>Keptn API (swagger)</p>
-</td><td colspan="1" rowspan="1"><p>https://api.keptn.192-168-0-10.nip.io/swagger-ui</p>
+</td><td colspan="1" rowspan="1"><p>https://keptn.192-168-0-10.nip.io/api/swagger-ui</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>Keptn Bridge</p>
-</td><td colspan="1" rowspan="1"><p>https://bridge.keptn.192-168-0-10.nip.io</p>
+</td><td colspan="1" rowspan="1"><p>https://keptn.192-168-0-10.nip.io/bridge</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>Unleash</p>
 </td><td colspan="1" rowspan="1"><p>https://unleash.unleash-dev.192-168-0-10.nip.io</p>
@@ -610,8 +619,8 @@ CLI is authenticated against the Keptn cluster https://api.keptn.192-168-0-10.ni
       <google-codelab-step label="Feedback" duration="0">
         <aside class="special"><p>We are happy to hear your feedback!</p>
 </aside>
-<p>Please visit us in our <a href="https://bit.ly/keptn-slack" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
-<p>Also, please <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
+<p>Please visit us in our <a href="https://slack.keptn.sh" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
+<p>Also, make sure to <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
 
 
       </google-codelab-step>
