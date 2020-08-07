@@ -21,10 +21,20 @@ Create a new project for your services using the `keptn create project` command.
 
 To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.7.0/manage/git_upstream/) where instructions for GitHub, GitLab, and Bitbucket are provided.
 
+Let's define the variables before running the command:
 
-<!-- command -->
+<!-- bash keptn create project sockshop --shipyard=./shipyard.yaml -->
+
 ```
-keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+GIT_USER=gitusername
+GIT_TOKEN=gittoken
+GIT_REMOTE_URL=remoteurl
+```
+
+Now let's create the project using the `keptn create project` command.
+
+```
+keptn create project sockshop --shipyard=./shipyard.yaml --git-user=$GIT_USER --git-token=$GIT_TOKEN --git-remote-url=$GIT_REMOTE_URL
 ```
 
 
