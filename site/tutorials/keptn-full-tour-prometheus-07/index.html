@@ -205,8 +205,8 @@ spec:
     
       <google-codelab-step label="Connect your Keptn CLI to the Keptn installation" duration="0">
         <p>In this section we are referring to the Linux/MacOS derivates of the commands. If you are using a Windows host, please <a href="https://keptn.sh/docs/0.7.0/operate/install/#5-authenticate-keptn-cli" target="_blank">follow the official instructions</a>.</p>
-<pre><code>KEPTN_ENDPOINT=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api
-KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+<pre><code>KEPTN_ENDPOINT=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/api
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath=&#39;{.data.keptn-api-token}&#39; | base64 --decode)
 </code></pre>
 <p>Use this stored information and authenticate the CLI.</p>
 <pre><code>keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
@@ -270,7 +270,7 @@ cd examples/onboarding-carts
 <pre><code>keptn configure bridge --output
 </code></pre>
 <p>Now use these credentials to access it on your Keptn endpoint.</p>
-<pre><code>echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge
+<pre><code>echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/bridge
 </code></pre>
 <p>You will find the just created project in the bridge with all stages.<br><img alt="bridge" src="img/ea75605185cd741f.png"><img alt="bridge" src="img/d3919622be13ae7c.png"></p>
 
@@ -333,11 +333,11 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
     
       <google-codelab-step label="View carts service" duration="2">
         <ol type="1">
-<li>Get the URL for your carts service with the following commands in the respective namespaces:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>Get the URL for your carts service with the following commands in the respective namespaces:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 <li>Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:</li>
@@ -447,11 +447,11 @@ total_score:
       <google-codelab-step label="Verify current version" duration="3">
         <p>You can take a look at the currently deployed version of our &#34;carts&#34; microservice before we deploy the next build of our microservice.</p>
 <ol type="1">
-<li>Get the URL for your carts service with the following commands in the respective stages:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>Get the URL for your carts service with the following commands in the respective stages:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 <li>Navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code> for viewing the carts service in your <strong>production</strong> environment and you should receive an output similar to the following:</li>
@@ -466,9 +466,9 @@ total_score:
 <li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.2
 </code></pre>
 </li>
-<li>Go ahead and verify that the slow build has reached your <code>dev</code> and <code>staging</code> environments by opening a browser for both environments. Get the URLs with these commands:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>Go ahead and verify that the slow build has reached your <code>dev</code> and <code>staging</code> environments by opening a browser for both environments. Get the URLs with these commands:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 </ol>
@@ -482,14 +482,14 @@ total_score:
         <p>After triggering the deployment of the carts service in version v0.11.2, the following status is expected:</p>
 <ul>
 <li><strong>Dev stage:</strong> The new version is deployed in the dev stage and the functional tests passed.<ul>
-<li>To verify, open a browser and navigate to:<br><pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>To verify, open a browser and navigate to:<br><pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 </ul>
 </li>
 <li><strong>Staging stage:</strong> In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.</li>
 <li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.<ul>
-<li>To verify, navigate to:<br><pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>To verify, navigate to:<br><pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 </ul>

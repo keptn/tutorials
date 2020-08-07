@@ -145,7 +145,7 @@ shipyard-service                                 1/1     1            1         
 </code></pre>
 <p>Set the following variables to make it easy to connect to Keptn.</p>
 <pre><code>KEPTN_ENDPOINT=http://localhost:8080/api
-KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath=&#39;{.data.keptn-api-token}&#39; | base64 --decode)
 </code></pre>
 <p>To authenticate the CLI against the Keptn cluster, use the keptn auth command:</p>
 <pre><code>keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN

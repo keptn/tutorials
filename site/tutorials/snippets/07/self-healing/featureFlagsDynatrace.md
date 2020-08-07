@@ -52,7 +52,7 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
 
     <!-- command -->
     ```
-    echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+    echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
     ```
 
 1. Open the URL in your browser and log in using the following credentials:
@@ -74,7 +74,7 @@ To set up both feature flags, navigate to your Unleash server and log in.
 
 <!-- bash 
 export TOKEN=$(echo -n keptn:keptn | base64)
-export BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host}))
+export BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}'))
 
 curl --request POST \
   --url ${BASE_URL}/api/admin/features/ \

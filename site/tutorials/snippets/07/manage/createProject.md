@@ -80,7 +80,7 @@ Now use these credentials to access it on your Keptn endpoint.
 
 <!-- command -->
 ```
-echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge
+echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge
 ```
 
 You will find the just created project in the bridge with all stages.

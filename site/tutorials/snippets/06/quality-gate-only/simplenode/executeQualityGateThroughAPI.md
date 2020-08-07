@@ -20,8 +20,8 @@ CLI is authenticated against the Keptn cluster https://api.YOURKEPTNDOMAIN
 
 In order to retrieve the API token we need access to kubectl. There is an easy and convenient way described in the [Keptn CLI Authentication documentation](https://keptn.sh/docs/0.6.0/reference/cli/#authentication) to actually retrieve and store both the API Endpoint and API Token in a variable. This helps us later on to automate API calls as well. So - lets do it!
 ```
-KEPTN_ENDPOINT=https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
-KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+KEPTN_ENDPOINT=https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath='{.data.app_domain}')
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath='{.data.keptn-api-token}' | base64 --decode)
 ```
 
 3. Explore the Keptn API via Swagger UI

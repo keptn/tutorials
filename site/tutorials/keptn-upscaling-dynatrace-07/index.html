@@ -197,8 +197,8 @@ spec:
     
       <google-codelab-step label="Connect your Keptn CLI to the Keptn installation" duration="0">
         <p>In this section we are referring to the Linux/MacOS derivates of the commands. If you are using a Windows host, please <a href="https://keptn.sh/docs/0.7.0/operate/install/#5-authenticate-keptn-cli" target="_blank">follow the official instructions</a>.</p>
-<pre><code>KEPTN_ENDPOINT=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api
-KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+<pre><code>KEPTN_ENDPOINT=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/api
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath=&#39;{.data.keptn-api-token}&#39; | base64 --decode)
 </code></pre>
 <p>Use this stored information and authenticate the CLI.</p>
 <pre><code>keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
@@ -247,7 +247,7 @@ DT_PAAS_TOKEN=yourPAAStoken
 </code></pre>
 <aside class="warning"><p>Please make sure your DT_TENANT does <em>not contain</em> any trailing slashes nor a https:// in the beginning.</p>
 </aside>
-If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34; --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; --from-literal=&#34;KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge&#34; 
+If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34; --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath=&#39;{.data.keptn-api-token}&#39; | base64 --decode)&#34; --from-literal=&#34;KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/bridge&#34; 
 </code></pre>
 </li>
 </ol>
@@ -399,7 +399,7 @@ cd examples/onboarding-carts
 <pre><code>keptn configure bridge --output
 </code></pre>
 <p>Now use these credentials to access it on your Keptn endpoint.</p>
-<pre><code>echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge
+<pre><code>echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/bridge
 </code></pre>
 <p>You will find the just created project in the bridge with all stages.<br><img alt="bridge" src="img/ea75605185cd741f.png"><img alt="bridge" src="img/d3919622be13ae7c.png"></p>
 
@@ -462,11 +462,11 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
     
       <google-codelab-step label="View carts service" duration="2">
         <ol type="1">
-<li>Get the URL for your carts service with the following commands in the respective namespaces:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>Get the URL for your carts service with the following commands in the respective namespaces:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 <li>Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:</li>
