@@ -146,16 +146,55 @@ shipyard-service                                 1/1     1            1         
       </google-codelab-step>
     
       <google-codelab-step label="Configure Istio and Keptn" duration="0">
-        <p>The first step of configuring Istio for Keptn is downloading the configuration bash script from Github:</p>
+        <p>We are using Istio for traffic routing and as an ingress to our cluster. To make the setup experience as smooth as possible we have provided some scripts for your convenience. If you want to run the Istio configuration yourself step by step, please <a href="https://keptn.sh/docs/0.7.x/operate/install/#option-3-expose-keptn-via-an-ingress" target="_blank">take a look at the Keptn docuemtation</a>.</p>
+<p>The first step for our configuration automation for Istio is downloading the configuration bash script from Github:</p>
 <pre><code>curl -o configure-istio.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.0/istio-configuration/configure-istio.sh
 </code></pre>
 <p>After that you need to make the file executable using the <code>chmod</code> command.</p>
 <pre><code>chmod +x configure-istio.sh
 </code></pre>
-<p>Lastly run the configuration script to automatically create your Ingress resources.</p>
+<p>Finally, let&#39;s run the configuration script to automatically create your Ingress resources.</p>
 <pre><code>./configure-istio.sh
 </code></pre>
-<p>If you get any error please address them and run the script again.</p>
+<h2 is-upgraded>What is actually created</h2>
+<aside class="special"><p>There is no need to copy the following resources, there are for information purposes only.</p>
+</aside>
+<p>With this script, you have created an Ingress based on the following manifest.</p>
+<pre><code>---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: istio
+  name: api-keptn-ingress
+  namespace: keptn
+spec:
+  rules:
+  - host: &lt;IP-ADDRESS&gt;.nip.io
+    http:
+      paths:
+      - backend:
+          serviceName: api-gateway-nginx
+          servicePort: 80
+</code></pre>
+<p>Besides, the script has created a gateway resource for you so that the onboarded services are also available publicly.</p>
+<pre><code>---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: public-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      name: http
+      number: 80
+      protocol: HTTP
+    hosts:
+    - &#39;*&#39;
+</code></pre>
 
 
       </google-codelab-step>

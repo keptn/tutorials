@@ -41,9 +41,9 @@ Duration: 6:00
     <!-- var DT_PAAS_TOKEN -->
 
     ```
-    DT_TENANT=yourtenant.live.dynatrace.com
-    DT_API_TOKEN=yourAPItoken
-    DT_PAAS_TOKEN=yourPAAStoken
+    export DT_TENANT=yourtenant.live.dynatrace.com
+    export DT_API_TOKEN=yourAPItoken
+    export DT_PAAS_TOKEN=yourPAAStoken
     ```
 
     Negative
@@ -58,7 +58,7 @@ Duration: 6:00
 
 ## Deploy Dynatrace OneAgent Operator
 
-The Dynatrace OneAgent operator can be set up using a simple bash script that uses the variables you defined in the previous step. You can download and run the script using the following instructions.
+To make the tutorial experience as smooth as possible, we are providing an automation script to setup the Dynatrace OneAgent operator in your Kubernetes cluster. For details on the installation, we refer to the [official Dynatrace documentation](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/deploy-oneagent-k8/). You can download and run the script using the following instructions.
 
 1. Downloading the automation file.
 
@@ -74,7 +74,7 @@ The Dynatrace OneAgent operator can be set up using a simple bash script that us
     chmod +x deploy-dynatrace-oneagent.sh
     ```
 
-1. Executing the script to automatically create a Dynatrace OneAgent Operator.
+1. Executing the script to automatically deploys the Dynatrace OneAgent Operator.
 
     <!-- command -->
     ```
