@@ -58,51 +58,30 @@ Duration: 6:00
 
 ## Deploy Dynatrace OneAgent Operator
 
-We are following the official Dynatrace docs to deploy the Dynatrace OneAgent Operator on our Kubernetes cluster. You don't have to switch to the docs, but instead can just follow along in this tutorial, we cover all necessary steps here.
+The Dynatrace OneAgent operator can be set up using a simple bash script that uses the variables you defined in the previous step. You can download and run the script using the following instructions.
 
-1. Deploy the operator
+1. Downloading the automation file.
 
     <!-- command -->
     ```
-    kubectl create namespace dynatrace
-    kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/kubernetes.yaml
+    curl -o deploy-dynatrace-oneagent.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.0/dynatrace-oneagent/deploy-dynatrace-oneagent.sh
     ```
 
-2. We are going to reuse the variables that we set in the previous step for the creation of the secret for the OneAgent operator.
+1. Making the file executable using the `chmod` command.
+
     <!-- command -->
     ```
-    kubectl -n dynatrace create secret generic oneagent --from-literal="apiToken=$DT_API_TOKEN" --from-literal="paasToken=$DT_PAAS_TOKEN"
+    chmod +x deploy-dynatrace-oneagent.sh
     ```
 
-3. Download the custom resource definition and edit it.
+1. Executing the script to automatically create a Dynatrace OneAgent Operator.
+
     <!-- command -->
     ```
-    curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/master/deploy/cr.yaml
+    ./deploy-dynatrace-oneagent.sh
     ```
 
-4. Set the _apiUrl_ correctly to your ENVIRONMENTID (please note that the ENVIRONMENTID is the unique ID of your Dynatrace tenant) and save the file.
-
-    <!-- bash
-     URL=https://ENVIRONMENTID.live.dynatrace.com/api
-     replace_value_in_yaml_file $URL https://${DT_TENANT}/api cr.yaml
-     -->
-
-    ```
-    spec:
-      # dynatrace api url including `/api` path at the end
-      # either set ENVIRONMENTID to the proper tenant id or change the apiUrl as a whole, e.q. for Managed
-      apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api
-    ```
-
-5. Apply the custom resource.
-    <!-- command -->
-    ```
-    kubectl apply -f cr.yaml
-    ```
-
-    <!-- bash sleep 20 -->
-
-6. Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.
+1. Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.
 
     <!-- debug -->
     ```

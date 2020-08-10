@@ -146,60 +146,16 @@ shipyard-service                                 1/1     1            1         
       </google-codelab-step>
     
       <google-codelab-step label="Configure Istio and Keptn" duration="0">
-        <p>Get the <code>EXTERNAL-IP</code> from the <code>istio-ingressgateway</code> as you will need it in the next step</p>
-<pre><code>kubectl -n istio-system get svc istio-ingressgateway
+        <p>The first step of configuring Istio for Keptn is downloading the configuration bash script from Github:</p>
+<pre><code>curl -o configure-istio.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.0/istio-configuration/configure-istio.sh
 </code></pre>
-<pre><code>NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)                                                      AGE
-istio-ingressgateway   LoadBalancer   10.0.171.50   40.125.XXX.XXX   15021:30094/TCP,80:32076/TCP,443:31452/TCP,15443:31721/TCP   2m36s
+<p>After that you need to make the file executable using the <code>chmod</code> command.</p>
+<pre><code>chmod +x configure-istio.sh
 </code></pre>
-<p>In my case it is something like <code>40.125.XXX.XXX</code>.</p>
-<p>Create a file <code>ingress-manifest.yaml</code> and copy the following content.</p>
-<pre><code>apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: istio
-  name: api-keptn-ingress
-  namespace: keptn
-spec:
-  rules:
-  - host: &lt;IP-ADDRESS&gt;.nip.io
-    http:
-      paths:
-      - backend:
-          serviceName: api-gateway-nginx
-          servicePort: 80
+<p>Lastly run the configuration script to automatically create your Ingress resources.</p>
+<pre><code>./configure-istio.sh
 </code></pre>
-<p>Next, make sure to replace the <code>&lt;IP-ADDRESS&gt;</code> with the actual IP of the ingress gateway that you just copied. Please note that we are using <a href="https://nip.io/" target="_blank">nip.io</a> (a wildcard DNS resolver) only for the purpose of this tutorial. In a production environment, you might want to use your own domain name here.</p>
-<p>Now let&#39;s apply the manifest to the cluster.</p>
-<pre><code>kubectl apply -f ingress-manifest.yaml
-</code></pre>
-<p>Next, we will also need a Gateway for Keptn. Therefore copy and paste the following content into a file named <code>gateway.yaml</code> and apply it to your Kubernetes cluster.</p>
-<pre><code>---
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: public-gateway
-  namespace: istio-system
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      name: http
-      number: 80
-      protocol: HTTP
-    hosts:
-    - &#39;*&#39;
-</code></pre>
-<pre><code>kubectl apply -f gateway-manifest.yaml
-</code></pre>
-<p>Create a <code>ConfigMap</code> for Keptn to pick up with all the needed information. Therefore execute the following statement that will create the configmap.</p>
-<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;) --from-literal=ingress_port=80 --from-literal=ingress_protocol=http --from-literal=istio_gateway=public-gateway.istio-system -oyaml --dry-run=client | kubectl apply -f -
-</code></pre>
-<p>Finally, restart the Helm service of Keptn to pick up the just created configuration.</p>
-<pre><code>kubectl delete pod -n keptn -lapp.kubernetes.io/name=helm-service
-</code></pre>
+<p>If you get any error please address them and run the script again.</p>
 
 
       </google-codelab-step>
@@ -265,25 +221,15 @@ If you used the variables, the next command can be copied and pasted without mod
       </google-codelab-step>
     
       <google-codelab-step label="Deploy Dynatrace OneAgent Operator" duration="0">
-        <p>We are following the official Dynatrace docs to deploy the Dynatrace OneAgent Operator on our Kubernetes cluster. You don&#39;t have to switch to the docs, but instead can just follow along in this tutorial, we cover all necessary steps here.</p>
+        <p>The Dynatrace OneAgent operator can be set up using a simple bash script that uses the variables you defined in the previous step. You can download and run the script using the following instructions.</p>
 <ol type="1">
-<li>Deploy the operator<pre><code>kubectl create namespace dynatrace
-kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/kubernetes.yaml
+<li>Downloading the automation file.<pre><code>curl -o deploy-dynatrace-oneagent.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.0/dynatrace-oneagent/deploy-dynatrace-oneagent.sh
 </code></pre>
 </li>
-<li>We are going to reuse the variables that we set in the previous step for the creation of the secret for the OneAgent operator.<br><pre><code>kubectl -n dynatrace create secret generic oneagent --from-literal=&#34;apiToken=$DT_API_TOKEN&#34; --from-literal=&#34;paasToken=$DT_PAAS_TOKEN&#34;
+<li>Making the file executable using the <code>chmod</code> command.<pre><code>chmod +x deploy-dynatrace-oneagent.sh
 </code></pre>
 </li>
-<li>Download the custom resource definition and edit it.<br><pre><code>curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/master/deploy/cr.yaml
-</code></pre>
-</li>
-<li>Set the <em>apiUrl</em> correctly to your ENVIRONMENTID (please note that the ENVIRONMENTID is the unique ID of your Dynatrace tenant) and save the file.<pre><code>spec:
-  # dynatrace api url including `/api` path at the end
-  # either set ENVIRONMENTID to the proper tenant id or change the apiUrl as a whole, e.q. for Managed
-  apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api
-</code></pre>
-</li>
-<li>Apply the custom resource.<br><pre><code>kubectl apply -f cr.yaml
+<li>Executing the script to automatically create a Dynatrace OneAgent Operator.<pre><code>./deploy-dynatrace-oneagent.sh
 </code></pre>
 </li>
 <li>Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.<pre><code>kubectl get pods -n dynatrace

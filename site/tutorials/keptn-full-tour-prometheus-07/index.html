@@ -145,60 +145,16 @@ shipyard-service                                 1/1     1            1         
       </google-codelab-step>
     
       <google-codelab-step label="Configure Istio and Keptn" duration="0">
-        <p>Get the <code>EXTERNAL-IP</code> from the <code>istio-ingressgateway</code> as you will need it in the next step</p>
-<pre><code>kubectl -n istio-system get svc istio-ingressgateway
+        <p>The first step of configuring Istio for Keptn is downloading the configuration bash script from Github:</p>
+<pre><code>curl -o configure-istio.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.0/istio-configuration/configure-istio.sh
 </code></pre>
-<pre><code>NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)                                                      AGE
-istio-ingressgateway   LoadBalancer   10.0.171.50   40.125.XXX.XXX   15021:30094/TCP,80:32076/TCP,443:31452/TCP,15443:31721/TCP   2m36s
+<p>After that you need to make the file executable using the <code>chmod</code> command.</p>
+<pre><code>chmod +x configure-istio.sh
 </code></pre>
-<p>In my case it is something like <code>40.125.XXX.XXX</code>.</p>
-<p>Create a file <code>ingress-manifest.yaml</code> and copy the following content.</p>
-<pre><code>apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: istio
-  name: api-keptn-ingress
-  namespace: keptn
-spec:
-  rules:
-  - host: &lt;IP-ADDRESS&gt;.nip.io
-    http:
-      paths:
-      - backend:
-          serviceName: api-gateway-nginx
-          servicePort: 80
+<p>Lastly run the configuration script to automatically create your Ingress resources.</p>
+<pre><code>./configure-istio.sh
 </code></pre>
-<p>Next, make sure to replace the <code>&lt;IP-ADDRESS&gt;</code> with the actual IP of the ingress gateway that you just copied. Please note that we are using <a href="https://nip.io/" target="_blank">nip.io</a> (a wildcard DNS resolver) only for the purpose of this tutorial. In a production environment, you might want to use your own domain name here.</p>
-<p>Now let&#39;s apply the manifest to the cluster.</p>
-<pre><code>kubectl apply -f ingress-manifest.yaml
-</code></pre>
-<p>Next, we will also need a Gateway for Keptn. Therefore copy and paste the following content into a file named <code>gateway.yaml</code> and apply it to your Kubernetes cluster.</p>
-<pre><code>---
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: public-gateway
-  namespace: istio-system
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      name: http
-      number: 80
-      protocol: HTTP
-    hosts:
-    - &#39;*&#39;
-</code></pre>
-<pre><code>kubectl apply -f gateway-manifest.yaml
-</code></pre>
-<p>Create a <code>ConfigMap</code> for Keptn to pick up with all the needed information. Therefore execute the following statement that will create the configmap.</p>
-<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;) --from-literal=ingress_port=80 --from-literal=ingress_protocol=http --from-literal=istio_gateway=public-gateway.istio-system -oyaml --dry-run=client | kubectl apply -f -
-</code></pre>
-<p>Finally, restart the Helm service of Keptn to pick up the just created configuration.</p>
-<pre><code>kubectl delete pod -n keptn -lapp.kubernetes.io/name=helm-service
-</code></pre>
+<p>If you get any error please address them and run the script again.</p>
 
 
       </google-codelab-step>
