@@ -70,15 +70,18 @@ In this tutorial, we are going to introduce feature toggles for two scenarios:
 
 1. Feature flag for a promotional campaign that can be enabled whenever you want to run a promotional campaign on top of your shopping cart.
 
-To set up both feature flags, navigate to your Unleash server and log in. 
+To set up both feature flags, please use the following scripts to automatically generate the feature flags that we need in this tutorial.
 
-<!-- bash 
-export TOKEN=$(echo -n keptn:keptn | base64)
-export BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}'))
+
+
+<!-- command -->
+``` 
+export UNLEASH_TOKEN=$(echo -n keptn:keptn | base64)
+export UNLEASH_BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}'))
 
 curl --request POST \
-  --url ${BASE_URL}/api/admin/features/ \
-  --header "authorization: Basic ${TOKEN}" \
+  --url ${UNLEASH_BASE_URL}/api/admin/features/ \
+  --header "authorization: Basic ${UNLEASH_TOKEN}" \
   --header 'content-type: application/json' \
   --data '{
   "name": "EnableItemCache",
@@ -93,8 +96,8 @@ curl --request POST \
 }'
 
 curl --request POST \
-  --url ${BASE_URL}/api/admin/features/ \
-  --header "authorization: Basic ${TOKEN}" \
+  --url ${UNLEASH_BASE_URL}/api/admin/features/ \
+  --header "authorization: Basic ${UNLEASH_TOKEN}" \
   --header 'content-type: application/json' \
   --data '{
   "name": "EnablePromotion",
@@ -107,19 +110,13 @@ curl --request POST \
     }
   ]
 }'
+```
 
-echo "Waiting for a minute!"
-sleep 60
--->
+### Optionally verify the generated feature flags
 
-1. Click on the red **+** to add a new feature toggle.
-  ![unleash-add](./assets/unleash-add.png)
+If you want to verify the feature flags that have been created, please login to your Unleash server - or if you are already logged in - refresh the browser.
 
-1. Name the feature toggle **EnableItemCache** and add **carts** in the description field.
-  ![unleash-cache](./assets/unleash-cache.png)
-
-1. Create another feature toggle by following the same procedure and by naming it the feature toggle **EnablePromotion** and by adding **carts** in the description field.
-  ![unleash-promotion](./assets/unleash-promotion.png)
+![unleash](./assets/unleash-ff.png)
 
 
 ## Configure Keptn
@@ -184,6 +181,12 @@ As said, in this tutorial we can use the following command as it is:
     keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
     ```
 
+1. Start the load generation script for this use case:
+    <!-- command -->
+    ```
+    kubectl apply -f ../../load-generation/cartsloadgen/deploy/cartsloadgen-prod.yaml
+    ```
+
 Now that everything is set up, next we are going to hit the application with some load and toggle the feature flags.
 
 ## Run the experiment
@@ -195,8 +198,8 @@ Duration: 5:00
 
     <!-- bash 
     curl --request POST \
-      --url ${BASE_URL}/api/admin/features/EnablePromotion/toggle/on \
-      --header "authorization: Basic ${TOKEN}"
+      --url ${UNLEASH_BASE_URL}/api/admin/features/EnablePromotion/toggle/on \
+      --header "authorization: Basic ${UNLEASH_TOKEN}"
     -->
     
     ![enable-toggle](./assets/unleash-promotion-toggle-on.png)
