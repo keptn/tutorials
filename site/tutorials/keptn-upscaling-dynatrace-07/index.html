@@ -186,7 +186,7 @@ spec:
 <pre><code>kubectl apply -f gateway-manifest.yaml
 </code></pre>
 <p>Create a <code>ConfigMap</code> for Keptn to pick up with all the needed information. Therefore execute the following statement that will create the configmap.</p>
-<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;) --from-literal=ingress_port=80 --from-literal=ingress_protocol=http --from-literal=istio_gateway=public-gateway.istio-system -oyaml --dry-run | kubectl replace -f -
+<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;) --from-literal=ingress_port=80 --from-literal=ingress_protocol=http --from-literal=istio_gateway=public-gateway.istio-system -oyaml --dry-run=client | kubectl apply -f -
 </code></pre>
 <p>Finally, restart the Helm service of Keptn to pick up the just created configuration.</p>
 <pre><code>kubectl delete pod -n keptn -lapp.kubernetes.io/name=helm-service
@@ -364,7 +364,13 @@ cd examples/onboarding-carts
 <p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
 <p><strong>Recommended:</strong> Create a new project with Git upstream:</p>
 <p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.7.0/manage/git_upstream/" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
-<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+<p>Let&#39;s define the variables before running the command:</p>
+<pre><code>GIT_USER=gitusername
+GIT_TOKEN=gittoken
+GIT_REMOTE_URL=remoteurl
+</code></pre>
+<p>Now let&#39;s create the project using the <code>keptn create project</code> command.</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=$GIT_USER --git-token=$GIT_TOKEN --git-remote-url=$GIT_REMOTE_URL
 </code></pre>
 <p><strong>Alternatively:</strong> If you don&#39;t want to use a Git upstream, you can create a new project without it but please note that this is not the recommended way:</p>
 <pre><code>keptn create project sockshop --shipyard=./shipyard.yaml

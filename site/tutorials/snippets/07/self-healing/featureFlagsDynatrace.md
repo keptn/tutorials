@@ -184,7 +184,7 @@ As said, in this tutorial we can use the following command as it is:
 1. Start the load generation script for this use case:
     <!-- command -->
     ```
-    kubectl apply -f ../../load-generation/cartsloadgen/deploy/cartsloadgen-prod.yaml
+    kubectl apply -f ../load-generation/cartsloadgen/deploy/cartsloadgen-prod.yaml
     ```
 
 Now that everything is set up, next we are going to hit the application with some load and toggle the feature flags.

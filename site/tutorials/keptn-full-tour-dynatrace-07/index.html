@@ -195,7 +195,7 @@ spec:
 <pre><code>kubectl apply -f gateway-manifest.yaml
 </code></pre>
 <p>Create a <code>ConfigMap</code> for Keptn to pick up with all the needed information. Therefore execute the following statement that will create the configmap.</p>
-<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;) --from-literal=ingress_port=80 --from-literal=ingress_protocol=http --from-literal=istio_gateway=public-gateway.istio-system -oyaml --dry-run | kubectl replace -f -
+<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;) --from-literal=ingress_port=80 --from-literal=ingress_protocol=http --from-literal=istio_gateway=public-gateway.istio-system -oyaml --dry-run=client | kubectl apply -f -
 </code></pre>
 <p>Finally, restart the Helm service of Keptn to pick up the just created configuration.</p>
 <pre><code>kubectl delete pod -n keptn -lapp.kubernetes.io/name=helm-service
@@ -373,7 +373,13 @@ cd examples/onboarding-carts
 <p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
 <p><strong>Recommended:</strong> Create a new project with Git upstream:</p>
 <p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.7.0/manage/git_upstream/" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
-<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+<p>Let&#39;s define the variables before running the command:</p>
+<pre><code>GIT_USER=gitusername
+GIT_TOKEN=gittoken
+GIT_REMOTE_URL=remoteurl
+</code></pre>
+<p>Now let&#39;s create the project using the <code>keptn create project</code> command.</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=$GIT_USER --git-token=$GIT_TOKEN --git-remote-url=$GIT_REMOTE_URL
 </code></pre>
 <p><strong>Alternatively:</strong> If you don&#39;t want to use a Git upstream, you can create a new project without it but please note that this is not the recommended way:</p>
 <pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
@@ -688,12 +694,45 @@ keptn send event new-artifact --project=unleash --service=unleash --image=docker
 <li>Feature flag for a very simple caching mechanism that can speed up the delivery of the website since it skips the calls to the database but instead replies with static content.</li>
 <li>Feature flag for a promotional campaign that can be enabled whenever you want to run a promotional campaign on top of your shopping cart.</li>
 </ol>
-<p>To set up both feature flags, navigate to your Unleash server and log in.</p>
-<ol type="1">
-<li>Click on the red <strong>+</strong> to add a new feature toggle.<br><img alt="unleash-add" src="img/deced66f274bdf54.png"></li>
-<li>Name the feature toggle <strong>EnableItemCache</strong> and add <strong>carts</strong> in the description field.<br><img alt="unleash-cache" src="img/771a926944aeb343.png"></li>
-<li>Create another feature toggle by following the same procedure and by naming it the feature toggle <strong>EnablePromotion</strong> and by adding <strong>carts</strong> in the description field.<br><img alt="unleash-promotion" src="img/fae954641e271224.png"></li>
-</ol>
+<p>To set up both feature flags, please use the following scripts to automatically generate the feature flags that we need in this tutorial.</p>
+<pre><code>export UNLEASH_TOKEN=$(echo -n keptn:keptn | base64)
+export UNLEASH_BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;))
+
+curl --request POST \
+  --url ${UNLEASH_BASE_URL}/api/admin/features/ \
+  --header &#34;authorization: Basic ${UNLEASH_TOKEN}&#34; \
+  --header &#39;content-type: application/json&#39; \
+  --data &#39;{
+  &#34;name&#34;: &#34;EnableItemCache&#34;,
+  &#34;description&#34;: &#34;carts&#34;,
+  &#34;enabled&#34;: false,
+	&#34;strategies&#34;: [
+    {
+      &#34;name&#34;: &#34;default&#34;,
+      &#34;parameters&#34;: {}
+    }
+  ]
+}&#39;
+
+curl --request POST \
+  --url ${UNLEASH_BASE_URL}/api/admin/features/ \
+  --header &#34;authorization: Basic ${UNLEASH_TOKEN}&#34; \
+  --header &#39;content-type: application/json&#39; \
+  --data &#39;{
+  &#34;name&#34;: &#34;EnablePromotion&#34;,
+  &#34;description&#34;: &#34;carts&#34;,
+  &#34;enabled&#34;: false,
+	&#34;strategies&#34;: [
+    {
+      &#34;name&#34;: &#34;default&#34;,
+      &#34;parameters&#34;: {}
+    }
+  ]
+}&#39;
+</code></pre>
+<h2 is-upgraded>Optionally verify the generated feature flags</h2>
+<p>If you want to verify the feature flags that have been created, please login to your Unleash server - or if you are already logged in - refresh the browser.</p>
+<p class="image-container"><img alt="unleash" src="img/aaf471f8a5480223.png"></p>
 
 
       </google-codelab-step>
@@ -732,6 +771,9 @@ using the following command. Please make sure you are in the correct folder <cod
 </code></pre>
 <strong>Note:</strong> The file describes remediation actions (e.g., <code>featuretoggle</code>) in response to problems/alerts (e.g., <code>Response time degradation</code>) that are sent to Keptn.</li>
 <li>We are also going to add an SLO file so that Keptn can evaluate if the remediation action was successful.<br><pre><code>keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
+</code></pre>
+</li>
+<li>Start the load generation script for this use case:<br><pre><code>kubectl apply -f ../load-generation/cartsloadgen/deploy/cartsloadgen-prod.yaml
 </code></pre>
 </li>
 </ol>
