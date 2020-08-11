@@ -245,9 +245,9 @@ Take a look at this screenshot to double check the right token permissions for y
 <li>Dynatrace SaaS tenant (this format is most likely for you): <code>{your-environment-id}.live.dynatrace.com</code></li>
 <li>Dynatrace-managed tenant: <code>{your-domain}/e/{your-environment-id}</code></li>
 </ul>
-If running on a Unix/Linux based system, you can use variables for ease of use. Naturally, it is also fine to just replace the values in the <code>kubectl</code> command itself.<pre><code>DT_TENANT=yourtenant.live.dynatrace.com
-DT_API_TOKEN=yourAPItoken
-DT_PAAS_TOKEN=yourPAAStoken
+If running on a Unix/Linux based system, you can use variables for ease of use. Naturally, it is also fine to just replace the values in the <code>kubectl</code> command itself.<pre><code>export DT_TENANT=yourtenant.live.dynatrace.com
+export DT_API_TOKEN=yourAPItoken
+export DT_PAAS_TOKEN=yourPAAStoken
 </code></pre>
 <aside class="warning"><p>Please make sure your DT_TENANT does <em>not contain</em> any trailing slashes nor a https:// in the beginning.</p>
 </aside>
@@ -260,7 +260,7 @@ If you used the variables, the next command can be copied and pasted without mod
       </google-codelab-step>
     
       <google-codelab-step label="Deploy Dynatrace OneAgent Operator" duration="0">
-        <p>The Dynatrace OneAgent operator can be set up using a simple bash script that uses the variables you defined in the previous step. You can download and run the script using the following instructions.</p>
+        <p>To make the tutorial experience as smooth as possible, we are providing an automation script to setup the Dynatrace OneAgent operator in your Kubernetes cluster. For details on the installation, we refer to the <a href="https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/deploy-oneagent-k8/" target="_blank">official Dynatrace documentation</a>. You can download and run the script using the following instructions.</p>
 <ol type="1">
 <li>Downloading the automation file.<pre><code>curl -o deploy-dynatrace-oneagent.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.0/dynatrace-oneagent/deploy-dynatrace-oneagent.sh
 </code></pre>
@@ -268,7 +268,7 @@ If you used the variables, the next command can be copied and pasted without mod
 <li>Making the file executable using the <code>chmod</code> command.<pre><code>chmod +x deploy-dynatrace-oneagent.sh
 </code></pre>
 </li>
-<li>Executing the script to automatically create a Dynatrace OneAgent Operator.<pre><code>./deploy-dynatrace-oneagent.sh
+<li>Executing the script to automatically deploys the Dynatrace OneAgent Operator.<pre><code>./deploy-dynatrace-oneagent.sh
 </code></pre>
 </li>
 <li>Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.<pre><code>kubectl get pods -n dynatrace
@@ -835,7 +835,7 @@ warning: &#34;75%&#34;
       </google-codelab-step>
     
       <google-codelab-step label="Getting started with Keptn integrations" duration="3">
-        <p>Keptn can be easily extended with external tools such as notification tools, other <a href="link to docs" target="_blank">SLI providers</a>, bots to interact with Keptn, etc.<br>While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:</p>
+        <p>Keptn can be easily extended with external tools such as notification tools, other <a href="https://keptn.sh/docs/0.7.x/quality_gates/sli/" target="_blank">SLI providers</a>, bots to interact with Keptn, etc.<br>While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:</p>
 <ul>
 <li><a href="https://github.com/keptn-contrib" target="_blank">Keptn Contrib</a> lists mature Keptn integrations that you can use for your Keptn installation</li>
 <li><a href="https://github.com/keptn-sandbox" target="_blank">Keptn Sandbox</a> collects mostly new integrations and those that are currently under development - however, you can also find useful integrations here.</li>
