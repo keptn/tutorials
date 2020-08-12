@@ -2,7 +2,7 @@
 ## Getting started with Keptn integrations
 Duration: 3:00
 
-Keptn can be easily extended with external tools such as notification tools, other [SLI providers](link to docs), bots to interact with Keptn, etc.
+Keptn can be easily extended with external tools such as notification tools, other [SLI providers](https://keptn.sh/docs/0.7.x/quality_gates/sli/), bots to interact with Keptn, etc.
 While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:
 
 - [Keptn Contrib](https://github.com/keptn-contrib) lists mature Keptn integrations that you can use for your Keptn installation

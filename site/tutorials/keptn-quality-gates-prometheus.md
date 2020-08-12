@@ -54,15 +54,15 @@ Duration: 10:00
 For this tutorial a Kubernetes cluster is needed. Please take a look a the [different cluster installations](https://tutorials.keptn.sh/?cat=installation) we are providing.
 
 
-{{ snippets/install/download-keptnCLI.md }}
+{{ snippets/06/install/download-keptnCLI.md }}
 
-{{ snippets/install/kqg-install.md }}
+{{ snippets/06/install/kqg-install.md }}
 
-{{ snippets/quality-gate-only/own-service-prometheus.md }}
+{{ snippets/06/quality-gate-only/own-service-prometheus.md }}
 
-{{ snippets/quality-gate-only/configure-keptn.md }}
+{{ snippets/06/quality-gate-only/configure-keptn.md }}
 
-{{ snippets/monitoring/install-sliprovider-prometheus.md }}
+{{ snippets/06/monitoring/install-sliprovider-prometheus.md }}
 
 ## Configure the SLI provider
 Duration: 3:00
