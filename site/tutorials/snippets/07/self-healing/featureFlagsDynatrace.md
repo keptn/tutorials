@@ -216,5 +216,5 @@ Duration: 5:00
 
 <!-- bash 
 echo "Waiting for Keptn to disable the feature flag"
-sleep 600
+wait_for_event_with_field_output "sh.keptn.events.problem" ".data.ProblemDetails.status" "CLOSED" "sockshop"
 -->

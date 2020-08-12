@@ -84,7 +84,8 @@ Duration: 5:00
     wait_for_deployment_with_image_in_namespace "carts" "sockshop-staging" "docker.io/keptnexamples/carts:0.11.2"
     verify_test_step $? "Deployment carts not available, exiting..."
     echo "Waiting for a little bit!"
-    sleep 750
+    wait_for_event_with_field_output "sh.keptn.event.configuration.change" ".data.canary.action" "discard" "sockshop"
+    sleep 60
     -->
 
 1. Go ahead and verify that the slow build has reached your `dev` and `staging` environments by opening a browser for both environments. Get the URLs with these commands:
