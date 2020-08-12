@@ -185,7 +185,7 @@ spec:
 <pre><code>kubectl apply -f gateway-manifest.yaml
 </code></pre>
 <p>Create a <code>ConfigMap</code> for Keptn to pick up with all the needed information. Therefore execute the following statement that will create the configmap.</p>
-<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host}) --from-literal=ingress_port=${INGRESS_PORT} --from-literal=ingress_protocol=${INGRESS_PROTOCOL} --from-literal=istio_gateway=${ISTIO_GATEWAY} -oyaml --dry-run | kubectl replace -f -
+<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;) --from-literal=ingress_port=80 --from-literal=ingress_protocol=http --from-literal=istio_gateway=public-gateway.istio-system -oyaml --dry-run | kubectl replace -f -
 </code></pre>
 <p>Finally, restart the Helm service of Keptn to pick up the just created configuration.</p>
 <pre><code>kubectl delete pod -n keptn -lapp.kubernetes.io/name=helm-service
@@ -235,7 +235,6 @@ Successfully authenticated
 <li>Capture request data</li>
 </ul>
 Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/52347510b2b53317.png"></li>
-<li>Create a Dynatrace PaaS TokenIn your Dynatrace tenant, go to <strong>Settings &gt; Integration &gt; Platform as a Service</strong>, and create a new PaaS Token.</li>
 <li>Store your credentials in a Kubernetes secret by executing the following command. The <code>DT_TENANT</code> has to be set according to the appropriate pattern:<ul>
 <li>Dynatrace SaaS tenant (this format is most likely for you): <code>{your-environment-id}.live.dynatrace.com</code></li>
 <li>Dynatrace-managed tenant: <code>{your-domain}/e/{your-environment-id}</code></li>
@@ -246,7 +245,7 @@ DT_PAAS_TOKEN=yourPAAStoken
 </code></pre>
 <aside class="warning"><p>Please make sure your DT_TENANT does <em>not contain</em> any trailing slashes nor a https:// in the beginning.</p>
 </aside>
-If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;DT_PAAS_TOKEN=$DT_PAAS_TOKEN&#34; --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; 
+If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; --from-literal=&#34;KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge&#34; 
 </code></pre>
 </li>
 </ol>
@@ -636,7 +635,7 @@ spec:
       </google-codelab-step>
     
       <google-codelab-step label="Getting started with Keptn integrations" duration="3">
-        <p>Keptn can be easily extended with external tools such as notification tools, other <a href="link to docs" target="_blank">SLI providers</a>, bots to interact with Keptn, etc.<br>While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:</p>
+        <p>Keptn can be easily extended with external tools such as notification tools, other <a href="https://keptn.sh/docs/0.7.x/quality_gates/sli/" target="_blank">SLI providers</a>, bots to interact with Keptn, etc.<br>While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:</p>
 <ul>
 <li><a href="https://github.com/keptn-contrib" target="_blank">Keptn Contrib</a> lists mature Keptn integrations that you can use for your Keptn installation</li>
 <li><a href="https://github.com/keptn-sandbox" target="_blank">Keptn Sandbox</a> collects mostly new integrations and those that are currently under development - however, you can also find useful integrations here.</li>

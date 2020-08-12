@@ -183,7 +183,7 @@ APITOKEN=&#34;myDynatraceApiToken&#34;
     
       <google-codelab-step label="○ Configure your Domain" duration="3">
         <h2 is-upgraded>Default configuration (public IP)</h2>
-<p>By default Keptn-in-a-Box will <code>curl ifconfig.me</code>  to get the public  IP where it&#39;s running and will convert the IP  into a magic 🧙‍♂️ domain with <a href="nip.io" target="_blank">nip.io</a>. For example if your Box is public accessible over the IP  <code>116.203.255.68</code> it will convert it to <code>116-203-255-68.nip.io</code>. NIP.IO is a simple wildcard DNS resolution for any IP Address.</p>
+<p>By default Keptn-in-a-Box will <code>curl ifconfig.me</code>  to get the public  IP where it&#39;s running and will convert the IP  into a magic 🧙‍♂️ domain with <a href="https://nip.io" target="_blank">nip.io</a>. For example if your Box is public accessible over the IP  <code>116.203.255.68</code> it will convert it to <code>116-203-255-68.nip.io</code>. NIP.IO is a simple wildcard DNS resolution for any IP Address.</p>
 <aside class="special"><p>Having a magic domain allows you to access as much services as you want with the help of 🎡Kubernetes and Istio ⛵️. The kubernetes services will be defined as subdomains (or virtual Hosts) and resolved inside your K8s via either Istio Virtual Services or Ingresses.</p>
 </aside>
 <p>✅ If your box has a public ip, you can go with the <strong>defaults</strong> and leave the <code>DOMAIN</code> variable <strong>empty</strong>.</p>

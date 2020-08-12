@@ -164,7 +164,7 @@ Negative
 Duration: 3:00
 
 ### Default configuration (public IP)
-By default Keptn-in-a-Box will `curl ifconfig.me`  to get the public  IP where it's running and will convert the IP  into a magic 🧙‍♂️ domain with [nip.io](nip.io). For example if your Box is public accessible over the IP  `116.203.255.68` it will convert it to `116-203-255-68.nip.io`. NIP.IO is a simple wildcard DNS resolution for any IP Address. 
+By default Keptn-in-a-Box will `curl ifconfig.me`  to get the public  IP where it's running and will convert the IP  into a magic 🧙‍♂️ domain with [nip.io](https://nip.io). For example if your Box is public accessible over the IP  `116.203.255.68` it will convert it to `116-203-255-68.nip.io`. NIP.IO is a simple wildcard DNS resolution for any IP Address. 
 
 Positive
 : Having a magic domain allows you to access as much services as you want with the help of 🎡Kubernetes and Istio ⛵️. The kubernetes services will be defined as subdomains (or virtual Hosts) and resolved inside your K8s via either Istio Virtual Services or Ingresses. 
