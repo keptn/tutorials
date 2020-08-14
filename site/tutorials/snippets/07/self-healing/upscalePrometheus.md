@@ -9,18 +9,25 @@ Negative
 : First, make sure you are in the correct folder `examples/onboarding-carts` otherwise the next commands will fail.
 
 Add the prepared SLO file for self-healing to the production stage using the Keptn CLIs add-resource command:
+
+<!-- command -->
 ```
 keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
 ```
+
 Note: The SLO file contains an objective for response_time_p90.
 
 
 Configure Prometheus with the Keptn CLI (this configures the [Alert Manager](https://prometheus.io/docs/alerting/configuration/) based on the slo.yaml file):
+
+<!-- command -->
 ```
 keptn configure monitoring prometheus --project=sockshop --service=carts
 ```
 
 Configure remediation actions for up-scaling based on Prometheus alerts:
+
+<!-- command -->
 ```
 keptn add-resource --project=sockshop --stage=production --service=carts --resource=remediation.yaml --resourceUri=remediation.yaml
 ```
@@ -54,15 +61,18 @@ Duration: 3:00
 To simulate user traffic that is causing an unhealthy behavior in the carts service, please execute the following script. This will add special items into the shopping cart that cause some extensive calculation.
 
 1. Move to the correct folder for the load generation scripts:
-  ```
-  cd ../load-generation/cartsloadgen/deploy
-  ```
+
+    <!-- command -->
+    ```
+    cd ../load-generation/cartsloadgen/deploy
+    ```
 
 1. Start the load generation script: 
 
-  ```
-  kubectl apply -f cartsloadgen-faulty.yaml
-  ```
+    <!-- command -->
+    ```
+    kubectl apply -f cartsloadgen-faulty.yaml
+    ```
 
 1. (optional:) Verify the load in Prometheus.
     - Make a port forward to access Prometheus:
@@ -101,6 +111,7 @@ In this tutorial, the number of pods will be increased to remediate the issue of
 
 1. Check the executed remediation actions by executing:
 
+    <!-- debug -->
     ```
     kubectl get deployments -n sockshop-production
     ```
@@ -115,6 +126,7 @@ In this tutorial, the number of pods will be increased to remediate the issue of
 
 1. Also you should see an additional pod running when you execute:
 
+    <!-- debug -->
     ```
     kubectl get pods -n sockshop-production
     ```
