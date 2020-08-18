@@ -11,6 +11,9 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
 
 1. Make sure you are in the correct folder of your examples directory:
 
+    <!-- bash cd ../.. -->
+
+    <!-- command -->
     ```
     cd examples/unleash-server
     ```
@@ -18,12 +21,14 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
 
 1. Create a new project using the `keptn create project` command:
 
+    <!-- command -->
     ```
     keptn create project unleash --shipyard=./shipyard.yaml
     ```
 
 1. Onboard unleash and unleash-db using the `keptn onboard service` command:
 
+    <!-- command -->
     ```
     keptn onboard service unleash-db --project=unleash --chart=./unleash-db
     keptn onboard service unleash --project=unleash --chart=./unleash
@@ -31,15 +36,23 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
 
 1. Send new artifacts for unleash and unleash-db using the `keptn send new-artifact` command:
 
+    <!-- command -->
     ```
     keptn send event new-artifact --project=unleash --service=unleash-db --image=postgres:10.4
     keptn send event new-artifact --project=unleash --service=unleash --image=docker.io/keptnexamples/unleash:1.0.0
     ```
+    
+    <!-- bash 
+    verify_test_step $? "Send event new-artifact for unleash failed"
+    wait_for_deployment_with_image_in_namespace "unleash-db" "unleash-dev" "postgres:10.4"
+    wait_for_deployment_with_image_in_namespace "unleash" "unleash-dev" "docker.io/keptnexamples/unleash:1.0.0"
+    -->
 
 1. Get the URL (`unleash.unleash-dev.KEPTN_DOMAIN`):
 
+    <!-- command -->
     ```
-    echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+    echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
     ```
 
 1. Open the URL in your browser and log in using the following credentials:
@@ -57,16 +70,53 @@ In this tutorial, we are going to introduce feature toggles for two scenarios:
 
 1. Feature flag for a promotional campaign that can be enabled whenever you want to run a promotional campaign on top of your shopping cart.
 
-To set up both feature flags, navigate to your Unleash server and log in. 
+To set up both feature flags, please use the following scripts to automatically generate the feature flags that we need in this tutorial.
 
-1. Click on the red **+** to add a new feature toggle.
-  ![unleash-add](./assets/unleash-add.png)
 
-1. Name the feature toggle **EnableItemCache** and add **carts** in the description field.
-  ![unleash-cache](./assets/unleash-cache.png)
 
-1. Create another feature toggle by following the same procedure and by naming it the feature toggle **EnablePromotion** and by adding **carts** in the description field.
-  ![unleash-promotion](./assets/unleash-promotion.png)
+<!-- command -->
+``` 
+export UNLEASH_TOKEN=$(echo -n keptn:keptn | base64)
+export UNLEASH_BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}'))
+
+curl --request POST \
+  --url ${UNLEASH_BASE_URL}/api/admin/features/ \
+  --header "authorization: Basic ${UNLEASH_TOKEN}" \
+  --header 'content-type: application/json' \
+  --data '{
+  "name": "EnableItemCache",
+  "description": "carts",
+  "enabled": false,
+	"strategies": [
+    {
+      "name": "default",
+      "parameters": {}
+    }
+  ]
+}'
+
+curl --request POST \
+  --url ${UNLEASH_BASE_URL}/api/admin/features/ \
+  --header "authorization: Basic ${UNLEASH_TOKEN}" \
+  --header 'content-type: application/json' \
+  --data '{
+  "name": "EnablePromotion",
+  "description": "carts",
+  "enabled": false,
+	"strategies": [
+    {
+      "name": "default",
+      "parameters": {}
+    }
+  ]
+}'
+```
+
+### Optionally verify the generated feature flags
+
+If you want to verify the feature flags that have been created, please login to your Unleash server - or if you are already logged in - refresh the browser.
+
+![unleash](./assets/unleash-ff.png)
 
 
 ## Configure Keptn
@@ -77,11 +127,14 @@ Now, everything is set up in the Unleash server. For Keptn to be able to connect
 1. In order for Keptn to be able to use the Unleash API, we need to add the credentials as a secret to our Keptn namespace. In this tutorial, we do not have to change the values for UNLEASH_SERVER, UNLEASH_USER, and UNLEASH_TOKEN, but in your own custom scenario this might be needed to change it to your actual Unleash URL, user and token. 
 As said, in this tutorial we can use the following command as it is:
 
+    <!-- command -->
     ```
     kubectl -n keptn create secret generic unleash --from-literal="UNLEASH_SERVER_URL=http://unleash.unleash-dev/api" --from-literal="UNLEASH_USER=keptn" --from-literal="UNLEASH_TOKEN=keptn"
     ```
 
 1. Install the Unleash action provider which is responsible for acting upon an alert, thus it is the part that will actually resolve issues by changing the stage of the feature flags.
+    
+    <!-- command -->
     ```
     kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.1.0/deploy/service.yaml
     ```
@@ -113,6 +166,9 @@ As said, in this tutorial we can use the following command as it is:
 
     using the following command. Please make sure you are in the correct folder `examples/onboarding-carts`.
     
+    <!-- bash cd ../onboarding-carts -->
+    
+    <!-- command -->
     ```
     keptn add-resource --project=sockshop --service=carts --stage=production --resource=remediation_feature_toggle.yaml --resourceUri=remediation.yaml
     ```
@@ -120,8 +176,15 @@ As said, in this tutorial we can use the following command as it is:
     **Note:** The file describes remediation actions (e.g., `featuretoggle`) in response to problems/alerts (e.g., `Response time degradation`) that are sent to Keptn.
 
 1. We are also going to add an SLO file so that Keptn can evaluate if the remediation action was successful.
+    <!-- command -->
     ```
     keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
+    ```
+
+1. Start the load generation script for this use case:
+    <!-- command -->
+    ```
+    kubectl apply -f ../load-generation/cartsloadgen/deploy/cartsloadgen-prod.yaml
     ```
 
 Now that everything is set up, next we are going to hit the application with some load and toggle the feature flags.
@@ -133,6 +196,12 @@ Duration: 5:00
 
 1. Click on the toggle next to **EnablePromotion** to enable this feature flag.
 
+    <!-- bash 
+    curl --request POST \
+      --url ${UNLEASH_BASE_URL}/api/admin/features/EnablePromotion/toggle/on \
+      --header "authorization: Basic ${UNLEASH_TOKEN}"
+    -->
+    
     ![enable-toggle](./assets/unleash-promotion-toggle-on.png)
 
 1. By enabling this feature flag, a not implemented function is called resulting in a *NotImplementedFunction* error in the source code and a failed response. After a couple of minutes, the monitoring tool will detect an increase in the failure rate and will send out a problem notification to Keptn.
@@ -144,3 +213,8 @@ Duration: 5:00
     ![bridge unleash](./assets/bridge-unleash-remediation.png)
 
 1. 10 minutes after Keptn disables the feature flag, Keptn will also trigger another evaluation to make sure the trigger remediation action did actually resolve the problem. In case the problem is not resolved and the remediation file would hold more remediation actions, Keptn would go ahead and trigger them. For our tutorial Keptn has resolved the issue already, so no need for a second try!
+
+<!-- bash 
+echo "Waiting for Keptn to disable the feature flag"
+wait_for_event_with_field_output "sh.keptn.events.problem" ".data.ProblemDetails.status" "CLOSED" "sockshop"
+-->

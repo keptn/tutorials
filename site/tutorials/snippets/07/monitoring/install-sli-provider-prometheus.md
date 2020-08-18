@@ -6,12 +6,16 @@ During the evaluation of a quality gate, the Prometheus SLI provider is required
 
 To install the *prometheus-sli-service*, execute:
 
+<!-- command -->
 ```
 kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.2/deploy/service.yaml
 ```
 
 We are going to add the configuration for our SLIs in terms of an SLI file that maps the _name_ of an indicator to a PromQL statement how to actually query it. Please make sure you are in the correct folder `examples/onboarding-carts`.
 
+<!-- bash cd ../../onboarding-carts -->
+
+<!-- command -->
 ```
 keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-prometheus-selfhealing.yaml --resourceUri=prometheus/sli.yaml 
 ```

@@ -337,7 +337,7 @@ Last thing we need to make sure is to tag our demo application properly for the 
 
 Execute the following script to generate some test traffic for the app (this might run a second or two).
 ```
-curl --silent --output /dev/null "$(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})/carts/[1-100]/items"
+curl --silent --output /dev/null "$(kubectl get svc carts -n preprod -ojsonpath='{.status.loadBalancer.ingress[0].ip}')/carts/[1-100]/items"
 ```
 
 Next, open your Dynatrace tenant and navigate on to **Transactions and services** on the lefthand side. You should find a service called **ItemsController**. Click on it and add a tag named **keptn-qualitygates** like in the following screenshot.
@@ -397,17 +397,17 @@ Again, set up a a new step from a **Bash Script** that we call **keptn quality g
 
     You will receive the KEPTN_API_TOKEN with the following command: 
     ```
-    echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+    echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath='{.data.keptn-api-token}' | base64 --decode)
     ```
     
     Get the KEPTN_ENDPOINT by executing: 
     ```
-    echo https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
+    echo https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath='{.data.app_domain}')
     ```
 
     Get the SERVICE_URL by executing:
     ```
-    echo http://$(kubectl get svc carts -n preprod -ojsonpath={.status.loadBalancer.ingress[0].ip})/
+    echo http://$(kubectl get svc carts -n preprod -ojsonpath='{.status.loadBalancer.ingress[0].ip}')/
     ```
 
 Finally, please double check that you have set all environment variables correctly.

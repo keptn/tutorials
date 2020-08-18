@@ -8,6 +8,8 @@ Activate the quality gates for the carts service. Therefore, navigate to the `ex
 
 Make sure you are in the correct folder `examples/onboarding-carts`. If not, change the directory accordingly, e.g., `cd ../../onboarding-carts`.
 
+<!-- command -->
+
 ```
 keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
 ```
@@ -46,17 +48,20 @@ You can take a look at the currently deployed version of our "carts" microservic
 
 1. Get the URL for your carts service with the following commands in the respective stages:
 
-  ```
-  echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
-  ```
-
-  ```
-  echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
-  ```
-
-  ```
-  echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
-  ```
+    <!-- command -->
+    ```
+    echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+    ```
+    
+    <!-- command -->
+    ```
+    echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+    ```
+    
+    <!-- command -->
+    ```
+    echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+    ```
 
 2. Navigate to `http://carts.sockshop-production.YOUR.DOMAIN` for viewing the carts service in your **production** environment and you should receive an output similar to the following:
 
@@ -69,19 +74,31 @@ Duration: 5:00
 
 1. Use the Keptn CLI to deploy a version of the carts service, which contains an artificial **slowdown of 1 second** in each request.
 
-```
-keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.2
-```
+    <!-- command -->
+    ```
+    keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.2
+    ```
+    
+    <!-- bash 
+    verify_test_step $? "Send event new-artifact for carts failed" 
+    wait_for_deployment_with_image_in_namespace "carts" "sockshop-staging" "docker.io/keptnexamples/carts:0.11.2"
+    verify_test_step $? "Deployment carts not available, exiting..."
+    echo "Waiting for a little bit!"
+    wait_for_event_with_field_output "sh.keptn.event.configuration.change" ".data.canary.action" "discard" "sockshop"
+    sleep 60
+    -->
 
-2. Go ahead and verify that the slow build has reached your `dev` and `staging` environments by opening a browser for both environments. Get the URLs with these commands:
+1. Go ahead and verify that the slow build has reached your `dev` and `staging` environments by opening a browser for both environments. Get the URLs with these commands:
 
-```
-echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
-```
+    <!-- command -->
+    ```
+    echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+    ```
 
-```
-echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
-```
+    <!-- command -->
+    ```
+    echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+    ```
 
 
 ![carts service](./assets/carts-dev-2.png)
@@ -96,9 +113,9 @@ After triggering the deployment of the carts service in version v0.11.2, the fol
 
 * **Dev stage:** The new version is deployed in the dev stage and the functional tests passed.
   * To verify, open a browser and navigate to: 
-  
+  <!-- command -->
   ```
-  echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+  echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
   ```
 
 * **Staging stage:** In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.
@@ -106,8 +123,9 @@ After triggering the deployment of the carts service in version v0.11.2, the fol
 
 * **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.
   * To verify, navigate to: 
+  <!-- command -->
   ```
-  echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+  echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
   ```
 
 ## Verify the quality gate in Keptn's Bridge
@@ -125,34 +143,47 @@ To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.7.x/reference/bridge/) s
 Duration: 3:00
 
 1. Use the Keptn CLI to send a new version of the *carts* artifact, which does **not** contain any slowdown:
-  ```
-  keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.3
-  ```
+
+    <!-- command -->
+    ```
+    keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.3
+    ```
+    
+    <!-- bash 
+    verify_test_step $? "Send event new-artifact for carts failed" 
+    wait_for_deployment_with_image_in_namespace "carts" "sockshop-production" "docker.io/keptnexamples/carts:0.11.3"
+    verify_test_step $? "Deployment carts not available, exiting..."
+    -->
 
 1. To verify the deployment in *production* (it may take a couple of minutes), open a browser and navigate to the carts service in your production environment. As a result, you see `Version: v3`.
 
-1. Besides, you can verify the deployments in your Kubernetes cluster using the following commands: 
-  ```
-  kubectl get deployments -n sockshop-production
-  ``` 
 
-  ```
-  NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-  carts-db        1         1         1            1           63m
-  carts-primary   1         1         1            1           98m
-  ```
+1. Besides, you can verify the deployments in your Kubernetes cluster using the following commands:
 
-  ```
-  kubectl describe deployment carts-primary -n sockshop-production
-  ``` 
-  
-  ```
-  ...
-  Pod Template:
+    <!-- command -->
+    ```
+    kubectl get deployments -n sockshop-production
+    ``` 
+    
+    ```
+    NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+    carts-db        1         1         1            1           63m
+    carts-primary   1         1         1            1           98m
+    ```
+    
+    <!-- command -->
+    
+    ```
+    kubectl describe deployment carts-primary -n sockshop-production
+    ``` 
+    
+    ```
+    ...
+    Pod Template:
     Labels:  app=carts-primary
     Containers:
       carts:
         Image:      docker.io/keptnexamples/carts:0.11.3
-  ```
+    ```
 
 1. Take another look into the Keptn's Bridge and you will see this new version passed the quality gate and thus, is now running in production!

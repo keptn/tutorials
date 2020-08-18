@@ -61,7 +61,7 @@
     
       <google-codelab-step label="Install Istio" duration="10">
         <p>Download the Istio command line tool by <a href="https://istio.io/latest/docs/setup/install/" target="_blank">following the official instructions</a> or by executing the following steps.</p>
-<pre><code>curl -L https://istio.io/downloadIstio | sh -
+<pre><code>curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.5 sh -
 </code></pre>
 <p>Check the version of Istio that has been downloaded and execute the installer from the corresponding folder, e.g.,</p>
 <pre><code>./istio-1.6.5/bin/istioctl install
@@ -89,9 +89,9 @@ This will download and install the Keptn CLI automatically.</li>
 <li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.0" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
+<li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
 </ol>
 <ul>
-<li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
 <li><em>Windows</em>: Copy the executable to the desired folder and add the executable to your PATH environment variable.</li>
 </ul>
 </li>
@@ -122,8 +122,9 @@ This will download and install the Keptn CLI automatically.</li>
 <h2 is-upgraded>Installation details</h2>
 <p>In the Keptn namespace, the following deployments should be found:</p>
 <pre><code>kubectl get deployments -n keptn
-
-NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
+</code></pre>
+<p>Here is the output of the command:</p>
+<pre><code>NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
 api-gateway-nginx                                1/1     1            1           2m44s
 api-service                                      1/1     1            1           2m44s
 bridge                                           1/1     1            1           2m44s
@@ -144,15 +145,22 @@ shipyard-service                                 1/1     1            1         
       </google-codelab-step>
     
       <google-codelab-step label="Configure Istio and Keptn" duration="0">
-        <p>Get the <code>EXTERNAL-IP</code> from the <code>istio-ingressgateway</code> as you will need it in the next step</p>
-<pre><code>kubectl -n istio-system get svc istio-ingressgateway
+        <p>We are using Istio for traffic routing and as an ingress to our cluster. To make the setup experience as smooth as possible we have provided some scripts for your convenience. If you want to run the Istio configuration yourself step by step, please <a href="https://keptn.sh/docs/0.7.x/operate/install/#option-3-expose-keptn-via-an-ingress" target="_blank">take a look at the Keptn docuemtation</a>.</p>
+<p>The first step for our configuration automation for Istio is downloading the configuration bash script from Github:</p>
+<pre><code>curl -o configure-istio.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.0/istio-configuration/configure-istio.sh
 </code></pre>
-<pre><code>NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)                                                      AGE
-istio-ingressgateway   LoadBalancer   10.0.171.50   40.125.XXX.XXX   15021:30094/TCP,80:32076/TCP,443:31452/TCP,15443:31721/TCP   2m36s
+<p>After that you need to make the file executable using the <code>chmod</code> command.</p>
+<pre><code>chmod +x configure-istio.sh
 </code></pre>
-<p>In my case it is something like <code>40.125.XXX.XXX</code>.</p>
-<p>Create a file <code>ingress-manifest.yaml</code> and copy the following content.</p>
-<pre><code>apiVersion: networking.k8s.io/v1beta1
+<p>Finally, let&#39;s run the configuration script to automatically create your Ingress resources.</p>
+<pre><code>./configure-istio.sh
+</code></pre>
+<h2 is-upgraded>What is actually created</h2>
+<aside class="special"><p>There is no need to copy the following resources, there are for information purposes only.</p>
+</aside>
+<p>With this script, you have created an Ingress based on the following manifest.</p>
+<pre><code>---
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
@@ -168,11 +176,7 @@ spec:
           serviceName: api-gateway-nginx
           servicePort: 80
 </code></pre>
-<p>Next, make sure to replace the <code>&lt;IP-ADDRESS&gt;</code> with the actual IP of the ingress gateway that you just copied. Please note that we are using <a href="https://nip.io/" target="_blank">nip.io</a> (a wildcard DNS resolver) only for the purpose of this tutorial. In a production environment, you might want to use your own domain name here.</p>
-<p>Now let&#39;s apply the manifest to the cluster.</p>
-<pre><code>kubectl apply -f ingress-manifest.yaml
-</code></pre>
-<p>Next, we will also need a Gateway for Keptn. Therefore copy and paste the following content into a file named <code>gateway.yaml</code> and apply it to your Kubernetes cluster.</p>
+<p>Besides, the script has created a gateway resource for you so that the onboarded services are also available publicly.</p>
 <pre><code>---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -190,22 +194,14 @@ spec:
     hosts:
     - &#39;*&#39;
 </code></pre>
-<pre><code>kubectl apply -f gateway-manifest.yaml
-</code></pre>
-<p>Create a <code>ConfigMap</code> for Keptn to pick up with all the needed information. Therefore execute the following statement that will create the configmap.</p>
-<pre><code>kubectl create configmap -n keptn ingress-config --from-literal=ingress_hostname_suffix=$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;) --from-literal=ingress_port=80 --from-literal=ingress_protocol=http --from-literal=istio_gateway=public-gateway.istio-system -oyaml --dry-run | kubectl replace -f -
-</code></pre>
-<p>Finally, restart the Helm service of Keptn to pick up the just created configuration.</p>
-<pre><code>kubectl delete pod -n keptn -lapp.kubernetes.io/name=helm-service
-</code></pre>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Connect your Keptn CLI to the Keptn installation" duration="0">
         <p>In this section we are referring to the Linux/MacOS derivates of the commands. If you are using a Windows host, please <a href="https://keptn.sh/docs/0.7.0/operate/install/#5-authenticate-keptn-cli" target="_blank">follow the official instructions</a>.</p>
-<pre><code>KEPTN_ENDPOINT=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api
-KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+<pre><code>KEPTN_ENDPOINT=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/api
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath=&#39;{.data.keptn-api-token}&#39; | base64 --decode)
 </code></pre>
 <p>Use this stored information and authenticate the CLI.</p>
 <pre><code>keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
@@ -234,7 +230,13 @@ cd examples/onboarding-carts
 <p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>sockshop</em>. Before executing the following command, make sure you are in the <code>examples/onboarding-carts</code> folder.</p>
 <p><strong>Recommended:</strong> Create a new project with Git upstream:</p>
 <p>To configure a Git upstream for this tutorial, the Git user (<code>--git-user</code>), an access token (<code>--git-token</code>), and the remote URL (<code>--git-remote-url</code>) are required. If a requirement is not met, go to <a href="https://keptn.sh/docs/0.7.0/manage/git_upstream/" target="_blank">the Keptn documentation</a> where instructions for GitHub, GitLab, and Bitbucket are provided.</p>
-<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+<p>Let&#39;s define the variables before running the command:</p>
+<pre><code>GIT_USER=gitusername
+GIT_TOKEN=gittoken
+GIT_REMOTE_URL=remoteurl
+</code></pre>
+<p>Now let&#39;s create the project using the <code>keptn create project</code> command.</p>
+<pre><code>keptn create project sockshop --shipyard=./shipyard.yaml --git-user=$GIT_USER --git-token=$GIT_TOKEN --git-remote-url=$GIT_REMOTE_URL
 </code></pre>
 <p><strong>Alternatively:</strong> If you don&#39;t want to use a Git upstream, you can create a new project without it but please note that this is not the recommended way:</p>
 <pre><code>keptn create project sockshop --shipyard=./shipyard.yaml
@@ -269,7 +271,7 @@ cd examples/onboarding-carts
 <pre><code>keptn configure bridge --output
 </code></pre>
 <p>Now use these credentials to access it on your Keptn endpoint.</p>
-<pre><code>echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge
+<pre><code>echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/bridge
 </code></pre>
 <p>You will find the just created project in the bridge with all stages.<br><img alt="bridge" src="img/ea75605185cd741f.png"><img alt="bridge" src="img/d3919622be13ae7c.png"></p>
 
@@ -283,13 +285,15 @@ cd examples/onboarding-carts
 </code></pre>
 </li>
 <li>After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:<ul>
-<li>Functional tests for <em>dev</em> stage:<pre><code>keptn add-resource --project=sockshop --stage=dev --service=carts --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-</code></pre>
-</li>
-<li>Performance tests for <em>staging</em> stage:<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-</code></pre>
-</li>
+<li>Functional tests for <em>dev</em> stage:</li>
 </ul>
+<pre><code>keptn add-resource --project=sockshop --stage=dev --service=carts --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+</code></pre>
+<ul>
+<li>Performance tests for <em>staging</em> stage:</li>
+</ul>
+<pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+</code></pre>
 <strong>Note:</strong> You can adapt the tests in <code>basiccheck.jmx</code> as well as <code>load.jmx</code> for your service. However, you must not rename the files because there is a hardcoded dependency on these file names in the current implementation of Keptn&#39;s jmeter-service.</li>
 </ol>
 <p>Since the carts service requires a mongodb database, a second service needs to be onboarded.</p>
@@ -330,11 +334,11 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
     
       <google-codelab-step label="View carts service" duration="2">
         <ol type="1">
-<li>Get the URL for your carts service with the following commands in the respective namespaces:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>Get the URL for your carts service with the following commands in the respective namespaces:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 <li>Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:</li>
@@ -358,8 +362,8 @@ deployment.extensions/cartsloadgen created
 </code></pre>
 <p>Optionally, you can verify that the load generator has been started.</p>
 <pre><code>kubectl get pods -n loadgen
-
-NAME                            READY   STATUS    RESTARTS   AGE
+</code></pre>
+<pre><code>NAME                            READY   STATUS    RESTARTS   AGE
 cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
 </code></pre>
 
@@ -444,11 +448,11 @@ total_score:
       <google-codelab-step label="Verify current version" duration="3">
         <p>You can take a look at the currently deployed version of our &#34;carts&#34; microservice before we deploy the next build of our microservice.</p>
 <ol type="1">
-<li>Get the URL for your carts service with the following commands in the respective stages:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>Get the URL for your carts service with the following commands in the respective stages:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 <li>Navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code> for viewing the carts service in your <strong>production</strong> environment and you should receive an output similar to the following:</li>
@@ -463,9 +467,9 @@ total_score:
 <li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.2
 </code></pre>
 </li>
-<li>Go ahead and verify that the slow build has reached your <code>dev</code> and <code>staging</code> environments by opening a browser for both environments. Get the URLs with these commands:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>Go ahead and verify that the slow build has reached your <code>dev</code> and <code>staging</code> environments by opening a browser for both environments. Get the URLs with these commands:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 </ol>
@@ -479,14 +483,14 @@ total_score:
         <p>After triggering the deployment of the carts service in version v0.11.2, the following status is expected:</p>
 <ul>
 <li><strong>Dev stage:</strong> The new version is deployed in the dev stage and the functional tests passed.<ul>
-<li>To verify, open a browser and navigate to:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>To verify, open a browser and navigate to:<br><pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 </ul>
 </li>
 <li><strong>Staging stage:</strong> In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.</li>
 <li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.<ul>
-<li>To verify, navigate to:<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})
+<li>To verify, navigate to:<br><pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 </ul>

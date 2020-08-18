@@ -140,11 +140,11 @@ Duration: 5:00
 First, get the Keptn API endpoint and token by executing the following commands: 
 
 ```
-KEPTN_ENDPOINT=https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
+KEPTN_ENDPOINT=https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath='{.data.app_domain}')
 
 # now print the endpoint and token to the local console
 echo $KEPTN_ENDPOINT
-echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath='{.data.keptn-api-token}' | base64 --decode)
 ```
 
 Prepare the POST request body by filling out the next JSON object: 

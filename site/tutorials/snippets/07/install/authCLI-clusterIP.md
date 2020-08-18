@@ -12,7 +12,7 @@ Set the following variables to make it easy to connect to Keptn.
 
 ```
 KEPTN_ENDPOINT=http://localhost:8080/api
-KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath='{.data.keptn-api-token}' | base64 --decode)
 ```
 
 To authenticate the CLI against the Keptn cluster, use the keptn auth command:
