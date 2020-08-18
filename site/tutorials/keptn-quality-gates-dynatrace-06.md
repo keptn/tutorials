@@ -51,23 +51,23 @@ If you do not have an application that is under load follow the next tutorial st
 
 <!-- include other files -->
 
-{{ snippets/simplenode/monitorDeployLoadSimplenode.md }}
+{{ snippets/06/simplenode/monitorDeployLoadSimplenode.md }}
 
-{{ snippets/monitoring/setupDynatrace.md }}
+{{ snippets/06/monitoring/setupDynatrace.md }}
 
-{{ snippets/manage/simplenode/createProjectQualityStageOnly.md }}
+{{ snippets/06/manage/simplenode/createProjectQualityStageOnly.md }}
 
-{{ snippets/manage/simplenode/createServiceQualityStageOnly.md }}
+{{ snippets/06/manage/simplenode/createServiceQualityStageOnly.md }}
 
-{{ snippets/monitoring/simplenode/setupDynatraceSLIProviderQualityStageOnly.md }}
+{{ snippets/06/monitoring/simplenode/setupDynatraceSLIProviderQualityStageOnly.md }}
 
-{{ snippets/quality-gate-only/tagEvalservice.md }}
+{{ snippets/06/quality-gate-only/tagEvalservice.md }}
 
-{{ snippets/quality-gate-only/simplenode/setupBasicQualityGate.md }}
+{{ snippets/06/quality-gate-only/simplenode/setupBasicQualityGate.md }}
 
-{{ snippets/quality-gate-only/simplenode/executeQualityGateThroughCLI.md }}
+{{ snippets/06/quality-gate-only/simplenode/executeQualityGateThroughCLI.md }}
 
-{{ snippets/quality-gate-only/simplenode/executeQualityGateThroughAPI.md }}
+{{ snippets/06/quality-gate-only/simplenode/executeQualityGateThroughAPI.md }}
 
 
 ## Finish
@@ -88,4 +88,4 @@ As you have now learned how to setup Keptn for pulling metrics out of Dynatrace 
 - How to trigger a Keptn Quality Gate evaluation using the CLI and the API
 - How to use the Keptns Bridge to inspect your Quality Gate Results
 
-{{ snippets/community/feedback.md }}
+{{ snippets/06/community/feedback.md }}

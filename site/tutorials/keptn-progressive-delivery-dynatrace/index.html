@@ -234,7 +234,7 @@ simplenodeproject-staging simplenode-54d9b6775-rm8rw     1/1     Running     0  
     
       <google-codelab-step label="Setup SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Dynatrace SLI provider is required that is implemented by an internal Keptn service, the dynatrace-sli-service. This service will fetch the values for the SLIs that are referenced in an SLO configuration.</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.4.1/deploy/service.yaml
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.4.2/deploy/service.yaml
 </code></pre>
 <p>Configure the already onboarded project with the new SLI provider:</p>
 <pre><code>keptn configure monitoring dynatrace --project=simplenodeproject

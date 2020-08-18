@@ -1,0 +1,582 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Progressive Delivery with Keptn using Dynatrace</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-133584243-1"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="keptn-progressive-delivery-dynatrace-07"
+                  title="Progressive Delivery with Keptn using Dynatrace"
+                  environment="web"
+                  feedback-link="https://github.com/keptn/tutorials/tree/master/site/tutorials">
+    
+      <google-codelab-step label="Welcome" duration="2">
+        <p>In this tutorial you&#39;ll get a full tour of setting up Keptn for multi-stage progressive delivery for a node-js based microservice application.<br>The tutorial also gives you insights into load test automation and extending SLIs/SLOs with Load Test specific metrics gathered through Dynatrace Calculated Metrics!<br>Alright - here is the complete overview on what you will learn:</p>
+<p class="image-container"><img src="img/1ccc17b34e2eddc0.gif"></p>
+<p>You can also watch a recording of an online workshop titled <a href="https://www.youtube.com/watch?v=ZuTr_enelM0" target="_blank">Setting up Event-based Progressive Delivery with Keptn on k8s</a></p>
+<h2 class="checklist" is-upgraded>What you&#39;ll learn</h2>
+<ul class="checklist">
+<li>How to create a Keptn project for multi-stage delivery</li>
+<li>How to onboard a container based microservice</li>
+<li>How to deploy your first version of the microservice with blue/green deployments</li>
+<li>How to setup a basic SLI/SLO-based quality gate between staging and production</li>
+<li>How to define automated performance tests as part of the quality gate</li>
+<li>How to prevent bad builds of your microservice to reach production</li>
+<li>How to extend SLIs &amp; SLOs with advanced Dynatrace metrics</li>
+<li>How to create a Dynatrace Performance Insights Dashboard</li>
+<li>How to integrate other tools like Slack, MS Team, etc in your Keptn integration</li>
+</ul>
+<p>You&#39;ll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prerequisites" duration="5">
+        <p>Before you can get started, please make sure to have Keptn installed on your Kubernetes cluster.</p>
+<p>If not, please <a href="../../?cat=installation" target="_blank">follow one of these tutorials to install Keptn</a> on your favourite Kubernetes distribution.</p>
+<p>What you need in order to complete this tutorial is<br>1: keptn status needs to successfully connect to your keptn instance<br>2: kubectl needs to be configured to connect to your k8s cluster<br>3: you have access to the Keptns Bridge. If you have not yet exposed it please do so as described in <a href="https://keptn.sh/docs/0.6.0/reference/keptnsbridge/#expose-lockdown-bridge" target="_blank">Expose Keptn&#39;s Bridge</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup Dynatrace" duration="7">
+        <p>For enabling the Keptn Quality Gates and for production monitoring, we are going to use Dynatrace as the data provider. Therefore, we are going to setup Dynatrace in our Kubernetes cluster to have our sample application monitored and we can use the monitoring data for both the basis for evaluating quality gates as well as a trigger to start self-healing.</p>
+<aside class="special"><p>You have to bring your own Dynatrace tenant</p>
+</aside>
+<p>If you don&#39;t have a Dynatrace tenant yet, sign up for a <a href="https://www.dynatrace.com/trial/" target="_blank">free trial</a> or a <a href="https://www.dynatrace.com/developer/" target="_blank">developer account</a>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Gather Dynatrace tokens" duration="6">
+        <ol type="1">
+<li>Create a Dynatrace API TokenLog in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
+<li>Access problem and event feed, metrics and topology</li>
+<li>Access logs</li>
+<li>Read configuration</li>
+<li>Write configuration</li>
+<li>Capture request data</li>
+</ul>
+Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/52347510b2b53317.png"></li>
+<li>Store your credentials in a Kubernetes secret by executing the following command. The <code>DT_TENANT</code> has to be set according to the appropriate pattern:<ul>
+<li>Dynatrace SaaS tenant (this format is most likely for you): <code>{your-environment-id}.live.dynatrace.com</code></li>
+<li>Dynatrace-managed tenant: <code>{your-domain}/e/{your-environment-id}</code></li>
+</ul>
+If running on a Unix/Linux based system, you can use variables for ease of use. Naturally, it is also fine to just replace the values in the <code>kubectl</code> command itself.<pre><code>DT_TENANT=yourtenant.live.dynatrace.com
+DT_API_TOKEN=yourAPItoken
+DT_PAAS_TOKEN=yourPAAStoken
+</code></pre>
+<aside class="warning"><p>Please make sure your DT_TENANT does <em>not contain</em> any trailing slashes nor a https:// in the beginning.</p>
+</aside>
+If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.<pre><code>kubectl -n keptn create secret generic dynatrace --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34;  --from-literal=&#34;KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/api&#34; --from-literal=&#34;KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)&#34; --from-literal=&#34;KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath={.spec.rules[0].host})/bridge&#34; 
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy Dynatrace OneAgent Operator" duration="0">
+        <p>We are following the official Dynatrace docs to deploy the Dynatrace OneAgent Operator on our Kubernetes cluster. You don&#39;t have to switch to the docs, but instead can just follow along in this tutorial, we cover all necessary steps here.</p>
+<ol type="1">
+<li>Deploy the operator<pre><code>kubectl create namespace dynatrace
+kubectl apply -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/latest/download/kubernetes.yaml
+</code></pre>
+</li>
+<li>We are going to reuse the variables that we set in the previous step for the creation of the secret for the OneAgent operator.<pre><code>kubectl -n dynatrace create secret generic oneagent --from-literal=&#34;apiToken=$DT_API_TOKEN&#34; --from-literal=&#34;paasToken=$DT_PAAS_TOKEN&#34;
+</code></pre>
+</li>
+<li>Download the custom resource definition and edit it.<pre><code>curl -o cr.yaml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/master/deploy/cr.yaml
+</code></pre>
+</li>
+<li>Set the <em>apiUrl</em> correctly to your ENVIRONMENTID (please note that the ENVIRONMENTID is the unique ID of your Dynatrace tenant) and save the file.<pre><code>spec:
+  # dynatrace api url including `/api` path at the end
+  # either set ENVIRONMENTID to the proper tenant id or change the apiUrl as a whole, e.q. for Managed
+  apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api
+</code></pre>
+</li>
+<li>Apply the custom resource.<pre><code>kubectl apply -f cr.yaml
+</code></pre>
+</li>
+<li>Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.<pre><code>kubectl get pods -n dynatrace
+</code></pre>
+<pre><code>dynatrace-oneagent-operator-696fd89b76-n9d9n   1/1     Running   0          6m26s
+dynatrace-oneagent-webhook-78b6d99c85-h9759    2/2     Running   0          6m25s
+oneagent-g9m42                                 1/1     Running   0          69s
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install Dynatrace integration" duration="5">
+        <ol type="1">
+<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
+</code></pre>
+</li>
+<li>When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.<pre><code>keptn configure monitoring dynatrace
+</code></pre>
+Output should be similar to this:<pre><code>ID of Keptn context: 79f19c36-b718-4bb6-88d5-cb79f163289b
+Configuring Dynatrace monitoring
+Dynatrace OneAgent Operator is installed on cluster
+Setting up auto-tagging rules in Dynatrace Tenant
+Tagging rule keptn_service already exists
+Tagging rule keptn_stage already exists
+Tagging rule keptn_project already exists
+Tagging rule keptn_deployment already exists
+Setting up problem notifications in Dynatrace Tenant
+Checking Keptn alerting profile availability
+Keptn alerting profile available
+Dynatrace Monitoring setup done
+</code></pre>
+</li>
+</ol>
+<p><strong>Verify Dynatrace configuration</strong></p>
+<p>Since Keptn has configured your Dynatrace tenant, let us take a look what has be done for you:</p>
+<ul>
+<li><em>Tagging rules:</em> When you navigate to <strong>Settings &gt; Tags &gt; Automatically applied tags</strong> in your Dynatrace tenant, you will find following tagging rules:<ul>
+<li>keptn_deployment</li>
+<li>keptn_project</li>
+<li>keptn_service</li>
+<li>keptn_stage<br><br></li>
+</ul>
+This means that Dynatrace will automatically apply tags to your onboarded services.</li>
+<li><em>Problem notification:</em> A problem notification has been set up to inform Keptn of any problems with your services to allow auto-remediation. You can check the problem notification by navigating to <strong>Settings &gt; Integration &gt; Problem notifications</strong> and you will find a <strong>keptn remediation</strong> problem notification.</li>
+<li><em>Alerting profile:</em> An alerting profile with all problems set to <em>0 minutes</em> (immediate) is created. You can review this profile by navigating to <strong>Settings &gt; Alerting &gt; Alerting profiles</strong>.</li>
+<li><em>Dashboard and Mangement zone:</em> When creating a new Keptn project or executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_configure_monitoring/" target="_blank">keptn configure monitoring</a> command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.</li>
+</ul>
+<aside class="warning"><p>If the nodes in your cluster run on <em>Container-Optimized OS (cos)</em> (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary.</p>
+</aside>
+<p>Follow the next steps only if your Dynatrace OneAgent does not work properly.</p>
+<ol type="1">
+<li>To check if the OneAgent does not work properly, the output of <code>kubectl get pods -n dynatrace</code> might look as follows:<pre><code>NAME                                           READY   STATUS             RESTARTS   AGE
+dynatrace-oneagent-operator-7f477bf78d-dgwb6   1/1     Running            0          8m21s
+oneagent-b22m4                                 0/1     Error              6          8m15s
+oneagent-k7jn6                                 0/1     CrashLoopBackOff   6          8m15s
+</code></pre>
+</li>
+<li>This means that after the initial setup you need to edit the OneAgent custom resource in the Dynatrace namespace and add the following entry to the env section:<pre><code>env:
+- name: ONEAGENT_ENABLE_VOLUME_STORAGE
+  value: &#34;true&#34;
+</code></pre>
+</li>
+<li>To edit the OneAgent custom resource:<pre><code>kubectl edit oneagent -n dynatrace
+</code></pre>
+</li>
+</ol>
+<p>At the end of your installation, please verify that all Dynatrace resources are in a Ready and Running status by executing <code>kubectl get pods -n dynatrace</code>:</p>
+<pre><code>NAME                                           READY   STATUS       RESTARTS   AGE
+dynatrace-oneagent-operator-7f477bf78d-dgwb6   1/1     Running      0          8m21s
+oneagent-b22m4                                 1/1     Running      0          8m21s
+oneagent-k7jn6                                 1/1     Running      0          8m21s
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create a Keptn Project" duration="2">
+        <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
+<p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
+<pre><code>git clone --branch release-0.7.0 https://github.com/keptn/examples.git --single-branch
+
+cd examples/simplenodeservice
+</code></pre>
+<p>Create a new project for your services using the <code>keptn create project</code> command. In this example, the project is called <em>simplenodeproject</em>. Before executing the following command, make sure you are in the <code>examples/simplenodeservice/keptn</code> folder.<br>Please note that <a href="https://keptn.sh/docs/0.7.x/manage/project/#select-git-based-upstream" target="_blank">defining a Git upstream</a> is recommended, but in case that is not wanted the parameters <code>git-user</code>, <code>git-token</code> and <code>git-remote-url</code> can be omitted.</p>
+<pre><code>keptn create project simplenodeproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+</code></pre>
+<p>For creating the project, the tutorial relies on a <code>shipyard.yaml</code> file as shown below:</p>
+<pre><code>stages:
+  - name: &#34;staging&#34;
+    deployment_strategy: &#34;direct&#34;
+    test_strategy: &#34;performance&#34;
+  - name: &#34;prod&#34;
+    deployment_strategy: &#34;blue_green_service&#34;
+    test_strategy: &#34;performance&#34;
+</code></pre>
+<p>This shipyard contains two stages: staging, and prod. This results in the three Kubernetes namespaces: simplenodeproject-staging, and simplenodeproject-prod.</p>
+<ul>
+<li><strong>staging</strong> will have a direct (big bang) deployment strategy and performance tests are executed. If tests are good and SLI/SLO based quality gates are passed Keptn will promote it to the <em>prod</em> stage</li>
+<li><strong>prod</strong> will have a blue/green deployment strategy also using performance tests to validate that deployment and eventually switch between blue/green in case performance testing has revelead a problem</li>
+</ul>
+<aside class="special"><p>To learn more about a <em>shipyard</em> file, please take a look at the <a href="https://github.com/keptn/spec/blob/master/shipyard.md" target="_blank">Shipyard specification</a>.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Onboard our microservice to our project" duration="2">
+        <p>After creating the project, services can be onboarded to our project.</p>
+<ol type="1">
+<li>Onboard the <strong>simplenode</strong> service using the <a href="https://keptn.sh/docs/0.7.x/reference/cli/#keptn-onboard-service" target="_blank">keptn onboard service</a> command:<pre><code>keptn onboard service simplenode --project=simplenodeproject --chart=./carts
+</code></pre>
+</li>
+</ol>
+<p>We have passed a helm charts directory to onboard service. Keptn will use this Helm Chart for its delivery. It will also automatically create the respective deployments for our blue/green and direct deployment strategies in staging and prod. There is nothing we have to worry about</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy first build with Keptn" duration="2">
+        <p>After onboarding our service we can immediately start using Keptn to deploy an artifact.</p>
+<ol type="1">
+<li>Lets deploy version 1 of our simplenode service by executing the <a href="https://keptn.sh/docs/0.7.x/reference/cli/#keptn-send-event-new-artifact" target="_blank">keptn send event new-artifact</a> command:<pre><code>keptn send event new-artifact --project=simplenodeproject --service=simplenode --image=grabnerandi/simplenodeservice --tag=1.0.0
+</code></pre>
+</li>
+</ol>
+<p>Keptn will now start deploying version 1.0.0 into staging. During the first deployment some special initial steps are performed, e.g: namespaces get created for each stage.<br>But - as we haven&#39;t yet uploaded tests and not specified SLI/SLOs for the Quality Gates Keptn will skip these checks and promote the artifact rather quickly into production. Overall that process should not take longer than 2-3 minutes</p>
+<ol type="1">
+<li><strong>Optional:</strong> Verify the pods that should have been created for services carts and carts-db:<pre><code>kubectl get pods --all-namespaces | grep simplenode
+</code></pre>
+<pre><code>simplenodeproject-prod    simplenode-54d9b6775-4hlwn     1/1     Running     0          12m
+simplenodeproject-staging simplenode-54d9b6775-rm8rw     1/1     Running     0          12m
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Validate deployment of first version" duration="2">
+        <p>After every deployment we can start in the Keptn&#39;s bridge to validate the progress. We can answer questions like</p>
+<ul>
+<li>Did the deployment already happen?</li>
+<li>What is the URL of the deployed service in each stage?</li>
+<li>Did anything bad happen?</li>
+</ul>
+<ol type="1">
+<li>Go to Keptn&#39;s Bridge and see how Keptn has deployed the service into staging and then production:</li>
+</ol>
+<p>The bridge also gives you access to the links of the deployed service.<br><img src="img/e8f501aea1e62a4.png"></p>
+<p>If you click on them you should see a new browser window pop open showing you version 1 in staging and version 1 in production:</p>
+<p class="image-container"><img src="img/f54c32d4092b5364.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Validate Dynatrace Monitoring Data" duration="2">
+        <p>Once Keptn has deployed our application and we have successfully validated that the app is indeed running by accessing the app through its URL we can also validate that Dynatrace is monitoring not only your k8s cluster but also the app we have deployed.</p>
+<p>In Dynatrace use the navigation menu on the left and navigate to the Host view. You should find an entry for each of your k8s cluster nodes. Click one of them. You should see host metrics, list of processes &amp; containers, events ...<br>Via the <code>...</code> button you can access the Smartscape view which gives you full stack visiblity of everything that is hosted on that k8s cluster node. You should also see our deployed Node.js services which you can click on and navigate to the detailed view:</p>
+<p class="image-container"><img src="img/90b287e2a87e440b.png"></p>
+<p>If you navigate to the service view you will notice that the service has 4 tags on it: keptn_project, keptn_stage, keptn_service and keptn_deployment. These tags are extracted from the Helm Chart which is passing this information via DT_CUSTOM_PROP. These tags also later allow Keptn to query data exactly for a specific deployed service, e.g: only data from our service deployed in staging!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup SLI provider" duration="2">
+        <p>During the evaluation of a quality gate, the Dynatrace SLI provider is required that is implemented by an internal Keptn service, the dynatrace-sli-service. This service will fetch the values for the SLIs that are referenced in an SLO configuration.</p>
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.5.0/deploy/service.yaml
+</code></pre>
+<p>Configure the already onboarded project with the new SLI provider:</p>
+<pre><code>keptn configure monitoring dynatrace --project=simplenodeproject
+</code></pre>
+<aside class="special"><p>Since we already installed the Dynatrace service, the SLI provider can fetch the credentials to connect to Dynatrace from the same secret we created earlier.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up a basic quality gate" duration="4">
+        <p>Keptn Quality Gates are based on the concepts of</p>
+<ul>
+<li>SLIs (Service Level Indicators): what metrics (=indicators) are important and how do we query them</li>
+<li>SLOs (Service Level Objectives): what conditions (=objectives) must be met to consider this a good or a bad value per indicator</li>
+</ul>
+<p>In Keptn we therefore need to provide an <code>sli.yaml</code> that defines how to query certain metrics from a specific tool, e.g: Dynatrace. We also need to provide an <code>slo.yaml</code> that defines the conditions - this file is tool independant.<br>To learn more about the <em>sli.yaml</em> and <em>slo.yaml</em> files, go to <a href="https://github.com/keptn/spec/blob/0.1.3/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
+<p>Our example comes with a basic and an extended set of SLIs and SLOs. In this step we focus on the basic version.<br>We have to upload two files using the <a href="https://keptn.sh/docs/0.7.x/reference/cli/#keptn-add-resource" target="_blank">add-resource</a> command.<br>Ensure you navigate to the <code>examples/simplenode/keptn</code> folder.</p>
+<ol type="1">
+<li>First, lets upload our <code>dynatrace/sli_basic.yaml</code> as <code>dynatrace/sli.yaml</code>!<pre><code>keptn add-resource --project=simplenodeproject --stage=staging --service=simplenode --resource=dynatrace/sli_basic.yaml --resourceUri=dynatrace/sli.yaml
+</code></pre>
+</li>
+</ol>
+<p>This Dynatrace specific SLI contains the definition of 5 indicators. Each indicator has a logical name, e.g: throughput and the tool specific query, e.g: Dynatrace Metrics Query. You can also see that the query definition can leverage placeholders such as $PROJECT, $SERVICE, $STAGE ... - this is great as we can use them to filter on exactly those services managed by Keptn as long as these tags are put on the Dynatrace entities:</p>
+<pre><code>---
+spec_version: &#39;1.0&#39;
+indicators:
+  throughput:        &#34;metricSelector=builtin:service.requestCount.total:merge(0):sum&amp;entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)&#34;
+  error_rate:        &#34;metricSelector=builtin:service.errors.total.rate:merge(0):avg&amp;entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)&#34;
+  response_time_p50: &#34;metricSelector=builtin:service.response.time:merge(0):percentile(50)&amp;entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)&#34;
+  response_time_p90: &#34;metricSelector=builtin:service.response.time:merge(0):percentile(90)&amp;entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)&#34;
+  response_time_p95: &#34;metricSelector=builtin:service.response.time:merge(0):percentile(95)&amp;entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)&#34;
+</code></pre>
+<ol type="1">
+<li>Second, lets upload our <code>slo_basic.yaml</code> as <code>slo.yaml</code><pre><code>keptn add-resource --project=simplenodeproject --stage=staging --service=simplenode --resource=slo_basic.yaml --resourceUri=slo.yaml
+</code></pre>
+</li>
+</ol>
+<p>This <code>slo.yaml</code> defines the objectives and references the SLIs defined in the <code>sli.yaml</code>:</p>
+<pre><code>---
+spec_version: &#39;0.1.0&#39;
+comparison:
+  compare_with: &#34;single_result&#34;
+  include_result_with_score: &#34;pass&#34;
+  aggregate_function: avg
+objectives:
+  - sli: response_time_p95
+    pass:        # pass if (relative change &lt;= 10% AND absolute value is &lt; 500)
+      - criteria:
+          - &#34;&lt;=+10%&#34; # relative values require a prefixed sign (plus or minus)
+          - &#34;&lt;600&#34;   # absolute values only require a logical operator
+    warning:     # if the response time is below 800ms, the result should be a warning
+      - criteria:
+          - &#34;&lt;=800&#34;
+  - sli: throughput
+    pass:
+      - criteria:
+        - &#34;&gt;4000&#34;
+  - sli: error_rate
+    weight: 2
+    pass:
+      - criteria:
+          - &#34;&lt;=1%&#34;
+    warning:
+      - criteria:
+          - &#34;&lt;=2%&#34;
+  - sli: response_time_p50
+  - sli: response_time_p90
+    pass:
+      - criteria:
+          - &#34;&lt;=+10%&#34;
+    warning:
+      - criteria:
+          - &#34;&lt;=+10%&#34;
+total_score:
+  pass: &#34;90%&#34;
+  warning: &#34;75%&#34;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Adding Basic Tests for Quality Gate" duration="3">
+        <p>Uploading SLIs &amp; SLOs alone is not enough. What we need are some tests, e.g: simple API performance tests that get executed by Keptn. After those tests are executed Keptn will evaluate the SLIs/SLOs for the timeframe of the test execution.</p>
+<p>Keptn comes with a JMeter-Service that can execute JMeter tests when a new deployment happened. In our tutorial we are however using the JMeter-Extended-Service as it gives us some more flexibilty with different workloads.</p>
+<ol type="1">
+<li>We simply &#34;upgrade&#34; from JMeter-Service to JMeter-Extended-Service by replacing the image:<pre><code>kubectl -n keptn set image deployment/jmeter-service jmeter-service=keptncontrib/jmeter-extended-service:0.1.0
+</code></pre>
+</li>
+</ol>
+<p>Now we are ready to upload a test script and workload configuration for our staging stage. Ensure you navigate to the <code>examples/simplenode/keptn</code> folder.</p>
+<ol type="1">
+<li>Add load test script &amp; workload config to our staging stage<pre><code>keptn add-resource --project=simplenodeproject --stage=staging --service=simplenode --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+</code></pre>
+<pre><code>keptn add-resource --project=simplenodeproject --stage=staging --service=simplenode --resource=jmeter/jmeter.conf.yaml --resourceUri=jmeter/jmeter.conf.yaml
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy first build with Tests &amp; Quality Gates" duration="5">
+        <p>As we have now uploaded tests, SLIs &amp; SLOs we can run the same artifact of version 1.0.0 through the delivery pipeline. The difference now is that Keptn will automatically execute tests in staging and then evaluates our indicators (specified in SLI.yaml) against our objectives (specified in SLO.yaml) for the timeframe of the test execution.</p>
+<ol type="1">
+<li>Lets deploy build number 1.0.0 again<pre><code>keptn send event new-artifact --project=simplenodeproject --service=simplenode --image=grabnerandi/simplenodeservice --tag=1.0.0
+</code></pre>
+</li>
+<li>Lets validate quality gate in bridge:</li>
+</ol>
+<p>Remember - this time the deployment will take a bit longer as the tests take about 2-3 minutes to run before Keptn can pull in metrics from Dynatrace. Overall a deployment will now take about 5 minutes. Go back to the Keptn&#39;s Bridge and watch for the new events coming in. In a couple of minutes you will also see the evaluation results of your Quality Gate. Lets hope all is green and the build makes it all the way into production :-)</p>
+<p class="image-container"><img src="img/72d54c7f78031303.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up a quality gate in production" duration="1">
+        <p>So far we have uploaded our test script, test workload and our SLI &amp; SLO for our staging stage.<br>If we also want a quality gate to be enforced after a blue/green deployment is done to production to validate if the production deployment is good enough or whether the Blue/Green deployment should be reverted back we have to add SLI.yaml, SLO.yaml and our tests for production as well.</p>
+<ol type="1">
+<li>First, lets upload our <code>dynatrace/sli_basic.yaml</code> as <code>dynatrace/sli.yaml</code> for prod!</li>
+</ol>
+<p>We could upload a different sli.yaml for production than the one we have for staging. In a real scenario you probably want this as you may want to include additonal indicators from other parts of the infrastructure that you didnt have available in staging. For our sample we just use the same <code>sli_basic.yaml</code>!</p>
+<pre><code>keptn add-resource --project=simplenodeproject --stage=prod --service=simplenode --resource=dynatrace/sli_basic.yaml --resourceUri=dynatrace/sli.yaml
+</code></pre>
+<p>If you wonder - how can the same SLI be working in production? Well - its because the SLI is leveraging the placeholders such as $STAGE. Once Keptn will evaluate the SLIs for production this value will be replaced with <code>prod</code>. And - as long as all services are correctly tagged in Dynatrace with e.g: <code>keptn_stage:prod</code> we are all good.</p>
+<p>Here is one of the indicator definitions of this SLI file so you see what I mean:</p>
+<pre><code>indicators:
+  throughput:        &#34;metricSelector=builtin:service.requestCount.total:merge(0):sum&amp;entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)&#34;
+</code></pre>
+<ol type="1">
+<li>Second, lets upload our <code>slo_basic.yaml</code> as <code>slo.yaml</code></li>
+</ol>
+<p>Same as with the SLI. We could upload a different SLO that includes different objectives for production, e.g: you may expect different load behavior or you have different hardware your system runs on. In that case you would adjust the SLOs to reflect what you expect in production. For our sample we just take the same SLO that we used for staging</p>
+<pre><code>keptn add-resource --project=simplenodeproject --stage=prod --service=simplenode --resource=slo_basic.yaml --resourceUri=slo.yaml
+</code></pre>
+<ol type="1">
+<li>Third, lets upload our tests</li>
+</ol>
+<p>In order for the quality gates to evaluate a representative timeframe with representative load we will upload tests to production. This will make sure that after Keptn deploys the artifact in production that these tests get executed against the new Blue/Green deployment. After that the quality gate kicks in. If the validation succeeds Keptn will keep the new build - otherwise it will roll back.<br>We will use the same test scripts as in staging. We could use different tests - but - for our example thats good enough!</p>
+<pre><code>keptn add-resource --project=simplenodeproject --stage=prod --service=simplenode --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+keptn add-resource --project=simplenodeproject --stage=prod --service=simplenode --resource=jmeter/jmeter.conf.yaml --resourceUri=jmeter/jmeter.conf.yaml
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Run more builds - validate all quality gates" duration="5">
+        <p>In the last steps we finished setting up tests and quality gates for both staging and production.<br>Now its time to put this to the test. If you remember - the samplenodeservice app comes with 4 different builds. Every build has a unique characteristic, e.g: some builds are good all the way to production, some builds have a high failure rate and should be stopped by the stagging quality gate, some builds are only problematic in production and should therefore be rolled back during a blue/green validation phase.</p>
+<p>Here is what we are going to do in this step. We are going to deploy build 2, 3 and then 4 and validate if Keptn catches all problems as highlighted in the next image:<br><img src="img/c5d859820ad68af4.png"></p>
+<ol type="1">
+<li>Let&#39;s deploy build 2.0.0<pre><code>keptn send event new-artifact --project=simplenodeproject --service=simplenode --image=grabnerandi/simplenodeservice --tag=2.0.0
+</code></pre>
+</li>
+</ol>
+<p>Watch the bridge and see if build 2.0.0 is stopped by the quality gate. It should - as build 2.0.0 has a high failure rate which is detected by the SLI error_rate!</p>
+<ol type="1">
+<li>Let&#39;s deploy build 3.0.0<pre><code>keptn send event new-artifact --project=simplenodeproject --service=simplenode --image=grabnerandi/simplenodeservice --tag=3.0.0
+</code></pre>
+</li>
+</ol>
+<p>Watch the bridge and see if build 3.0.0 makes it all the way to production and stays there. It should - as build 3.0.0 has no high failure rate any longer and also doesnt show any other signs of problems. As we have production quality gates enabled as well you should also see tests being executed in production followed by quality gate evaluation.</p>
+<ol type="1">
+<li>Let&#39;s deploy build 4.0.0<pre><code>keptn send event new-artifact --project=simplenodeproject --service=simplenode --image=grabnerandi/simplenodeservice --tag=4.0.0
+</code></pre>
+</li>
+</ol>
+<p>Watch the bridge and see if build 4.0.0 makes it all the way to production and is then rejected and rolled back to build 3.0.0. Build 4 should pass the quality gate in staging as the problem that is built into 4.0.0 only shows up in production. This is why you should see the build being promoted in production. But - after the tests are executed and evaluation fails Keptn will automatically roll it back to Build 3 in production. You can also validate this by browsing to your app</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Extend Quality Gates with Test Step Metrics" duration="5">
+        <p>Our quality gates so far are based on 5 basic metrics: throughput, error rate, response time (p50, p90, p95).<br>While this is a great start we can do much more!!</p>
+<p>Dynatrace gives us the option to extract context information from requests that are executed by test tools. Such context information could be the Test Script Name (load.jmx), Test Scenario Name (fullscenario), Test Step Name (homepage, echo, invoke, version). This information can be passed by the Test Tool using an HTTP Header that can be analyzed by Dynatrace as requests come in. Here is such an example header</p>
+<pre><code>X-Dynatrace-Test: LTN=performance_build1;LSN=Test Scenario;TSN=homepage;
+</code></pre>
+<p>The JMeter test file we uploaded - <code>load.jmx</code> has already been adjusted so that it sends these HTTP Headers including information such as Test Step Name (TSN) for every of the 4 test steps it executes: homepage, version, api, invoke</p>
+<p>If we want to extend our SLIs with metrics such as &#34;Response Time for Invoke&#34;, &#34;Response Time for Homepage&#34; or &#34;Number of backend microservice calls for Invoke&#34; ... we need to do two things</p>
+<p>1: Create Request Attributes that tell Dynatrace to extract these HTTP Header values</p>
+<p>2: Create Calculated Service Metrics that will give us new metrics split by Test Name</p>
+<p>The following image shows how this all plays together:<br><img src="img/6a6f1c5cb70c63dc.png"></p>
+<p>Good news is that we can fully automate the configuration of Request Attributes and Calculated Service Metrics through the Dynatrace API. We have two scripts that does this for us. Please make sure you navigate into the <em>examples\simplenodeservice\dynatrace</em> folder. Here we execute the following scripts:</p>
+<pre><code>./createTestRequestAttributes.sh
+./createTestStepCalculatedMetrics.sh CONTEXTLESS keptn_project
+</code></pre>
+<p>The first script will create but not overwrite the Request Attribute rules for TSN (Test Step Name), LTN (Load Test Name) &amp; LSN (Load Script Name)<br>The second script will create but not overwrite the following Calculated Service Metrics:</p>
+<table>
+<tr></tr>
+<tr><td colspan="1" rowspan="1"><p>Test Step Response Time</p>
+</td><td colspan="1" rowspan="1"><p>calc:service.teststepresponsetime</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Test Step Service Calls</p>
+</td><td colspan="1" rowspan="1"><p>calc:service.teststepservicecalls</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Test Step DB Calls</p>
+</td><td colspan="1" rowspan="1"><p>calc:service.teststepdbcalls</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Test Step Failure Rate</p>
+</td><td colspan="1" rowspan="1"><p>calc:service.teststepfailurerate</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Test Requests by HTTP Status</p>
+</td><td colspan="1" rowspan="1"><p>calc:service.testrequestsbyhttpstatus</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Test Step CPU</p>
+</td><td colspan="1" rowspan="1"><p>calc:service.teststepcpu</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Test Step DB Calls</p>
+</td><td colspan="1" rowspan="1"><p>calc:service.teststepdbcalls</p>
+</td></tr>
+</table>
+<p>From now on - everytime Keptn executes these JMeter tests we will have new metrics available that provide a data dimension for each Test Step Name.</p>
+<p>This also allows us to extend our SLIs with these metric definitions. In our examples we therefore have a <code>sli_perftest.yaml</code> and also a <code>slo_perftest.yaml</code> that include these new metrics.<br>Make sure you navigate to the <em>examples\simplenodeservice\keptn</em> directory. Now:</p>
+<ol type="1">
+<li>First, lets upload our <code>dynatrace/sli_perftest.yaml</code> as <code>dynatrace/sli.yaml</code> for staging!</li>
+</ol>
+<p>We could upload these new sli files with the extended indicators to both staging and production. But - in order to show you that we can have different SLIs and SLOs in each stage we just upload it to staging.</p>
+<pre><code>keptn add-resource --project=simplenodeproject --stage=staging --service=simplenode --resource=dynatrace/sli_perftest.yaml --resourceUri=dynatrace/sli.yaml
+</code></pre>
+<p>Please explore the sli_perftest.yaml file yourself to see the new queries. For reference here are two of the queries that show you how the Dynatrace Metrics API allows us to query calculated service metrics for individual dimensions (e.g: Test Name):</p>
+<pre><code>  rt_test_version:         &#34;metricSelector=calc:service.teststepresponsetime:filter(eq(Test Step,version)):merge(0):avg&amp;entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)&#34;
+  rt_test_homepage:        &#34;metricSelector=calc:service.teststepresponsetime:filter(eq(Test Step,homepage)):merge(0):avg&amp;entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)&#34;
+</code></pre>
+<ol type="1">
+<li>Second, lets upload our <code>slo_perftest.yaml</code> as <code>slo.yaml</code></li>
+</ol>
+<p>Same as with the SLI. We just upload it to the staging as this file now defines objectives for the new indicators defined in the SLI.</p>
+<pre><code>keptn add-resource --project=simplenodeproject --stage=staging --service=simplenode --resource=slo_perftest.yaml --resourceUri=slo.yaml
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy build with extended Test Step Metrics Quality Gate" duration="5">
+        <p>Let&#39;s go back to build 1.0.0 and deploy it again. What we should see is that Keptn will query all these additional test step specific metrics for the quality gate evaluation in staging.</p>
+<ol type="1">
+<li>Lets deploy build number 1.0.0 again<pre><code>keptn send event new-artifact --project=simplenodeproject --service=simplenode --image=grabnerandi/simplenodeservice --tag=1.0.0
+</code></pre>
+</li>
+<li>Lets validate quality gate in bridge:</li>
+</ol>
+<p>What you should see are all these new SLIs showing up in the bridge!</p>
+<p class="image-container"><img src="img/b22a8f3c04d20312.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create Load Testing Dashboard" duration="2">
+        <p>While it is great that Keptn pulls in all these metrics automatically for us and evaluates them as part of the quality gate - some of us might still want to look at a dashboard - seeing all metrics in real-time while tests are running. Or maybe going back in time and explore the details of a test that ran in the past.<br>Dynatrace provides an automation API to create dashboards, allowing us to create a dashboard that shows all key metrics of our application in a single view.</p>
+<p>Make sure you navigate to the folder <em>examples\simplenodeservice\dynatrace</em>. Now execute this</p>
+<pre><code>$ ./createLoadTestingDashboard.sh
+</code></pre>
+<p>This script will create a new dashboard in Dynatrace called &#34;Keptn Performance as a Self-Service Insights Dashboard&#34;. Go to Dynatrace, click on Dashboards and open it up. It should look somewhat like this!</p>
+<p class="image-container"><img src="img/3a0201ea5f09b686.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Finish" duration="1">
+        <p>Thanks for taking a full tour through Keptn!<br>Although Keptn has even more to offer that should have given you a good overview what you can do with Keptn.</p>
+<h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
+<p>You should have been able to achieve exactly what is shown in the following animated gif!</p>
+<p class="image-container"><img src="img/1ccc17b34e2eddc0.gif"></p>
+<p>If you have more questions you can also watch a recording of an online workshop titled <a href="https://www.youtube.com/watch?v=ZuTr_enelM0" target="_blank">Setting up Event-based Progressive Delivery with Keptn on k8s</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Getting started with Keptn integrations" duration="3">
+        <p>Keptn can be easily extended with external tools such as notification tools, other <a href="https://keptn.sh/docs/0.7.x/quality_gates/sli/" target="_blank">SLI providers</a>, bots to interact with Keptn, etc.<br>While we do not cover additional integrations in this tutorial, please feel fee to take a look at our integration repositories:</p>
+<ul>
+<li><a href="https://github.com/keptn-contrib" target="_blank">Keptn Contrib</a> lists mature Keptn integrations that you can use for your Keptn installation</li>
+<li><a href="https://github.com/keptn-sandbox" target="_blank">Keptn Sandbox</a> collects mostly new integrations and those that are currently under development - however, you can also find useful integrations here.</li>
+</ul>
+<aside class="special"><p>We are happy to receive your contributions - please <a href="https://github.com/keptn-sandbox/contributing" target="_blank">follow this guide</a> if you want to contribute your own services to Keptn</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Feedback" duration="0">
+        <aside class="special"><p>We are happy to hear your feedback!</p>
+</aside>
+<p>Please visit us in our <a href="https://slack.keptn.sh" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
+<p>Also, make sure to <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

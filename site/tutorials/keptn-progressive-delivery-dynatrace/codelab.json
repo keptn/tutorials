@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-06-05T13:55:26+02:00",
+  "updated": "2020-07-30T15:06:56+02:00",
   "id": "keptn-progressive-delivery-dynatrace",
   "duration": 71,
   "title": "Progressive Delivery with Keptn using Dynatrace",
   "authors": "Andreas Grabner",
   "summary": "Progressive Delivery with Keptn using Dynatrace",
-  "source": "keptn-progressive-delivery-dynatrace_gen.md",
+  "source": "keptn-progressive-delivery-dynatrace-06_gen.md",
   "theme": "",
   "status": [
     "published"
