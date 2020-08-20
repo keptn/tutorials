@@ -11,8 +11,12 @@ After creating a project and service, you can setup Prometheus monitoring and co
     kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.5/deploy/service.yaml
     ```
 
-    <!-- bash wait_for_deployment_in_namespace "prometheus-service" "keptn" -->
-    <!-- bash wait_for_deployment_in_namespace "prometheus-service-monitoring-configure-distributor" "keptn" -->
+    <!-- 
+    bash wait_for_deployment_in_namespace "prometheus-service" "keptn" 
+    bash wait_for_deployment_in_namespace "prometheus-service-monitoring-configure-distributor" "keptn" 
+    sleep 10
+    -->
+    
 
 1. Execute the following command to set up the rules for the *Prometheus Alerting Manager*:
 
