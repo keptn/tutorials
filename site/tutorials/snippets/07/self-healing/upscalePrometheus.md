@@ -111,6 +111,8 @@ In this tutorial, the number of pods will be increased to remediate the issue of
 
 1. Check the executed remediation actions by executing:
 
+    <!-- bash wait_for_pod_number_in_deployment_in_namespace "carts-primary" "2" "sockshop-production" -->
+
     <!-- debug -->
     ```
     kubectl get deployments -n sockshop-production

@@ -241,11 +241,11 @@ ID of Keptn context: 6cd3e469-cbd3-4f73-xxxx-8b2fb341bb11
     
       <google-codelab-step label="Quality Gate evaluation with Keptn API" duration="5">
         <p>First, get the Keptn API endpoint and token by executing the following commands:</p>
-<pre><code>KEPTN_ENDPOINT=https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
+<pre><code>KEPTN_ENDPOINT=https://api.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath=&#39;{.data.app_domain}&#39;)
 
 # now print the endpoint and token to the local console
 echo $KEPTN_ENDPOINT
-echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
+echo $(kubectl get secret keptn-api-token -n keptn -ojsonpath=&#39;{.data.keptn-api-token}&#39; | base64 --decode)
 </code></pre>
 <p>Prepare the POST request body by filling out the next JSON object:</p>
 <pre><code>{
