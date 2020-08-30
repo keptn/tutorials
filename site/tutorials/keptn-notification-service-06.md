@@ -1,7 +1,7 @@
 summary: Create a Keptn Notification Service
 id: keptn-notification-service
 categories: keptn, integration
-tags: tutorial
+tags: tutorial, keptn06x
 status: Draft
 authors: Adam Gardner
 Feedback Link: https://keptn.sh
