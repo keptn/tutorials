@@ -41,7 +41,7 @@ What is K3s?
 Negative
 : Although the [k3s](https://k3s.io) installation is running smoothly, [keptn-on-k3s](https://github.com/keptn-sandbox/keptn-on-k3s) is currently a sandbox project. Therefore, keep following things in mind:
  * Currently, this is only working for the control plane (quality gates)
- * It is using the experimental [manifest installation](https://keptn.sh/docs/develop/operate/manifest_installation/)
+ * It is using the experimental [manifest installation](https://keptn.sh/docs/0.6.0/reference/manifest_installation/)
  * Upgrading via the keptn CLI is not supported
  * Do not use this in production (at the moment)
  
@@ -125,7 +125,7 @@ Additionally, you can install keptn-on-k3s with support for Dynatrace, Prometheu
 Negative
 : When installing `--with-dynatrace`, you have to specify the credentials used before executing the script. Therefore, DT_API_TOKEN (a Dynatrace API Token) and DT_TENANT (Dynatrace Tenant URL) have to be set as environment variable.
 
-{{ snippets/install/download-keptnCLI.md }}
+{{ snippets/06/install/download-keptnCLI.md }}
 
 ## Talking to the keptn
 After installation, you get the required information needed to communicate with the keptn API or to access the keptn's Bridge. Therefore, the following output is shown at the end of the installation (In this example, `-ip 127.0.0.1` has been used for the installation):

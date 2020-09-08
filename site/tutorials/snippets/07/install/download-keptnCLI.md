@@ -16,7 +16,7 @@ There are multiple options how to get the Keptn CLI on your machine.
     This will download and install the Keptn CLI automatically.
 
 -  Another option is to manually download the current release of the Keptn CLI:
-  1. Download the version for your operating system from [Download CLI](https://github.com/keptn/keptn/releases/tag/0.7.0)
+  1. Download the version for your operating system from [Download CLI](https://github.com/keptn/keptn/releases/tag/0.7.1)
   2. Unpack the download
   3. Find the `keptn` binary in the unpacked directory
     - *Linux / macOS*: Add executable permissions (``chmod +x keptn``), and move it to the desired destination (e.g. `mv keptn /usr/local/bin/keptn`)
