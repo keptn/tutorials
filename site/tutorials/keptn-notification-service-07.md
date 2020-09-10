@@ -1,12 +1,12 @@
 summary: Create a Keptn Notification Service
 id: keptn-notification-service
-categories: php,integration
-tags: keptn06x
-status: Draft
+categories: php, integration
+tags: keptn07x
+status: Published
 authors: Adam Gardner
-Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
+Feedback Link: https://keptn.sh
 
-# Create a Custom Notification Service
+# Create a Custom Keptn Notification Service
 
 ## Welcome
 Duration: 00:01:00
@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
       - name: distributor
-        image: keptn/distributor:0.6.1
+        image: keptn/distributor:0.6.2
         ports:
         - containerPort: 8080
         resources:
