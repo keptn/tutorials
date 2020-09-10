@@ -2,7 +2,7 @@ summary: Create a Keptn Notification Service
 id: keptn-notification-service
 categories: php,integration
 tags: keptn06x
-status: Draft
+status: Published
 authors: Adam Gardner
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
