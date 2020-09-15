@@ -17,10 +17,12 @@ Duration: 6:00
     Log in to your Dynatrace tenant and go to **Settings > Integration > Dynatrace API**. Then, create a new API token with the following permissions:
 
     - Access problem and event feed, metrics and topology
-    - Access logs
+    - Read log content
     - Read configuration
     - Write configuration
     - Capture request data
+    - Read metrics using API V2
+    - Read entities using API V2
 
     Take a look at this screenshot to double check the right token permissions for you.
 
