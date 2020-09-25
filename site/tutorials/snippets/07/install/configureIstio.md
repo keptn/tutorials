@@ -69,3 +69,5 @@ spec:
     hosts:
     - '*'
 ```
+
+Besides, the `helm-service` pod of Keptn is restarted to fetch this new configuration.
