@@ -125,7 +125,7 @@ For evaluating the SLOs, metrics from a monitoring tool are required. Currently,
 1. Install the Prometheus SLI provider in your cluster.
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.2/deploy/service.yaml
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.2.2/deploy/service.yaml
     ```
 
 1. Configure Prometheus as monitoring solution.
