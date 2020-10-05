@@ -15,36 +15,38 @@ Duration: 2:00
 In this tutorial you'll get a full tour on how to run Keptn on Code Ready Containers. 
 [Code Ready Containers](https://developers.redhat.com/products/codeready-containers/overview) gets you up and running with an OpenShift cluster on your local machine in minutes.
 
-## Prerequisites
+## Resources
 Duration: 5:00
 
-1. Download the resources for this tutorial.
-  ```
-  git clone --branch release-0.1.0 https://github.com/keptn-sandbox/openshift-crc-tutorial
+We have provided some helper scripts and files for you to make the tutorial more frictionless.
 
-  cd openshift-crc-tutorial/resources
-  ```
+Download the resources for this tutorial via git:
+```
+git clone --branch release-0.1.0 https://github.com/keptn-sandbox/openshift-crc-tutorial
 
+cd openshift-crc-tutorial/resources
+```
+
+
+## Get Code Ready Containers
+Duration: 10:00
 
 For running [Code Ready Containers](https://developers.redhat.com/products/codeready-containers/overview) a machine with at least 16 GB of RAM is recommended.
 
-1. Download CRC from this website: https://developers.redhat.com/products/codeready-containers/download
-
-1. Download CodeReady Containers in the current folder. There are versions available for Mac OS, Linux, and Windows. This tutorial has been tested on version TODO and the instructions here are for the Mac/Linux version.
+1. Download CRC from this website into the current folder that we have created inthe previous step: [https://developers.redhat.com/products/codeready-containers/download](https://developers.redhat.com/products/codeready-containers/download)
+There are versions available for Mac OS, Linux, and Windows. This tutorial has been tested on version TODO and the instructions here are for the Mac/Linux version.
 
 1. Copy your pull secret to the current folder in a file called `pull-secret.txt`.
 
 ## Install CodeReady Containers
 Duration: 10:00
 
-1. Define the CodeReady Container version and your operating system - please adjust those variables to fit your environment!
-
+1. Define the CodeReady Container version and your operating system - please adjust those variables to fit your environment! Execute these commands depending on your environment.
   ```
   export OS=macos
   export CRCVERSION=1.14.0
   ```
-
-  For Linus that might look like this.
+  For Linux that might look like this.
 
   ```
   export OS=linux
@@ -88,18 +90,23 @@ Duration: 10:00
 Negative
 : Depending on your machine, it might take a while (3-5 minutes) for CRC to ready and accept your login request. Please be patient. 
 
+### Other options to run CRC
+
 If you want to run it on a different environment than you local machine, check out these additional resources.
 
 Negative
 : Please note that the Keptn team is not the author of these resources. If you run into any issues please reach out to the original authors.
 
-- https://kxr.me/2019/08/17/openshift-4-upi-install-libvirt-kvm/
-- https://fedoramagazine.org/codeready-containers-complex-solutions-on-openshift-fedora/
+
+- [OpenShift 4 UPI Installation on Libvirt/KVM](https://kxr.me/2019/08/17/openshift-4-upi-install-libvirt-kvm/)
+- [CodeReady Containers: complex solutions on OpenShift + Fedora](https://fedoramagazine.org/codeready-containers-complex-solutions-on-openshift-fedora/)
 - If you want to run it on a VM in GCP, please make sure nested virtualization is enabled. [Follow this official guide](https://cloud.google.com/compute/docs/instances/enable-nested-virtualization-vm-instances) if not yet enabled.
 
 
 ## Install OpenShift service mesh
 Duration: 5:00
+
+Now we are going to install the OpenShift serivce mesh that is needed for our tutorial into the CRC cluster.
 
 The script that is provided will create the following resources:
 
@@ -114,11 +121,10 @@ The script that is provided will create the following resources:
 ```
 
 1. Verify that all pod in the `istio-namespace` are running (might take a while).
-
   ```
   oc get pods
   ```
-  Shoud give you a similar result:
+  You should see a similar result:
   ```
   NAME                                      READY   STATUS    RESTARTS   AGE
   grafana-6787dc695-b9srg                   2/2     Running   0          56s
@@ -136,7 +142,7 @@ The script that is provided will create the following resources:
 
 ## Install Keptn
 
-Let us know install Keptn on our local OpenShift cluster.
+Let us know install Keptn on our local OpenShift/CRC cluster.
 
 1. Download the Keptn CLI:
   ```
@@ -165,7 +171,50 @@ Let us know install Keptn on our local OpenShift cluster.
   keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
   ```
 
-## Deploy 
+1. Get the credentials for the bridge
 
+  ```
+  keptn configure bridge --output
+  ```
+
+  Now go ahead and open a browser to login. 
+
+{{ snippets/07/monitoring/setupDynatrace-crc.md }}
+
+
+## Configure Dynatrace with Keptn
+
+1. Checkout the examples repository that holds the scripts to get started easily.
+
+  ```
+  git clone --branch release-0.7.1 https://github.com/keptn/examples
+  ```
+
+1. 
+```
+oc -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=$DT_API_TOKEN" \
+      --from-literal="DT_TENANT=$DT_TENANT" \
+      --from-literal="KEPTN_API_URL=http://api-gateway-nginx-keptn.apps-crc.testing/api" \
+      --from-literal="KEPTN_API_TOKEN=$KEPTN_API_TOKEN" -o yaml --dry-run=client | oc apply -f -
+```
+
+```
+oc apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
+```
+
+```
+keptn configure monitoring dynatrace --suppress-websocket
+```
+
+{{ snippets/07/manage/createProject.md }}
+
+
+// TODO GET SERVICE URL AND GET BRIDGE URL
+
+{{ snippets/07/manage/onboardService.md }}
+
+{{ snippets/07/quality-gates/setupQualityGate.md }}
+
+{{ snippets/07/self-healing/featureFlagsDynatrace.md }}
 
 {{ snippets/07/community/feedback.md }}
