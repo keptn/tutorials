@@ -285,7 +285,7 @@ oneagent-g9m42                                 1/1     Running   0          69s
     
       <google-codelab-step label="Install Dynatrace integration" duration="5">
         <ol type="1">
-<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
+<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.10.0/deploy/service.yaml -n keptn
 </code></pre>
 </li>
 <li>When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.<pre><code>keptn configure monitoring dynatrace
@@ -500,7 +500,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
     
       <google-codelab-step label="Setup SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Dynatrace SLI provider is required that is implemented by an internal Keptn service, the dynatrace-sli-service. This service will fetch the values for the SLIs that are referenced in an SLO configuration.</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.5.0/deploy/service.yaml
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/release-0.7.0/deploy/service.yaml -n keptn
 </code></pre>
 <p>Next we are going to add an SLI configuration file for Keptn to know how to retrieve the data.<br>Please make sure you are in the correct folder that is <code>examples/onboarding-carts</code>. If not, please change the directory accordingly, e.g., with <code>cd ../../onboarding-carts/</code>. We are going to add it globally to the project for all services and stages we create.</p>
 <pre><code>keptn add-resource --project=sockshop --resource=sli-config-dynatrace.yaml --resourceUri=dynatrace/sli.yaml
@@ -728,7 +728,7 @@ curl --request POST \
 <li>In order for Keptn to be able to use the Unleash API, we need to add the credentials as a secret to our Keptn namespace. In this tutorial, we do not have to change the values for UNLEASH_SERVER, UNLEASH_USER, and UNLEASH_TOKEN, but in your own custom scenario this might be needed to change it to your actual Unleash URL, user and token.<br>As said, in this tutorial we can use the following command as it is:<pre><code>kubectl -n keptn create secret generic unleash --from-literal=&#34;UNLEASH_SERVER_URL=http://unleash.unleash-dev/api&#34; --from-literal=&#34;UNLEASH_USER=keptn&#34; --from-literal=&#34;UNLEASH_TOKEN=keptn&#34;
 </code></pre>
 </li>
-<li>Install the Unleash action provider which is responsible for acting upon an alert, thus it is the part that will actually resolve issues by changing the stage of the feature flags.<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.1.0/deploy/service.yaml
+<li>Install the Unleash action provider which is responsible for acting upon an alert, thus it is the part that will actually resolve issues by changing the stage of the feature flags.<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.2.0/deploy/service.yaml -n keptn
 </code></pre>
 </li>
 <li>Switch to the carts example (<code>cd examples/onboarding-carts</code>) and add the following remediation instructions<pre><code>apiVersion: spec.keptn.sh/0.1.4
