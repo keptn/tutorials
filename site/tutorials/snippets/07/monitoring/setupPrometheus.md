@@ -8,7 +8,7 @@ After creating a project and service, you can setup Prometheus monitoring and co
 
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.5/deploy/service.yaml
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.6/deploy/service.yaml
     ```
 
     <!-- 

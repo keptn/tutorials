@@ -7,7 +7,7 @@ During the evaluation of a quality gate, the Prometheus SLI provider is required
 To install the *prometheus-sli-service*, execute:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.2/deploy/service.yaml
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.3/deploy/service.yaml -n keptn
 ```
 
 
