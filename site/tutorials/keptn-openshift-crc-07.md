@@ -15,8 +15,15 @@ Duration: 2:00
 In this tutorial you'll get a full tour on how to run Keptn on Code Ready Containers. 
 [Code Ready Containers](https://developers.redhat.com/products/codeready-containers/overview) gets you up and running with an OpenShift cluster on your local machine in minutes.
 
-## Resources
+## Prerequisites & Resources
 Duration: 5:00
+
+Please note that a some prerequisites have to met to run through this tutorial.
+
+Locally installed tooling:
+- [Git CLI](https://git-scm.com/)
+- a recent version of [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+
 
 We have provided some helper scripts and files for you to make the tutorial more frictionless.
 
@@ -90,7 +97,7 @@ Duration: 10:00
 Negative
 : Depending on your machine, it might take a while (3-5 minutes) for CRC to ready and accept your login request. Please be patient. 
 
-### Other options to run CRC
+### Other options to run CodeReady Containers
 
 If you want to run it on a different environment than you local machine, check out these additional resources.
 
@@ -98,9 +105,9 @@ Negative
 : Please note that the Keptn team is not the author of these resources. If you run into any issues please reach out to the original authors.
 
 
-- [OpenShift 4 UPI Installation on Libvirt/KVM](https://kxr.me/2019/08/17/openshift-4-upi-install-libvirt-kvm/)
-- [CodeReady Containers: complex solutions on OpenShift + Fedora](https://fedoramagazine.org/codeready-containers-complex-solutions-on-openshift-fedora/)
-- If you want to run it on a VM in GCP, please make sure nested virtualization is enabled. [Follow this official guide](https://cloud.google.com/compute/docs/instances/enable-nested-virtualization-vm-instances) if not yet enabled.
+1. [OpenShift 4 UPI Installation on Libvirt/KVM](https://kxr.me/2019/08/17/openshift-4-upi-install-libvirt-kvm/)
+1. [CodeReady Containers: complex solutions on OpenShift + Fedora](https://fedoramagazine.org/codeready-containers-complex-solutions-on-openshift-fedora/)
+1. If you want to run it on a VM in GCP, please make sure nested virtualization is enabled. [Follow this official guide](https://cloud.google.com/compute/docs/instances/enable-nested-virtualization-vm-instances) if not yet enabled.
 
 
 ## Install OpenShift service mesh
@@ -111,7 +118,7 @@ Now we are going to install the OpenShift serivce mesh that is needed for our tu
 The script that is provided will create the following resources:
 
 - Install Kiali, Jaeger and Service Mesh Operators
--  Deploy the Service Mesh control plane in istio-system.
+- Deploy the Service Mesh control plane in istio-system.
 - Create the Service Mesh member roll.
 
 1. Execute the script:
@@ -190,7 +197,7 @@ Let us know install Keptn on our local OpenShift/CRC cluster.
   git clone --branch release-0.7.1 https://github.com/keptn/examples
   ```
 
-1. 
+1. Create a secret in your OpenShift cluster.
 ```
 oc -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=$DT_API_TOKEN" \
       --from-literal="DT_TENANT=$DT_TENANT" \
@@ -198,10 +205,12 @@ oc -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=$DT_API
       --from-literal="KEPTN_API_TOKEN=$KEPTN_API_TOKEN" -o yaml --dry-run=client | oc apply -f -
 ```
 
+1. Deploy the Dynatrace service.
 ```
 oc apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
 ```
 
+1. Configure Dynatrace with the Keptn CLI.
 ```
 keptn configure monitoring dynatrace --suppress-websocket
 ```

@@ -33,8 +33,14 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Resources" duration="5">
-        <p>We have provided some helper scripts and files for you to make the tutorial more frictionless.</p>
+      <google-codelab-step label="Prerequisites &amp; Resources" duration="5">
+        <p>Please note that a some prerequisites have to met to run through this tutorial.</p>
+<p>Locally installed tooling:</p>
+<ul>
+<li><a href="https://git-scm.com/" target="_blank">Git CLI</a></li>
+<li>a recent version of <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/" target="_blank">kubectl</a></li>
+</ul>
+<p>We have provided some helper scripts and files for you to make the tutorial more frictionless.</p>
 <p>Download the resources for this tutorial via git:</p>
 <pre><code>git clone --branch release-0.1.0 https://github.com/keptn-sandbox/openshift-crc-tutorial
 
@@ -88,13 +94,15 @@ eval $(crc oc-env)
 </ol>
 <aside class="warning"><p>Depending on your machine, it might take a while (3-5 minutes) for CRC to ready and accept your login request. Please be patient.</p>
 </aside>
-<h2 is-upgraded>Other options to run CRC</h2>
+<h2 is-upgraded>Other options to run CodeReady Containers</h2>
 <p>If you want to run it on a different environment than you local machine, check out these additional resources.</p>
 <aside class="warning"><p>Please note that the Keptn team is not the author of these resources. If you run into any issues please reach out to the original authors.</p>
 </aside>
-<p><a href="https://kxr.me/2019/08/17/openshift-4-upi-install-libvirt-kvm/" target="_blank">OpenShift 4 UPI Installation on Libvirt/KVM</a></p>
-<p><a href="https://fedoramagazine.org/codeready-containers-complex-solutions-on-openshift-fedora/" target="_blank">CodeReady Containers: complex solutions on OpenShift + Fedora</a></p>
-<p>If you want to run it on a VM in GCP, please make sure nested virtualization is enabled. <a href="https://cloud.google.com/compute/docs/instances/enable-nested-virtualization-vm-instances" target="_blank">Follow this official guide</a> if not yet enabled.</p>
+<ol type="1">
+<li><a href="https://kxr.me/2019/08/17/openshift-4-upi-install-libvirt-kvm/" target="_blank">OpenShift 4 UPI Installation on Libvirt/KVM</a></li>
+<li><a href="https://fedoramagazine.org/codeready-containers-complex-solutions-on-openshift-fedora/" target="_blank">CodeReady Containers: complex solutions on OpenShift + Fedora</a></li>
+<li>If you want to run it on a VM in GCP, please make sure nested virtualization is enabled. <a href="https://cloud.google.com/compute/docs/instances/enable-nested-virtualization-vm-instances" target="_blank">Follow this official guide</a> if not yet enabled.</li>
+</ol>
 
 
       </google-codelab-step>
@@ -297,14 +305,16 @@ oneagent-k7jn6                                 1/1     Running      0          8
 <li>Checkout the examples repository that holds the scripts to get started easily.<pre><code>git clone --branch release-0.7.1 https://github.com/keptn/examples
 </code></pre>
 </li>
-<li><pre><code>oc -n keptn create secret generic dynatrace --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34; \
+<li>Create a secret in your OpenShift cluster.<pre><code>oc -n keptn create secret generic dynatrace --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34; \
   --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; \
   --from-literal=&#34;KEPTN_API_URL=http://api-gateway-nginx-keptn.apps-crc.testing/api&#34; \
   --from-literal=&#34;KEPTN_API_TOKEN=$KEPTN_API_TOKEN&#34; -o yaml --dry-run=client | oc apply -f -
 </code></pre>
-<pre><code>oc apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
+</li>
+<li>Deploy the Dynatrace service.<pre><code>oc apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
 </code></pre>
-<pre><code>keptn configure monitoring dynatrace --suppress-websocket
+</li>
+<li>Configure Dynatrace with the Keptn CLI.<pre><code>keptn configure monitoring dynatrace --suppress-websocket
 </code></pre>
 </li>
 </ol>
