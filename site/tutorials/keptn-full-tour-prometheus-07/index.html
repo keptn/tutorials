@@ -50,9 +50,16 @@
 
       </google-codelab-step>
     
+      <google-codelab-step label="Prerequisites" duration="2">
+        
+
+      </google-codelab-step>
+    
       <google-codelab-step label="Bring your own Kubernetes cluster" duration="0">
         <p>Keptn can be installed on a variety of Kubernetes distributions. Please find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.7.x/operate/k8s_support/" target="_blank">here</a>.</p>
-<p>Please find tutorials <a href="../../?cat=installation" target="_blank">how to set up your cluster here</a>.</p>
+<aside class="special"><p>For the sizing of the Kubernetes cluster we recommend a cluster with at least 6vCPUs (recommended: 8vCPUs) and 30 GB of memory.<br>Detailed sizing recommendations for different platforms can be found in the respective <a href="../../?cat=installation" target="_blank">setup tutorials</a>.</p>
+</aside>
+<p>Please find tutorials <a href="../../?cat=installation" target="_blank">how to set up your cluster here</a>. For the best tutorial experience, please follow the sizing recommendations given in the tutorials.</p>
 <aside class="special"><p>Please note that if you are following one of the installation tutorials, only steps ①-③ are needed (setup of cluster) since we are going to install Keptn as part of this tutorial.</p>
 </aside>
 
@@ -86,7 +93,7 @@
 </code></pre>
 This will download and install the Keptn CLI automatically.</li>
 <li>Another option is to manually download the current release of the Keptn CLI:<ol type="1">
-<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.0" target="_blank">Download CLI</a></li>
+<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.1" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
 <li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
@@ -194,6 +201,7 @@ spec:
     hosts:
     - &#39;*&#39;
 </code></pre>
+<p>Besides, the <code>helm-service</code> pod of Keptn is restarted to fetch this new configuration.</p>
 
 
       </google-codelab-step>
@@ -412,7 +420,7 @@ indicators:
       </google-codelab-step>
     
       <google-codelab-step label="Set up the quality gate" duration="4">
-        <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/master/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
+        <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/master/service_level_objective.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
 <p>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_add-resource/" target="_blank">add-resource</a> command:</p>
 <p>Make sure you are in the correct folder <code>examples/onboarding-carts</code>. If not, change the directory accordingly, e.g., <code>cd ../../onboarding-carts</code>.</p>
 <pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
