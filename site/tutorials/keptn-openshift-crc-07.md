@@ -18,7 +18,7 @@ In this tutorial you'll get a full tour on how to run Keptn on Code Ready Contai
 ## Prerequisites & Resources
 Duration: 5:00
 
-Please note that a some prerequisites have to met to run through this tutorial.
+Please note that some prerequisites have to be met to run through this tutorial.
 
 Locally installed tooling:
 - [Git CLI](https://git-scm.com/)
@@ -81,21 +81,23 @@ Duration: 10:00
   Opening the OpenShift Web Console in the default browser...
   ```
 
-1. From the previous output, we still need to execute some commands. To access the cluster, first set up your environment by following 'crc oc-env' instructions.
+1. From the previous output, we still need to execute some commands. To access the cluster, first set up your environment by **following 'crc oc-env' instructions**.
 
   ```
   crc oc-env
-  eval $(crc oc-env)
   ```
 
-1. Login as an `admin` with the command that from the log output above. Please make sure to use the correct password that you see on your own screen.
+Negative
+: Following the instructions that are given from this command before proceeding.
+
+Now login as an `admin` with the command that from the log output above. Please make sure to *use the correct password that you see on your own screen*.
 
   ```
   oc login -u kubeadmin -p yourpassword https://api.crc.testing:6443
   ```
 
 Negative
-: Depending on your machine, it might take a while (3-5 minutes) for CRC to ready and accept your login request. Please be patient. 
+: Depending on your machine, it might take a while (3-5 minutes) for CRC to be ready and to accept your login request. Please be patient. 
 
 ### Other options to run CodeReady Containers
 
@@ -129,7 +131,7 @@ The script that is provided will create the following resources:
 
 1. Verify that all pod in the `istio-namespace` are running (might take a while).
   ```
-  oc get pods
+  oc get pods -n istio-system
   ```
   You should see a similar result:
   ```
@@ -161,7 +163,14 @@ Let us know install Keptn on our local OpenShift/CRC cluster.
   keptn install --use-case=continuous-delivery --platform=openshift
   ```
 
-1. TODO verify if new resource limits are required
+  Provide the needed values you will be asked during the installation.
+  ```
+  Openshift Server URL []: https://api.crc.testing:6443
+  Openshift User []: kubeadmin
+  Openshift Password []: *****
+  ```
+
+1. TODO verify if new resource limits are required https://github.com/marcredhat/crcdemos/blob/master/keptn/deploykeptn.sh#L14 
 
 1. Expose the API endpoint of Keptn to be able to connect to it.
 
@@ -194,7 +203,7 @@ Let us know install Keptn on our local OpenShift/CRC cluster.
 1. Checkout the examples repository that holds the scripts to get started easily.
 
   ```
-  git clone --branch release-0.7.1 https://github.com/keptn/examples
+  git clone --branch release-0.7.2 https://github.com/keptn/examples
   ```
 
 1. Create a secret in your OpenShift cluster.
@@ -207,7 +216,7 @@ oc -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=$DT_API
 
 1. Deploy the Dynatrace service.
 ```
-oc apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
+oc apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.9.0/deploy/service.yaml
 ```
 
 1. Configure Dynatrace with the Keptn CLI.
