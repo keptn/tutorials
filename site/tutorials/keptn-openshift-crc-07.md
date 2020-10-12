@@ -158,11 +158,9 @@ Let us know install Keptn on our local OpenShift/CRC cluster.
   curl -sL https://get.keptn.sh | sudo -E bash
   ```
 1. Install Keptn into the cluster via the CLI:
-
   ```
   keptn install --use-case=continuous-delivery --platform=openshift
   ```
-
   Provide the needed values you will be asked during the installation.
   ```
   Openshift Server URL []: https://api.crc.testing:6443
