@@ -172,9 +172,9 @@ Let us know install Keptn on our local OpenShift/CRC cluster.
 1. TODO verify if new resource limits are required https://github.com/marcredhat/crcdemos/blob/master/keptn/deploykeptn.sh#L14 
 
 1. Set your local `oc` CLI to to the right project.
-```
-oc project keptn
-```
+  ```
+  oc project keptn
+  ```
 
 1. Expose the API endpoint of Keptn to be able to connect to it.
 
