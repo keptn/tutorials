@@ -48,16 +48,16 @@ There are versions available for Mac OS, Linux, and Windows. This tutorial has b
 ## Install CodeReady Containers
 Duration: 10:00
 
-1. Define the CodeReady Container version and your operating system - please adjust those variables to fit your environment! Execute these commands depending on your environment.
+1. Define the CodeReady Container version and your operating system - please adjust those variables to fit your environment! Execute these commands depending on your environment. Please note that the `CRCVERSION` might slightly change - we try to keep the tutorial up-to-date but it might run a bit behind. (Pro-tip: you can always [raise a PR](https://github.com/keptn/tutorials) to help us keep our tutorials up-to-date.)
   ```
   export OS=macos
-  export CRCVERSION=1.14.0
+  export CRCVERSION=1.17.0
   ```
   For Linux that might look like this.
 
   ```
   export OS=linux
-  export CRCVERSION=1.14.0
+  export CRCVERSION=1.17.0
   ```
 
 1. Edit `crc.sh` if you want to configure the memory and CPU cores available to CodeReady Containers.
@@ -66,6 +66,7 @@ Duration: 10:00
   ```
   ./crc.sh
   ```
+  **Please note the setup might take a couple of minutes!**
 
 1. Once finished, the script will provide you with some output:
 
@@ -88,9 +89,9 @@ Duration: 10:00
   ```
 
 Negative
-: Following the instructions that are given from this command before proceeding.
+: Please follow the instructions that are given from the `crc oc-env` command before proceeding.
 
-Now login as an `admin` with the command that from the log output above. Please make sure to *use the correct password that you see on your own screen*.
+Next, login as an `admin` with the command that from the log output above. Please make sure to *use the correct password that you see on your own screen*.
 
   ```
   oc login -u kubeadmin -p yourpassword https://api.crc.testing:6443
@@ -170,6 +171,11 @@ Let us know install Keptn on our local OpenShift/CRC cluster.
 
 1. TODO verify if new resource limits are required https://github.com/marcredhat/crcdemos/blob/master/keptn/deploykeptn.sh#L14 
 
+1. Set your local `oc` CLI to to the right project.
+```
+oc project keptn
+```
+
 1. Expose the API endpoint of Keptn to be able to connect to it.
 
   ```
@@ -191,41 +197,11 @@ Let us know install Keptn on our local OpenShift/CRC cluster.
   keptn configure bridge --output
   ```
 
-  Now go ahead and open a browser to login. 
+1. Now go ahead and open a browser to login under the following URL:  [http://api-gateway-nginx-keptn.apps-crc.testing/bridge](http://api-gateway-nginx-keptn.apps-crc.testing/bridge)
 
 {{ snippets/07/monitoring/setupDynatrace-crc.md }}
 
-
-## Configure Dynatrace with Keptn
-
-1. Checkout the examples repository that holds the scripts to get started easily.
-
-  ```
-  git clone --branch release-0.7.2 https://github.com/keptn/examples
-  ```
-
-1. Create a secret in your OpenShift cluster.
-```
-oc -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=$DT_API_TOKEN" \
-      --from-literal="DT_TENANT=$DT_TENANT" \
-      --from-literal="KEPTN_API_URL=http://api-gateway-nginx-keptn.apps-crc.testing/api" \
-      --from-literal="KEPTN_API_TOKEN=$KEPTN_API_TOKEN" -o yaml --dry-run=client | oc apply -f -
-```
-
-1. Deploy the Dynatrace service.
-```
-oc apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.9.0/deploy/service.yaml
-```
-
-1. Configure Dynatrace with the Keptn CLI.
-```
-keptn configure monitoring dynatrace --suppress-websocket
-```
-
-{{ snippets/07/manage/createProject.md }}
-
-
-// TODO GET SERVICE URL AND GET BRIDGE URL
+{{ snippets/07/manage/createProject-crc.md }}
 
 {{ snippets/07/manage/onboardService.md }}
 

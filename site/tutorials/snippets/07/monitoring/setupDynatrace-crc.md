@@ -107,14 +107,14 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.10.0/deploy/service.yaml
     ```
 
 1. When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.
 
     <!-- command -->
     ```
-    keptn configure monitoring dynatrace
+    keptn configure monitoring dynatrace --suppress-websocket
     ```
 
     Output should be similar to this:
@@ -152,35 +152,7 @@ Since Keptn has configured your Dynatrace tenant, let us take a look what has be
 
 - *Dashboard and Mangement zone:* When creating a new Keptn project or executing the [keptn configure monitoring](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_configure_monitoring/) command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.
 
-
-Negative
-: If the nodes in your cluster run on *Container-Optimized OS (cos)* (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary. 
-
-Follow the next steps only if your Dynatrace OneAgent does not work properly.
-
-<!-- bash kubectl get pods -n dynatrace -->
-
-1. To check if the OneAgent does not work properly, the output of `kubectl get pods -n dynatrace` might look as follows:
-
-  ```
-  NAME                                           READY   STATUS             RESTARTS   AGE
-  dynatrace-oneagent-operator-7f477bf78d-dgwb6   1/1     Running            0          8m21s
-  oneagent-b22m4                                 0/1     Error              6          8m15s
-  oneagent-k7jn6                                 0/1     CrashLoopBackOff   6          8m15s
-  ```
-
-1. This means that after the initial setup you need to edit the OneAgent custom resource in the Dynatrace namespace and add the following entry to the env section:
-
-        env:
-        - name: ONEAGENT_ENABLE_VOLUME_STORAGE
-          value: "true"
-
-1. To edit the OneAgent custom resource: 
-
-    ```
-    kubectl edit oneagent -n dynatrace
-    ```
-
+### Verify installation
 
 At the end of your installation, please verify that all Dynatrace resources are in a Ready and Running status by executing `kubectl get pods -n dynatrace`:
 

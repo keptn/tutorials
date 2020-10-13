@@ -86,12 +86,8 @@ Therefore, we need the credentials that have been automatically generated for us
 keptn configure bridge --output
 ```
 
-Now use these credentials to access it on your Keptn's Bridge.
+Now use these credentials to access it on your [Keptn's Bridge](echo http://api-gateway-nginx-keptn.apps-crc.testing/bridge).
 
-<!-- command -->
-```
-echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge
-```
 
 You will find the just created project in the bridge with all stages.
 ![bridge](./assets/bridge-new.png)
