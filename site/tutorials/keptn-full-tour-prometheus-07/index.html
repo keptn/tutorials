@@ -381,7 +381,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
       <google-codelab-step label="Setup Prometheus Monitoring" duration="3">
         <p>After creating a project and service, you can setup Prometheus monitoring and configure scrape jobs using the Keptn CLI.</p>
 <ol type="1">
-<li>To install the <em>prometheus-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.5/deploy/service.yaml
+<li>To install the <em>prometheus-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.3.6/deploy/service.yaml
 </code></pre>
 </li>
 <li>Execute the following command to set up the rules for the <em>Prometheus Alerting Manager</em>:<pre><code>keptn configure monitoring prometheus --project=sockshop --service=carts
@@ -402,7 +402,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
       <google-codelab-step label="Setup Prometheus SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the <em>prometheus-sli-service</em>. This service will <em>fetch the values</em> for the SLIs that are referenced in an SLO configuration file.</p>
 <p>To install the <em>prometheus-sli-service</em>, execute:</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/0.2.2/deploy/service.yaml
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.2.3/deploy/service.yaml -n keptn
 </code></pre>
 <p>We are going to add the configuration for our SLIs in terms of an SLI file that maps the <em>name</em> of an indicator to a PromQL statement how to actually query it. Please make sure you are in the correct folder <code>examples/onboarding-carts</code>.</p>
 <pre><code>keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-prometheus-selfhealing.yaml --resourceUri=prometheus/sli.yaml 
