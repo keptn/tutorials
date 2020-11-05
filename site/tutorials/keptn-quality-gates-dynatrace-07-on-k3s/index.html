@@ -1,0 +1,86 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Keptn Quality Gates with Dynatrace in 5 Minutes using k3s</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-133584243-1"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="keptn-quality-gates-dynatrace-07-on-k3s"
+                  title="Keptn Quality Gates with Dynatrace in 5 Minutes using k3s"
+                  environment="web"
+                  feedback-link="https://github.com/keptn/tutorials/tree/master/site/tutorials">
+    
+      <google-codelab-step label="Welcome" duration="2">
+        <p>If you have tools that deploy your applications and then run tests against those you have done the hard work already. <em>Keptn&#39;s Quality Gates</em> help you to automate the evaluation of your test results and the monitoring data captured during your tests. Keptn does this by embracing the concept of Service Level Indicators (SLIs) and Service Level Objectives (SLOs). Essentially SLIs are metrics such as Response Time, Throughput, Error Rate, Number of Database Calls, Time spent in external service calls, ... and SLOs define which objective you have for these SLIs to consider your service to be adhering to what you expect, e.g: Response Time of Login should be faster than 200ms or Login should not make more than 1 database query.<br>Keptn didn&#39;t come up with these concepts. They have been around for a while and made very popular thanks to the work that Google did around <a href="https://landing.google.com/sre/sre-book/chapters/service-level-objectives" target="_blank">Site Reliability Engineering</a></p>
+<p>In this tutorial we teach you how you can use Keptn Quality Gates to automatically analyze important metrics (SLIs) that Dynatrace captures while your system is under load, e.g: during a load test and compare them against your expected behavior (SLOs). This comparison can either be against well defined thresholds, e.g: 200ms response time but can also be a comparison against previous test results, e.g: response time should not get slower than 10% of our previous build.</p>
+<p>The real benefit is visulized in the following animation. Keptn Quality Gates help you automate the manual task of analyzing or comparing data on dashboards to determine whether a build meets your quality criteria.</p>
+<p class="image-container"><img src="img/7c651a5eb1b5f93a.gif"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="GitHub Tutorial for Quality Gates" duration="5">
+        <p>We have initially created this tutorial on the <a href="https://github.com/keptn-sandbox/keptn-on-k3s/blob/master/README-KeptnForDynatrace.md" target="_blank">Keptn Quality Gates for Dynatrace User in 5 Minutes</a> GitHub page. We will merge it over to this tutorial format. As for now - please walk over and follow the steps as described <a href="https://github.com/keptn-sandbox/keptn-on-k3s/blob/master/README-KeptnForDynatrace.md" target="_blank">here</a></p>
+<p>Once you install Keptn based on the installation instructions you will automatically get a pre-configured quality gate project connected to your Dynatrace Environment which is ready to run quality gates:<br><img src="img/baf8012571e7d2a2.png"></p>
+<p>This tutorial already uses the new Dynatrace SLO Dashboard capabilities which pull data from a dashboard that looks like this:<br><img src="img/54e0a809a6ae2604.png"></p>
+<p>To summarize - here is why you should run the <a href="https://github.com/keptn-sandbox/keptn-on-k3s/blob/master/README-KeptnForDynatrace.md" target="_blank">GitHub tutorial</a>:</p>
+<ul>
+<li>You only need a Linux machine with 4GB RAM &amp; 1vCPU to setup keptn</li>
+<li>You can explore to the Dynatrace SLO dashboard capability of Keptn</li>
+<li>You can immediately run your quality after the installation completes</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Finish" duration="0">
+        <p>In this tutorial, you have learned how to use Keptn to validate the quality of your deployments by evaluating a set of SLIs (Service Level Indicators) against your SLOs (Service Level Objectives) for a specified timeframe! The overall goal is to use this capability to automate the manual evaluation of metrics through dashboards.</p>
+<p>As you have now learned how to setup Keptn for pulling metrics out of Dynatrace the next step is that you do this with metrics that are important for your services, applications, processes and hosts. Think about how you can convert your Dynatrace dashboards into SLIs and SLOs and then have Keptn automate the analysis for you:</p>
+<p class="image-container"><img src="img/7c651a5eb1b5f93a.gif"></p>
+<h2 class="checklist" is-upgraded>What we&#39;ve covered</h2>
+<ul class="checklist">
+<li>Install Keptn and setup a Keptn Project for Quality Gate evaluation</li>
+<li>Prepare Dynatrace to act as a data source for Quality Gate evaluation</li>
+<li>Learn how to define and use service-level indicators (SLIs) and service-level objectives (SLOs)</li>
+<li>How to trigger a Keptn Quality Gate evaluation using the CLI and the API</li>
+<li>How to use the Keptns Bridge to inspect your Quality Gate Results</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Feedback" duration="0">
+        <aside class="special"><p>We are happy to hear your feedback!</p>
+</aside>
+<p>Please visit us in our <a href="https://slack.keptn.sh" target="_blank">Keptn Slack</a> and tell us how you like Keptn and this tutorial! We are happy to hear your thoughts &amp; suggestions!</p>
+<p>Also, make sure to <a href="https://twitter.com/keptnProject" target="_blank">follow us on Twitter</a> to get the latest news on Keptn, our tutorials and newest releases!</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
