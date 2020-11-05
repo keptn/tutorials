@@ -1,16 +1,16 @@
 summary: Keptn Quality Gates with Dynatrace
-id: keptn-quality-gates-dynatrace-07
-categories: Dynatrace,aks,eks,openshift,pks,minikube,gke,quality-gates
+id: keptn-quality-gates-dynatrace-07-on-k3s
+categories: Dynatrace,k3s,quality-gates
 tags: keptn07x
 status: Published
 authors: Andreas Grabner
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
-# Keptn Quality Gates with Dynatrace
+# Keptn Quality Gates with Dynatrace in 5 Minutes using k3s
 
 ## Welcome
-Duration: 5:00
+Duration: 2:00
 
 If you have tools that deploy your applications and then run tests against those you have done the hard work already. *Keptn's Quality Gates* help you to automate the evaluation of your test results and the monitoring data captured during your tests. Keptn does this by embracing the concept of Service Level Indicators (SLIs) and Service Level Objectives (SLOs). Essentially SLIs are metrics such as Response Time, Throughput, Error Rate, Number of Database Calls, Time spent in external service calls, ... and SLOs define which objective you have for these SLIs to consider your service to be adhering to what you expect, e.g: Response Time of Login should be faster than 200ms or Login should not make more than 1 database query.
 Keptn didn't come up with these concepts. They have been around for a while and made very popular thanks to the work that Google did around [Site Reliability Engineering](https://landing.google.com/sre/sre-book/chapters/service-level-objectives)
@@ -21,20 +21,10 @@ The real benefit is visulized in the following animation. Keptn Quality Gates he
 
 ![](./assets/dynatrace_qualitygates/dynatrace_keptn_sli_automation.gif)
 
-This tutorial will use a simple node.js based containerized sample application which you will deploy 
+## GitHub Tutorial for Quality Gates
+Duration: 5:00
 
-### What you'll learn
-
-- Install Keptn and setup a Keptn Project for Quality Gate evaluation
-- Prepare Dynatrace to act as a data source for Quality Gate evaluation
-- Learn how to define and use service-level indicators (SLIs) and service-level objectives (SLOs)
-- How to trigger a Keptn Quality Gate evaluation using the CLI and the API
-- How to use the Keptns Bridge to inspect your Quality Gate Results
-
-## Keptn Quality Gates for Dynatrace Users in 5 Minutes
-
-We have invested in a new easier way to test and explore Keptn Quality Gates and are in progress of updating this tutorial accordingly.
-If you want to give the new [Keptn Quality Gates for Dynatrace User in 5 Minutes](https://github.com/keptn-sandbox/keptn-on-k3s/blob/master/README-KeptnForDynatrace.md) it a try please continue [here](https://github.com/keptn-sandbox/keptn-on-k3s/blob/master/README-KeptnForDynatrace.md). Its a full tutorial that lives on GitHub in the moment. We will move it over to this tutorial page - but - as of today - feel free to simply follow the steps over on the GitHub page.
+We have initially created this tutorial on the [Keptn Quality Gates for Dynatrace User in 5 Minutes](https://github.com/keptn-sandbox/keptn-on-k3s/blob/master/README-KeptnForDynatrace.md) GitHub page. We will merge it over to this tutorial format. As for now - please walk over and follow the steps as described [here](https://github.com/keptn-sandbox/keptn-on-k3s/blob/master/README-KeptnForDynatrace.md)
 
 Once you install Keptn based on the installation instructions you will automatically get a pre-configured quality gate project connected to your Dynatrace Environment which is ready to run quality gates:
 ![](./assets/dynatrace_qualitygates/keptn_on_k3s_qualitygate_bridge.png)
@@ -46,47 +36,6 @@ To summarize - here is why you should run the [GitHub tutorial](https://github.c
 * You only need a Linux machine with 4GB RAM & 1vCPU to setup keptn
 * You can explore to the Dynatrace SLO dashboard capability of Keptn
 * You can immediately run your quality after the installation completes
-
-If you want to continue with the existing tutorial feel free to do so. Then just continue with the next steps!
-
-## Prerequisites Keptn
-Duration: 5:00
-
-Before you can get started, please make sure to have Keptn installed on your Kubernetes cluster.
-
-If not, please [follow one of these tutorials to install Keptn](../../?cat=installation) on your favourite Kubernetes distribution. You can either do a full Keptn installation or can opt in to only install the execution plane for quality-gates by adding --use-case=quality-gates to keptn install. Both installation options will work for our tutorial.
-
-What you need in order to complete this tutorial is
-1: keptn status needs to successfully connect to your keptn instance
-2: kubectl needs to be configured to connect to your k8s cluster
-3: you have access to the Keptns Bridge. If you have not yet exposed it please do so as described in [Expose Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/#expose-lockdown-bridge)
-
-## Prerequisites Dynatrace & Sample application
-Duration: 5:00
-
-This tutorial assumes that you have an application that is already deployed and monitored with Dynatrace. It should also be an application that has some load on it in order for Keptn to pull metrics for the SLI/SLO-based Quality Gate evaluation.
-If you do not have an application that is under load follow the next tutorial step. Otherwise you can skip it:
-
-<!-- include other files -->
-
-{{ snippets/07/simplenode/monitorDeployLoadSimplenode.md }}
-
-{{ snippets/07/monitoring/setupDynatrace.md }}
-
-{{ snippets/07/manage/simplenode/createProjectQualityStageOnly.md }}
-
-{{ snippets/07/manage/simplenode/createServiceQualityStageOnly.md }}
-
-{{ snippets/07/monitoring/simplenode/setupDynatraceSLIProviderQualityStageOnly.md }}
-
-{{ snippets/07/quality-gate-only/tagEvalservice.md }}
-
-{{ snippets/07/quality-gate-only/simplenode/setupBasicQualityGate.md }}
-
-{{ snippets/07/quality-gate-only/simplenode/executeQualityGateThroughCLI.md }}
-
-{{ snippets/07/quality-gate-only/simplenode/executeQualityGateThroughAPI.md }}
-
 
 ## Finish
 Duration: 0:00

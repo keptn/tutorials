@@ -45,6 +45,21 @@
 
       </google-codelab-step>
     
+      <google-codelab-step label="Keptn Quality Gates for Dynatrace Users in 5 Minutes" duration="0">
+        <p>We have invested in a new easier way to test and explore Keptn Quality Gates and are in progress of updating this tutorial accordingly.<br>If you want to give the new <a href="https://github.com/keptn-sandbox/keptn-on-k3s/blob/master/README-KeptnForDynatrace.md" target="_blank">Keptn Quality Gates for Dynatrace User in 5 Minutes</a> it a try please continue <a href="https://github.com/keptn-sandbox/keptn-on-k3s/blob/master/README-KeptnForDynatrace.md" target="_blank">here</a>. Its a full tutorial that lives on GitHub in the moment. We will move it over to this tutorial page - but - as of today - feel free to simply follow the steps over on the GitHub page.</p>
+<p>Once you install Keptn based on the installation instructions you will automatically get a pre-configured quality gate project connected to your Dynatrace Environment which is ready to run quality gates:<br><img src="img/baf8012571e7d2a2.png"></p>
+<p>This tutorial already uses the new Dynatrace SLO Dashboard capabilities which pull data from a dashboard that looks like this:<br><img src="img/54e0a809a6ae2604.png"></p>
+<p>To summarize - here is why you should run the <a href="https://github.com/keptn-sandbox/keptn-on-k3s/blob/master/README-KeptnForDynatrace.md" target="_blank">GitHub tutorial</a>:</p>
+<ul>
+<li>You only need a Linux machine with 4GB RAM &amp; 1vCPU to setup keptn</li>
+<li>You can explore to the Dynatrace SLO dashboard capability of Keptn</li>
+<li>You can immediately run your quality after the installation completes</li>
+</ul>
+<p>If you want to continue with the existing tutorial feel free to do so. Then just continue with the next steps!</p>
+
+
+      </google-codelab-step>
+    
       <google-codelab-step label="Prerequisites Keptn" duration="5">
         <p>Before you can get started, please make sure to have Keptn installed on your Kubernetes cluster.</p>
 <p>If not, please <a href="../../?cat=installation" target="_blank">follow one of these tutorials to install Keptn</a> on your favourite Kubernetes distribution. You can either do a full Keptn installation or can opt in to only install the execution plane for quality-gates by adding –use-case=quality-gates to keptn install. Both installation options will work for our tutorial.</p>
@@ -92,13 +107,16 @@
       <google-codelab-step label="Gather Dynatrace tokens" duration="6">
         <ol type="1">
 <li>Create a Dynatrace API TokenLog in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
-<li>Access problem and event feed, metrics and topology</li>
-<li>Access logs</li>
+<li>Access problem and event feed, metrics, and topology</li>
+<li>Read log content</li>
 <li>Read configuration</li>
 <li>Write configuration</li>
 <li>Capture request data</li>
+<li>Read metrics</li>
+<li>Ingest metrics</li>
+<li>Read entities</li>
 </ul>
-Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/52347510b2b53317.png"></li>
+Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/5052ffbd6ab534f1.png"></li>
 <li>Create a Dynatrace PaaS TokenIn your Dynatrace tenant, go to <strong>Settings &gt; Integration &gt; Platform as a Service</strong>, and create a new PaaS Token.</li>
 <li>Store your credentials in a Kubernetes secret by executing the following command. The <code>DT_TENANT</code> has to be set according to the appropriate pattern:<ul>
 <li>Dynatrace SaaS tenant (this format is most likely for you): <code>{your-environment-id}.live.dynatrace.com</code></li>
@@ -144,7 +162,7 @@ oneagent-g9m42                                 1/1     Running   0          69s
     
       <google-codelab-step label="Install Dynatrace integration" duration="5">
         <ol type="1">
-<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
+<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.10.0/deploy/service.yaml -n keptn
 </code></pre>
 </li>
 <li>When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.<pre><code>keptn configure monitoring dynatrace
@@ -240,7 +258,7 @@ cd examples/simplenodeservicequality-gate-only
     
       <google-codelab-step label="Setup SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Dynatrace SLI provider is required that is implemented by an internal Keptn service, the dynatrace-sli-service. This service will fetch the values for the SLIs that are referenced in an SLO configuration.</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.5.0/deploy/service.yaml
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/release-0.7.0/deploy/service.yaml -n keptn
 </code></pre>
 <p>Configure the already onboarded project with the new SLI provider:</p>
 <pre><code>keptn configure monitoring dynatrace --project=qgproject
