@@ -50,11 +50,6 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Prerequisites" duration="2">
-        
-
-      </google-codelab-step>
-    
       <google-codelab-step label="Bring your own Kubernetes cluster" duration="0">
         <p>Keptn can be installed on a variety of Kubernetes distributions. Please find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.7.x/operate/k8s_support/" target="_blank">here</a>.</p>
 <aside class="special"><p>For the sizing of the Kubernetes cluster we recommend a cluster with at least 6vCPUs (recommended: 8vCPUs) and 30 GB of memory.<br>Detailed sizing recommendations for different platforms can be found in the respective <a href="../../?cat=installation" target="_blank">setup tutorials</a>.</p>
@@ -201,7 +196,6 @@ spec:
     hosts:
     - &#39;*&#39;
 </code></pre>
-<p>Besides, the <code>helm-service</code> pod of Keptn is restarted to fetch this new configuration.</p>
 
 
       </google-codelab-step>
@@ -231,7 +225,7 @@ Successfully authenticated
       <google-codelab-step label="Create your first project" duration="5">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
 <p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
-<pre><code>git clone --branch release-0.7.0 https://github.com/keptn/examples.git --single-branch
+<pre><code>git clone --branch release-0.7.2 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 </code></pre>
@@ -402,7 +396,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
       <google-codelab-step label="Setup Prometheus SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the <em>prometheus-sli-service</em>. This service will <em>fetch the values</em> for the SLIs that are referenced in an SLO configuration file.</p>
 <p>To install the <em>prometheus-sli-service</em>, execute:</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.2.3/deploy/service.yaml -n keptn
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.2.2/deploy/service.yaml
 </code></pre>
 <p>We are going to add the configuration for our SLIs in terms of an SLI file that maps the <em>name</em> of an indicator to a PromQL statement how to actually query it. Please make sure you are in the correct folder <code>examples/onboarding-carts</code>.</p>
 <pre><code>keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-prometheus-selfhealing.yaml --resourceUri=prometheus/sli.yaml 

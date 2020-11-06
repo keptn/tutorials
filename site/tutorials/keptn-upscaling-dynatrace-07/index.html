@@ -44,7 +44,9 @@
     
       <google-codelab-step label="Bring your own Kubernetes cluster" duration="0">
         <p>Keptn can be installed on a variety of Kubernetes distributions. Please find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.7.x/operate/k8s_support/" target="_blank">here</a>.</p>
-<p>Please find tutorials <a href="../../?cat=installation" target="_blank">how to set up your cluster here</a>.</p>
+<aside class="special"><p>For the sizing of the Kubernetes cluster we recommend a cluster with at least 6vCPUs (recommended: 8vCPUs) and 30 GB of memory.<br>Detailed sizing recommendations for different platforms can be found in the respective <a href="../../?cat=installation" target="_blank">setup tutorials</a>.</p>
+</aside>
+<p>Please find tutorials <a href="../../?cat=installation" target="_blank">how to set up your cluster here</a>. For the best tutorial experience, please follow the sizing recommendations given in the tutorials.</p>
 <aside class="special"><p>Please note that if you are following one of the installation tutorials, only steps ①-③ are needed (setup of cluster) since we are going to install Keptn as part of this tutorial.</p>
 </aside>
 
@@ -78,7 +80,7 @@
 </code></pre>
 This will download and install the Keptn CLI automatically.</li>
 <li>Another option is to manually download the current release of the Keptn CLI:<ol type="1">
-<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.0" target="_blank">Download CLI</a></li>
+<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.1" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
 <li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
@@ -224,13 +226,16 @@ Successfully authenticated
       <google-codelab-step label="Gather Dynatrace tokens" duration="6">
         <ol type="1">
 <li>Create a Dynatrace API TokenLog in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
-<li>Access problem and event feed, metrics and topology</li>
-<li>Access logs</li>
+<li>Access problem and event feed, metrics, and topology</li>
+<li>Read log content</li>
 <li>Read configuration</li>
 <li>Write configuration</li>
 <li>Capture request data</li>
+<li>Read metrics</li>
+<li>Ingest metrics</li>
+<li>Read entities</li>
 </ul>
-Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/52347510b2b53317.png"></li>
+Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/5052ffbd6ab534f1.png"></li>
 <li>Create a Dynatrace PaaS TokenIn your Dynatrace tenant, go to <strong>Settings &gt; Integration &gt; Platform as a Service</strong>, and create a new PaaS Token.</li>
 <li>Store your credentials in a Kubernetes secret by executing the following command. The <code>DT_TENANT</code> has to be set according to the appropriate pattern:<ul>
 <li>Dynatrace SaaS tenant (this format is most likely for you): <code>{your-environment-id}.live.dynatrace.com</code></li>
@@ -276,7 +281,7 @@ oneagent-g9m42                                 1/1     Running   0          69s
     
       <google-codelab-step label="Install Dynatrace integration" duration="5">
         <ol type="1">
-<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
+<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.10.0/deploy/service.yaml -n keptn
 </code></pre>
 </li>
 <li>When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.<pre><code>keptn configure monitoring dynatrace
@@ -342,7 +347,7 @@ oneagent-k7jn6                                 1/1     Running      0          8
       <google-codelab-step label="Create your first project" duration="5">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
 <p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
-<pre><code>git clone --branch release-0.7.0 https://github.com/keptn/examples.git --single-branch
+<pre><code>git clone --branch release-0.7.2 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 </code></pre>
