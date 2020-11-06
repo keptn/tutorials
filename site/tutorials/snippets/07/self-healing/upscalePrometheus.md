@@ -8,6 +8,12 @@ Next, you will learn how to use the capabilities of Keptn to provide self-healin
 Negative
 : First, make sure you are in the correct folder `examples/onboarding-carts` otherwise the next commands will fail.
 
+For this usecase, we have prepared another version of the SLI file. Add it with the following command:
+<!-- command -->
+```
+keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-prometheus-selfhealing.yaml --resourceUri=prometheus/sli.yaml 
+```
+
 Add the prepared SLO file for self-healing to the production stage using the Keptn CLIs add-resource command:
 
 <!-- command -->
