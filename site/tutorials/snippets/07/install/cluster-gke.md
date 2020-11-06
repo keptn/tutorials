@@ -5,6 +5,9 @@ Duration: 5:00
 Please download and install the following tools if you do not have them installed on your machine already.
 
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- Linux or MacOS (preferred as some instructions are targeted for this platforms)
+- On Windows: [Git Bash 4 Windows](https://gitforwindows.org/), [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+- Alternative: [Google Cloud Shell](https://cloud.google.com/shell) (or alike)
 
 ## Setup Kubernetes cluster
 Duration: 10:00

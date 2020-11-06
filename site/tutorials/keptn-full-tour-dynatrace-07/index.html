@@ -53,7 +53,9 @@
     
       <google-codelab-step label="Bring your own Kubernetes cluster" duration="0">
         <p>Keptn can be installed on a variety of Kubernetes distributions. Please find a full compatibility matrix for supported Kubernetes versions <a href="https://keptn.sh/docs/0.7.x/operate/k8s_support/" target="_blank">here</a>.</p>
-<p>Please find tutorials <a href="../../?cat=installation" target="_blank">how to set up your cluster here</a>.</p>
+<aside class="special"><p>For the sizing of the Kubernetes cluster we recommend a cluster with at least 6vCPUs (recommended: 8vCPUs) and 30 GB of memory.<br>Detailed sizing recommendations for different platforms can be found in the respective <a href="../../?cat=installation" target="_blank">setup tutorials</a>.</p>
+</aside>
+<p>Please find tutorials <a href="../../?cat=installation" target="_blank">how to set up your cluster here</a>. For the best tutorial experience, please follow the sizing recommendations given in the tutorials.</p>
 <aside class="special"><p>Please note that if you are following one of the installation tutorials, only steps ①-③ are needed (setup of cluster) since we are going to install Keptn as part of this tutorial.</p>
 </aside>
 
@@ -87,7 +89,7 @@
 </code></pre>
 This will download and install the Keptn CLI automatically.</li>
 <li>Another option is to manually download the current release of the Keptn CLI:<ol type="1">
-<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.0" target="_blank">Download CLI</a></li>
+<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.1" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
 <li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
@@ -233,13 +235,16 @@ Successfully authenticated
       <google-codelab-step label="Gather Dynatrace tokens" duration="6">
         <ol type="1">
 <li>Create a Dynatrace API TokenLog in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
-<li>Access problem and event feed, metrics and topology</li>
-<li>Access logs</li>
+<li>Access problem and event feed, metrics, and topology</li>
+<li>Read log content</li>
 <li>Read configuration</li>
 <li>Write configuration</li>
 <li>Capture request data</li>
+<li>Read metrics</li>
+<li>Ingest metrics</li>
+<li>Read entities</li>
 </ul>
-Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/52347510b2b53317.png"></li>
+Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/5052ffbd6ab534f1.png"></li>
 <li>Create a Dynatrace PaaS TokenIn your Dynatrace tenant, go to <strong>Settings &gt; Integration &gt; Platform as a Service</strong>, and create a new PaaS Token.</li>
 <li>Store your credentials in a Kubernetes secret by executing the following command. The <code>DT_TENANT</code> has to be set according to the appropriate pattern:<ul>
 <li>Dynatrace SaaS tenant (this format is most likely for you): <code>{your-environment-id}.live.dynatrace.com</code></li>
@@ -351,7 +356,7 @@ oneagent-k7jn6                                 1/1     Running      0          8
       <google-codelab-step label="Create your first project" duration="5">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
 <p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
-<pre><code>git clone --branch release-0.7.0 https://github.com/keptn/examples.git --single-branch
+<pre><code>git clone --branch release-0.7.2 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 </code></pre>
@@ -500,7 +505,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
     
       <google-codelab-step label="Setup SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Dynatrace SLI provider is required that is implemented by an internal Keptn service, the dynatrace-sli-service. This service will fetch the values for the SLIs that are referenced in an SLO configuration.</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/release-0.7.0/deploy/service.yaml -n keptn
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.5.0/deploy/service.yaml
 </code></pre>
 <p>Next we are going to add an SLI configuration file for Keptn to know how to retrieve the data.<br>Please make sure you are in the correct folder that is <code>examples/onboarding-carts</code>. If not, please change the directory accordingly, e.g., with <code>cd ../../onboarding-carts/</code>. We are going to add it globally to the project for all services and stages we create.</p>
 <pre><code>keptn add-resource --project=sockshop --resource=sli-config-dynatrace.yaml --resourceUri=dynatrace/sli.yaml
@@ -515,7 +520,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
       </google-codelab-step>
     
       <google-codelab-step label="Set up the quality gate" duration="4">
-        <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/master/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
+        <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/master/service_level_objective.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
 <p>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_add-resource/" target="_blank">add-resource</a> command:</p>
 <p>Make sure you are in the correct folder <code>examples/onboarding-carts</code>. If not, change the directory accordingly, e.g., <code>cd ../../onboarding-carts</code>.</p>
 <pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml

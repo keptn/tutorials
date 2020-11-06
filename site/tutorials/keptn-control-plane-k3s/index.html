@@ -99,13 +99,16 @@
         <p>If you want to install keptn-on-k3s with Dynatrace support, you will need to create a Dynatrace token.</p>
 <ol type="1">
 <li>Create a Dynatrace API TokenLog in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
-<li>Access problem and event feed, metrics and topology</li>
-<li>Access logs</li>
+<li>Access problem and event feed, metrics, and topology</li>
+<li>Read log content</li>
 <li>Read configuration</li>
 <li>Write configuration</li>
 <li>Capture request data</li>
+<li>Read metrics</li>
+<li>Ingest metrics</li>
+<li>Read entities</li>
 </ul>
-Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/52347510b2b53317.png"></li>
+Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/5052ffbd6ab534f1.png"></li>
 <li>Set the DT_API_TOKEN and DT_TENANT environment variables<pre><code>export DT_TENANT=yourtenant.live.dynatrace.com
 export DT_API_TOKEN=yourAPItoken
 </code></pre>
