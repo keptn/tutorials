@@ -58,6 +58,11 @@
 <p>Please find tutorials <a href="../../?cat=installation" target="_blank">how to set up your cluster here</a>. For the best tutorial experience, please follow the sizing recommendations given in the tutorials.</p>
 <aside class="special"><p>Please note that if you are following one of the installation tutorials, only steps ①-③ are needed (setup of cluster) since we are going to install Keptn as part of this tutorial.</p>
 </aside>
+<aside class="warning"><p>Please note that some local tools are required:</p>
+</aside>
+<p>kubectl</p>
+<p>Linux or MacOS (preferred as some instructions are targeted for these platforms)</p>
+<p>On Windows: <a href="https://gitforwindows.org/" target="_blank">Git Bash 4 Windows</a>, <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">WSL</a></p>
 
 
       </google-codelab-step>
@@ -509,6 +514,16 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
 </code></pre>
 <p>Next we are going to add an SLI configuration file for Keptn to know how to retrieve the data.<br>Please make sure you are in the correct folder that is <code>examples/onboarding-carts</code>. If not, please change the directory accordingly, e.g., with <code>cd ../../onboarding-carts/</code>. We are going to add it globally to the project for all services and stages we create.</p>
 <pre><code>keptn add-resource --project=sockshop --resource=sli-config-dynatrace.yaml --resourceUri=dynatrace/sli.yaml
+</code></pre>
+<p>For your information, this is what the file looks like:</p>
+<pre><code>---
+spec_version: &#39;1.0&#39;
+indicators:
+  throughput: &#34;builtin:service.requestCount.total:merge(0):sum?scope=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT)&#34;
+  error_rate: &#34;builtin:service.errors.total.count:merge(0):avg?scope=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT)&#34;
+  response_time_p50: &#34;builtin:service.response.time:merge(0):percentile(50)?scope=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT)&#34;
+  response_time_p90: &#34;builtin:service.response.time:merge(0):percentile(90)?scope=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT)&#34;
+  response_time_p95: &#34;builtin:service.response.time:merge(0):percentile(95)?scope=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT)&#34;
 </code></pre>
 <p>Configure the already onboarded project with the new SLI provider for Keptn to create some needed resources (e.g., a configmap):</p>
 <pre><code>keptn configure monitoring dynatrace --project=sockshop
