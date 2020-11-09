@@ -12,7 +12,9 @@ Positive
 : Please note that if you are following one of the installation tutorials, only steps ①-③ are needed (setup of cluster) since we are going to install Keptn as part of this tutorial.
 
 Negative
-: Please note that some local tools are required:
+: Please note that some local tools are required as listed as follows.
+
+Please make sure your environment matches these prerequisites:
 
 - kubectl
 - Linux or MacOS (preferred as some instructions are targeted for these platforms)
