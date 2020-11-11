@@ -15,6 +15,17 @@ Duration: 2:00
 In this tutorial you'll get a full tour on how to run Keptn on Code Ready Containers. 
 [Code Ready Containers](https://developers.redhat.com/products/codeready-containers/overview) gets you up and running with an OpenShift cluster on your local machine in minutes.
 
+Special thanks to [Marc Chisinevski](https://github.com/marcredhat) who built the technical foundation for this tutorial that made it possible for us to provide this tutorial.
+
+### What you'll learn
+
+- How to install CodeReady containers on your local machine
+- How to install Keptn on this platform
+- How to set up a multi-stage delivery pipeline with Keptn
+- How to set up quality gates based on service-level objectives
+- How to enable auto-remediation with Keptn and Unleash
+
+
 ## Prerequisites & Resources
 Duration: 5:00
 
@@ -38,10 +49,10 @@ cd openshift-crc-tutorial/resources
 ## Get Code Ready Containers
 Duration: 10:00
 
-For running [Code Ready Containers](https://developers.redhat.com/products/codeready-containers/overview) a machine with at least 16 GB of RAM is recommended.
+For running [Code Ready Containers](https://developers.redhat.com/products/codeready-containers/overview) a machine with **at least 16 GB of RAM** is recommended.
 
 1. Download CRC from this website into the current folder that we have created inthe previous step: [https://developers.redhat.com/products/codeready-containers/download](https://developers.redhat.com/products/codeready-containers/download)
-There are versions available for Mac OS, Linux, and Windows. This tutorial has been tested on version TODO and the instructions here are for the Mac/Linux version.
+There are versions available for Mac OS, Linux, and Windows. This tutorial has been tested on [version 1.17.0](https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.17.0/) and the instructions here are for the Mac/Linux version.
 
 1. Copy your pull secret to the current folder in a file called `pull-secret.txt`.
 
@@ -169,8 +180,6 @@ Let us know install Keptn on our local OpenShift/CRC cluster.
   Openshift Password []: *****
   ```
 
-1. TODO verify if new resource limits are required https://github.com/marcredhat/crcdemos/blob/master/keptn/deploykeptn.sh#L14 
-
 1. Set your local `oc` CLI to to the right project.
   ```
   oc project keptn
@@ -203,10 +212,10 @@ Let us know install Keptn on our local OpenShift/CRC cluster.
 
 {{ snippets/07/manage/createProject-crc.md }}
 
-{{ snippets/07/manage/onboardService.md }}
+{{ snippets/07/manage/onboardService-crc.md }}
 
-{{ snippets/07/quality-gates/setupQualityGate.md }}
+{{ snippets/07/quality-gates/setupQualityGate-crc.md }}
 
-{{ snippets/07/self-healing/featureFlagsDynatrace.md }}
+{{ snippets/07/self-healing/featureFlagsDynatrace-crc.md }}
 
 {{ snippets/07/community/feedback.md }}
