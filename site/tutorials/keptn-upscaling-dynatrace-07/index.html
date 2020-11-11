@@ -78,7 +78,7 @@
 </code></pre>
 This will download and install the Keptn CLI automatically.</li>
 <li>Another option is to manually download the current release of the Keptn CLI:<ol type="1">
-<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.0" target="_blank">Download CLI</a></li>
+<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.1" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
 <li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
@@ -186,6 +186,7 @@ spec:
     hosts:
     - &#39;*&#39;
 </code></pre>
+<p>Besides, the <code>helm-service</code> pod of Keptn is restarted to fetch this new configuration.</p>
 
 
       </google-codelab-step>
@@ -225,12 +226,14 @@ Successfully authenticated
         <ol type="1">
 <li>Create a Dynatrace API TokenLog in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
 <li>Access problem and event feed, metrics and topology</li>
-<li>Access logs</li>
+<li>Read log content</li>
 <li>Read configuration</li>
 <li>Write configuration</li>
 <li>Capture request data</li>
+<li>Read metrics using API V2</li>
+<li>Read entities using API V2</li>
 </ul>
-Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/52347510b2b53317.png"></li>
+Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/2c13d90861689a.png"></li>
 <li>Create a Dynatrace PaaS TokenIn your Dynatrace tenant, go to <strong>Settings &gt; Integration &gt; Platform as a Service</strong>, and create a new PaaS Token.</li>
 <li>Store your credentials in a Kubernetes secret by executing the following command. The <code>DT_TENANT</code> has to be set according to the appropriate pattern:<ul>
 <li>Dynatrace SaaS tenant (this format is most likely for you): <code>{your-environment-id}.live.dynatrace.com</code></li>
@@ -342,7 +345,7 @@ oneagent-k7jn6                                 1/1     Running      0          8
       <google-codelab-step label="Create your first project" duration="5">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
 <p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
-<pre><code>git clone --branch release-0.7.0 https://github.com/keptn/examples.git --single-branch
+<pre><code>git clone --branch release-0.7.2 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 </code></pre>
@@ -389,7 +392,7 @@ GIT_REMOTE_URL=remoteurl
 <p>Let&#39;s take a look at the project that we have just created. We can find all this information in the Keptn&#39;s Bridge.<br>Therefore, we need the credentials that have been automatically generated for us.</p>
 <pre><code>keptn configure bridge --output
 </code></pre>
-<p>Now use these credentials to access it on your Keptn endpoint.</p>
+<p>Now use these credentials to access it on your Keptn&#39;s Bridge.</p>
 <pre><code>echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/bridge
 </code></pre>
 <p>You will find the just created project in the bridge with all stages.<br><img alt="bridge" src="img/ea75605185cd741f.png"><img alt="bridge" src="img/d3919622be13ae7c.png"></p>

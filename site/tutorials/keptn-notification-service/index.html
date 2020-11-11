@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>Create a Custom Notification Service</title>
+  <title>Create a Custom Keptn Notification Service</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
@@ -23,9 +23,9 @@
   <google-codelab-analytics gaid="UA-133584243-1"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
                   id="keptn-notification-service"
-                  title="Create a Custom Notification Service"
+                  title="Create a Custom Keptn Notification Service"
                   environment="web"
-                  feedback-link="https://github.com/keptn/tutorials/tree/master/site/tutorials">
+                  feedback-link="https://keptn.sh">
     
       <google-codelab-step label="Welcome" duration="1">
         <p>This tutorial is a hands-on guide which will demonstrate how to write a custom Keptn &#34;notification&#34; service.</p>
@@ -78,7 +78,7 @@ spec:
     spec:
       containers:
       - name: distributor
-        image: keptn/distributor:0.6.1
+        image: keptn/distributor:0.6.2
         ports:
         - containerPort: 8080
         resources:

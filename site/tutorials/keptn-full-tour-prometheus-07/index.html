@@ -86,7 +86,7 @@
 </code></pre>
 This will download and install the Keptn CLI automatically.</li>
 <li>Another option is to manually download the current release of the Keptn CLI:<ol type="1">
-<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.0" target="_blank">Download CLI</a></li>
+<li>Download the version for your operating system from <a href="https://github.com/keptn/keptn/releases/tag/0.7.1" target="_blank">Download CLI</a></li>
 <li>Unpack the download</li>
 <li>Find the <code>keptn</code> binary in the unpacked directory</li>
 <li><em>Linux / macOS</em>: Add executable permissions (<code>chmod +x keptn</code>), and move it to the desired destination (e.g. <code>mv keptn /usr/local/bin/keptn</code>)</li>
@@ -194,6 +194,7 @@ spec:
     hosts:
     - &#39;*&#39;
 </code></pre>
+<p>Besides, the <code>helm-service</code> pod of Keptn is restarted to fetch this new configuration.</p>
 
 
       </google-codelab-step>
@@ -223,7 +224,7 @@ Successfully authenticated
       <google-codelab-step label="Create your first project" duration="5">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
 <p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
-<pre><code>git clone --branch release-0.7.0 https://github.com/keptn/examples.git --single-branch
+<pre><code>git clone --branch release-0.7.2 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 </code></pre>
@@ -270,7 +271,7 @@ GIT_REMOTE_URL=remoteurl
 <p>Let&#39;s take a look at the project that we have just created. We can find all this information in the Keptn&#39;s Bridge.<br>Therefore, we need the credentials that have been automatically generated for us.</p>
 <pre><code>keptn configure bridge --output
 </code></pre>
-<p>Now use these credentials to access it on your Keptn endpoint.</p>
+<p>Now use these credentials to access it on your Keptn&#39;s Bridge.</p>
 <pre><code>echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/bridge
 </code></pre>
 <p>You will find the just created project in the bridge with all stages.<br><img alt="bridge" src="img/ea75605185cd741f.png"><img alt="bridge" src="img/d3919622be13ae7c.png"></p>
@@ -412,7 +413,7 @@ indicators:
       </google-codelab-step>
     
       <google-codelab-step label="Set up the quality gate" duration="4">
-        <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/master/sre.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
+        <p>Keptn requires a performance specification for the quality gate. This specification is described in a file called <code>slo.yaml</code>, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the <em>slo.yaml</em> file, go to <a href="https://github.com/keptn/spec/blob/master/service_level_objective.md" target="_blank">Specifications for Site Reliability Engineering with Keptn</a>.</p>
 <p>Activate the quality gates for the carts service. Therefore, navigate to the <code>examples/onboarding-carts</code> folder and upload the <code>slo-quality-gates.yaml</code> file using the <a href="https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_add-resource/" target="_blank">add-resource</a> command:</p>
 <p>Make sure you are in the correct folder <code>examples/onboarding-carts</code>. If not, change the directory accordingly, e.g., <code>cd ../../onboarding-carts</code>.</p>
 <pre><code>keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
