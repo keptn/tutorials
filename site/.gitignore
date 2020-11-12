@@ -23,6 +23,7 @@ changedfiles.txt
 updatedfiles.txt
 tutorials/*_gen.md
 tutorials/*/*
+!tutorials/*/*.json
 !tutorials/snippets/
 !tutorials/assets/
 
