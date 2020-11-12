@@ -3,24 +3,24 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-11-11T15:30:34+01:00",
+  "updated": "2020-04-24T10:34:46+02:00",
   "id": "keptn-notification-service",
   "duration": 21,
-  "title": "Create a Custom Keptn Notification Service",
+  "title": "Create a Custom Notification Service",
   "authors": "Adam Gardner",
   "summary": "Create a Keptn Notification Service",
-  "source": "keptn-notification-service-07_gen.md",
+  "source": "./keptn-notification-service_gen.md",
   "theme": "",
   "status": [
-    "published"
+    "draft"
   ],
   "category": [
     "php",
     "integration"
   ],
   "tags": [
-    "keptn07x"
+    "keptn06x"
   ],
-  "feedback": "https://keptn.sh",
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
   "url": "keptn-notification-service"
 }

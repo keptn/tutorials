@@ -93,14 +93,12 @@
         <ol type="1">
 <li>Create a Dynatrace API TokenLog in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
 <li>Access problem and event feed, metrics and topology</li>
-<li>Read log content</li>
+<li>Access logs</li>
 <li>Read configuration</li>
 <li>Write configuration</li>
 <li>Capture request data</li>
-<li>Read metrics using API V2</li>
-<li>Read entities using API V2</li>
 </ul>
-Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/2c13d90861689a.png"></li>
+Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/52347510b2b53317.png"></li>
 <li>Create a Dynatrace PaaS TokenIn your Dynatrace tenant, go to <strong>Settings &gt; Integration &gt; Platform as a Service</strong>, and create a new PaaS Token.</li>
 <li>Store your credentials in a Kubernetes secret by executing the following command. The <code>DT_TENANT</code> has to be set according to the appropriate pattern:<ul>
 <li>Dynatrace SaaS tenant (this format is most likely for you): <code>{your-environment-id}.live.dynatrace.com</code></li>

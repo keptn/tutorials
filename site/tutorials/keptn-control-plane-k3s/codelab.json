@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-11-11T15:30:33+01:00",
+  "updated": "2020-09-08T10:30:47+02:00",
   "id": "keptn-control-plane-k3s",
   "duration": 19,
   "title": "Install Keptn on K3s",

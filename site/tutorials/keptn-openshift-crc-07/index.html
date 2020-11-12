@@ -29,21 +29,12 @@
     
       <google-codelab-step label="Welcome" duration="2">
         <p>In this tutorial you&#39;ll get a full tour on how to run Keptn on Code Ready Containers.<br><a href="https://developers.redhat.com/products/codeready-containers/overview" target="_blank">Code Ready Containers</a> gets you up and running with an OpenShift cluster on your local machine in minutes.</p>
-<p>Special thanks to <a href="https://github.com/marcredhat" target="_blank">Marc Chisinevski</a> who built the technical foundation for this tutorial that made it possible for us to provide this tutorial.</p>
-<h2 class="checklist" is-upgraded>What you&#39;ll learn</h2>
-<ul class="checklist">
-<li>How to install CodeReady containers on your local machine</li>
-<li>How to install Keptn on this platform</li>
-<li>How to set up a multi-stage delivery pipeline with Keptn</li>
-<li>How to set up quality gates based on service-level objectives</li>
-<li>How to enable auto-remediation with Keptn and Unleash</li>
-</ul>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Prerequisites &amp; Resources" duration="5">
-        <p>Please note that some prerequisites have to be met to run through this tutorial.</p>
+        <p>Please note that a some prerequisites have to met to run through this tutorial.</p>
 <p>Locally installed tooling:</p>
 <ul>
 <li><a href="https://git-scm.com/" target="_blank">Git CLI</a></li>
@@ -60,9 +51,9 @@ cd openshift-crc-tutorial/resources
       </google-codelab-step>
     
       <google-codelab-step label="Get Code Ready Containers" duration="10">
-        <p>For running <a href="https://developers.redhat.com/products/codeready-containers/overview" target="_blank">Code Ready Containers</a> a machine with <strong>at least 16 GB of RAM</strong> is recommended.</p>
+        <p>For running <a href="https://developers.redhat.com/products/codeready-containers/overview" target="_blank">Code Ready Containers</a> a machine with at least 16 GB of RAM is recommended.</p>
 <ol type="1">
-<li>Download CRC from this website into the current folder that we have created inthe previous step: <a href="https://developers.redhat.com/products/codeready-containers/download" target="_blank">https://developers.redhat.com/products/codeready-containers/download</a><br>There are versions available for Mac OS, Linux, and Windows. This tutorial has been tested on <a href="https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.17.0/" target="_blank">version 1.17.0</a> and the instructions here are for the Mac/Linux version.</li>
+<li>Download CRC from this website into the current folder that we have created inthe previous step: <a href="https://developers.redhat.com/products/codeready-containers/download" target="_blank">https://developers.redhat.com/products/codeready-containers/download</a><br>There are versions available for Mac OS, Linux, and Windows. This tutorial has been tested on version TODO and the instructions here are for the Mac/Linux version.</li>
 <li>Copy your pull secret to the current folder in a file called <code>pull-secret.txt</code>.</li>
 </ol>
 
@@ -71,17 +62,17 @@ cd openshift-crc-tutorial/resources
     
       <google-codelab-step label="Install CodeReady Containers" duration="10">
         <ol type="1">
-<li>Define the CodeReady Container version and your operating system - please adjust those variables to fit your environment! Execute these commands depending on your environment. Please note that the <code>CRCVERSION</code> might slightly change - we try to keep the tutorial up-to-date but it might run a bit behind. (Pro-tip: you can always <a href="https://github.com/keptn/tutorials" target="_blank">raise a PR</a> to help us keep our tutorials up-to-date.)<pre><code>export OS=macos
-export CRCVERSION=1.17.0
+<li>Define the CodeReady Container version and your operating system - please adjust those variables to fit your environment! Execute these commands depending on your environment.<pre><code>export OS=macos
+export CRCVERSION=1.14.0
 </code></pre>
 For Linux that might look like this.<pre><code>export OS=linux
-export CRCVERSION=1.17.0
+export CRCVERSION=1.14.0
 </code></pre>
 </li>
 <li>Edit <code>crc.sh</code> if you want to configure the memory and CPU cores available to CodeReady Containers.</li>
 <li>Execute the setup script<pre><code>./crc.sh
 </code></pre>
-<strong>Please note the setup might take a couple of minutes!</strong></li>
+</li>
 <li>Once finished, the script will provide you with some output:<pre><code>This will install OpenShift 4.5, display the login info and open a browser window with the OpenShift console.
 INFO To access the cluster, first set up your environment by following &#39;crc oc-env&#39; instructions
 INFO Then you can access it by running &#39;oc login -u developer -p developer https://api.crc.testing:6443&#39;
@@ -93,16 +84,15 @@ WARN The cluster might report a degraded or error state. This is expected since 
 Opening the OpenShift Web Console in the default browser...
 </code></pre>
 </li>
-<li>From the previous output, we still need to execute some commands. To access the cluster, first set up your environment by <strong>following ‘crc oc-env&#39; instructions</strong>.<pre><code>crc oc-env
+<li>From the previous output, we still need to execute some commands. To access the cluster, first set up your environment by following ‘crc oc-env&#39; instructions.<pre><code>crc oc-env
+eval $(crc oc-env)
+</code></pre>
+</li>
+<li>Login as an <code>admin</code> with the command that from the log output above. Please make sure to use the correct password that you see on your own screen.<pre><code>oc login -u kubeadmin -p yourpassword https://api.crc.testing:6443
 </code></pre>
 </li>
 </ol>
-<aside class="warning"><p>Please follow the instructions that are given from the <code>crc oc-env</code> command before proceeding.</p>
-</aside>
-<p>Next, login as an <code>admin</code> with the command that from the log output above. Please make sure to <em>use the correct password that you see on your own screen</em>.</p>
-<pre><code>  oc login -u kubeadmin -p yourpassword https://api.crc.testing:6443
-</code></pre>
-<aside class="warning"><p>Depending on your machine, it might take a while (3-5 minutes) for CRC to be ready and to accept your login request. Please be patient.</p>
+<aside class="warning"><p>Depending on your machine, it might take a while (3-5 minutes) for CRC to ready and accept your login request. Please be patient.</p>
 </aside>
 <h2 is-upgraded>Other options to run CodeReady Containers</h2>
 <p>If you want to run it on a different environment than you local machine, check out these additional resources.</p>
@@ -129,7 +119,7 @@ Opening the OpenShift Web Console in the default browser...
 <li>Execute the script:<pre><code>./mesh.sh 
 </code></pre>
 </li>
-<li>Verify that all pod in the <code>istio-namespace</code> are running (might take a while).<pre><code>oc get pods -n istio-system
+<li>Verify that all pod in the <code>istio-namespace</code> are running (might take a while).<pre><code>oc get pods
 </code></pre>
 You should see a similar result:<pre><code>NAME                                      READY   STATUS    RESTARTS   AGE
 grafana-6787dc695-b9srg                   2/2     Running   0          56s
@@ -158,14 +148,8 @@ prometheus-6864b4b755-tk7q2               2/2     Running   0          3m24s
 </li>
 <li>Install Keptn into the cluster via the CLI:<pre><code>keptn install --use-case=continuous-delivery --platform=openshift
 </code></pre>
-Provide the needed values you will be asked during the installation.<pre><code>Openshift Server URL []: https://api.crc.testing:6443
-Openshift User []: kubeadmin
-Openshift Password []: *****
-</code></pre>
 </li>
-<li>Set your local <code>oc</code> CLI to to the right project.<pre><code>oc project keptn
-</code></pre>
-</li>
+<li>TODO verify if new resource limits are required</li>
 <li>Expose the API endpoint of Keptn to be able to connect to it.<pre><code>oc expose svc api-gateway-nginx
 </code></pre>
 </li>
@@ -178,8 +162,8 @@ keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
 <li>Get the credentials for the bridge<pre><code>keptn configure bridge --output
 </code></pre>
 </li>
-<li>Now go ahead and open a browser to login under the following URL:  <a href="http://api-gateway-nginx-keptn.apps-crc.testing/bridge" target="_blank">http://api-gateway-nginx-keptn.apps-crc.testing/bridge</a></li>
 </ol>
+<p>Now go ahead and open a browser to login.</p>
 
 
       </google-codelab-step>
@@ -196,14 +180,13 @@ keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
       <google-codelab-step label="Gather Dynatrace tokens" duration="6">
         <ol type="1">
 <li>Create a Dynatrace API TokenLog in to your Dynatrace tenant and go to <strong>Settings &gt; Integration &gt; Dynatrace API</strong>. Then, create a new API token with the following permissions:<ul>
-<li>Access problem and event feed, metrics, and topology</li>
+<li>Access problem and event feed, metrics and topology</li>
 <li>Read log content</li>
 <li>Read configuration</li>
 <li>Write configuration</li>
 <li>Capture request data</li>
-<li>Read metrics</li>
-<li>Ingest metrics</li>
-<li>Read entities</li>
+<li>Read metrics using API V2</li>
+<li>Read entities using API V2</li>
 </ul>
 Take a look at this screenshot to double check the right token permissions for you.<img alt="Dynatrace API Token" src="img/2c13d90861689a.png"></li>
 <li>Create a Dynatrace PaaS TokenIn your Dynatrace tenant, go to <strong>Settings &gt; Integration &gt; Platform as a Service</strong>, and create a new PaaS Token.</li>
@@ -254,10 +237,10 @@ oneagent-g9m42                                 1/1     Running   0          69s
     
       <google-codelab-step label="Install Dynatrace integration" duration="5">
         <ol type="1">
-<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.10.0/deploy/service.yaml
+<li>The Dynatrace integration into Keptn is handled by the <em>dynatrace-service</em>. To install the <em>dynatrace-service</em>, execute:<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
 </code></pre>
 </li>
-<li>When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.<pre><code>keptn configure monitoring dynatrace --suppress-websocket
+<li>When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.<pre><code>keptn configure monitoring dynatrace
 </code></pre>
 Output should be similar to this:<pre><code>ID of Keptn context: 79f19c36-b718-4bb6-88d5-cb79f163289b
 Configuring Dynatrace monitoring
@@ -288,7 +271,25 @@ This means that Dynatrace will automatically apply tags to your onboarded servic
 <li><em>Alerting profile:</em> An alerting profile with all problems set to <em>0 minutes</em> (immediate) is created. You can review this profile by navigating to <strong>Settings &gt; Alerting &gt; Alerting profiles</strong>.</li>
 <li><em>Dashboard and Mangement zone:</em> When creating a new Keptn project or executing the <a href="https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_configure_monitoring/" target="_blank">keptn configure monitoring</a> command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.</li>
 </ul>
-<h2 is-upgraded>Verify installation</h2>
+<aside class="warning"><p>If the nodes in your cluster run on <em>Container-Optimized OS (cos)</em> (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary.</p>
+</aside>
+<p>Follow the next steps only if your Dynatrace OneAgent does not work properly.</p>
+<ol type="1">
+<li>To check if the OneAgent does not work properly, the output of <code>kubectl get pods -n dynatrace</code> might look as follows:<pre><code>NAME                                           READY   STATUS             RESTARTS   AGE
+dynatrace-oneagent-operator-7f477bf78d-dgwb6   1/1     Running            0          8m21s
+oneagent-b22m4                                 0/1     Error              6          8m15s
+oneagent-k7jn6                                 0/1     CrashLoopBackOff   6          8m15s
+</code></pre>
+</li>
+<li>This means that after the initial setup you need to edit the OneAgent custom resource in the Dynatrace namespace and add the following entry to the env section:<pre><code>env:
+- name: ONEAGENT_ENABLE_VOLUME_STORAGE
+  value: &#34;true&#34;
+</code></pre>
+</li>
+<li>To edit the OneAgent custom resource:<pre><code>kubectl edit oneagent -n dynatrace
+</code></pre>
+</li>
+</ol>
 <p>At the end of your installation, please verify that all Dynatrace resources are in a Ready and Running status by executing <code>kubectl get pods -n dynatrace</code>:</p>
 <pre><code>NAME                                           READY   STATUS       RESTARTS   AGE
 dynatrace-oneagent-operator-7f477bf78d-dgwb6   1/1     Running      0          8m21s
@@ -299,10 +300,32 @@ oneagent-k7jn6                                 1/1     Running      0          8
 
       </google-codelab-step>
     
+      <google-codelab-step label="Configure Dynatrace with Keptn" duration="0">
+        <ol type="1">
+<li>Checkout the examples repository that holds the scripts to get started easily.<pre><code>git clone --branch release-0.7.1 https://github.com/keptn/examples
+</code></pre>
+</li>
+<li>Create a secret in your OpenShift cluster.<pre><code>oc -n keptn create secret generic dynatrace --from-literal=&#34;DT_API_TOKEN=$DT_API_TOKEN&#34; \
+  --from-literal=&#34;DT_TENANT=$DT_TENANT&#34; \
+  --from-literal=&#34;KEPTN_API_URL=http://api-gateway-nginx-keptn.apps-crc.testing/api&#34; \
+  --from-literal=&#34;KEPTN_API_TOKEN=$KEPTN_API_TOKEN&#34; -o yaml --dry-run=client | oc apply -f -
+</code></pre>
+</li>
+<li>Deploy the Dynatrace service.<pre><code>oc apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml
+</code></pre>
+</li>
+<li>Configure Dynatrace with the Keptn CLI.<pre><code>keptn configure monitoring dynatrace --suppress-websocket
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
       <google-codelab-step label="Create your first project" duration="5">
         <p>A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.</p>
 <p>To get all files you need for this tutorial, please clone the example repo to your local machine.</p>
-<pre><code>git clone --branch release-0.7.2 https://github.com/keptn/examples.git --single-branch
+<pre><code>git clone --branch release-0.7.0 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 </code></pre>
@@ -349,8 +372,11 @@ GIT_REMOTE_URL=remoteurl
 <p>Let&#39;s take a look at the project that we have just created. We can find all this information in the Keptn&#39;s Bridge.<br>Therefore, we need the credentials that have been automatically generated for us.</p>
 <pre><code>keptn configure bridge --output
 </code></pre>
-<p>Now use these credentials to access it on your <a href="echo http://api-gateway-nginx-keptn.apps-crc.testing/bridge" target="_blank">Keptn&#39;s Bridge</a>.</p>
+<p>Now use these credentials to access it on your Keptn endpoint.</p>
+<pre><code>echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)/bridge
+</code></pre>
 <p>You will find the just created project in the bridge with all stages.<br><img alt="bridge" src="img/ea75605185cd741f.png"><img alt="bridge" src="img/d3919622be13ae7c.png"></p>
+<p>// TODO GET SERVICE URL AND GET BRIDGE URL</p>
 
 
       </google-codelab-step>
@@ -411,11 +437,11 @@ sockshop-staging      carts-primary-79bcc7c99f-mbbgq                    2/2     
     
       <google-codelab-step label="View carts service" duration="2">
         <ol type="1">
-<li>Get the URL for your carts service with the following commands in the respective namespaces:<pre><code>echo http://carts.sockshop-dev.apps-crc.testing
+<li>Get the URL for your carts service with the following commands in the respective namespaces:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-staging.apps-crc.testing
+<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-production.apps-crc.testing
+<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 <li>Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:</li>
@@ -484,11 +510,11 @@ total_score:
       <google-codelab-step label="Verify current version" duration="3">
         <p>You can take a look at the currently deployed version of our &#34;carts&#34; microservice before we deploy the next build of our microservice.</p>
 <ol type="1">
-<li>Get the URL for your carts service with the following commands in the respective stages:<pre><code>echo http://carts.sockshop-dev.apps-crc.testing
+<li>Get the URL for your carts service with the following commands in the respective stages:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-staging.apps-crc.testing
+<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-production.apps-crc.testing
+<pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 <li>Navigate to <code>http://carts.sockshop-production.YOUR.DOMAIN</code> for viewing the carts service in your <strong>production</strong> environment and you should receive an output similar to the following:</li>
@@ -503,9 +529,9 @@ total_score:
 <li>Use the Keptn CLI to deploy a version of the carts service, which contains an artificial <strong>slowdown of 1 second</strong> in each request.<pre><code>keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.2
 </code></pre>
 </li>
-<li>Go ahead and verify that the slow build has reached your <code>dev</code> and <code>staging</code> environments by opening a browser for both environments. Get the URLs with these commands:<pre><code>echo http://carts.sockshop-dev.apps-crc.testing
+<li>Go ahead and verify that the slow build has reached your <code>dev</code> and <code>staging</code> environments by opening a browser for both environments. Get the URLs with these commands:<pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
-<pre><code>echo http://carts.sockshop-staging.apps-crc.testing
+<pre><code>echo http://carts.sockshop-staging.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 </ol>
@@ -519,14 +545,14 @@ total_score:
         <p>After triggering the deployment of the carts service in version v0.11.2, the following status is expected:</p>
 <ul>
 <li><strong>Dev stage:</strong> The new version is deployed in the dev stage and the functional tests passed.<ul>
-<li>To verify, open a browser and navigate to:<br><pre><code>echo http://carts.sockshop-dev.apps-crc.testing
+<li>To verify, open a browser and navigate to:<br><pre><code>echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 </ul>
 </li>
 <li><strong>Staging stage:</strong> In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.</li>
 <li><strong>Production stage:</strong> The slow version is <strong>not promoted</strong> to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.<ul>
-<li>To verify, navigate to:<br><pre><code>echo http://carts.sockshop-production.apps-crc.testing
+<li>To verify, navigate to:<br><pre><code>echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 </ul>
@@ -592,7 +618,7 @@ keptn onboard service unleash --project=unleash --chart=./unleash
 keptn send event new-artifact --project=unleash --service=unleash --image=docker.io/keptnexamples/unleash:1.0.0
 </code></pre>
 </li>
-<li>Get the URL (<code>unleash.unleash-dev.KEPTN_DOMAIN</code>):<pre><code>echo http://unleash.unleash-dev.apps-crc.testing
+<li>Get the URL (<code>unleash.unleash-dev.KEPTN_DOMAIN</code>):<pre><code>echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;)
 </code></pre>
 </li>
 <li>Open the URL in your browser and log in using the following credentials:<ul>
@@ -614,7 +640,7 @@ keptn send event new-artifact --project=unleash --service=unleash --image=docker
 </ol>
 <p>To set up both feature flags, please use the following scripts to automatically generate the feature flags that we need in this tutorial.</p>
 <pre><code>export UNLEASH_TOKEN=$(echo -n keptn:keptn | base64)
-export UNLEASH_BASE_URL=$(echo http://unleash.unleash-dev.apps-crc.testing
+export UNLEASH_BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath=&#39;{.spec.rules[0].host}&#39;))
 
 curl --request POST \
   --url ${UNLEASH_BASE_URL}/api/admin/features/ \
