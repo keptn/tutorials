@@ -101,7 +101,7 @@ ssh yourusername@the-bind-ip-or-dns
 ### Download `keptn-in-a-box.sh`
 Now let's download the `keptn-in-a-box.sh` file and make it executable.
 ```bash
-curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.7.1/keptn-in-a-box.sh
+curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.7.2/keptn-in-a-box.sh
 chmod +x keptn-in-a-box.sh
 ```
 
