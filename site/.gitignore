@@ -22,3 +22,7 @@ tutorials/my-first-tutorial-unique-id/
 changedfiles.txt
 updatedfiles.txt
 tutorials/*_gen.md
+tutorials/*/*
+!tutorials/snippets/
+!tutorials/assets/
+
