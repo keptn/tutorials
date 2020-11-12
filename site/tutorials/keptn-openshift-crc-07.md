@@ -15,7 +15,7 @@ Duration: 2:00
 In this tutorial you'll get a full tour on how to run Keptn on Code Ready Containers. 
 [Code Ready Containers](https://developers.redhat.com/products/codeready-containers/overview) gets you up and running with an OpenShift cluster on your local machine in minutes.
 
-Special thanks to [Marc Chisinevski](https://github.com/marcredhat) who built the technical foundation for this tutorial that made it possible for us to provide this tutorial.
+Special thanks to [Marc Chisinevski](https://github.com/marcredhat) who built the technical foundation for this tutorial that made it possible for us to provide this tutorial. Checkout [his original instructions in his Github repository](https://github.com/marcredhat/crcdemos/tree/master/keptn).
 
 ### What you'll learn
 
