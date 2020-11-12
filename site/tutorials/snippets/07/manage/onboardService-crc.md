@@ -98,20 +98,9 @@ Duration: 2:00
 
 1. Get the URL for your carts service with the following commands in the respective namespaces:
 
-    <!-- command -->
-    ```
-    echo http://carts.sockshop-dev.apps-crc.testing
-    ```
-    
-    <!-- command -->
-    ```
-    echo http://carts.sockshop-staging.apps-crc.testing
-    ```
-    
-    <!-- command -->
-    ```
-    echo http://carts.sockshop-production.apps-crc.testing
-    ```
+    - [http://carts.sockshop-dev.apps-crc.testing](http://carts.sockshop-dev.apps-crc.testing)
+    - [http://carts.sockshop-staging.apps-crc.testing](http://carts.sockshop-staging.apps-crc.testing)
+    - [http://carts.sockshop-production.apps-crc.testing](http://carts.sockshop-production.apps-crc.testing)
 
 1. Navigate to the URLs to inspect the carts service. In the production namespace, you should receive an output similar to this:
 

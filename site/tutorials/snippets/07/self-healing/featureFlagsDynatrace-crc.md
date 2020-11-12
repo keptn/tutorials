@@ -48,12 +48,7 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
     wait_for_deployment_with_image_in_namespace "unleash" "unleash-dev" "docker.io/keptnexamples/unleash:1.0.0"
     -->
 
-1. Get the URL (`unleash.unleash-dev.KEPTN_DOMAIN`):
-
-    <!-- command -->
-    ```
-    echo http://unleash.unleash-dev.apps-crc.testing
-    ```
+1. Go to the URL (`unleash.unleash-dev.KEPTN_DOMAIN`): [http://unleash.unleash-dev.apps-crc.testing](http://unleash.unleash-dev.apps-crc.testing)
 
 1. Open the URL in your browser and log in using the following credentials:
    * Username: keptn

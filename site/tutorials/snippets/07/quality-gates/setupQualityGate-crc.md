@@ -48,20 +48,10 @@ You can take a look at the currently deployed version of our "carts" microservic
 
 1. Get the URL for your carts service with the following commands in the respective stages:
 
-    <!-- command -->
-    ```
-    echo http://carts.sockshop-dev.apps-crc.testing
-    ```
-    
-    <!-- command -->
-    ```
-    echo http://carts.sockshop-staging.apps-crc.testing
-    ```
-    
-    <!-- command -->
-    ```
-    echo http://carts.sockshop-production.apps-crc.testing
-    ```
+    - [http://carts.sockshop-dev.apps-crc.testing](http://carts.sockshop-dev.apps-crc.testing)
+    - [http://carts.sockshop-staging.apps-crc.testing](http://carts.sockshop-staging.apps-crc.testing)
+    - [http://carts.sockshop-production.apps-crc.testing](http://carts.sockshop-production.apps-crc.testing)
+
 
 2. Navigate to `http://carts.sockshop-production.YOUR.DOMAIN` for viewing the carts service in your **production** environment and you should receive an output similar to the following:
 
@@ -90,15 +80,8 @@ Duration: 5:00
 
 1. Go ahead and verify that the slow build has reached your `dev` and `staging` environments by opening a browser for both environments. Get the URLs with these commands:
 
-    <!-- command -->
-    ```
-    echo http://carts.sockshop-dev.apps-crc.testing
-    ```
-
-    <!-- command -->
-    ```
-    echo http://carts.sockshop-staging.apps-crc.testing
-    ```
+    - [http://carts.sockshop-dev.apps-crc.testing](http://carts.sockshop-dev.apps-crc.testing)
+    - [http://carts.sockshop-staging.apps-crc.testing](http://carts.sockshop-staging.apps-crc.testing)
 
 
 ![carts service](./assets/carts-dev-2.png)
@@ -112,21 +95,14 @@ Duration: 7:00
 After triggering the deployment of the carts service in version v0.11.2, the following status is expected:
 
 * **Dev stage:** The new version is deployed in the dev stage and the functional tests passed.
-  * To verify, open a browser and navigate to: 
-  <!-- command -->
-  ```
-  echo http://carts.sockshop-dev.apps-crc.testing
-  ```
+  * To verify, open a browser and navigate to [http://carts.sockshop-dev.apps-crc.testing](http://carts.sockshop-dev.apps-crc.testing)
 
 * **Staging stage:** In this stage, version v0.11.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.11.1 in this stage is conducted and the promotion to production is not triggered.
 
 
 * **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.11.1 is expected to be in production.
-  * To verify, navigate to: 
-  <!-- command -->
-  ```
-  echo http://carts.sockshop-production.apps-crc.testing
-  ```
+  * To verify, navigate to [http://carts.sockshop-production.apps-crc.testing](http://carts.sockshop-production.apps-crc.testing)
+
 
 ## Verify the quality gate in Keptn's Bridge
 Duration: 3:00
