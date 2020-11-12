@@ -182,7 +182,12 @@ As said, in this tutorial we can use the following command as it is:
     kubectl apply -f ../load-generation/cartsloadgen/deploy/cartsloadgen-prod.yaml
     ```
 
-Now that everything is set up, next we are going to hit the application with some load and toggle the feature flags.
+:Positive
+Please note that in a production environment you would have to set it up differently. We have deployed Unleash only in a single stage environment while we have our application that we manage with Unleash in a multi-stage environment. This was done for the sake of resource saving. 
+That means, in our example the Unleash server will control the bevaviour for all three stages (this is what you would probably not want in a prodcution environment). Therefore, we started the load-generation only for the production stage to not impact the other stages.
+
+Now that everything is set up and we hit it with some load, next we are going to toggle the feature flags.
+
 
 ## Run the experiment
 Duration: 5:00
