@@ -2,7 +2,7 @@
 
 # How to write your own tutorial
 
-To get a full setup of Google Codelabs you can follow this tutorial https://medium.com/@zarinlo/publish-technical-tutorials-in-google-codelab-format-b07ef76972c. However, not everything is needed to get started.
+To get a full setup of Google Codelabs you can follow this tutorial https://medium.com/@zarinlo/publish-technical-tutorials-in-google-codelab-format-b07ef76972cd. However, not everything is needed to get started.
 
 ## Tools needed if builder.sh is NOT used
 
