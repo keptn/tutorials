@@ -40,7 +40,7 @@ Duration: 2:00
 
 - Have a Dynatrace tenant to monitor the application and we will use the Dynatrace data to validate the quality gate. You can [sign up for a free trial](https://www.dynatrace.com/trial/) (no credit card required).
 
-{{ snippets/install/cluster-aks.md }}
+{{ snippets/06/install/cluster-aks.md }}
 
 ## Install Keptn
 Duration: 7:00
@@ -502,4 +502,4 @@ Duration: 1:00
     ![bridge](./assets/azure-devops/azure-devops-keptns-bridge.png)
 
 
-{{ snippets/community/feedback.md }}
+{{ snippets/06/community/feedback.md }}
