@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2020-11-16T10:43:50+01:00",
+  "id": "keptn-azure-devops-07",
+  "duration": 22,
+  "title": "Azure DevOps Pipelines with Keptn Quality Gates",
+  "authors": "Jürgen Etzlstorfer",
+  "summary": "Azure DevOps with Keptn",
+  "source": "keptn-azure-devops-07_gen.md",
+  "theme": "",
+  "status": [
+    "submitted"
+  ],
+  "category": [
+    "aks",
+    "quality-gates",
+    "dynatrace"
+  ],
+  "tags": [
+    "keptn07x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-azure-devops-07"
+}
