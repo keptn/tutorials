@@ -9,7 +9,7 @@ To get all files you need for this tutorial, please clone the example repo to yo
 <!-- command -->
 
 ```
-git clone --branch release-0.7.2 https://github.com/keptn/examples.git --single-branch
+git clone --branch release-0.7.3 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 ```
