@@ -101,7 +101,7 @@ ssh yourusername@the-bind-ip-or-dns
 ### Download `keptn-in-a-box.sh`
 Now let's download the `keptn-in-a-box.sh` file and make it executable.
 ```bash
-curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.7.1/keptn-in-a-box.sh
+curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.7.3/keptn-in-a-box.sh
 chmod +x keptn-in-a-box.sh
 ```
 
@@ -242,11 +242,13 @@ Now that we have understood the delegation of the program's logic and it's main 
 | microk8s_install                    |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
 | setup_proaliases                    |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
 | enable_k8dashboard                  |     ✅    |     ✅     |      -      |        ✅     |      ✅     |      ✅     |    
-| enable_registry                     |     -     |     ✅      |      -     |         -     |      -      |      ✅     |    
+| enable_registry                     |     -     |     ✅     |      -      |        -      |      -      |      ✅     |    
 | istio_install                       |     ✅    |     ✅     |      ✅     |        -      |      -      |      ✅     |    
 | helm_install                        |     ✅    |     ✅     |      ✅     |        -      |      ✅    |       ✅     |   
 | certmanager_install                 |     -     |     -      |      -      |        -      |       -     |       ✅     |   
 | certmanager_enable                  |     -     |     -      |      -      |        -      |       -     |       ✅     |    
+| git_deploy                          |     ✅    |     ✅     |      -      |        -      |       -     |       ✅     |   
+| git_migrate                         |     ✅    |     ✅     |      -      |        -      |       -     |       ✅     |   
 | keptn_install                       |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
 | keptn_examples_clone                |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
 | resources_clone                     |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |        
@@ -261,10 +263,10 @@ Now that we have understood the delegation of the program's logic and it's main 
 | expose_kubernetes_api               |     ✅    |     ✅     |      ✅     |        ✅     |      ✅     |      ✅     |    
 | expose_kubernetes_dashboard         |     ✅    |     ✅     |      -      |        ✅     |      ✅     |      ✅     |    
 | patch_kubernetes_dashboard          |     ✅    |     ✅     |      -      |        -      |      -      |      ✅     |    
-| create_workshop_user                |     -     |     -     |      -       |        -       |      -     |     ✅     | 
-| jenkins_deploy                      |     -     |     -     |      -       |        -       |      -     |     ✅     | 
-| keptn_bridge_disable_login          |     ✅    |     ✅    |      -       |        -       |      -     |      -     | 
-| keptn_install_qualitygates          |     -     |     -     |      -       |       ✅       |      ✅    |     ✅     | 
+| create_workshop_user                |     -     |     -      |      -       |        -       |      -     |     ✅     | 
+| jenkins_deploy                      |     -     |     -      |      -       |        -       |      -     |     ✅     | 
+| keptn_bridge_disable_login          |     ✅    |     ✅     |      -       |        -       |      -     |      -     | 
+| keptn_install_qualitygates          |     -     |     -      |      -       |       ✅       |      ✅    |     ✅     | 
 
 
 The **dynatrace_** control flags will be disabled if you don't enter your Dynatrace credentials.
@@ -362,6 +364,10 @@ kube-system    k8-dashboard-ingress   <none>   kubernetes.192-168-0-10.nip.io   
 [Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
 [Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> ssh student@192-168-0-10.nip.io <-<-<|
 [Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |>->-> Password: secr3t <-<-<|
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |======================================================================
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |============ Git-Server Access (SSH Access) ============
+[Keptn-In-A-Box|INFO] [2020-08-04 17:01:23] |______________________________________________________________________
+...
 ```
 
 ## Access your services and innovate
@@ -406,6 +412,8 @@ to list the cart sample pods and services of the development stage. You'll notic
 |Teaser                  | https://192-168-0-10.nip.io                            |
 |Kubernetes Dashb.       | https://kubernetes.192-168-0-10.nip.io                 |
 |Kubernetes API          | https://api.kubernetes.192-168-0-10.nip.io             |
+|Git-Server Repos        | https://git.192-168-0-10.nip.io/explore/repos          |
+|Git-Server API          | https://git.192-168-0-10.nip.io/api/swagger            |
 |Keptn API (swagger)     | https://keptn.192-168-0-10.nip.io/api/swagger-ui       |
 |Keptn Bridge            | https://keptn.192-168-0-10.nip.io/bridge               |
 |Unleash                 | https://unleash.unleash-dev.192-168-0-10.nip.io        |
