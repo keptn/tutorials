@@ -39,7 +39,7 @@ Duration: 5:00
 * Clone example files used in this tutorial:
 
     ```
-    git clone --branch 0.7.0 https://github.com/keptn/examples.git --single-branch
+    git clone --branch 0.7.3 https://github.com/keptn/examples.git --single-branch
     ```
 
     ```

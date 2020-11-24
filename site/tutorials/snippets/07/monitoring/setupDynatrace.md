@@ -67,7 +67,7 @@ To make the tutorial experience as smooth as possible, we are providing an autom
 
     <!-- command -->
     ```
-    curl -o deploy-dynatrace-oneagent.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.0/dynatrace-oneagent/deploy-dynatrace-oneagent.sh
+    curl -o deploy-dynatrace-oneagent.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.2/dynatrace-oneagent/deploy-dynatrace-oneagent.sh
     ```
 
 1. Making the file executable using the `chmod` command.
