@@ -11,11 +11,13 @@ To install the *prometheus-sli-service*, execute:
 kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.2.3/deploy/service.yaml
 ```
 
+
+<!--
 We are going to add the configuration for our SLIs in terms of an SLI file that maps the _name_ of an indicator to a PromQL statement how to actually query it. Please make sure you are in the correct folder `examples/onboarding-carts`.
 
-<!-- bash cd ../../onboarding-carts -->
+<!-- bash cd ../../onboarding-carts --
 
-<!-- command -->
+<!-- command --
 ```
 keptn add-resource --project=sockshop --stage=staging --service=carts --resource=sli-config-prometheus.yaml --resourceUri=prometheus/sli.yaml 
 ```
@@ -29,3 +31,4 @@ indicators:
   response_time_p90: histogram_quantile(0.9, sum by(le) (rate(http_response_time_milliseconds_bucket{handler="ItemsController.addToCart",job="$SERVICE-$PROJECT-$STAGE"}[$DURATION_SECONDS])))
   response_time_p95: histogram_quantile(0.95, sum by(le) (rate(http_response_time_milliseconds_bucket{handler="ItemsController.addToCart",job="$SERVICE-$PROJECT-$STAGE"}[$DURATION_SECONDS])))
 ```
+-->
