@@ -25,6 +25,8 @@ Since this repository bases on [Google Codelabs](https://github.com/googlecodela
 Google Codelabs exists thanks to the talents and efforts of many fine volunteers, including:
 Alex Vaghin, Marc Cohen, Shawn Simister, Ewa Gasperowicz, Eric Bidelman, Robert Kubis, Clare Bayley, Cassie Recher, Chris Broadfoot, Sam Thorogood, Ryan Seys, and the many codelab authors, inside and outside of Google, who have generated a veritable [treasure trove of content](https://g.co/codelabs).
 
+We acknowledge the work from Google, which is also reflected in the LICENSE file. For the content added by the Keptn authors, we have added a dedicated LICENSE file in the [/site/tutorials/](/site/tutorials) folder.
+
 <!--
 # ORIGINAL codelabs contents
 
