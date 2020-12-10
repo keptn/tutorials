@@ -2,9 +2,9 @@
 
 This repo serves as the place for all Keptn tutorials hosted on https://tutorials.keptn.sh. The repo bases on the [Google Codelab project](https://codelabs.developers.google.com/). 
 
-## Want to contribute?
+## Want to contribute? :bulb:
 
-If you want to contribute your own tutorial or foud a bug and want to fix it - [please start here](site/tutorials)!
+**If you want to contribute your own tutorial or foud a bug and want to fix it - [please start here](site/tutorials)!**
 
 ## Structure
 
@@ -14,7 +14,7 @@ If you want to contribute your own tutorial or foud a bug and want to fix it - [
 - **site**: Serves as the main folder where all Keptn tutorials are located (in the [site/tutorials](site/tutorials) folder). *This is the place where you can add your own tutorials.*
 - **third-party**: Third party build files.
 
-## Tutorials folder
+## Tutorials folder :bulb:
 
 The main tutorials folder is located at [site/tutorials](site/tutorials) and all repos that are published at https://tutorials.keptn.sh must be added to this folder. It also holds instructions how to write your own tutorials.
 

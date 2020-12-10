@@ -48,12 +48,7 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
     wait_for_deployment_with_image_in_namespace "unleash" "unleash-dev" "docker.io/keptnexamples/unleash:1.0.0"
     -->
 
-1. Get the URL (`unleash.unleash-dev.KEPTN_DOMAIN`):
-
-    <!-- command -->
-    ```
-    echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
-    ```
+1. Go to the URL (`unleash.unleash-dev.KEPTN_DOMAIN`): [http://unleash.unleash-dev.apps-crc.testing](http://unleash.unleash-dev.apps-crc.testing)
 
 1. Open the URL in your browser and log in using the following credentials:
    * Username: keptn
@@ -77,7 +72,7 @@ To set up both feature flags, please use the following scripts to automatically 
 <!-- command -->
 ``` 
 export UNLEASH_TOKEN=$(echo -n keptn:keptn | base64)
-export UNLEASH_BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}'))
+export UNLEASH_BASE_URL=$(echo http://unleash.unleash-dev.apps-crc.testing
 
 curl --request POST \
   --url ${UNLEASH_BASE_URL}/api/admin/features/ \
@@ -136,7 +131,7 @@ As said, in this tutorial we can use the following command as it is:
     
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.2.0/deploy/service.yaml -n keptn
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.1.0/deploy/service.yaml
     ```
 
 1. Switch to the carts example (`cd examples/onboarding-carts`) and add the following remediation instructions
@@ -189,9 +184,10 @@ As said, in this tutorial we can use the following command as it is:
 
 Positive
 : Please note that in a production environment you would have to set it up differently. We have deployed Unleash only in a single-stage environment while we have our application that we manage with Unleash in a multi-stage environment. This was done for the sake of resource-saving.
-That means, in our example, the Unleash server will control the behavior for all three stages (this is what you would probably not want in a production environment). Therefore, we started the load-generation only for the production stage to not impact the other stages.
+That means, in our example, the Unleash server will control the behavior for all three stages (this is what you would probably not want in a production environment). Therefore, we started the load-generation only for the production stage to not impact the other stages.s.
 
 Now that everything is set up and we hit it with some load, next we are going to toggle the feature flags.
+
 
 ## Run the experiment
 Duration: 5:00

@@ -56,7 +56,10 @@ Duration: 6:00
     
     <!-- command -->
     ```
-    kubectl -n keptn create secret generic dynatrace --from-literal="DT_TENANT=$DT_TENANT" --from-literal="DT_API_TOKEN=$DT_API_TOKEN"  --from-literal="DT_PAAS_TOKEN=$DT_PAAS_TOKEN" --from-literal="KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/api" --from-literal="KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath='{.data.keptn-api-token}' | base64 --decode)" --from-literal="KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge" 
+    oc -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=$DT_API_TOKEN" \
+    --from-literal="DT_TENANT=$DT_TENANT" \
+    --from-literal="KEPTN_API_URL=http://api-gateway-nginx-keptn.apps-crc.testing/api" \
+    --from-literal="KEPTN_API_TOKEN=$KEPTN_API_TOKEN" -o yaml --dry-run=client | oc apply -f -
     ```
 
 ## Deploy Dynatrace OneAgent Operator
@@ -67,7 +70,7 @@ To make the tutorial experience as smooth as possible, we are providing an autom
 
     <!-- command -->
     ```
-    curl -o deploy-dynatrace-oneagent.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.2/dynatrace-oneagent/deploy-dynatrace-oneagent.sh
+    curl -o deploy-dynatrace-oneagent.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.2/dynatrace-oneagent/deploy-dynatrace-oneagent-openshift.sh
     ```
 
 1. Making the file executable using the `chmod` command.
@@ -105,14 +108,14 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.10.0/deploy/service.yaml -n keptn
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.10.0/deploy/service.yaml
     ```
 
 1. When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.
 
     <!-- command -->
     ```
-    keptn configure monitoring dynatrace
+    keptn configure monitoring dynatrace --suppress-websocket
     ```
 
     Output should be similar to this:
@@ -150,35 +153,7 @@ Since Keptn has configured your Dynatrace tenant, let us take a look what has be
 
 - *Dashboard and Mangement zone:* When creating a new Keptn project or executing the [keptn configure monitoring](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_configure_monitoring/) command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.
 
-
-Negative
-: If the nodes in your cluster run on *Container-Optimized OS (cos)* (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary. 
-
-Follow the next steps only if your Dynatrace OneAgent does not work properly.
-
-<!-- bash kubectl get pods -n dynatrace -->
-
-1. To check if the OneAgent does not work properly, the output of `kubectl get pods -n dynatrace` might look as follows:
-
-  ```
-  NAME                                           READY   STATUS             RESTARTS   AGE
-  dynatrace-oneagent-operator-7f477bf78d-dgwb6   1/1     Running            0          8m21s
-  oneagent-b22m4                                 0/1     Error              6          8m15s
-  oneagent-k7jn6                                 0/1     CrashLoopBackOff   6          8m15s
-  ```
-
-1. This means that after the initial setup you need to edit the OneAgent custom resource in the Dynatrace namespace and add the following entry to the env section:
-
-        env:
-        - name: ONEAGENT_ENABLE_VOLUME_STORAGE
-          value: "true"
-
-1. To edit the OneAgent custom resource: 
-
-    ```
-    kubectl edit oneagent -n dynatrace
-    ```
-
+### Verify installation
 
 At the end of your installation, please verify that all Dynatrace resources are in a Ready and Running status by executing `kubectl get pods -n dynatrace`:
 

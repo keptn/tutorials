@@ -3,24 +3,25 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2020-11-06T17:45:37+01:00",
-  "id": "keptn-installation-aks-07",
-  "duration": 29,
-  "title": "Keptn Installation on AKS",
+  "updated": "2020-11-16T10:43:50+01:00",
+  "id": "keptn-azure-devops-07",
+  "duration": 22,
+  "title": "Azure DevOps Pipelines with Keptn Quality Gates",
   "authors": "Jürgen Etzlstorfer",
-  "summary": "Install Keptn on AKS",
-  "source": "keptn-install-aks-07_gen.md",
+  "summary": "Azure DevOps with Keptn",
+  "source": "keptn-azure-devops-07_gen.md",
   "theme": "",
   "status": [
-    "published"
+    "submitted"
   ],
   "category": [
     "aks",
-    "installation"
+    "quality-gates",
+    "dynatrace"
   ],
   "tags": [
     "keptn07x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
-  "url": "keptn-installation-aks-07"
+  "url": "keptn-azure-devops-07"
 }
