@@ -500,7 +500,7 @@ cartsloadgen-5dc47c85cf-kqggb   1/1     Running   0          117s
     
       <google-codelab-step label="Setup SLI provider" duration="2">
         <p>During the evaluation of a quality gate, the Dynatrace SLI provider is required that is implemented by an internal Keptn service, the dynatrace-sli-service. This service will fetch the values for the SLIs that are referenced in an SLO configuration.</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/release-0.7.0/deploy/service.yaml -n keptn
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/release-0.7.1/deploy/service.yaml -n keptn
 </code></pre>
 <p>Next we are going to add an SLI configuration file for Keptn to know how to retrieve the data.<br>Please make sure you are in the correct folder that is <code>examples/onboarding-carts</code>. If not, please change the directory accordingly, e.g., with <code>cd ../../onboarding-carts/</code>. We are going to add it globally to the project for all services and stages we create.</p>
 <pre><code>keptn add-resource --project=sockshop --resource=sli-config-dynatrace.yaml --resourceUri=dynatrace/sli.yaml
