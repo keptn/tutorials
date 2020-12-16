@@ -30,8 +30,8 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
 
     <!-- command -->
     ```
-    keptn onboard service unleash-db --project=unleash --chart=./unleash-db --sequence=artifact-delivery
-    keptn onboard service unleash --project=unleash --chart=./unleash --sequence=artifact-delivery
+    keptn onboard service unleash-db --project=unleash --chart=./unleash-db 
+    keptn onboard service unleash --project=unleash --chart=./unleash 
     ```
 
 1. Send new artifacts for unleash and unleash-db using the `keptn send new-artifact` command:
@@ -136,7 +136,7 @@ As said, in this tutorial we can use the following command as it is:
     
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.3.0/deploy/service.yaml -n keptn
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.4.0/deploy/service.yaml -n keptn
     ```
 
 1. Switch to the carts example (`cd examples/onboarding-carts`) and add the following remediation instructions
