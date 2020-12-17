@@ -60,16 +60,16 @@ After onboarding the services, a built artifact of each service can be deployed.
     verify_test_step $? "Deployment carts-db not available, exiting..."
     -->
 
-1. Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.11.1:
+1. Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.12.1:
 
     <!-- command -->
     ```
-    keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.11.1 --sequence=artifact-delivery
+    keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.12.1 --sequence=artifact-delivery
     ```
 
     <!-- bash 
     verify_test_step $? "Send event new-artifact for carts failed" 
-    wait_for_deployment_with_image_in_namespace "carts" "sockshop-production" "docker.io/keptnexamples/carts:0.11.1"
+    wait_for_deployment_with_image_in_namespace "carts" "sockshop-production" "docker.io/keptnexamples/carts:0.12.1"
     verify_test_step $? "Deployment carts not available, exiting..."
     -->
 

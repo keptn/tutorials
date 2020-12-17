@@ -69,22 +69,74 @@ Although Keptn has even more to offer that should have given you a good overview
 
 - We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the `shipyard` file
   ```
+apiVersion: "spec.keptn.sh/0.2.0"
+kind: "Shipyard"
+metadata:
+  name: "shipyard-sockshop"
+spec:
   stages:
     - name: "dev"
-      deployment_strategy: "direct"
-      test_strategy: "functional"
+      sequences:
+        - name: "artifact-delivery"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "direct"
+            - name: "test"
+              properties:
+                teststrategy: "functional"
+            - name: "evaluation"
+            - name: "release"
+        - name: "artifact-delivery-db"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "direct"
+            - name: "release"
+
     - name: "staging"
-      approval_strategy: 
-        pass: "automatic"
-        warning: "automatic"
-      deployment_strategy: "blue_green_service"
-      test_strategy: "performance"
+      sequences:
+        - name: "artifact-delivery"
+          triggers:
+            - "dev.artifact-delivery.finished"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "blue_green_service"
+            - name: "test"
+              properties:
+                teststrategy: "performance"
+            - name: "evaluation"
+            - name: "release"
+
+        - name: "artifact-delivery-db"
+          triggers:
+            - "dev.artifact-delivery-db.finished"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "direct"
+            - name: "release"
+
     - name: "production"
-      approval_strategy: 
-        pass: "automatic"
-        warning: "manual"
-      deployment_strategy: "blue_green_service"
-      remediation_strategy: "automated"
+      sequences:
+        - name: "artifact-delivery"
+          triggers:
+            - "staging.artifact-delivery.finished"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "blue_green_service"
+            - name: "release"
+
+        - name: "artifact-delivery-db"
+          triggers:
+            - "staging.artifact-delivery-db.finished"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "direct"
+            - name: "release"
   ```
 
 - We have set up quality gates based on service level objectives in our `slo` file
@@ -121,6 +173,6 @@ Although Keptn has even more to offer that should have given you a good overview
 - We have set up self-healing to automatically scale our application 
   ![Bridge - Remediation](./assets/bridge-remediation-flow.png)
 
-{{ snippets/07/integrations/gettingStarted.md }}
+{{ snippets/08/integrations/gettingStarted.md }}
 
-{{ snippets/07/community/feedback.md }}
+{{ snippets/08/community/feedback.md }}
