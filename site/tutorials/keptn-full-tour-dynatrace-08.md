@@ -3,7 +3,7 @@ id: keptn-full-tour-dynatrace-08
 categories: Dynatrace,aks,eks,gke,openshift,pks,minikube,full-tour,quality-gates,automated-operations
 tags: keptn08x
 status: Published 
-authors: Jürgen Etzlstorfer
+authors: Florian Bacher
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
