@@ -1,5 +1,5 @@
 summary: Take a full tour on Keptn with Prometheus
-id: keptn-full-tour-prometheus-07
+id: keptn-full-tour-prometheus-08
 categories: Prometheus,aks,eks,gke,openshift,pks,minikube,full-tour,quality-gates,automated-operations
 tags: keptn08x
 status: Published 
