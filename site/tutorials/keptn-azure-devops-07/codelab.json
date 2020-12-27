@@ -7,7 +7,7 @@
   "id": "keptn-azure-devops-07",
   "duration": 22,
   "title": "Azure DevOps Pipelines with Keptn Quality Gates",
-  "authors": "Jürgen Etzlstorfer",
+  "authors": "Jürgen Etzlstorfer, Bert Van der Heyden",
   "summary": "Azure DevOps with Keptn",
   "source": "keptn-azure-devops-07_gen.md",
   "theme": "",
