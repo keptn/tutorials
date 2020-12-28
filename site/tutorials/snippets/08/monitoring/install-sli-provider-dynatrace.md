@@ -5,7 +5,7 @@ During the evaluation of a quality gate, the Dynatrace SLI provider is required 
 
 <!-- command -->
 ```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.8.0/deploy/service.yaml -n keptn
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.8.0-alpha/deploy/service.yaml -n keptn
 ```
 
 Next we are going to add an SLI configuration file for Keptn to know how to retrieve the data.
