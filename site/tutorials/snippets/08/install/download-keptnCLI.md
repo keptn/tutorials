@@ -7,18 +7,24 @@ Every release of Keptn provides binaries for the Keptn CLI. These binaries are a
 
 There are multiple options how to get the Keptn CLI on your machine.
 
-- Easiest option, if you are running on a Linux or Mac OS: 
+- Easiest option (works Linux, Mac OS, Windows with Bash, WSL2): 
 
     <!-- command -->
     ```
-    curl -sL https://get.keptn.sh | KEPTN_VERSION=0.8.0-alpha sudo -E bash
+    curl -sL https://get.keptn.sh | KEPTN_VERSION=0.8.0-alpha bash
     ```
-    This will download and install the Keptn CLI automatically.
+    This will download and install the Keptn CLI in the specified version automatically.
+
+- Using HomeBrew (on MacOs):
+
+    ```
+    brew install keptn
+    ```
 
 -  Another option is to manually download the current release of the Keptn CLI:
-  1. Download the version for your operating system from [Download CLI](https://github.com/keptn/keptn/releases/tag/0.8.0-alpha)
+  1. Download the version for your operating system and architecture from [Download CLI](https://github.com/keptn/keptn/releases/tag/0.8.0-alpha)
   2. Unpack the download
-  3. Find the `keptn` binary in the unpacked directory
+  3. Find the `keptn` binary (e.g., `keptn-0.8.0-alpha-amd64.exe`) in the unpacked directory and rename it to `keptn`
     - *Linux / macOS*: Add executable permissions (``chmod +x keptn``), and move it to the desired destination (e.g. `mv keptn /usr/local/bin/keptn`)
 
     - *Windows*: Copy the executable to the desired folder and add the executable to your PATH environment variable.
