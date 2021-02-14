@@ -77,7 +77,7 @@ stages:
     test_strategy: "performance"
 ```
 
-Create a new project for your services using the `keptn create project` command. In this tutorial, the project is called *sockshop*. The Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required for configuring an upstream. For details, please visit [select Git-based upstream](https://keptn.sh/docs/0.7.x/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided. 
+Create a new project for your services using the `keptn create project` command. In this tutorial, the project is called *sockshop*. The Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required for configuring an upstream. For details, please visit [Git-based upstream](https://keptn.sh/docs/0.7.x/manage/git_upstream/) where instructions for GitHub, GitLab, and Bitbucket are provided. 
 Before executing the following command, make sure you are in the `examples/onboarding-carts` folder:
 
 ```
