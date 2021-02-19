@@ -38,12 +38,12 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
 
     <!-- command -->
     ```
-    keptn send event new-artifact --project=unleash --service=unleash-db --image=postgres:10.4 --sequence=artifact-delivery
-    keptn send event new-artifact --project=unleash --service=unleash --image=docker.io/keptnexamples/unleash:1.0.0 --sequence=artifact-delivery
+    keptn trigger delivery --project=unleash --service=unleash-db --image=postgres:10.4
+    keptn trigger delivery --project=unleash --service=unleash --image=docker.io/keptnexamples/unleash:1.0.0 
     ```
     
     <!-- bash 
-    verify_test_step $? "Send event new-artifact for unleash failed"
+    verify_test_step $? "trigger delivery for unleash failed"
     wait_for_deployment_with_image_in_namespace "unleash-db" "unleash-dev" "postgres:10.4"
     wait_for_deployment_with_image_in_namespace "unleash" "unleash-dev" "docker.io/keptnexamples/unleash:1.0.0"
     -->

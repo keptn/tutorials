@@ -4,7 +4,7 @@ Duration: 5:00
 
 After creating the project, services can be onboarded to our project.
 
-1. Onboard the **carts** service using the [keptn onboard service](https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_onboard_service/) command:
+1. Onboard the **carts** service using the [keptn onboard service](https://keptn.sh/docs/0.8.x/reference/cli/commands/keptn_onboard_service/) command:
 
     <!-- command -->
     ```
@@ -31,7 +31,7 @@ After creating the project, services can be onboarded to our project.
 
 Since the carts service requires a mongodb database, a second service needs to be onboarded.
 
-* Onboard the **carts-db** service using the [keptn onboard service](https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_onboard_service/) command.
+* Onboard the **carts-db** service using the [keptn onboard service](https://keptn.sh/docs/0.8.x/reference/cli/commands/keptn_onboard_service/) command.
 
     <!-- command -->
     ```
@@ -47,15 +47,15 @@ Duration: 5:00
 
 After onboarding the services, a built artifact of each service can be deployed.
 
-1. Deploy the carts-db service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_send_event_new-artifact/) command:
+1. Deploy the carts-db service by executing the [keptn trigger delivery](https://keptn.sh/docs/0.8.x/reference/cli/commands/keptn_trigger_delivery/) command:
 
     <!-- command -->
     ```
-    keptn send event new-artifact --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2 --sequence=artifact-delivery-db
+    keptn trigger delivery --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2 --sequence=delivery-direct
     ```
 
     <!-- bash 
-    verify_test_step $? "Send event new-artifact for carts-db failed"
+    verify_test_step $? "trigger delivery for carts-db failed"
     wait_for_deployment_with_image_in_namespace "carts-db" "sockshop-production" "docker.io/mongo:4.2.2"
     verify_test_step $? "Deployment carts-db not available, exiting..."
     -->
@@ -64,11 +64,11 @@ After onboarding the services, a built artifact of each service can be deployed.
 
     <!-- command -->
     ```
-    keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.12.1 --sequence=artifact-delivery
+    keptn trigger delivery --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.12.1
     ```
 
     <!-- bash 
-    verify_test_step $? "Send event new-artifact for carts failed" 
+    verify_test_step $? "trigger delivery for carts failed" 
     wait_for_deployment_with_image_in_namespace "carts" "sockshop-production" "docker.io/keptnexamples/carts:0.12.1"
     verify_test_step $? "Deployment carts not available, exiting..."
     -->

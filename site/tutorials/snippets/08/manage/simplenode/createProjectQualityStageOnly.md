@@ -12,7 +12,7 @@ cd examples/simplenodeservicequality-gate-only
 
 For this quality gate focused tutorial we will create a new Keptn project using `keptn create project` to create a project called *qgproject* using the shipyard_qualitystageonly.yaml as a shipyard definition. 
 Before executing the following command, make sure you are in the `examples/simplenodeservicequality-gate-only` folder.
-Please note that [defining a Git upstream](https://keptn.sh/docs/0.7.x/manage/project/#select-git-based-upstream) is recommended, but in case that is not wanted the parameters `git-user`, `git-token` and `git-remote-url` can be omitted.
+Please note that [defining a Git upstream](https://keptn.sh/docs/0.8.x/manage/project/#select-git-based-upstream) is recommended, but in case that is not wanted the parameters `git-user`, `git-token` and `git-remote-url` can be omitted.
 
 ```
 keptn create project qgproject --shipyard=./shipyard_qualitystageonly.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL

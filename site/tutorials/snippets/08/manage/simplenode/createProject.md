@@ -11,7 +11,7 @@ cd examples/simplenodeservice
 ```
 
 Create a new project for your services using the `keptn create project` command. In this example, the project is called *simplenodeproject*. Before executing the following command, make sure you are in the `examples/simplenodeservice/keptn` folder.
-Please note that [defining a Git upstream](https://keptn.sh/docs/0.7.x/manage/project/#select-git-based-upstream) is recommended, but in case that is not wanted the parameters `git-user`, `git-token` and `git-remote-url` can be omitted.
+Please note that [defining a Git upstream](https://keptn.sh/docs/0.8.x/manage/project/#select-git-based-upstream) is recommended, but in case that is not wanted the parameters `git-user`, `git-token` and `git-remote-url` can be omitted.
 
 ```
 keptn create project simplenodeproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL

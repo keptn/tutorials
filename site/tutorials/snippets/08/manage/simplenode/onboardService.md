@@ -4,7 +4,7 @@ Duration: 2:00
 
 After creating the project, services can be onboarded to our project.
 
-1. Onboard the **simplenode** service using the [keptn onboard service](https://keptn.sh/docs/0.7.x/reference/cli/#keptn-onboard-service) command:
+1. Onboard the **simplenode** service using the [keptn onboard service](https://keptn.sh/docs/0.8.x/reference/cli/#keptn-onboard-service) command:
 
 ```
 keptn onboard service simplenode --project=simplenodeproject --chart=./carts
@@ -18,7 +18,7 @@ Duration: 2:00
 
 After onboarding our service we can immediately start using Keptn to deploy an artifact.
 
-1. Lets deploy version 1 of our simplenode service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.7.x/reference/cli/#keptn-send-event-new-artifact) command:
+1. Lets deploy version 1 of our simplenode service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.8.x/reference/cli/#keptn-send-event-new-artifact) command:
 
 ```
 keptn send event new-artifact --project=simplenodeproject --service=simplenode --image=grabnerandi/simplenodeservice --tag=1.0.0

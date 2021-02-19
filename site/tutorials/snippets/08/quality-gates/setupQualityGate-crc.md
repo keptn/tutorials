@@ -4,7 +4,7 @@ Duration: 4:00
 
 Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/master/service_level_objective.md).
 
-Activate the quality gates for the carts service. Therefore, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.7.x/reference/cli/commands/keptn_add-resource/) command:
+Activate the quality gates for the carts service. Therefore, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.8.x/reference/cli/commands/keptn_add-resource/) command:
 
 Make sure you are in the correct folder `examples/onboarding-carts`. If not, change the directory accordingly, e.g., `cd ../../onboarding-carts`.
 
@@ -66,11 +66,11 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.12.2 --sequence=artifact-delivery
+    keptn trigger delivery --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.12.2
     ```
     
     <!-- bash 
-    verify_test_step $? "Send event new-artifact for carts failed" 
+    verify_test_step $? "trigger delivery for carts failed" 
     wait_for_deployment_with_image_in_namespace "carts" "sockshop-staging" "docker.io/keptnexamples/carts:0.12.2"
     verify_test_step $? "Deployment carts not available, exiting..."
     echo "Waiting for a little bit!"
@@ -109,7 +109,7 @@ Duration: 3:00
 
 Take a look in the Keptn's bridge and navigate to the last deployment. You will find a quality gate evaluation that got a `fail` result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won't be promoted to production but instead automatically rolled back.
 
-To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.7.x/reference/bridge/) shows the deployment of v0.12.2 and then the failed test in staging including the roll-back.
+To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.8.x/reference/bridge/) shows the deployment of v0.12.2 and then the failed test in staging including the roll-back.
 
 ![Keptn's bridge](./assets/bridge-quality-gate.png)
 
@@ -122,11 +122,11 @@ Duration: 3:00
 
     <!-- command -->
     ```
-    keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.12.3
+    keptn trigger delivery --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.12.3
     ```
     
     <!-- bash 
-    verify_test_step $? "Send event new-artifact for carts failed" 
+    verify_test_step $? "trigger delivery for carts failed" 
     wait_for_deployment_with_image_in_namespace "carts" "sockshop-production" "docker.io/keptnexamples/carts:0.12.3"
     verify_test_step $? "Deployment carts not available, exiting..."
     -->

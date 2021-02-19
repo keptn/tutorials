@@ -30,4 +30,4 @@ Positive
 : Congratulations! Your CLI is now successfully authenticated to your Keptn installation.
 
 Positive
-: Please note that the Keptn endpoint can also be pubicly exposed. All details can be found in the [Keptn docs](https://keptn.sh/docs/0.7.x/operate/install/).
+: Please note that the Keptn endpoint can also be pubicly exposed. All details can be found in the [Keptn docs](https://keptn.sh/docs/0.8.x/operate/install/).
