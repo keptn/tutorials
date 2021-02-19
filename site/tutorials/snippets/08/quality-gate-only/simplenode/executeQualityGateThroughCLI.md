@@ -8,7 +8,7 @@ We should now have everything in place to let Keptn evaluate our quality gate. T
 The following is an example to have Keptn evaluate the last 10 minutes by also adding some labels which will later show up in the Keptns Bridge!
 
 ```
-keptn send trigger evaluation --project=qgproject --stage=qualitystage --service=evalservice --timeframe=10m --labels=gaterun=1,type=viacli
+keptn trigger evaluation --project=qgproject --stage=qualitystage --service=evalservice --timeframe=10m --labels=gaterun=1,type=viacli
 ```
 
 Please explore all other options in the Keptn CLI Documentation for [keptn trigger evaluation](https://keptn.sh/docs/0.8.x/reference/cli/commands/keptn_trigger_evaluation/). You can also specify start and end timestamps or also combine start timestamp with a timeframe.

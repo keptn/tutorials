@@ -51,7 +51,7 @@ After onboarding the services, a built artifact of each service can be deployed.
 
     <!-- command -->
     ```
-    keptn send trigger delivery --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2 --sequence=delivery-direct
+    keptn trigger delivery --project=sockshop --service=carts-db --image=docker.io/mongo --tag=4.2.2 --sequence=delivery-direct
     ```
 
     <!-- bash 
