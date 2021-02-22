@@ -76,22 +76,88 @@ Although Keptn has even more to offer that should have given you a good overview
 
 - We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the `shipyard` file.
   ```
-stages:
-  - name: "dev"
-    deployment_strategy: "direct"
-    test_strategy: "functional"
-  - name: "staging"
-    approval_strategy: 
-      pass: "automatic"
-      warning: "automatic"
-    deployment_strategy: "blue_green_service"
-    test_strategy: "performance"
-  - name: "production"
-    approval_strategy: 
-      pass: "automatic"
-      warning: "manual"
-    deployment_strategy: "blue_green_service"
-    remediation_strategy: "automated"
+apiVersion: "spec.keptn.sh/0.2.0"
+kind: "Shipyard"
+metadata:
+  name: "shipyard-sockshop"
+spec:
+  stages:
+    - name: "dev"
+      sequences:
+        - name: "delivery"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "direct"
+            - name: "test"
+              properties:
+                teststrategy: "functional"
+            - name: "evaluation"
+            - name: "release"
+        - name: "delivery-direct"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "direct"
+            - name: "release"
+
+    - name: "staging"
+      sequences:
+        - name: "delivery"
+          triggeredOn:
+            - event: "dev.delivery.finished"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "blue_green_service"
+            - name: "test"
+              properties:
+                teststrategy: "performance"
+            - name: "evaluation"
+            - name: "release"
+        - name: "rollback"
+          triggeredOn:
+            - event: "staging.delivery.finished"
+              selector:
+                match:
+                  result: "fail"
+          tasks:
+            - name: "rollback"
+        - name: "delivery-direct"
+          triggeredOn:
+            - event: "dev.delivery-direct.finished"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "direct"
+            - name: "release"
+
+    - name: "production"
+      sequences:
+        - name: "delivery"
+          triggeredOn:
+            - event: "staging.delivery.finished"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "blue_green_service"
+            - name: "release"
+        - name: "rollback"
+          triggeredOn:
+            - event: "production.delivery.finished"
+              selector:
+                match:
+                  result: "fail"
+          tasks:
+            - name: "rollback"
+        - name: "delivery-direct"
+          triggeredOn:
+            - event: "staging.delivery-direct.finished"
+          tasks:
+            - name: "deployment"
+              properties:
+                deploymentstrategy: "direct"
+            - name: "release"
   ```
 
 - We have set up quality gates based on service level objectives in our `slo` file.
