@@ -68,6 +68,7 @@ Although Keptn has even more to offer that should have given you a good overview
 ### What we've covered
 
 - We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the `shipyard` file
+
   ```
 apiVersion: "spec.keptn.sh/0.2.0"
 kind: "Shipyard"
