@@ -8,7 +8,7 @@ To install the *prometheus-sli-service*, execute:
 
 <!-- command -->
 ```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.3.0-alpha/deploy/service.yaml
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.3.0/deploy/service.yaml
 ```
 
 
