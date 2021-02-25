@@ -9,7 +9,7 @@ To get all files you need for this tutorial, please clone the example repo to yo
 <!-- command -->
 
 ```
-git clone --branch release-0.8.0-alpha https://github.com/keptn/examples.git --single-branch
+git clone --branch release-0.8.0 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 ```
@@ -57,7 +57,7 @@ spec:
   stages:
     - name: "dev"
       sequences:
-        - name: "artifact-delivery"
+        - name: "delivery"
           tasks:
             - name: "deployment"
               properties:
@@ -67,7 +67,7 @@ spec:
                 teststrategy: "functional"
             - name: "evaluation"
             - name: "release"
-        - name: "artifact-delivery-db"
+        - name: "delivery-direct"
           tasks:
             - name: "deployment"
               properties:
@@ -76,9 +76,9 @@ spec:
 
     - name: "staging"
       sequences:
-        - name: "artifact-delivery"
-          triggers:
-            - "dev.artifact-delivery.finished"
+        - name: "delivery"
+          triggeredOn:
+            - event: "dev.delivery.finished"
           tasks:
             - name: "deployment"
               properties:
@@ -88,10 +88,17 @@ spec:
                 teststrategy: "performance"
             - name: "evaluation"
             - name: "release"
-
-        - name: "artifact-delivery-db"
-          triggers:
-            - "dev.artifact-delivery-db.finished"
+        - name: "rollback"
+          triggeredOn:
+            - event: "staging.delivery.finished"
+              selector:
+                match:
+                  result: "fail"
+          tasks:
+            - name: "rollback"
+        - name: "delivery-direct"
+          triggeredOn:
+            - event: "dev.delivery-direct.finished"
           tasks:
             - name: "deployment"
               properties:
@@ -100,26 +107,31 @@ spec:
 
     - name: "production"
       sequences:
-        - name: "artifact-delivery"
-          triggers:
-            - "staging.artifact-delivery.finished"
+        - name: "delivery"
+          triggeredOn:
+            - event: "staging.delivery.finished"
           tasks:
             - name: "deployment"
               properties:
                 deploymentstrategy: "blue_green_service"
             - name: "release"
-
-        - name: "artifact-delivery-db"
-          triggers:
-            - "staging.artifact-delivery-db.finished"
+        - name: "rollback"
+          triggeredOn:
+            - event: "production.delivery.finished"
+              selector:
+                match:
+                  result: "fail"
+          tasks:
+            - name: "rollback"
+        - name: "delivery-direct"
+          triggeredOn:
+            - event: "staging.delivery-direct.finished"
           tasks:
             - name: "deployment"
               properties:
                 deploymentstrategy: "direct"
             - name: "release"
 ```
-
-# TODO: describe artifact-delivery-db sequence
 
 This shipyard contains three stages: dev, staging, and production. This results in the three Kubernetes namespaces: sockshop-dev, sockshop-staging, and sockshop-production.
 
