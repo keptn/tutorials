@@ -61,29 +61,18 @@ Duration: 6:00
 
 ## Deploy Dynatrace OneAgent Operator
 
-To make the tutorial experience as smooth as possible, we are providing an automation script to setup the Dynatrace OneAgent operator in your Kubernetes cluster. For details on the installation, we refer to the [official Dynatrace documentation](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/deploy-oneagent-k8/). You can download and run the script using the following instructions.
+To monitor a Kubernetes environment using Dynatrace, please setup dynatrace-operator as described below, or visit the [official Dynatrace documentation](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/deploy-oneagent-k8/).
 
-1. Downloading the automation file.
+For setting up dynatrace-operator, perform the following steps:
 
-    <!-- command -->
-    ```
-    curl -o deploy-dynatrace-oneagent.sh https://raw.githubusercontent.com/keptn/examples/release-0.8.0/dynatrace-oneagent/deploy-dynatrace-oneagent.sh
-    ```
-
-1. Making the file executable using the `chmod` command.
-
-    <!-- command -->
-    ```
-    chmod +x deploy-dynatrace-oneagent.sh
-    ```
-
-1. Executing the script to automatically deploys the Dynatrace OneAgent Operator.
-
-    <!-- command -->
-    ```
-    ./deploy-dynatrace-oneagent.sh
-    ```
-
+1. Log into your Dynatrace environment
+1. Open Dynatrace Hub (on the left hand side, scroll down to **Manage** and click on **Deploy Dynatrace**)
+1. Within Dynatrace Hub, search for Kubernetes
+   ![Dynatrace Hub](./assets/dt-hub-kubernetes.png)
+1. Click on Kubernetes, and select **Monitor Kubernetes** at the bottom of the screen
+1. In the following screen, select the Platform, a PaaS and API Token, and the oenagent installation options (e.g., for GKE you need to enable volume storage).
+   ![Dynatrace Kubernetes Monitoring](./assets/dt-kubernetes-monitor.png)
+1. Copy the generated code and run it in a terminal/bash
 1. Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.
 
     <!-- debug -->
@@ -92,11 +81,15 @@ To make the tutorial experience as smooth as possible, we are providing an autom
     ```
 
     ```
-    dynatrace-oneagent-operator-696fd89b76-n9d9n   1/1     Running   0          6m26s
-    dynatrace-oneagent-webhook-78b6d99c85-h9759    2/2     Running   0          6m25s
-    oneagent-g9m42                                 1/1     Running   0          69s
+    NAME                                          READY   STATUS    RESTARTS   AGE
+    dynakube-kubemon-0                            1/1     Running   0          11h
+    dynatrace-oneagent-operator-cc9856cfd-hrv4x   1/1     Running   0          2d11h
+    dynatrace-oneagent-webhook-5d67c9bb76-pz2gh   2/2     Running   0          2d11h
+    dynatrace-operator-fb56f7f59-pf5sg            1/1     Running   0          2d11h
+    oneagent-gc2lc                                1/1     Running   0          35h
+    oneagent-w7msm                                1/1     Running   0          35h
     ```
-
+1. Optional: Verify in your Dynatrace Environment under the section *Kubernetes* that your cluster is monitored.
 
 ## Install Dynatrace integration
 Duration: 5:00

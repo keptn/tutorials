@@ -25,5 +25,5 @@ tutorials/*_gen.md
 tutorials/*/*
 !tutorials/*/*.json
 !tutorials/snippets/
-!tutorials/assets/
+!tutorials/assets/*
 
