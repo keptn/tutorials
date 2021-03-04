@@ -56,7 +56,7 @@ The full setup that we are going to deploy is sketched in the following image.
 
 {{ snippets/08/quality-gates/setupQualityGate.md }}
 
-{{ snippets/08/self-healing/upscalePrometheus.md }}
+<!--{ snippets/08/self-healing/upscalePrometheus.md }-->
 
 
 ## Finish
@@ -95,49 +95,7 @@ spec:
                 deploymentstrategy: "direct"
             - name: "release"
 
-    - name: "staging"
-      sequences:
-        - name: "artifact-delivery"
-          triggers:
-            - "dev.artifact-delivery.finished"
-          tasks:
-            - name: "deployment"
-              properties:
-                deploymentstrategy: "blue_green_service"
-            - name: "test"
-              properties:
-                teststrategy: "performance"
-            - name: "evaluation"
-            - name: "release"
-
-        - name: "artifact-delivery-db"
-          triggers:
-            - "dev.artifact-delivery-db.finished"
-          tasks:
-            - name: "deployment"
-              properties:
-                deploymentstrategy: "direct"
-            - name: "release"
-
-    - name: "production"
-      sequences:
-        - name: "artifact-delivery"
-          triggers:
-            - "staging.artifact-delivery.finished"
-          tasks:
-            - name: "deployment"
-              properties:
-                deploymentstrategy: "blue_green_service"
-            - name: "release"
-
-        - name: "artifact-delivery-db"
-          triggers:
-            - "staging.artifact-delivery-db.finished"
-          tasks:
-            - name: "deployment"
-              properties:
-                deploymentstrategy: "direct"
-            - name: "release"
+    ...
   ```
 
 - We have set up quality gates based on service level objectives in our `slo` file
@@ -170,9 +128,10 @@ spec:
 - We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.
   ![bridge](./assets/bridge-quality-gate.png)
 
-
+<!--
 - We have set up self-healing to automatically scale our application 
   ![Bridge - Remediation](./assets/bridge-remediation-flow.png)
+-->
 
 {{ snippets/08/integrations/gettingStarted.md }}
 
