@@ -143,7 +143,7 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.10.0/deploy/service.yaml -n keptn
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.10.4/deploy/service.yaml -n keptn
     ```
 
 1. When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.
