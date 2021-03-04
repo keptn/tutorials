@@ -14,13 +14,13 @@ Duration: 2:00
 
 In this tutorial you'll get a full tour through Keptn. Before we get started you'll get to know what you will learn while you walk yourself through this tutorial.
 
-### What you'll learn
+### What we will cover
 - How to create a sample project
 - How to onboard a first microservice
 - How to deploy your first microservice with blue/green deployments
 - How to setup quality gates 
 - How to prevent bad builds of your microservice to reach production
-- How to automatically scale your microservice with Keptn 
+<!--  How to automatically scale your microservice with Keptn -->
 - How to integrate other tools like Slack, MS Team, etc in your Keptn integration
 
 You'll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.
