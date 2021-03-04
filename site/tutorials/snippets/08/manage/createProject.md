@@ -133,7 +133,6 @@ spec:
             - name: "release"
 ```
 
-# TODO: describe artifact-delivery-db sequence
 
 This shipyard contains three stages: dev, staging, and production. This results in the three Kubernetes namespaces: sockshop-dev, sockshop-staging, and sockshop-production.
 
