@@ -92,7 +92,7 @@ To simulate user traffic that is causing an unhealthy behavior in the carts serv
     - In the **Graph** tab, add the expression 
 
     ```
-    histogram_quantile(0.9, sum by(le) (rate(http_response_time_milliseconds_bucket{job="carts-sockshop-production-primary"}[3m])))
+    histogram_quantile(0.9, sum by(le) (rate(http_response_time_milliseconds_bucket{handler="ItemsController.addToCart",job="carts-sockshop-production-primary"}[3m]))) 
     ```
     
     - Select the **Graph** tab to see your Response time metrics of the `carts` service in the `sockshop-production` environment.
