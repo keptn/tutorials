@@ -32,7 +32,7 @@ After creating a project and service, you can setup Prometheus monitoring and co
 * To verify that the Prometheus scrape jobs are correctly set up, you can access Prometheus by enabling port-forwarding for the prometheus-service:
 
     ```
-    kubectl port-forward svc/prometheus-service 8080 -n monitoring
+    kubectl port-forward svc/prometheus-service 8080 -n keptn
     ```
 
 Prometheus is then available on [localhost:8080/targets](http://localhost:8080/targets) where you can see the targets for the service:
