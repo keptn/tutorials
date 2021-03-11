@@ -18,7 +18,7 @@ sleep 10
 -->
     
 Negative
-: Please note that Prometheus will be installed only after executing the next command. At this step, we have only installed the service that is responsible for managing Prometheus.
+: Please note that a Keptn managed Prometheus will be installed only after executing the next command. At this step, we have only installed the service that is responsible for managing Prometheus.
 
 Execute the following command to install Prometheus and set up the rules for the *Prometheus Alerting Manager*:
 
