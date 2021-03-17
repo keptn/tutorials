@@ -1,0 +1,33 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-03-17T17:51:14+01:00",
+  "id": "keptn-in-a-box-08",
+  "duration": 36,
+  "title": "Keptn in a Box",
+  "authors": "Sergio Hinojosa",
+  "summary": "Keptn-in-a-Box with Dynatrace Software Intelligence empowered",
+  "source": "keptn-in-a-box-08.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "microk8s",
+    "dynatrace",
+    "installation",
+    "microkubernetes",
+    "microk8s",
+    "full-tour",
+    "quality-gates",
+    "performance-as-a-service",
+    "automated-operations"
+  ],
+  "tags": [
+    "keptn08x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-in-a-box-08"
+}
