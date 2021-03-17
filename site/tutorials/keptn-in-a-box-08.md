@@ -427,6 +427,88 @@ kubectl get ing -A
 
 Now that you have your single node Kubernetes Cluster configured and up and running, you are all set to continue your journey to the autonomous cloud. Start typing `kubectl` commands, onboard applications with `keptn`, or maybe create your own **unbreakable pipeline** locally? What about creating your own Keptn Service? Take a look at more [Keptn tutorials](https://tutorials.keptn.sh/).
 
+##  Troubleshooting
+
+Negative
+: If you face any issue please don't hesitate in reaching out to the Keptn team on https://keptn.slack.com/, we will be more than glad to help. 
+ 
+
+If you want to verify that the installation finished without errors. Inspect the log with this command:
+```bash
+cat /tmp/kiab-install.log | grep -i error
+```
+If there is no output it means that no error was found in the installation log.
+
+If there is an issue, or maybe there wasn't but you want to start new, here is how we recommend to reboot your Microk8s and everything installed in your single kubernetes cluster. 
+
+Search the `functions.sh` file, it should be inside the `keptn-in-a-box` directory. Load it to the shell and run the function `removeMicrok8s`
+
+```bash
+source functions.sh && removeMicrok8s
+```
+This will ask for the sudo password since we are basically removing microk8s and purging its data. It will print the directories that were cloned such as the examples or keptn-in-a-box. It's recommended to delete them if you are upgrading versions. Before deleting any directory make sure to save a copy of `keptn-in-a-box.sh` or at least the variables defined in there.
+
+```bash
+sudo snap remove microk8s --purge
+```
+
+Positive
+: After you have deleted microk8s, you can rerun the installer the same way you did before.
+
+##  Advanced features 
+
+Positive
+: Keptn in a box is build in a modular way, this means that you can enable functionality for exploring new features. Let me show you how to do this.
+
+We load the functions in the current shell and we set the flag for all features to be active. Then we can enable module by module. 
+
+```bash
+source functions.sh && installationBundleAll
+```
+
+Here are some examples:
+
+### Enable Jenkins
+Now we enable the modules we want to activate, for example we want to deploy Jenkins, we type
+
+```bash
+jenkinsDeploy
+```
+
+### Enable Kubernetes Dashboard and patch its access
+Let's say we want to enable the default Kubernetes Dashboard and disable the login for experimenting and learning.
+```bash
+microk8sEnableDashboard
+exposeK8Services
+patchKubernetesDashboard
+```
+### Enable own GIT server & Migrate Keptn projects to it.
+
+```bash
+DOMAIN=$(kubectl get configmap domain -n default -ojsonpath={.data.domain})
+gitDeploy
+gitMigrate
+```
+
+### Create a(nother) Workshop account.
+Now we to create a workshop account for Tony. For this we need elevated rights since we will restart the SSH service, enable authentication via SSH. Since we want to copy the home directory and it's properties of the user (e.g. ubuntu) but also need root rights, this needs a couple of more steps. 
+
+As the normal user (not root) we type the following series of commands.
+First become root and load the functions in the shell (again since it's a new shell)
+```bash
+sudo su
+source functions.sh && installationBundleAll
+```
+Then we tell the script from where we copy the home directory and settings. This is normally the user you were before which is by default saved in the var `$SUDO_USER` in interactive shells. We also mark the new userid and it's password. Finally we run the function.
+```bash
+USER=$SUDO_USER
+NEWUSER="tony"
+NEWPWD="SuperTony"
+createWorkshopUser
+```
+Now tony is able to login to the KIAB machine via SSH and interact with `kubectl` and `keptn`.
+
+
 {{ snippets/07/community/feedback.md }}
 
 
