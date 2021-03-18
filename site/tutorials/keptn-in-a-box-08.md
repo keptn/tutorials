@@ -509,7 +509,7 @@ createWorkshopUser
 Now tony is able to login to the KIAB machine via SSH and interact with `kubectl` and `keptn`.
 
 
-{{ snippets/07/community/feedback.md }}
+{{ snippets/08/community/feedback.md }}
 
 
 
