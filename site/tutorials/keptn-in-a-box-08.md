@@ -114,9 +114,9 @@ Duration: 1:00
 For the best experience we recommend that you enable Dynatrace monitoring. 
 
 By **only** providing your Dynatrace credentials, Keptn-in-a-Box will:
-- Install the OneAgent via the [OneAgent Operator](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/monitoring/monitor-workloads-kubernetes/) for the Cluster and configure the Dynatrace Integration for Keptn.
+- Install the OneAgent via the [OneAgent Operator](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/deploy-oneagent-k8/) for the Cluster and configure the Dynatrace Integration for Keptn.
 - Configure the Dynatrace Service in Keptn.
-- Download and configure the [Dynatrace ActiveGate](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/oneagent-with-helm/) for monitoring the [Kubernetes Cluster Utilization](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/monitoring/monitor-kubernetes-openshift-clusters/), [Kubernetes Events](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/monitoring/events/) and [Workloads](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/monitoring/monitor-workloads-kubernetes/).
+- Deploy and connect to your Cluster the containerized [Dynatrace ActiveGate](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/monitoring/deploy-activegate-in-kubernetes/) for monitoring the [Kubernetes Cluster Utilization](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/monitoring/monitor-kubernetes-openshift-clusters/), [Kubernetes Events](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/monitoring/events/) and [Workloads](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/monitoring/monitor-workloads-kubernetes/).
 
 Positive
 : You have to bring your own Dynatrace tenant
@@ -430,7 +430,7 @@ Now that you have your single node Kubernetes Cluster configured and up and runn
 ##  Troubleshooting
 
 Negative
-: If you face any issue please don't hesitate in reaching out to the Keptn team on https://keptn.slack.com/, we will be more than glad to help. 
+: If you face any issue please don't hesitate in reaching out to the Keptn team on [https://slack.keptn.sh ](https://slack.keptn.sh ), we will be more than glad to help. 
  
 
 If you want to verify that the installation finished without errors. Inspect the log with this command:
