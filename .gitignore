@@ -5,3 +5,4 @@ bazel-*
 debug.test
 *pb.go
 node_modules
+.vscode
