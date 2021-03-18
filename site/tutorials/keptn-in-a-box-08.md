@@ -446,11 +446,7 @@ Search the `functions.sh` file, it should be inside the `keptn-in-a-box` directo
 ```bash
 source functions.sh && removeMicrok8s
 ```
-This will ask for the sudo password since we are basically removing microk8s and purging its data. It will print the directories that were cloned such as the examples or keptn-in-a-box. It's recommended to delete them if you are upgrading versions. Before deleting any directory make sure to save a copy of `keptn-in-a-box.sh` or at least the variables defined in there.
-
-```bash
-sudo snap remove microk8s --purge
-```
+This will ask for the sudo password since we are basically removing microk8s and purging its data with the command `sudo snap remove microk8s --purge` . It will also print the directories that were cloned such as the examples or keptn-in-a-box. It's recommended to delete them if you are upgrading versions. Before deleting any directory make sure to save a copy of `keptn-in-a-box.sh` or at least the variables defined in there for example the `DOMAIN` or the **Dynatrace credentials**.
 
 Positive
 : After you have deleted microk8s, you can rerun the installer the same way you did before.
