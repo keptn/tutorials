@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2021-03-19T13:04:47+01:00",
+  "updated": "2021-03-19T14:21:07+01:00",
   "id": "keptn-quality-gates-dynatrace-08-on-k3s",
   "duration": 36,
   "title": "Keptn Quality Gates with Dynatrace using k3s",
