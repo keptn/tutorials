@@ -39,9 +39,9 @@ As we will be accessing Keptn that we install on that machine via HTTP and HTTPS
 What we will need is SSH access to this machine and SUDO rights so we can execute our scripts
 
 So - here is our checklist:
-- [] Large enough Linux Machine
-- [] Ports 80 & 443 are open
-- [] SSH access and SUDO rights
+- [x] Large enough Linux Machine
+- [x] Ports 80 & 443 are open
+- [x] SSH access and SUDO rights
 
 **Dynatrace Environment**
 Next thing we need is a Dynatrace environment. If you don't have one - just sign up for a [Dynatrace SaaS Trial](https://dynatrace.com/trial). As this is a tutorial about Quality Gates which means - automating the analysis of data in Dynatrace please make sure that you are installing a Dynatrace OneAgent on at least one machine so that we can get some monitoring data. For more details simply follow the steps that the Dynatrace trial guides you through!
@@ -62,10 +62,10 @@ If you have a Dynatrace SaaS (e.g: trial) environment we need the host name, e.g
 This should be simple. The username you have when logging in to Dynatrace. That is probably your email. We need that because a dashboard will be created automatically for us and every dashboard needs an owner. This is why we need that email!
 
 So - here is our checklist:
-- [] DT_API_TOKEN
-- [] DT_PAAS_TOKEN
-- [] DT_TENANT
-- [] OWNER_EMAIL
+- [x] DT_API_TOKEN
+- [x] DT_PAAS_TOKEN
+- [x] DT_TENANT
+- [x] OWNER_EMAIL
 
 ### Preparing our Linux Host
 
