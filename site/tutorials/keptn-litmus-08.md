@@ -1,4 +1,4 @@
-summary: Resilience evaluation with Litmus and Keptn
+summary: Resilience evaluation with Litmus, Prometheus, and Keptn
 id: keptn-litmus-08
 categories: Prometheus,aks,eks,gke,openshift,pks,minikube,quality-gates,litmus
 tags: keptn08x
@@ -7,18 +7,18 @@ authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
-# Resilience evaluation with Litmus and Keptn
+# Resilience evaluation with Litmus, Prometheus, and Keptn
 
 ## Welcome
 Duration: 2:00 
 
-In this tutorial we'll set up a demo application and have it undergo some chaos engineering in combination with load testing. We will then use Keptn quality gates to evaluate the resilience of the application based on SLO-driven quality gates.
+In this tutorial we'll set up a demo application and have it undergo some chaos in combination with load testing. We will then use Keptn quality gates to evaluate the resilience of the application based on SLO-driven quality gates.
 
 ### What we will cover
 - How to create a sample project
 - How to onboard a first microservice
 - How to setup quality gates 
-- How to add the Litmus integration
+- How to add the Litmus integration and execute chaos
 - How to evaluate application resilience
 
 You'll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.
