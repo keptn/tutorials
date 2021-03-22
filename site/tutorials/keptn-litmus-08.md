@@ -29,6 +29,11 @@ In this tutorial, we are going to install Keptn on a Kubernetes cluster.
 The full setup that we are going to deploy is sketched in the following image.
 ![demo setup](./assets/keptn-litmus/demo-workflow.png)
 
+If you are interested, please have a look at this presentation from Litmus and Keptn maintainers presenting the intial integration.
+
+![https://www.youtube.com/watch?v=aa5SzQmv4EQ](.)
+
+
 {{ snippets/08/install/cluster.md }}
 
 {{ snippets/08/install/istio.md }}
@@ -41,14 +46,18 @@ The full setup that we are going to deploy is sketched in the following image.
 
 {{ snippets/08/install/authCLI-istio.md }}
 
-## Fetch demo resources
+## Download demo resources
 Duration: 1:00
 
-Demo resources are prepared for you on Github. We are going to download them.
+Demo resources are prepared for you on Github for a convenient experience. We are going to download them to the local machine so we have them handy.
 
 ```
 git clone --branch=TBD https://github.com/keptn-sandbox/litmus-service.git --single-branch
+```
 
+Now switch to the directory including the demo resources.
+
+```
 cd litmus-service/test-data
 ```
 
@@ -62,11 +71,15 @@ Duration: 3:00
     kubectl apply -f ./litmus/litmus-operator-v1.13.2.yaml 
     ```
 
-1. We also need to create the custom resources for the experiments we want to run later, as well as some permissions.
+1. We are going to create a namespace where we are later executing our chaos experiments.
 
     ```
     kubectl create namespace litmus-chaos
+    ```
 
+1. We also need to create the custom resources for the experiments we want to run later, as well as some permissions.
+
+    ```
     kubectl apply -f ./litmus/pod-delete-ChaosExperiment-CR.yaml 
 
     kubectl apply -f ./litmus/pod-delete-rbac.yaml 
@@ -75,22 +88,33 @@ Duration: 3:00
 ## Setup Prometheus
 Duration: 3:00
 
-Before we are going to create the project wiht Keptn, we'll intall the Prometheus integration to be ready to fetch the data that is later on needed for the SLO-based quality gate evaluation.
+Before we are going to create the project with Keptn, we'll install the Prometheus integration to be ready to fetch the data that is later on needed for the SLO-based quality gate evaluation. 
 
-```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.4.0/deploy/service.yaml
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.3.0/deploy/service.yaml
-```
+1. The Prometheus service integration is responsible to set up Prometheus with Keptn, let us install the integration. Please note, this does **not** automatically install Prometheus - this will be done later in the tutorial.
+
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.4.0/deploy/service.yaml
+    ```
+
+1. Next, we are going to install the Prometheus SLI integration to be able to fetch the data from Prometheus
+
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.3.0/deploy/service.yaml
+    ```
+
 
 ## Setup Litmus integration
 Duration: 1:00
 
-Adding a new service to Keptn is just a matter of applying it in the Kubernetes cluster and subscribing to events from the Keptn control-plane. This can be done via the following command:
+Similar to the Prometheus integration, we are now adding the Litmus integration. 
+
+1. This can be done via the following command.
 
 ```
 kubectl apply -f ../deploy/service.yaml
 ```
 
+We now have all the integrations installed and connected to the Keptn control plane. Let's move on with setup up a project!
 
 ## Create project
 Duration: 3:00
