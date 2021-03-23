@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2021-03-17T15:10:46+01:00",
+  "updated": "2021-03-23T13:39:01+01:00",
   "id": "keptn-litmus-08",
-  "duration": 52,
-  "title": "Resilience evaluation with Litmus and Keptn",
+  "duration": 43,
+  "title": "Resilience evaluation with Litmus, Prometheus, and Keptn",
   "authors": "Jürgen Etzlstorfer",
-  "summary": "Resilience evaluation with Litmus and Keptn",
-  "source": "keptn-litmus_gen.md",
+  "summary": "Resilience evaluation with Litmus, Prometheus, and Keptn",
+  "source": "keptn-litmus-08_gen.md",
   "theme": "",
   "status": [
     "published"

@@ -15,8 +15,7 @@ Duration: 2:00
 In this tutorial we'll set up a demo application and have it undergo some chaos in combination with load testing. We will then use Keptn quality gates to evaluate the resilience of the application based on SLO-driven quality gates.
 
 ### What we will cover
-- How to create a sample project
-- How to onboard a first microservice
+- How to create a sample project and onboard a sample service
 - How to setup quality gates 
 - How to add the Litmus integration and execute chaos
 - How to evaluate application resilience
@@ -49,13 +48,13 @@ If you are interested, please have a look at this presentation from Litmus and K
 ## Download demo resources
 Duration: 1:00
 
-Demo resources are prepared for you on Github for a convenient experience. We are going to download them to the local machine so we have them handy.
+Demo resources are prepared for you on Github for a convenient experience. We are going to download them to a local machine so we have them handy.
 
 ```
-git clone --branch=TBD https://github.com/keptn-sandbox/litmus-service.git --single-branch
+git clone --branch=release-0.2.0 https://github.com/keptn-sandbox/litmus-service.git --single-branch
 ```
 
-Now switch to the directory including the demo resources.
+Now, let's switch to the directory including the demo resources.
 
 ```
 cd litmus-service/test-data
@@ -65,7 +64,7 @@ cd litmus-service/test-data
 ## Install Litmus Operator & Chaos CRDs
 Duration: 3:00
 
-1. Let us install Litmus into our Kubernetes cluster. This can be done via `kubectl`.
+1. Let us install LitmusChaos into our Kubernetes cluster. This can be done via `kubectl`.
 
     ```
     kubectl apply -f ./litmus/litmus-operator-v1.13.2.yaml 
@@ -86,7 +85,7 @@ Duration: 3:00
     ```
 
 ## Setup Prometheus
-Duration: 3:00
+Duration: 2:00
 
 Before we are going to create the project with Keptn, we'll install the Prometheus integration to be ready to fetch the data that is later on needed for the SLO-based quality gate evaluation. 
 
@@ -106,9 +105,9 @@ Before we are going to create the project with Keptn, we'll install the Promethe
 ## Setup Litmus integration
 Duration: 1:00
 
-Similar to the Prometheus integration, we are now adding the Litmus integration. 
+Similar to the Prometheus integration, we are now adding the Litmus integration. This integration will be responsible to trigger the experiments with Litmus and listens for `sh.keptn.event.test.triggered` events that are sent from Keptn.
 
-1. This can be done via the following command.
+This can be done via the following command.
 
 ```
 kubectl apply -f ../deploy/service.yaml
@@ -117,17 +116,11 @@ kubectl apply -f ../deploy/service.yaml
 We now have all the integrations installed and connected to the Keptn control plane. Let's move on with setup up a project!
 
 ## Create project
-Duration: 3:00
+Duration: 1:00
 
 A project in Keptn is the logical unit that can hold multiple (micro)services. Therefore, it is the starting point for each Keptn installation.
+We have already cloned the demo resources from Github, so we can go ahead and create the project.
 
-To get all files you need for this tutorial, please clone the example repo to your local machine.
-
-```
-git clone --branch=TBD https://github.com/keptn-sandbox/litmus-service.git --single-branch
-
-cd litmus-service/test-data
-```
 
 **Recommended:** Create a new project with Git upstream:
 
@@ -178,15 +171,12 @@ spec:
               properties:
                 teststrategy: "performance"
             - name: "evaluation"
-            - name: "release"
-
 ```
 
-TO DO DESCRIPTION
-
+In the `shipyard.yaml` shown above, we define a single stage called *chaos* with a single sequence called *delivery*. In this sequence, a *deployment*, *test*, and *evaluation*  task is defined (along with some properties). With this, Keptn sets up the environment and makes sure, that tests are triggered after each deployment, and the tests are then evaluted by Keptn quality gates. As we do not have a subsequent stage, we do not need an *approval* or *release* task.
 
 ## Onboard service
-Duration: 3:00
+Duration: 2:00
 
 After creating the project, services can be onboarded to our project.
 
@@ -197,49 +187,65 @@ After creating the project, services can be onboarded to our project.
     keptn onboard service helloservice --project=litmus --chart=./helloservice/helm
     ```
 
-1. After onboarding the service, tests need to be added as basis for quality gates in the different stages:
+1. After onboarding the service, tests need to be added as basis for quality gates. We are using JMeter tests, as the JMeter service comes "batteries included" with our Keptn installation. Although this could be changed to other testing tools, we are going with JMeter in this tutorial. Let's add some JMeter tests as well as a configuration file to Keptn.
+
     <!-- command -->
     ```
-    keptn add-resource --project=litmus --stage=chaos --service=helloservice --resource=helloservice/jmeter/load.jmx --resourceUri=jmeter/load.jmx
-    keptn add-resource --project=litmus --stage=chaos --service=helloservice --resource=helloservice/jmeter/jmeter.conf.yaml --resourceUri=jmeter/jmeter.conf.yaml
+    keptn add-resource --project=litmus --stage=chaos --service=helloservice --resource=./jmeter/load.jmx --resourceUri=jmeter/load.jmx
+    keptn add-resource --project=litmus --stage=chaos --service=helloservice --resource=./jmeter/jmeter.conf.yaml --resourceUri=jmeter/jmeter.conf.yaml
     ```
+
+Now each time Keptn triggers the test execution, the JMeter service will pick up both files and execute the tests.
 
 ## Configure Quality Gate
-Duration: 3:00
+Duration: 2:00
 
-1. We are  going to add the SLO-based quality gate
+We have not yet added our quality gate, i.e., the evalution of several SLOs done by Keptn. Let's do this now!
+
+
+1. First, we are going to add an SLI file that holds all service-level indicators we want to evaluate along with their PromQL expressions. Learn more about the concept of [Service-Level Indicators in the Keptn docs](https://keptn.sh/docs/concepts/quality_gates/#what-is-a-service-level-indicator-sli).
 
     ```
-    keptn add-resource --project=litmus --stage=chaos --service=helloservice --resource=helloservice/prometheus/sli.yaml --resourceUri=prometheus/sli.yaml
+    keptn add-resource --project=litmus --stage=chaos --service=helloservice --resource=./prometheus/sli.yaml --resourceUri=prometheus/sli.yaml
     ```
 
-1. 
+1. Now that we have added our SLIs, let us add the quality gate in terms of an `slo.yaml` which adds objectives for our metrics that have to be satisfied. earn more about the concept of [Service-Level Objectives in the Keptn docs](https://keptn.sh/docs/concepts/quality_gates/#what-is-a-service-level-objective-slo).
+
     ```
     keptn add-resource --project=litmus --stage=chaos --service=helloservice --resource=helloservice/slo.yaml --resourceUri=slo.yaml
     ```
 
+We've now added our quality gate, let's move on to add the chaos instructions and then run our experiment!
 
 ## Adding Litmus Chaos Experiment to Keptn
-Duration: 2:00
+Duration: 1:00
 
-1. adding...
+We have already installed LitmusChaos on our Kubernetes cluster, but we have not yet added or executed a chaos experiment. Let's do this now!
 
-    ```
-    keptn add-resource --project=litmus --stage=chaos --service=helloservice --resource=helloservice/litmus/experiment.yaml --resourceUri=litmus/experiment.yaml
-    ```
+Let us add the `experiment.yaml` file that holds the chaos experiment instructions. It will be picked up by the LitmusChaos integration of Keptn each time a test is triggered. Therefore, Keptn makes sure that both, JMeter tests as well as LitmusChaos tests, are executed during the `test` task sequence.
 
+```
+keptn add-resource --project=litmus --stage=chaos --service=helloservice --resource=./litmus/experiment.yaml --resourceUri=litmus/experiment.yaml
+```
+
+Great job - the file is added and we can move on!
 
 ## Configure Prometheus
-Duration: 3:00
+Duration: 2:00
 
+Before we are going to run the experiment, we have to make sure that we have some observability software in place that will actually monitor how the service is behaving under the testing conditions. 
+
+1. Let's use the Keptn CLI to configure Prometheus. It will set up a Prometheus deployment and configures it to be ready for Keptn usage. 
 
     ```
     keptn configure monitoring prometheus --project=litmus --service=helloservice
     ```
 
+1. Next, we are going to add a `blackbox-exporter` for Prometheus that is able to observe our service under test from the outside, i.e., as a blackbox. 
+
     ```
-    kubectl apply -f helloservice/prometheus/blackbox-exporter.yaml
-    kubectl apply -f helloservice/prometheus/prometheus-server-conf-cm.yaml -n monitoring
+    kubectl apply -f ./prometheus/blackbox-exporter.yaml
+    kubectl apply -f ./prometheus/prometheus-server-conf-cm.yaml -n monitoring
     ```
 
 1. Finally, restart Prometheus to pick up the new configuration
@@ -248,9 +254,12 @@ Duration: 3:00
     kubectl delete pod -l app=prometheus-server -n monitoring
     ```
 
+Now everything is in place, let's run our experiments and evaluate the resilience of our demo application!
 
 ## Run experiment
-Duration: 3:00
+Duration: 4:00
+
+We are now ready to kick off a new deployment of our test application with Keptn and have it deployed, tested, and evaluated.
 
 1. Let us now trigger the deployment, tests, and evaluation of our demo application.
 
@@ -258,35 +267,91 @@ Duration: 3:00
     keptn trigger delivery --project=litmus --service=helloservice --image=jetzlstorfer/hello-server:v0.1.1
     ```
 
+1. Let's have a look in the Keptn's bridge what is actually going on. We can use this helper command to retrieve the URL of our Keptn's bridge.
+
+    ```
+    echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge
+    ```
+
+    The credentials can be retrieved via the Keptn CLI:
+
+    ```
+    keptn configure bridge --output
+    ```
+
+    ![](./assets/keptn-litmus/litmus-first-run-started.png)
+
 1. We can see that the evaluation failed, but why is that?
 
-![](./assets/keptn-litmus/litmus-first-run.png)
+    ![](./assets/keptn-litmus/litmus-first-run.png)
 
-1. Lets take a look at the evalution.
+1. Lets take a look at the evalution - lick on the *chart* icon in the red evaluation tile.
 
-TO DO IMAGE
+    ![](./assets/keptn-litmus/litmus-first-evaluation.png)
+
+    We can see that the evaluation failed because both the `probe_duration_ms` as well as the `probe_success_percentage` SLOs did not meet their criteria.
+    Considering the fact that our chaos experiment did delete the pod of our application, we might want to increase the number of replicas that are running to make our applcation more resilient. Let's do this in the next step.
+
 
 ## Increase resilience
 Duration: 3:00
 
 1. Let's do another run of our deployment, tests, and evaluation. But this time, we are increasing the `replicaCount` meaning that we run 3 instances of our application. If one of those get deleted by Litmus, the two others should still be able to serve the traffic.
-This time we are using the `keptn send event` command with an event payload that has been already prepared for the demo.
+This time we are using the `keptn send event` command with an event payload that has been already prepared for the demo (i.e., the `replicaCount` is set to 3).
 
     ```
     keptn send event -f helloservice/deploy-event.json
     ```
 
-![](./assets/keptn-litmus/litmus-second-run.png)
+1. Let's have a look at the second run. We can see that this time the evaluation was successful.
 
+    ![](./assets/keptn-litmus/litmus-second-run.png)
+
+1. Taking a look at the detailed evalution results we can see that all probes were successful and did finish within the objectives we have set.
+
+    ![](./assets/keptn-litmus/litmus-second-evaluation.png)
+
+1. If you want, you can now experiment with different SLOs or different `replicaCount` to evaluate the resilience of your application in terms of being reponsive when the pod of this application gets deleted. Keptn will make sure that JMeter tests and chaos tests are executed each time you run the experiment.
 
 ## Finish
 Duration: 1:00
 
-TODO
+Congratulations! You have successfully completed this tutorial and evaluated the resilience of a demo microservice application with LitmusChaos and Keptn. 
 
-### What we've covered
-TODO
+### What we've covered in this tutorial
 
-{{ snippets/08/integrations/gettingStarted.md }}
+- We've created a project based on a `shipyard` definition.
+    ```
+    apiVersion: "spec.keptn.sh/0.2.0"
+    kind: "Shipyard"
+    metadata:
+      name: "shipyard-litmus-chaos"
+    spec:
+      stages:
+        - name: "chaos"
+          sequences:
+            - name: "delivery"
+              tasks:
+                - name: "deployment"
+                  properties:
+                    deploymentstrategy: "direct"
+                - name: "test"
+                  properties:
+                    teststrategy: "performance"
+                - name: "evaluation"
+    ```
+
+- We've added the Litmus integration and did a successful run of a sequence with JMeter + LitmusChaos
+
+    ![](./assets/keptn-litmus/litmus-first-run.png)
+
+- We've executed chaos tests and evaluated their impact on our application
+
+    ![](./assets/keptn-litmus/litmus-first-evaluation.png)
+
+- We've increased resilience by adding more instances of our demo application to the game
+    ![](./assets/keptn-litmus/litmus-second-evaluation.png)
+
+
 
 {{ snippets/08/community/feedback.md }}
