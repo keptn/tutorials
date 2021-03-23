@@ -12,7 +12,7 @@ Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 ## Welcome
 Duration: 2:00 
 
-In this tutorial we'll set up a demo application and have it undergo some chaos in combination with load testing. We will then use Keptn quality gates to evaluate the resilience of the application based on SLO-driven quality gates.
+In this tutorial, we'll set up a demo application and have it undergo some chaos in combination with load testing. We will then use Keptn quality gates to evaluate the resilience of the application based on SLO-driven quality gates.
 
 ### What we will cover
 - How to create a sample project and onboard a sample service
@@ -28,7 +28,7 @@ In this tutorial, we are going to install Keptn on a Kubernetes cluster.
 The full setup that we are going to deploy is sketched in the following image.
 ![demo setup](./assets/keptn-litmus/demo-workflow.png)
 
-If you are interested, please have a look at this presentation from Litmus and Keptn maintainers presenting the intial integration.
+If you are interested, please have a look at this presentation from Litmus and Keptn maintainers presenting the initial integration.
 
 ![https://www.youtube.com/watch?v=aa5SzQmv4EQ](.)
 
@@ -173,7 +173,7 @@ spec:
             - name: "evaluation"
 ```
 
-In the `shipyard.yaml` shown above, we define a single stage called *chaos* with a single sequence called *delivery*. In this sequence, a *deployment*, *test*, and *evaluation*  task is defined (along with some properties). With this, Keptn sets up the environment and makes sure, that tests are triggered after each deployment, and the tests are then evaluted by Keptn quality gates. As we do not have a subsequent stage, we do not need an *approval* or *release* task.
+In the `shipyard.yaml` shown above, we define a single stage called *chaos* with a single sequence called *delivery*. In this sequence, a *deployment*, *test*, and *evaluation*  task is defined (along with some properties). With this, Keptn sets up the environment and makes sure, that tests are triggered after each deployment, and the tests are then evaluated by Keptn quality gates. As we do not have a subsequent stage, we do not need an *approval* or *release* task.
 
 ## Onboard service
 Duration: 2:00
@@ -200,7 +200,7 @@ Now each time Keptn triggers the test execution, the JMeter service will pick up
 ## Configure Quality Gate
 Duration: 2:00
 
-We have not yet added our quality gate, i.e., the evalution of several SLOs done by Keptn. Let's do this now!
+We have not yet added our quality gate, i.e., the evaluation of several SLOs done by Keptn. Let's do this now!
 
 
 1. First, we are going to add an SLI file that holds all service-level indicators we want to evaluate along with their PromQL expressions. Learn more about the concept of [Service-Level Indicators in the Keptn docs](https://keptn.sh/docs/concepts/quality_gates/#what-is-a-service-level-indicator-sli).
@@ -267,7 +267,7 @@ We are now ready to kick off a new deployment of our test application with Keptn
     keptn trigger delivery --project=litmus --service=helloservice --image=jetzlstorfer/hello-server:v0.1.1
     ```
 
-1. Let's have a look in the Keptn's bridge what is actually going on. We can use this helper command to retrieve the URL of our Keptn's bridge.
+1. Let's have a look in the Keptn bridge what is actually going on. We can use this helper command to retrieve the URL of our Keptn bridge.
 
     ```
     echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge
@@ -285,12 +285,12 @@ We are now ready to kick off a new deployment of our test application with Keptn
 
     ![](./assets/keptn-litmus/litmus-first-run.png)
 
-1. Lets take a look at the evalution - lick on the *chart* icon in the red evaluation tile.
+1. Let's take a look at the evaluation - lick on the *chart* icon in the red evaluation tile.
 
     ![](./assets/keptn-litmus/litmus-first-evaluation.png)
 
     We can see that the evaluation failed because both the `probe_duration_ms` as well as the `probe_success_percentage` SLOs did not meet their criteria.
-    Considering the fact that our chaos experiment did delete the pod of our application, we might want to increase the number of replicas that are running to make our applcation more resilient. Let's do this in the next step.
+    Considering the fact that our chaos experiment did delete the pod of our application, we might want to increase the number of replicas that are running to make our application more resilient. Let's do this in the next step.
 
 
 ## Increase resilience
@@ -307,11 +307,11 @@ This time we are using the `keptn send event` command with an event payload that
 
     ![](./assets/keptn-litmus/litmus-second-run.png)
 
-1. Taking a look at the detailed evalution results we can see that all probes were successful and did finish within the objectives we have set.
+1. Taking a look at the detailed evaluation results we can see that all probes were successful and did finish within the objectives we have set.
 
     ![](./assets/keptn-litmus/litmus-second-evaluation.png)
 
-1. If you want, you can now experiment with different SLOs or different `replicaCount` to evaluate the resilience of your application in terms of being reponsive when the pod of this application gets deleted. Keptn will make sure that JMeter tests and chaos tests are executed each time you run the experiment.
+1. If you want, you can now experiment with different SLOs or different `replicaCount` to evaluate the resilience of your application in terms of being responsive when the pod of this application gets deleted. Keptn will make sure that JMeter tests and chaos tests are executed each time you run the experiment.
 
 ## Finish
 Duration: 1:00
