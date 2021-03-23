@@ -1,4 +1,4 @@
-summary: Resilience evaluation with Litmus, Prometheus, and Keptn
+summary: Resilience evaluation with LitmusChaos, Prometheus, and Keptn
 id: keptn-litmus-08
 categories: Prometheus,aks,eks,gke,openshift,pks,minikube,quality-gates,litmus
 tags: keptn08x
@@ -7,7 +7,7 @@ authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
-# Resilience evaluation with Litmus, Prometheus, and Keptn
+# Resilience evaluation with LitmusChaos, Prometheus, and Keptn
 
 ## Welcome
 Duration: 2:00 
