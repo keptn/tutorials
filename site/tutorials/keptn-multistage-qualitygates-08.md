@@ -119,3 +119,76 @@ spec:
 
 In the `shipyard.yaml` shown above, we define two stages called *hardening* and *production* with a single sequence called *delivery*. The *hardening* stage defines a *delivery* sequence with a deployment, test, evaluation and release task (along with some other properties) while the *production* stage only includes a deloyment and release task. The *production* stage also features a *triggeredOn* properties which defines when the stage will be executed (in this case after the hardening stage has finished the delivery sequence). With this, Keptn sets up the environment and makes sure, that tests are triggered after each deployment, and the tests are then evaluated by Keptn quality gates. Keptn performs a blue/green deployment (i.e., two deployments simultaneously with routing of traffic to only one deployment) and triggers a performance test in the hardening stage. Once the tests complete successfully, the deployment moves into the production stage using another blue/green deployment.
 
+## Onboard service
+Duration: 2:00
+
+After creating the project, we can continue by onboarding the *helloserver* as a service to your project using the `keptn onboard service` command and passing the project you want to onboard the service to as well as the Helm chart of the service.
+
+```
+keptn onboard service helloservice --project="pod-tato-head" --chart=helm-charts/helloserver
+```
+
+After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates. We are using JMeter tests, as the JMeter service comes "batteries included" with our Keptn installation.
+
+```
+keptn add-resource --project=pod-tato-head --stage=hardening --service=helloservice --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+keptn add-resource --project=pod-tato-head --stage=hardening --service=helloservice --resource=jmeter/jmeter.conf.yaml --resourceUri=jmeter/jmeter.conf.yaml
+```
+
+Now each time Keptn triggers the test execution, the JMeter service will pick up both files and execute the tests.
+
+## Deploy first build with Keptn
+Duration: 4:00
+
+We are now ready to kick off a new deployment of our test application with Keptn and have it deployed, tested, and evaluated.
+
+1. Let us now trigger the deployment, tests, and evaluation of our demo application.
+
+    ```
+    keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.1
+    ```
+
+1. Let's have a look in the Keptn bridge what is actually going on. We can use this helper command to retrieve the URL of our Keptn bridge.
+
+    ```
+    echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge
+    ```
+
+    The credentials can be retrieved via the Keptn CLI:
+
+    ```
+    keptn configure bridge --output
+    ```
+
+    ![](./assets/keptn-multistage-podtatohead/podtato-head-first-deployment-bridge.png)
+
+1. **Optional:** Verify the pods that should have been created for the helloservice
+
+    ```
+    kubectl get pods --all-namespaces | grep helloservice
+    ```
+
+    ```
+    pod-tato-head-hardening    helloservice-primary-5f779966f9-vjjh4                        2/2     Running   0          4m55s
+    pod-tato-head-production   helloservice-primary-5f779966f9-kbhz5                        2/2     Running   0          2m52s
+    ```
+
+## View helloservice
+
+You can get the URL for the helloservice with the following commands in the respective namespaces:
+
+Hardening:
+
+```
+echo http://helloservice.pod-tato-head-hardening.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+```
+
+Production:
+
+```
+echo http://helloservice.pod-tato-head-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+```
+
+Navigating to the URLs should result in the following output:
+
+![](./assets/keptn-multistage-podtatohead/podtato-head-first-deployment.png)
