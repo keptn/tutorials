@@ -43,12 +43,14 @@ Duration: 1:00
 
 The demo resources can be found on Github for a convenient experience. Let's clone the project's repository, so we have all the resources needed to get started.
 
+<!-- command -->
 ```
 git clone https://github.com/cncf/podtato-head.git
 ```
 
 Now, let's switch to the directory including the demo resources.
 
+<!-- command -->
 ```
 cd podtato-head/delivery/keptn
 ```
@@ -65,8 +67,6 @@ To configure a Git upstream for this tutorial, the Git user (`--git-user`), an a
 
 Let's define the variables before running the command:
 
-<!-- bash keptn create project litmus --shipyard=./shipyard.yaml -->
-
 ```
 GIT_USER=gitusername
 GIT_TOKEN=gittoken
@@ -81,6 +81,7 @@ keptn create project pod-tato-head --shipyard=./shipyard.yaml --git-user=$GIT_US
 
 **Alternatively:** If you don't want to use a Git upstream, you can create a new project without it but please note that this is not the recommended way:
 
+<!-- command -->
 ```
 keptn create project pod-tato-head --shipyard=./shipyard.yaml
 ```
@@ -125,12 +126,14 @@ Duration: 2:00
 
 After creating the project, we can continue by onboarding the *helloserver* as a service to your project using the `keptn onboard service` command and passing the project you want to onboard the service to as well as the Helm chart of the service.
 
+<!-- command -->
 ```
 keptn onboard service helloservice --project="pod-tato-head" --chart=helm-charts/helloserver
 ```
 
 After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates. We are using JMeter tests, as the JMeter service comes "batteries included" with our Keptn installation.
 
+<!-- command -->
 ```
 keptn add-resource --project=pod-tato-head --stage=hardening --service=helloservice --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 keptn add-resource --project=pod-tato-head --stage=hardening --service=helloservice --resource=jmeter/jmeter.conf.yaml --resourceUri=jmeter/jmeter.conf.yaml
@@ -145,6 +148,7 @@ We are now ready to kick off a new deployment of our test application with Keptn
 
 1. Let us now trigger the deployment, tests, and evaluation of our demo application.
 
+    <!-- command -->
     ```
     keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.1
     ```
@@ -256,6 +260,7 @@ keptn add-resource --project=pod-tato-head --stage=hardening --service=helloserv
 ```
 
 For your information, the contents of the file are as follows:
+
 ```
 ---
 spec_version: '1.0'
@@ -315,6 +320,7 @@ Duration: 3:00
 
 You can now deploy another artifact and see the quality gates in action.
 
+<!-- command -->
 ```
 keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.1
 ```
@@ -351,7 +357,7 @@ After triggering the deployment of the *helloservice* in version v0.1.2, the fol
   - To verify, navigate to:
   <!-- command -->
   ```
-  echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+  echo http://helloservice.pod-tato-head-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
   ```
 
 ## Verify the quality gate in Keptn's Bridge
