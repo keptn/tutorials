@@ -52,6 +52,7 @@ Now, let's switch to the directory including the demo resources.
 ```
 cd podtato-head/delivery/keptn
 ```
+
 ## Create project
 Duration: 1:00
 
@@ -192,3 +193,119 @@ echo http://helloservice.pod-tato-head-production.$(kubectl -n keptn get ingress
 Navigating to the URLs should result in the following output:
 
 ![](./assets/keptn-multistage-podtatohead/podtato-head-first-deployment.png)
+
+## Setup Prometheus Monitoring
+Duration: 3:00
+
+After creating a project and service, you can setup Prometheus monitoring and configure scrape jobs using the Keptn CLI.
+
+To install the *prometheus-service*, execute:
+
+<!-- command -->
+```
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.4.0/deploy/service.yaml
+```
+
+<!-- 
+bash wait_for_deployment_in_namespace "prometheus-service" "keptn" 
+bash wait_for_deployment_in_namespace "prometheus-service-monitoring-configure-distributor" "keptn" 
+sleep 10
+-->
+    
+Negative
+: Please note that a Keptn managed Prometheus will be installed only after executing the next command. At this step, we have only installed the service that is responsible for managing Prometheus.
+
+Execute the following command to install Prometheus and set up the rules for the *Prometheus Alerting Manager*:
+
+<!-- command -->
+```
+keptn configure monitoring prometheus --project=pod-tato-head --service=helloservice
+```
+
+<!-- bash wait_for_deployment_in_namespace "alertmanager" "monitoring" -->
+<!-- bash wait_for_deployment_in_namespace "prometheus-deployment" "monitoring" -->
+
+### Optional: Verify Prometheus setup in your cluster
+
+- To verify that the Prometheus scrape jobs are correctly set up, you can access Prometheus by enabling port-forwarding for the prometheus-service:
+
+    ```
+    kubectl port-forward svc/prometheus-service 8080 -n monitoring
+    ```
+
+Prometheus is then available on [localhost:8080/targets](http://localhost:8080/targets) where you can see the targets for the service:
+![Prometheus targets](./assets/prometheus-targets.png")
+
+## Setup Prometheus SLI provider
+Duration: 2:00
+
+During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the *prometheus-sli-service*. This service will _fetch the values_ for the SLIs that are referenced in an SLO configuration file.
+
+To install the *prometheus-sli-service*, execute:
+
+<!-- command -->
+```
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.3.0/deploy/service.yaml
+```
+
+We are going to add the configuration for our SLIs in terms of an SLI file that maps the _name_ of an indicator to a PromQL statement how to actually query it.
+
+<!-- command -->
+```
+keptn add-resource --project=pod-tato-head --stage=hardening --service=helloservice --resource=prometheus/sli.yaml --resourceUri=prometheus/sli.yaml
+```
+
+For your information, the contents of the file are as follows:
+```
+---
+spec_version: '1.0'
+indicators:
+  http_response_time_seconds_main_page_sum: sum(rate(http_server_request_duration_seconds_sum{method="GET",route="/",status_code="200",job="$SERVICE-$PROJECT-$STAGE-canary"}[$DURATION_SECONDS])/rate(http_server_request_duration_seconds_count{method="GET",route="/",status_code="200",job="$SERVICE-$PROJECT-$STAGE-canary"}[$DURATION_SECONDS]))
+  http_requests_total_sucess: http_requests_total{status="success"}
+  go_routines: go_goroutines{job="$SERVICE-$PROJECT-$STAGE"}
+  request_throughput: sum(rate(http_requests_total{status="success"}[$DURATION_SECONDS]))
+```
+
+## Set up the quality gate
+Duration: 4:00
+
+Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/master/service_level_objective.md).
+
+Activate the quality gates for the helloservice. Therefore, navigate to the `delivery/keptn` folder and upload the `slo.yaml` file using the [add-resource](https://keptn.sh/docs/0.8.x/reference/cli/commands/keptn_add-resource/) command:
+
+<!-- command -->
+
+```
+keptn add-resource --project=pod-tato-head --stage=hardening --service=helloservice --resource=slo.yaml --resourceUri=slo.yaml
+```
+
+This will add the `slo.yaml` file to your Keptn - which is the declaritive definition of a quality gate. Let's take a look at the file contents:
+
+```
+---
+spec_version: '0.1.0'
+comparison:
+  compare_with: "single_result"
+  include_result_with_score: "pass"
+  aggregate_function: avg
+objectives:
+  - sli: http_response_time_seconds_main_page_sum
+    pass:
+      - criteria:
+          - "<=1"
+    warning:
+      - criteria:
+          - "<=0.5"
+  - sli: request_throughput
+    pass:
+      - criteria:
+          - "<=+100%"
+          - ">=-80%"
+  - sli: go_routines
+    pass:
+      - criteria:
+          - "<=100"
+total_score:
+  pass: "90%"
+  warning: "75%"
+```
