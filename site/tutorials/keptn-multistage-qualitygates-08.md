@@ -309,3 +309,138 @@ total_score:
   pass: "90%"
   warning: "75%"
 ```
+
+## Deploying artifact with quality gates
+Duration: 3:00
+
+You can now deploy another artifact and see the quality gates in action.
+
+```
+keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.1
+```
+
+After sending the artifact you can see the test results in Keptn Bridge.
+
+![](./assets/keptn-multistage-podtatohead/podtato-head-quality-gates-result.png)
+
+## Deploy a slow build version
+Duration: 5:00
+
+1. Use the Keptn CLI to deploy a version of the *helloservice*, which contains an artificial **slowdown of 2 second** in each request.
+
+    <!-- command -->
+    ```
+    keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.2
+    ```
+
+1. Go ahead and verify that the slow build has reached your `hardening` environment by opening a browser. You can get the URL with this command:
+
+    ```
+    echo http://helloservice.pod-tato-head-hardening.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+    ```
+
+## Quality gate in action
+Duration: 7:00
+
+After triggering the deployment of the *helloservice* in version v0.1.2, the following behaviour is expected:
+
+* **Hardening stage:** In this stage, version v0.1.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.1.1 in this stage is conducted and the promotion to production is not triggered.
+
+
+* **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.1.1 is expected to be in production.
+  - To verify, navigate to:
+  <!-- command -->
+  ```
+  echo http://carts.sockshop-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+  ```
+
+## Verify the quality gate in Keptn's Bridge
+Duration: 3:00
+
+Take a look in the Keptn's bridge and navigate to the last deployment. You will find a quality gate evaluation that got a `fail` result when evaluation the SLOs of our *helloservice* microservice. Thanks to this quality gate the slow build won't be promoted to production but instead automatically rolled back.
+
+To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.8.x/reference/bridge/) shows the deployment of v0.1.2 and then the failed test in hardening including the roll-back.
+
+![](./assets/keptn-multistage-podtatohead/podtato-head-slowbuild.png)
+
+Here you can see that some of your defined test cases (for example, the response time) failed because you deployed a slow build that is not suitable for production. Once the test fails, the deployment will not be promoted to production and the hardening stage will return to its original state.
+
+## Finish
+Duration: 1:00
+
+Thanks for taking a full tour through Keptn!
+Although Keptn has even more to offer that should have given you a good overview what you can do with Keptn.
+
+### What we've covered
+
+- We have created a sample project with the Keptn CLI and set up a multi-stage delivery pipeline with the `shipyard` file
+
+    ```
+    apiVersion: "spec.keptn.sh/0.2.0"
+    kind: "Shipyard"
+    metadata:
+    name: "shipyard-sockshop"
+    spec:
+    stages:
+        - name: "hardening"
+        sequences:
+            - name: "delivery"
+            tasks:
+                - name: "deployment"
+                properties:
+                    deploymentstrategy: "blue_green_service"
+                - name: "test"
+                properties:
+                    teststrategy: "performance"
+                - name: "evaluation"
+                - name: "release"
+        - name: "production"
+        sequences:
+            - name: "delivery"
+            triggeredOn:
+                - event: "hardening.delivery.finished"
+            tasks:
+                - name: "deployment"
+                properties:
+                    deploymentstrategy: "blue_green_service"
+                - name: "release"
+    ```
+
+- We have set up quality gates based on service level objectives in our `slo` file
+    ```
+    ---
+    spec_version: '0.1.0'
+    comparison:
+    compare_with: "single_result"
+    include_result_with_score: "pass"
+    aggregate_function: avg
+    objectives:
+    - sli: http_response_time_seconds_main_page_sum
+        pass:
+        - criteria:
+            - "<=1"
+        warning:
+        - criteria:
+            - "<=0.5"
+    - sli: request_throughput
+        pass:
+        - criteria:
+            - "<=+100%"
+            - ">=-80%"
+    - sli: go_routines
+        pass:
+        - criteria:
+            - "<=100"
+    total_score:
+    pass: "90%"
+    warning: "75%"
+    ```
+
+
+- We have tested our quality gates by deploying a bad build to our cluster and verified that Keptn quality gates stopped them.
+  ![](./assets/keptn-multistage-podtatohead/podtato-head-slowbuild.png)
+
+
+{{ snippets/08/integrations/gettingStarted.md }}
+
+{{ snippets/08/community/feedback.md }}
