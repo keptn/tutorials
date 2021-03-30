@@ -24,7 +24,7 @@ In this tutorial, we are going to install Keptn on a Kubernetes cluster.
 
 The full setup that we are going to deploy is sketched in the following image.
 
-![demo setup](./assets/keptn-multistage-podtatohead/demo-workflow.png)
+![demo setup](./assets/keptn-multistage-podtatohead/demo-workflow.jpg)
 
 {{ snippets/08/install/cluster.md }}
 
