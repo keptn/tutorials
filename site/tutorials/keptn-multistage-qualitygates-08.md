@@ -153,14 +153,22 @@ We are now ready to kick off a new deployment of our test application with Keptn
     keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.1
     ```
 
+    <!-- bash
+    verify_test_step $? "trigger delivery for helloservice failed"
+    wait_for_deployment_with_image_in_namespace "helloservice" "pod-tato-head-production" "gabrieltanner/hello-server:v0.1.1"
+    verify_test_step $? "Deployment helloservice not available, exiting..."
+    -->
+
 1. Let's have a look in the Keptn bridge what is actually going on. We can use this helper command to retrieve the URL of our Keptn bridge.
 
+    <!-- command -->
     ```
     echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge
     ```
 
     The credentials can be retrieved via the Keptn CLI:
 
+    <!-- command -->
     ```
     keptn configure bridge --output
     ```
@@ -169,6 +177,7 @@ We are now ready to kick off a new deployment of our test application with Keptn
 
 1. **Optional:** Verify the pods that should have been created for the helloservice
 
+    <!-- debug -->
     ```
     kubectl get pods --all-namespaces | grep helloservice
     ```
@@ -184,12 +193,14 @@ You can get the URL for the helloservice with the following commands in the resp
 
 Hardening:
 
+<!-- command -->
 ```
 echo http://helloservice.pod-tato-head-hardening.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
 ```
 
 Production:
 
+<!-- command -->
 ```
 echo http://helloservice.pod-tato-head-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
 ```
@@ -325,6 +336,12 @@ You can now deploy another artifact and see the quality gates in action.
 keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.1
 ```
 
+<!-- bash 
+verify_test_step $? "trigger delivery for helloservice failed"
+wait_for_deployment_with_image_in_namespace "helloservice" "pod-tato-head-production" "gabrieltanner/hello-server:v0.1.1"
+verify_test_step $? "Deployment helloservice not available, exiting..."
+-->
+
 After sending the artifact you can see the test results in Keptn Bridge.
 
 ![](./assets/keptn-multistage-podtatohead/podtato-head-quality-gates-result.png)
@@ -339,8 +356,18 @@ Duration: 5:00
     keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.2
     ```
 
+    <!-- bash 
+    verify_test_step $? "trigger delivery for helloservice failed"
+    wait_for_deployment_with_image_in_namespace "helloservice" "pod-tato-head-hardening" "gabrieltanner/hello-server:v0.1.2"
+    verify_test_step $? "Deployment helloservice not available, exiting..."
+    echo "Waiting for a little bit!"
+    wait_for_event_with_field_output "sh.keptn.event.release.finished" ".data.result" "fail" "pod-tato-head"
+    sleep 60
+    -->
+
 1. Go ahead and verify that the slow build has reached your `hardening` environment by opening a browser. You can get the URL with this command:
 
+    <!-- command -->
     ```
     echo http://helloservice.pod-tato-head-hardening.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
     ```
