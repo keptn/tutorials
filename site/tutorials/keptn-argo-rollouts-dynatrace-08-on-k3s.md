@@ -1,4 +1,4 @@
-summary: Keptn Canary Deployments with Argo Rollouts and Dynatrace on k3s
+summary: Keptn Multi Stage Delivery with Argo Rollouts and Dynatrace on k3s
 id: keptn-argo-rollouts-dynatrace-08-on-k3s
 categories: Dynatrace,k3s,argo,canary
 tags: keptn08x
@@ -7,7 +7,7 @@ authors: Andreas Grabner
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
-# Keptn Canary Quality Deployments with Argo Rollouts and Dynatrace on k3s
+# Keptn Multi Stage Delivery with Argo Rollouts and Dynatrace on k3s
 
 ## Welcome
 Duration: 2:00
@@ -21,8 +21,13 @@ Watch the intro in this YouTube video to see what this tutorial includes:
 
 ### Why Keptn with Argo Rollouts?
 
-Argo Rollouts is clearly a great and proven choice when it comes to managing Blue/Green or Canary rollouts. And while Argo Rollouts include an analysis component to control the rollout itself by analyzing metrics from external tools (Prometheus, Kayenta, Wavefront ...) it lacks key capabilities that many of our Keptn users are asking:
+Argo Rollouts is clearly a great and proven choice when it comes to managing Blue/Green or Canary rollouts. 
+
+![](./assets/argo_rollout/0.8/argo_rollout_overview.png)
+
+And while Argo Rollouts include an analysis component to control the rollout itself by analyzing metrics from external tools (Prometheus, Kayenta, Wavefront ...) it lacks other capabilities that require to integrate and automate Argo Rollout into other tools that can cover:
 * Pre-validate environment
+* Automated observability configuration
 * Analysis based on more complex SLOs
 * Analysis against previous timeframes
 * Analysis result based promotion type (manual vs automated)
@@ -33,6 +38,8 @@ Argo Rollouts is clearly a great and proven choice when it comes to managing Blu
 
 ### The best of both worlds: Keptn managing Argo Rollouts
 
+![](./assets/argo_rollout/0.8/argo_keptn_workflow_animated.gif)
+
 Keptn's event-driven and open standard approach to delivery automation allows us to take the best of both worlds:
 * Argo Rollouts: Blue / Green & Canary
 * Keptn: Advanced SLO-based Quality Gates between Rollout Steps
@@ -40,7 +47,9 @@ Keptn's event-driven and open standard approach to delivery automation allows us
 * Keptn: Visualization of Rollout Status & Quality Gates
 * Keptn: Automate Testing of each canary
 * Keptn: Integrate into your ChatOps tools
+* Keptn: Multi-Stage Delivery Support
 
+So - lets get started with our tutorial!
 
 
 ## Installation of Keptn on k3s
@@ -414,20 +423,17 @@ If you want to explore other tutorials that are possible with this keptn on k3s 
 ## Finish
 Duration: 0:00
 
+In this tutorial, you have learned how to use Keptn to automate multi-stage delivery using Argo Rollouts for Blue/Green and Canary.
+The benefit that Keptn brings in is that it automates SLO validation, provides a promotion assistant, automates testing, integrates with your ChatOps tools, configures your monitoring and provides the automation across multi stages.
 
-In this tutorial, you have learned how to use Keptn to validate the quality of your deployments by evaluating a set of SLIs (Service Level Indicators) against your SLOs (Service Level Objectives) for a specified timeframe! The overall goal is to use this capability to automate the manual evaluation of metrics through dashboards.
-
-As you have now learned how to setup Keptn for pulling metrics out of Dynatrace the next step is that you do this with metrics that are important for your services, applications, processes and hosts. Think about how you can convert your Dynatrace dashboards into SLIs and SLOs and then have Keptn automate the analysis for you:
-
-![](./assets/dynatrace_qualitygates/dynatrace_keptn_sli_automation.gif)
+While this tutorial has used tools such as JMeter and Dynatrace you can easily replace it without any automation sequence changes with tools such as Locust or Prometheus.
 
 
 ### What we've covered
 
-- Install Keptn and setup a Keptn Project for Quality Gate evaluation
-- Prepare Dynatrace to act as a data source for Quality Gate evaluation
-- Learn how to define and use service-level indicators (SLIs) and service-level objectives (SLOs)
-- How to trigger a Keptn Quality Gate evaluation using the CLI and the API
-- How to use the Keptns Bridge to inspect your Quality Gate Results
+- Install Keptn and the sample project for Argo Rollouts
+- Trigger delivery sequences through the Keptn CLI and API
+- See SLO-based Evaluation in action
+- How Argo Rollouts can be integrated with Keptn in terms of delivery, promotion and abort
 
 {{ snippets/08/community/feedback.md }}
