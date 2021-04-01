@@ -13,7 +13,7 @@ Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 Duration: 2:00
 
 Watch the intro in this YouTube video to see what this tutorial includes:
-![https://www.youtube.com/watch?v=KER9yIw9XDM](.)
+![https://www.youtube.com/watch?v=w-E8FzTbN3g](.)
 
 **Canary deployments** are a very popular progressive delivery model where new versions of a software component is safely released in a "phased" approach (e.g: 25%, 50%, 75%, 100% of traffic) instead of a big bang (100% of traffic). Between each phase an evaluation takes place deciding on whether to continue with the next phase of rolling out the canary to more end users or whether to roll it back to the previous version.
 
