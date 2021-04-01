@@ -52,7 +52,7 @@ Keptn's event-driven and open standard approach to delivery automation allows us
 So - lets get started with our tutorial!
 
 
-## Installation of Keptn on k3s
+## Prepare Installation of Keptn on k3s
 Duration: 5:00
 
 We have an extensive [Keptn on k3s](https://github.com/keptn-sandbox/keptn-on-k3s) tutorial on GitHub that includes setting up k3s, installing Keptn and automatically creating several Keptn projects to demo different use case with Dynatrace.
@@ -120,7 +120,8 @@ cd keptn-on-k3s
 git checkout release-0.8.0
 ```
 
-### Installing Keptn on k3s for Argo Rollouts use cases
+## Installing Keptn on k3s for Argo Rollouts use cases
+Duration: 5:00
 
 We are almost ready to run our installation script. The only thing left to do is to export some of our data we prepared earlier (token, endpoints ...) via env-variables so the script can easily pick it up. Additionally to the 4 variables we prepared we also `export LE_STAGE=staging` - this will allow us to get a LetsEncrypt staging certificate so we can use TLS encryption.
 
@@ -133,7 +134,7 @@ $ export OWNER_EMAIL=yourdynatraceuser@yourmail.com
 $ export LE_STAGE=staging
 ``` 
 
-The installation scripts has multiple options - here is the one that will install the full tutoria which installs Keptn's Delivery Plane and a handful of sample projects including the `demo-rollout` project which showcases the Argo Rollout use case!
+The installation scripts has multiple options - here is the one that will install the full tutorial which installs Keptn's Delivery Plane and a handful of sample projects including the `demo-rollout` project which showcases the Argo Rollout use case!
 
 **BE AWARE** there is an option called --provider. If you run on e.g: EC2 then specify aws. If your machine is hosted on GCP then specify gcp. If you just run on a local machine or a VM you can omit that parameter!
 
@@ -146,7 +147,7 @@ By default the installation will use your local IP and a free DNS Resolution ser
 ```console
 ./install-keptn-on-k3s.sh --deliveryplane --provider aws --with-dynatrace --with-demo dynatrace --letsencrypt --with-gitea --fqdn yourdomain.abc
 ```
-I TRUELY ENCOURAGE you to get your own DNS as it is simply more stable!
+I TRULY ENCOURAGE you to get your own DNS as it is simply more stable!
 
 
 ---
@@ -187,7 +188,7 @@ To trigger a delivery simple do this
 
 ```
 
-**Access k3s**
+### Access k3s
 You can access k3s through the k3s cli that offers you full access to all kubectl commands. Like this
 ```
 k3s kubectl get pods -A
@@ -199,7 +200,7 @@ export KUBECONFIG="/etc/rancher/k3s/k3s.yaml"
 kubectl get pods -A
 ```
 
-**Access Keptns Bridge**
+### Access Keptn's Bridge
 To validate the installation went fine lets open Keptn's bridge by following the link to the Dynatrace project that was created for us. The url ends with /bridge/project/demo-rollout!
 
 ![](./assets/argo_rollout/0.8/bridge_demo_rollout_initial_project.png)
@@ -211,7 +212,7 @@ When you are prompted for username and password simply use bridge username & pas
 
 Now we are ready to do some actual deployments
 
-**Access your Git Repos**
+### Access your Git Repos
 Every keptn project internally holds a git repository containing all relevant files such as
 1. Shipyard.yaml: defines all automation sequences
 2. Helm charts: containing our Argo Rollout definitions
@@ -277,6 +278,7 @@ We can also see that the our local html file has picked up the production deploy
 Now - lets do the same for version 2 to observe blue/green and canary deployments
 
 ## Deploy version #2
+Duration: 5:00
 
 Now that version 1 of our simplenode app is running in staging and production its time to truly see the value of blue/green and canary!
 Lets trigger the delivery through the Keptn CLI as we have done it for build 1. Here is the command:
@@ -291,6 +293,7 @@ This will kick off the delivery of version 2. You will see that it will fail in 
 Lets try version 3 and see if we have more luck!
 
 ## Deploy version #3
+Duration: 5:00
 
 Similar to version 2 we execute the following Keptn CLI command to trigger the delivery
 ```
@@ -305,6 +308,7 @@ Now we sit and wait until Version 3 is fully rolled out. While this is happening
 Because build 3 should have no issues we should see it all the way going through alright!
 
 ## Deploy version 4 using API
+Duration: 5:00
 
 Now to our final version - version 4.
 You can trigger it through the Keptn CLI if you want - but - to learn something new lets do it through the Keptn API. 
