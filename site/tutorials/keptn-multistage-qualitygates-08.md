@@ -1,17 +1,17 @@
 summary: Multistage deployment with Quality Gates using Prometheus
 id: keptn-multistage-qualitygates-08
-categories: Prometheus,aks,eks,gke,openshift,pks,minikube,full-tour,quality-gates,automated-operations
+categories: Prometheus,aks,eks,gke,openshift,minikube,full-tour,quality-gates
 tags: keptn08x
 status: Published
 authors: Gabriel Tanner
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
-# Multistage deployment with Quality Gates using Prometheus
+# Multi-stage delivery with Quality Gates using Prometheus and Podtato-head application
 
 ## Welcome
 Duration: 2:00
 
-In this tutorial we'll set up a demo application which will feature different Prometheus metrics and deploy the application using multistage delivery. We will then use Keptn quality gates to evaluate the resilience of the application based on SLO-driven quality gates.
+In this tutorial we'll set up the Podtato-head demo application which will feature different Prometheus metrics and deploy the application using multistage delivery. We will then use Keptn quality gates to evaluate the quality of the application based on SLO-driven quality gates.
 
 ### What we will cover
 
@@ -25,6 +25,10 @@ In this tutorial, we are going to install Keptn on a Kubernetes cluster.
 The full setup that we are going to deploy is sketched in the following image.
 
 ![demo setup](./assets/keptn-multistage-podtatohead/demo-workflow.jpg)
+
+If you are interested, please have a look at this article that explains the deployment in more detail.
+
+![https://dev.to/gabrieltanner/modern-continuous-delivery-on-kubernetes-for-developers-5chf](.)
 
 {{ snippets/08/install/cluster.md }}
 
