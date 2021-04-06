@@ -8,7 +8,7 @@ If you want to use your own service, please adopt references to _sockshop_ and _
 
 Before we are going to deploy the service, let us setup Dynatrace to be able to monitor the service. This step is not be necessary if you already have your service monitored by Dynatrace.
 
-TODO: should we install dynatrace here or go with the appraoch that this has to be brought by the user???
+TODO: should we install dynatrace here or go with the approach that this has to be brought by the user???
 
 Deploy the sample application with `kubectl` into your Kubernetes cluster. This part would actually be done by your CI/CD pipeline. However, since we do not have this pipeline at hand, we are doing this manually:
 

@@ -9,6 +9,7 @@ argoproj
 args
 Autoscaling
 autoupgrade
+aks
 aws
 azdevops
 Bacher
