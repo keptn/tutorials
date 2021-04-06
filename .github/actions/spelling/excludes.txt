@@ -8,3 +8,6 @@ ignore$
 \.lock$
 \.mod$
 ^\.github/
+
+
+\index.html$
