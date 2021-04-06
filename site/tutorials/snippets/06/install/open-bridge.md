@@ -2,7 +2,7 @@
 ## Open Keptn's bridge
 Duration: 1:00
 
-Now that you have installed Keptn you can take a look at its user interace aka the Keptn's Bridge.
+Now that you have installed Keptn you can take a look at its user interface aka the Keptn's Bridge.
 
 Expose the bridge via the following command to be able to access on localhost:
 

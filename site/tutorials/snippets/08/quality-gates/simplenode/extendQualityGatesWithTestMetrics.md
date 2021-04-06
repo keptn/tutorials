@@ -39,7 +39,7 @@ The second script will create but not overwrite the following Calculated Service
 | Test Step CPU | calc:service.teststepcpu |
 | Test Step DB Calls | calc:service.teststepdbcalls |
 
-From now on - everytime Keptn executes these JMeter tests we will have new metrics available that provide a data dimension for each Test Step Name.
+From now on - every time Keptn executes these JMeter tests we will have new metrics available that provide a data dimension for each Test Step Name.
 
 This also allows us to extend our SLIs with these metric definitions. In our examples we therefore have a `sli_perftest.yaml` and also a `slo_perftest.yaml` that include these new metrics.
 Make sure you navigate to the *examples\simplenodeservice\keptn* directory. Now:

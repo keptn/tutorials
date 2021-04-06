@@ -7,7 +7,7 @@ If we also want a quality gate to be enforced after a blue/green deployment is d
 
 1. First, lets upload our `dynatrace/sli_basic.yaml` as `dynatrace/sli.yaml` for prod!
 
-We could upload a different sli.yaml for production than the one we have for staging. In a real scenario you probably want this as you may want to include additonal indicators from other parts of the infrastructure that you didnt have available in staging. For our sample we just use the same `sli_basic.yaml`!
+We could upload a different sli.yaml for production than the one we have for staging. In a real scenario you probably want this as you may want to include additional indicators from other parts of the infrastructure that you didnt have available in staging. For our sample we just use the same `sli_basic.yaml`!
 
 ```
 keptn add-resource --project=simplenodeproject --stage=prod --service=simplenode --resource=dynatrace/sli_basic.yaml --resourceUri=dynatrace/sli.yaml

@@ -1,6 +1,7 @@
 activegate
 agrimmer
 alertmanager
+api
 apiserver
 APITOKEN
 argocd
@@ -59,6 +60,7 @@ fullscreen
 gcloud
 gcp
 getevent
+gitea
 github
 githubusercontent
 gittoken
@@ -80,6 +82,7 @@ hostname
 href
 html
 http
+https
 ifconfig
 independant
 ingressgateway
@@ -92,6 +95,8 @@ jmeter
 jmx
 jpg
 juergenetzlstorfer
+json
+jsonpath
 keptn
 keptncontrib
 keptndemo
@@ -224,6 +229,8 @@ wget
 workflow
 xip
 xlarge
+yaml
+yml
 YOURAPITOKEN
 YOURBRIDGEPASSWORD
 yourdomain

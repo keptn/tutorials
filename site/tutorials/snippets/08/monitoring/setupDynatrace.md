@@ -70,7 +70,7 @@ For setting up dynatrace-operator, perform the following steps:
 1. Within Dynatrace Hub, search for Kubernetes
    ![Dynatrace Hub](./assets/dt-hub-kubernetes.png)
 1. Click on Kubernetes, and select **Monitor Kubernetes** at the bottom of the screen
-1. In the following screen, select the Platform, a PaaS and API Token, and the oenagent installation options (e.g., for GKE you need to enable volume storage).
+1. In the following screen, select the Platform, a PaaS and API Token, and the onenagent installation options (e.g., for GKE you need to enable volume storage).
    ![Dynatrace Kubernetes Monitoring](./assets/dt-kubernetes-monitor.png)
 1. Copy the generated code and run it in a terminal/bash
 1. Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.
@@ -138,7 +138,7 @@ Since Keptn has configured your Dynatrace tenant, let us take a look what has be
 
 - *Alerting profile:* An alerting profile with all problems set to *0 minutes* (immediate) is created. You can review this profile by navigating to **Settings > Alerting > Alerting profiles**.
 
-- *Dashboard and Mangement zone:* When creating a new Keptn project or executing the [keptn configure monitoring](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_configure_monitoring/) command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.
+- *Dashboard and Management zone:* When creating a new Keptn project or executing the [keptn configure monitoring](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_configure_monitoring/) command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.
 
 
 Negative

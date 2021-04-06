@@ -151,15 +151,15 @@ As said, in this tutorial we can use the following command as it is:
         - problemType: Response time degradation
           actionsOnOpen:
             - action: toggle-feature
-              name: Toogle feature flag
-              description: Toogle feature flag EnableItemCache to ON
+              name: Toggle feature flag
+              description: Toggle feature flag EnableItemCache to ON
               value:
                 EnableItemCache: "on"
         - problemType: Failure rate increase
           actionsOnOpen:
             - action: toggle-feature
-              name: Toogle feature flag
-              description: Toogle feature flag EnablePromotion to OFF
+              name: Toggle feature flag
+              description: Toggle feature flag EnablePromotion to OFF
               value:
                 EnablePromotion: "off"
     ```

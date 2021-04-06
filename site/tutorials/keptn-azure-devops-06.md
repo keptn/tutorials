@@ -175,7 +175,7 @@ Positive
 : A valid tenant ID looks like: abc123.live.dynatrace.com 
 
 Negative
-: An invalid tenant ID looks like: https://abc123.live.dyntrace.com/
+: An invalid tenant ID looks like: https://abc123.live.dynatrace.com/
 
 Retrieve the _Dynatrace API_ token by navigating to "Settings -> Integration -> Dynatrace API" and create a new API token. Assign a name, e.g. keptn, to it and for the purpose of this tutorial enable these permissions:
 

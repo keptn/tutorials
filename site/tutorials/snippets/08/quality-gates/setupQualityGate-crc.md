@@ -14,7 +14,7 @@ Make sure you are in the correct folder `examples/onboarding-carts`. If not, cha
 keptn add-resource --project=sockshop --stage=staging --service=carts --resource=slo-quality-gates.yaml --resourceUri=slo.yaml
 ```
 
-This will add the `SLO.yaml` file to your Keptn - which is the declaritive definition of a quality gate. Let's take a look at the file contents:
+This will add the `SLO.yaml` file to your Keptn - which is the declarative definition of a quality gate. Let's take a look at the file contents:
 
 ```
 ---

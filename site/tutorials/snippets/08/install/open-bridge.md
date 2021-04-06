@@ -2,7 +2,7 @@
 ## Open Keptn's Bridge & API
 Duration: 1:00
 
-Now that you have installed Keptn you can take a look at its user interace aka the Keptn's Bridge.
+Now that you have installed Keptn you can take a look at its user interface aka the Keptn's Bridge.
 
 ### Keptn's Bridge
 

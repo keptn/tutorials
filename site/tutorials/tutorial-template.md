@@ -20,7 +20,7 @@ Take a look at the metadata above.
 - Tags: please set the Keptn version that your tutorial is written for, e.g., keptn07x (for Keptn 0.7.x releases)
 - Status: set it to Draft or Published (doesn't have any effect right now)
 - Authors: Please list yourself as an author
-- Feedback link: either the tutorial repostory or any other link you want to provide 
+- Feedback link: either the tutorial repository or any other link you want to provide 
 
 In this tutorial we are going to ...
 

@@ -127,7 +127,7 @@ Negative
 ## Install OpenShift service mesh
 Duration: 5:00
 
-Now we are going to install the OpenShift serivce mesh that is needed for our tutorial into the CRC cluster.
+Now we are going to install the OpenShift service mesh that is needed for our tutorial into the CRC cluster.
 
 The script that is provided will create the following resources:
 
