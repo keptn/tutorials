@@ -23,8 +23,6 @@ To configure a Git upstream for this tutorial, the Git user (`--git-user`), an a
 
 Let's define the variables before running the command:
 
-<!-- bash keptn create project sockshop --shipyard=./shipyard.yaml -->
-
 ```
 GIT_USER=gitusername
 GIT_TOKEN=gittoken
