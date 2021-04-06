@@ -28,7 +28,7 @@ The full setup that we are going to deploy is sketched in the following image.
 
 If you are interested, please have a look at this article that explains the deployment in more detail.
 
-![https://dev.to/gabrieltanner/modern-continuous-delivery-on-kubernetes-for-developers-5chf](.)
+[Modern continuous delivery on Kubernetes for Developers - dev.to](https://dev.to/gabrieltanner/modern-continuous-delivery-on-kubernetes-for-developers-5chf)
 
 {{ snippets/08/install/cluster.md }}
 
