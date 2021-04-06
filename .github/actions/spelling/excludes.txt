@@ -10,4 +10,4 @@ ignore$
 ^\.github/
 
 
-\index.html$
+^index.html$
