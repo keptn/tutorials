@@ -98,7 +98,7 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.11.0/deploy/service.yaml -n keptn
+    helm upgrade --install dynatrace-service -n keptn http://https://github.com/keptn-contrib/dynatrace-service/releases/download/$VERSION/dynatrace-service.tgz --set dynatraceService.config.generateTaggingRules=true,dynatraceService.config.generateProblemNotifications=true,dynatraceService.config.generateManagementZones=true,dynatraceService.config.generateDashboards=true
     ```
 
 1. When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.
