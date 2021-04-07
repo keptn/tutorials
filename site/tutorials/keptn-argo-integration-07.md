@@ -183,7 +183,7 @@ Next, we set up an Argo app. Therefore, this tutorial assumes that you have comp
 ## Add Argo Hook for triggering Keptn
 Duration: 2:00
 
-In order to infrom Keptn when Argo CD does the deployment,
+In order to inform Keptn when Argo CD does the deployment,
 an [Argo Resource Hook](https://argoproj.github.io/argo-cd/user-guide/resource_hooks/) is configured. This hook is triggered when Argo CD applies the manifests. This hook executes a script which sends a [`sh.keptn.events.deployment-finished`](https://github.com/keptn/spec/blob/master/cloudevents.md#deployment-finished) event to the Keptn API.
 
 Therefore, this hook needs to access the Keptn API and, hence, requires the Keptn endpoint as well as the api-token.
