@@ -14,6 +14,8 @@ Duration: 2:00
 
 In this tutorial, we'll set up a demo application and have it undergo some chaos in combination with load testing. We will then use Keptn quality gates to evaluate the resilience of the application based on SLO-driven quality gates.
 
+![https://www.youtube.com/watch?v=Ac0DcT1SF3g](.)
+
 ### What we will cover
 - How to create a sample project and onboard a sample service
 - How to setup quality gates 
