@@ -310,7 +310,7 @@ Now that we understand how it works and we have customized the box as we want, l
 
 Run the script with sudo rights and send the process to the background.
 ```bash
-sudo bash -c './keptn-in-a-box.sh &'
+sudo bash -c './keptn-in-a-box.sh' &
 ```
 
 Why run it in the background and where is the output of the program you say? Well, keptn-in-a-box is actually optimized to be executed for non-interactive shells at the initialization of an instance. This is done programatically passing the script as [user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) while creating dynatrace environments and spininning multiple instances for each student. This is achieved with the [Dynatrace Rest Tenant Automation](https://github.com/sergiohinojosa/Dynatrace-REST-Tenant-Automation) programm. Yes, we love ❤️ automation 🤖and the customization, creation and configuration of environments and instances is done programatically.
