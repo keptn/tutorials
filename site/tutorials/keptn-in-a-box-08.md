@@ -11,7 +11,9 @@ Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 ## Welcome  
 Duration: 2:00 
 
-In this turorial you'll learn how to run and customize [Keptn-in-a-Box](https://github.com/keptn-sandbox/keptn-in-a-box). Keptn-In-A-Box is a Bash script that will convert a plain Ubuntu machine in a Single Node Kubernetes Cluster with Keptn installed and configured (among other cool features which will set sail for your autonomous cloud journey). The script is programmed in a modular way so you can select the 🧩 **installationBundle** that better suits your needs.
+![https://www.youtube.com/watch?v=OQAXQrKhIt0](.)
+
+In this tutorial you'll learn how to run and customize [Keptn-in-a-Box](https://github.com/keptn-sandbox/keptn-in-a-box). Keptn-In-A-Box is a Bash script that will convert a plain Ubuntu machine in a Single Node Kubernetes Cluster with Keptn installed and configured (among other cool features which will set sail for your autonomous cloud journey). The script is programmed in a modular way so you can select the 🧩 **installationBundle** that better suits your needs.
 
 *Keptn-in-a-Box is a 🚀 rocket launcher for enabling tutorials or workshops in an easy, fast and ressource efficient way.*
 
