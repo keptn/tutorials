@@ -2,14 +2,14 @@
   "environment": "web",
   "format": "html",
   "prefix": "https://storage.googleapis.com",
-  "mainga": "UA-49880327-14",
-  "updated": "2021-04-15T12:32:59+02:00",
+  "mainga": "UA-133584243-1",
+  "updated": "2021-04-15T13:19:41+02:00",
   "id": "keptn-in-a-box-08",
   "duration": 36,
   "title": "Keptn in a Box",
   "authors": "Sergio Hinojosa",
   "summary": "Keptn-in-a-Box with Dynatrace Software Intelligence empowered",
-  "source": "keptn-in-a-box-08.md",
+  "source": "keptn-in-a-box-08_gen.md",
   "theme": "",
   "status": [
     "published"
