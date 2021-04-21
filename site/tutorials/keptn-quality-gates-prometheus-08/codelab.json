@@ -1,0 +1,32 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2021-04-21T15:52:16+02:00",
+  "id": "keptn-quality-gates-prometheus-08",
+  "duration": 17,
+  "title": "Keptn Quality Gates with Prometheus",
+  "authors": "Jürgen Etzlstorfer",
+  "summary": "Keptn Quality Gates with Prometheus",
+  "source": "keptn-quality-gates-prometheus-08_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "prometheus",
+    "aks",
+    "eks",
+    "openshift",
+    "pks",
+    "minikube",
+    "gke",
+    "quality-gates"
+  ],
+  "tags": [
+    "keptn08x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-quality-gates-prometheus-08"
+}
