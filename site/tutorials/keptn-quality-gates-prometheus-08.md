@@ -18,13 +18,17 @@ Let's say you want to use your existing tools to deploy and test your applicatio
 *A brief recap of SLO and SLI:* A Service Level Objective (SLO) is a target value or range of values for a service level that is measured by a Service Level Indicator (SLI). An SLI is a carefully defined quantitative measure of some aspect of the level of service that is provided. 
 
 Positive
-: For more information about SLO and SLI, please take a look at [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.3/sre.md).
+: For more information about SLO and SLI, please take a look at [Quality Gates with Keptn](https://keptn.sh/docs/concepts/quality_gates/).
 
 ### What we will cover in this tutorial
 
 - Setup a demo with Prometheus and Keptn
 - Trigger Keptn Quality Gate evaluations
 - Manage SLOs via the Keptn
+
+
+Here is what we are going to do in the course of this demo:
+![](./assets/prometheus-qg/scenario.png)
 
 
 ## Prerequisites
