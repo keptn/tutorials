@@ -13,6 +13,8 @@ Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 ## Welcome
 Duration: 2:00
 
+![https://www.youtube.com/watch?v=7ksL0V0tN_M](.)
+
 Let's say you want to use your existing tools to deploy and test your applications - you can still use *Keptn`s Quality Gates* for the evaluation of Service Level Objectives (SLOs).
 
 *A brief recap of SLO and SLI:* A Service Level Objective (SLO) is a target value or range of values for a service level that is measured by a Service Level Indicator (SLI). An SLI is a carefully defined quantitative measure of some aspect of the level of service that is provided. 
