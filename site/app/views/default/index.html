@@ -227,10 +227,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <span>{%- if codelab.duration -%}{{codelab.duration}} min {%- endif -%}</span>
                 {% for tag in codelab.tags -%}
                 {%- if tag == "beginner" -%}
-                <span class="beginner">{{tag}}</span>
+                <span class="beginner">Level: {{tag}}</span>
                 {%- endif-%}
                 {%- if tag == "advanced" -%}
-                <span class="advanced">{{tag}}</span>
+                <span class="advanced">Level: {{tag}}</span>
                 {%- endif-%}
               {%- endfor -%}
                 <span>{%- if codelab.updated -%}Updated {{codePrettyDate(codelab.updated)}}{%- endif -%}</span>
