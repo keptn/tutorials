@@ -1,7 +1,7 @@
-summary: Keptn Multi Stage Delivery with Argo Rollouts and Dynatrace on k3s
+summary: 5 minute installation. All running on K3s with a single line installation. No Kubernetes cluster needed.
 id: keptn-argo-rollouts-dynatrace-08-on-k3s
 categories: Dynatrace,k3s,argo,canary
-tags: keptn08x
+tags: keptn08x,beginner
 status: Published
 authors: Andreas Grabner
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials

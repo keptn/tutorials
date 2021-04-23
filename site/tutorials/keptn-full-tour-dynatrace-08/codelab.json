@@ -3,32 +3,33 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2021-04-23T13:50:52+02:00",
-  "id": "keptn-litmus-08",
-  "duration": 43,
-  "title": "Resilience evaluation with LitmusChaos, Prometheus, and Keptn",
-  "authors": "Jürgen Etzlstorfer",
+  "updated": "2021-04-23T13:45:30+02:00",
+  "id": "keptn-full-tour-dynatrace-08",
+  "duration": 104,
+  "title": "Keptn Full Tour on Dynatrace",
+  "authors": "Florian Bacher",
   "summary": "Full Keptn installation on a Kubernetes cluster (GKE recommended)",
-  "source": "keptn-litmus-08_gen.md",
+  "source": "keptn-full-tour-dynatrace-08_gen.md",
   "theme": "",
   "status": [
     "published"
   ],
   "category": [
-    "prometheus",
+    "dynatrace",
     "aks",
     "eks",
     "gke",
     "openshift",
     "pks",
     "minikube",
+    "full-tour",
     "quality-gates",
-    "litmus"
+    "automated-operations"
   ],
   "tags": [
     "advanced",
     "keptn08x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
-  "url": "keptn-litmus-08"
+  "url": "keptn-full-tour-dynatrace-08"
 }

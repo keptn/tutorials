@@ -3,12 +3,12 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2021-04-15T13:19:41+02:00",
+  "updated": "2021-04-23T13:49:48+02:00",
   "id": "keptn-in-a-box-08",
   "duration": 36,
   "title": "Keptn in a Box",
   "authors": "Sergio Hinojosa",
-  "summary": "Keptn-in-a-Box with Dynatrace Software Intelligence empowered",
+  "summary": "5 minute installation. All running on MicroK8s with a single line installation. No Kubernetes cluster needed.",
   "source": "keptn-in-a-box-08_gen.md",
   "theme": "",
   "status": [
@@ -26,6 +26,7 @@
     "automated-operations"
   ],
   "tags": [
+    "beginner",
     "keptn08x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",

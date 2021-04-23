@@ -1,7 +1,7 @@
-summary: Keptn-in-a-Box with Dynatrace Software Intelligence empowered
+summary: 5 minute installation. All running on MicroK8s with a single line installation. No Kubernetes cluster needed.
 id: keptn-in-a-box-08
 categories: microk8s, dynatrace,installation, microkubernetes, microk8s,full-tour,quality-gates,performance-as-a-service,automated-operations
-tags: keptn08x
+tags: keptn08x,beginner
 status: Published 
 authors: Sergio Hinojosa
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
