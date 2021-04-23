@@ -80,8 +80,30 @@ $card-col-height: 200px; // column mode
   .description {
     padding: $keyline * 2 $keyline * 2 0 $keyline * 2;
     flex: 1 0 auto;
-    color: #212121;
+    color: $keptnDarkBlue;
+    font-weight: bold;
     -webkit-font-smoothing: antialiased;
+  }
+
+  .summary {
+    padding: $keyline * 2 $keyline * 2 0 $keyline * 2;
+    flex: 1 0 auto;
+    color: #212121;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;  
+  }
+
+  .beginner {
+    color: white;
+    background-color: green;
+    padding: 0px 5px 0px 5px;
+
+  }
+
+  .advanced {
+    color: white;
+    background-color:orange;
+    padding: 0px 5px 0px 5px;
   }
 }
 
