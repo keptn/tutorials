@@ -3,12 +3,12 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2021-03-11T10:40:28+01:00",
+  "updated": "2021-04-23T13:45:36+02:00",
   "id": "keptn-full-tour-prometheus-08",
   "duration": 73,
   "title": "Keptn Full Tour on Prometheus",
   "authors": "Florian Bacher",
-  "summary": "Take a full tour on Keptn with Prometheus",
+  "summary": "Full Keptn installation on a Kubernetes cluster (GKE recommended)",
   "source": "keptn-full-tour-prometheus-08_gen.md",
   "theme": "",
   "status": [
@@ -27,6 +27,7 @@
     "automated-operations"
   ],
   "tags": [
+    "advanced",
     "keptn08x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
