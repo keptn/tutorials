@@ -3,12 +3,12 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2021-04-22T14:18:30+02:00",
+  "updated": "2021-04-23T13:30:17+02:00",
   "id": "keptn-quality-gates-prometheus-08",
   "duration": 17,
   "title": "Keptn Quality Gates with Prometheus",
   "authors": "Jürgen Etzlstorfer",
-  "summary": "Keptn Quality Gates with Prometheus",
+  "summary": "5 minute installation. All running on K3s with a single line installation. No Kubernetes cluster needed.",
   "source": "keptn-quality-gates-prometheus-08_gen.md",
   "theme": "",
   "status": [
@@ -16,15 +16,11 @@
   ],
   "category": [
     "prometheus",
-    "aks",
-    "eks",
-    "openshift",
-    "pks",
-    "minikube",
-    "gke",
-    "quality-gates"
+    "quality-gates",
+    "k3s"
   ],
   "tags": [
+    "beginner",
     "keptn08x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
