@@ -71,8 +71,9 @@ For setting up dynatrace-operator, perform the following steps:
    ![Dynatrace Hub](./assets/dt-hub-kubernetes.png)
 1. Click on Kubernetes, and select **Monitor Kubernetes** at the bottom of the screen
 1. In the following screen, select the Platform, a PaaS and API Token, and the OneAgent installation options.
-   
+
    **Note**: Please make sure to tick *Enable volume storage* if you are on GKE, Anthos, CaaS and PKS.
+
    ![Dynatrace Kubernetes Monitoring](./assets/dt-kubernetes-monitor.png)
 1. Copy the generated code and run it in a terminal/bash
 1. Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.
@@ -101,7 +102,7 @@ For setting up dynatrace-operator, perform the following steps:
     dynatrace-operator-fb56f7f59-pf5sg            1/1     Running   0          1d13h
     ```
 
-    **Note**: In case any pods are crashing with `CrashLoopBackOff` or `Error`, please double check that you ticked *Enable volume storage*. Alternatively, please take a look at [the official troubleshooting guide](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/maintenance/troubleshoot-deployment-and-connectivity/#anchor_deploy).
+    **Note**: In case any pods are crashing with `CrashLoopBackOff` or `Error`, please double check that you ticked *Enable volume storage*. Alternatively, please take a look at [the official OneAgent troubleshooting guide](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/maintenance/troubleshoot-deployment-and-connectivity/#anchor_deploy).
    
 1. Optional: Verify in your Dynatrace Environment under the section *Kubernetes* that your cluster is monitored.
 
