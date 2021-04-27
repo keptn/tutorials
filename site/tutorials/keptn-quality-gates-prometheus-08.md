@@ -2,7 +2,7 @@ summary: 5 minute installation. All running on K3s with a single line installati
 level: beginner
 id: keptn-quality-gates-prometheus-08
 categories: prometheus,quality-gates,k3s
-tags: keptn08x,beginner
+tags: keptn08x,introduction
 status: Published 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
