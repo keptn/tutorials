@@ -1,7 +1,7 @@
 summary: 5 minute installation. All running on K3s with a single line installation. No Kubernetes cluster needed.
 id: keptn-quality-gates-dynatrace-08-on-k3s
 categories: Dynatrace,k3s,quality-gates
-tags: keptn08x,beginner
+tags: keptn08x,introduction
 status: Published
 authors: Andreas Grabner
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
