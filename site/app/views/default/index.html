@@ -226,8 +226,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <div class="card-duration">
                 <span>{%- if codelab.duration -%}{{codelab.duration}} min {%- endif -%}</span>
                 {% for tag in codelab.tags -%}
-                {%- if tag == "beginner" -%}
-                <span class="beginner">Level: {{tag}}</span>
+                {%- if tag == "introduction" -%}
+                <span class="introduction">Level: {{tag}}</span>
                 {%- endif-%}
                 {%- if tag == "advanced" -%}
                 <span class="advanced">Level: {{tag}}</span>
