@@ -29,6 +29,7 @@
     "gulp-vulcanize": "^7.0.0",
     "gulp-watch": "^5.0.1",
     "gulp-webserver": "^0.9.1",
+    "hosted-git-info": ">=3.0.8",
     "is-svg": ">=4.2.2",
     "jscs": "^3.0.7",
     "jshint": "^2.12.0",
