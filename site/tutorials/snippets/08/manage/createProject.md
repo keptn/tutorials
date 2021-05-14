@@ -129,6 +129,19 @@ spec:
               properties:
                 deploymentstrategy: "direct"
             - name: "release"
+
+        - name: "remediation"
+          triggeredOn:
+            - event: "production.remediation.finished"
+              selector:
+                match:
+                  evaluation.result: "fail"
+          tasks:
+            - name: "get-action"
+            - name: "action"
+            - name: "evaluation"
+              triggeredAfter: "10m"
+
 ```
 
 

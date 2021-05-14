@@ -173,7 +173,7 @@ As said, in this tutorial we can use the following command as it is:
 1. We are also going to add an SLO file so that Keptn can evaluate if the remediation action was successful.
     <!-- command -->
     ```
-    keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
+    keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing-dynatrace.yaml --resourceUri=slo.yaml
     ```
 
 1. Start the load generation script for this use case:
