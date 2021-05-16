@@ -87,21 +87,87 @@ Duration: 3:00
     ```
 
 ## Setup Prometheus
-Duration: 2:00
+Duration: 3:00
 
 Before we are going to create the project with Keptn, we'll install the Prometheus integration to be ready to fetch the data that is later on needed for the SLO-based quality gate evaluation. 
 
-1. The Prometheus service integration is responsible to set up Prometheus with Keptn, let us install the integration. Please note, this does **not** automatically install Prometheus - this will be done later in the tutorial.
+Keptn doesn't install or manage Prometheus and its components. Users need to install Prometheus and Prometheus Alert manager as a prerequisite. 
 
-    ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.4.0/deploy/service.yaml
-    ```
+* To install the Prometheus and Alert Manager, execute:
+<!-- command -->
+```
+kubectl create ns monitoring
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install prometheus prometheus-community/prometheus --namespace monitoring
+```
 
-1. Next, we are going to install the Prometheus SLI integration to be able to fetch the data from Prometheus
+### Execute the following steps to install prometheus-service
 
-    ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.3.0/deploy/service.yaml
-    ```
+* Download the Keptn's Prometheus service manifest
+<!-- command -->
+```
+kubectl apply -f  https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.5.0/deploy/service.yaml
+```
+
+* Replace the environment variable value according to the use case and apply the manifest
+<!-- command -->
+```
+# Prometheus installed namespace
+kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_NS="monitoring"
+
+# Prometheus server configmap name
+kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_CM="prometheus-server"
+
+# Prometheus server app labels
+kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_LABELS="component=server"
+
+# Prometheus configmap data's config filename
+kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_CONFIG_FILENAME="prometheus.yml"
+
+# AlertManager configmap data's config filename
+kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_CONFIG_FILENAME="alertmanager.yml"
+
+# Alert Manager config map name
+kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_CM="prometheus-alertmanager"
+
+# Alert Manager app labels
+kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_LABELS="component=alertmanager"
+
+# Alert Manager installed namespace
+kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_NS="monitoring"
+
+# Alert Manager template configmap name
+kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_TEMPLATE_CM="alertmanager-templates"
+```
+
+* Install Role and Rolebinding to permit Keptn's prometheus-service for performing operations in the Prometheus installed namespace.
+<!-- command -->
+```
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.5.0/deploy/role.yaml -n monitoring
+```
+
+<!-- 
+bash wait_for_deployment_in_namespace "prometheus-service" "keptn" 
+bash wait_for_deployment_in_namespace "prometheus-service-monitoring-configure-distributor" "keptn" 
+sleep 10
+-->
+
+### Optional: Verify Prometheus setup in your cluster
+
+* To verify that the Prometheus scrape jobs are correctly set up, you can access Prometheus by enabling port-forwarding for the prometheus-service:
+<!-- command -->
+```
+kubectl port-forward svc/prometheus-server 8080:80 -n monitoring
+```
+
+Next, we are going to install the Prometheus SLI integration to be able to fetch the data from Prometheus
+
+To install the *prometheus-sli-service*, execute:
+
+<!-- command -->
+```
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.3.0/deploy/service.yaml
+```
 
 
 ## Setup Litmus integration
