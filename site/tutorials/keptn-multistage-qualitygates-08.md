@@ -1,7 +1,7 @@
-summary: Multistage deployment with Quality Gates using Prometheus
+summary: Full Keptn installation on a Kubernetes cluster (GKE recommended)
 id: keptn-multistage-qualitygates-08
 categories: Prometheus,aks,eks,gke,openshift,minikube,full-tour,quality-gates
-tags: keptn08x
+tags: keptn08x,advanced
 status: Published
 authors: Gabriel Tanner
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials

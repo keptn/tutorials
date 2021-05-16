@@ -1,7 +1,7 @@
-summary: Keptn-in-a-Box with Dynatrace Software Intelligence empowered
+summary: 5 minute installation. All running on MicroK8s with a single line installation. No Kubernetes cluster needed.
 id: keptn-in-a-box-08
 categories: microk8s, dynatrace,installation, microkubernetes, microk8s,full-tour,quality-gates,performance-as-a-service,automated-operations
-tags: keptn08x
+tags: keptn08x,introduction
 status: Published 
 authors: Sergio Hinojosa
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
@@ -11,7 +11,9 @@ Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 ## Welcome  
 Duration: 2:00 
 
-In this turorial you'll learn how to run and customize [Keptn-in-a-Box](https://github.com/keptn-sandbox/keptn-in-a-box). Keptn-In-A-Box is a Bash script that will convert a plain Ubuntu machine in a Single Node Kubernetes Cluster with Keptn installed and configured (among other cool features which will set sail for your autonomous cloud journey). The script is programmed in a modular way so you can select the 🧩 **installationBundle** that better suits your needs.
+![https://www.youtube.com/watch?v=OQAXQrKhIt0](.)
+
+In this tutorial you'll learn how to run and customize [Keptn-in-a-Box](https://github.com/keptn-sandbox/keptn-in-a-box). Keptn-In-A-Box is a Bash script that will convert a plain Ubuntu machine in a Single Node Kubernetes Cluster with Keptn installed and configured (among other cool features which will set sail for your autonomous cloud journey). The script is programmed in a modular way so you can select the 🧩 **installationBundle** that better suits your needs.
 
 *Keptn-in-a-Box is a 🚀 rocket launcher for enabling tutorials or workshops in an easy, fast and ressource efficient way.*
 
@@ -101,7 +103,7 @@ ssh yourusername@the-bind-ip-or-dns
 ### Download `keptn-in-a-box.sh`
 Now let's download the `keptn-in-a-box.sh` file and make it executable.
 ```bash
-curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.8.0/keptn-in-a-box.sh
+curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.8.1/keptn-in-a-box.sh
 chmod +x keptn-in-a-box.sh
 ```
 
@@ -310,7 +312,7 @@ Now that we understand how it works and we have customized the box as we want, l
 
 Run the script with sudo rights and send the process to the background.
 ```bash
-sudo bash -c './keptn-in-a-box.sh' &
+sudo bash -c './keptn-in-a-box.sh &'
 ```
 
 Why run it in the background and where is the output of the program you say? Well, keptn-in-a-box is actually optimized to be executed for non-interactive shells at the initialization of an instance. This is done programatically passing the script as [user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) while creating dynatrace environments and spininning multiple instances for each student. This is achieved with the [Dynatrace Rest Tenant Automation](https://github.com/sergiohinojosa/Dynatrace-REST-Tenant-Automation) programm. Yes, we love ❤️ automation 🤖and the customization, creation and configuration of environments and instances is done programatically.

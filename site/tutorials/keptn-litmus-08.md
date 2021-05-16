@@ -1,7 +1,7 @@
-summary: Resilience evaluation with LitmusChaos, Prometheus, and Keptn
+summary: Full Keptn installation on a Kubernetes cluster (GKE recommended)
 id: keptn-litmus-08
 categories: Prometheus,aks,eks,gke,openshift,pks,minikube,quality-gates,litmus
-tags: keptn08x
+tags: keptn08x,advanced
 status: Published 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
@@ -13,6 +13,8 @@ Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 Duration: 2:00 
 
 In this tutorial, we'll set up a demo application and have it undergo some chaos in combination with load testing. We will then use Keptn quality gates to evaluate the resilience of the application based on SLO-driven quality gates.
+
+![https://www.youtube.com/watch?v=Ac0DcT1SF3g](.)
 
 ### What we will cover
 - How to create a sample project and onboard a sample service

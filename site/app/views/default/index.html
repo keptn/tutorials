@@ -222,8 +222,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <div class="card-pin"></div>
               {%- endif -%}
               <div class="description">{{codelab.title}}</div>
+              <div class="summary">{{codelab.summary}}</div>
               <div class="card-duration">
                 <span>{%- if codelab.duration -%}{{codelab.duration}} min {%- endif -%}</span>
+                {% for tag in codelab.tags -%}
+                {%- if tag == "introduction" -%}
+                <span class="introduction">Level: {{tag}}</span>
+                {%- endif-%}
+                {%- if tag == "advanced" -%}
+                <span class="advanced">Level: {{tag}}</span>
+                {%- endif-%}
+              {%- endfor -%}
                 <span>{%- if codelab.updated -%}Updated {{codePrettyDate(codelab.updated)}}{%- endif -%}</span>
               </div>
               <div class="card-footer">

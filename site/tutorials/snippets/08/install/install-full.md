@@ -34,21 +34,21 @@ kubectl get deployments -n keptn
 Here is the output of the command:
 
 ```
-NAME                                             READY   UP-TO-DATE   AVAILABLE   AGE
-api-gateway-nginx                                1/1     1            1           2m44s
-api-service                                      1/1     1            1           2m44s
-bridge                                           1/1     1            1           2m44s
-configuration-service                            1/1     1            1           2m44s
-eventbroker-go                                   1/1     1            1           2m44s
-gatekeeper-service                               1/1     1            1           2m44s
-helm-service                                     1/1     1            1           2m44s
-helm-service-continuous-deployment-distributor   1/1     1            1           2m44s
-jmeter-service                                   1/1     1            1           2m44s
-lighthouse-service                               1/1     1            1           2m44s
-mongodb                                          1/1     1            1           2m44s
-mongodb-datastore                                1/1     1            1           2m44s
-remediation-service                              1/1     1            1           2m44s
-shipyard-service                                 1/1     1            1           2m44s
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+api-gateway-nginx             1/1     1            1           2m44s
+api-service                   1/1     1            1           2m44s
+approval-service              1/1     1            1           2m44s
+bridge                        1/1     1            1           2m44s
+configuration-service         1/1     1            1           2m44s
+helm-service                  1/1     1            1           2m44s
+jmeter-service                1/1     1            1           2m44s
+lighthouse-service            1/1     1            1           2m44s
+litmus-service                1/1     1            1           2m44s
+mongodb                       1/1     1            1           2m44s
+mongodb-datastore             1/1     1            1           2m44s
+remediation-service           1/1     1            1           2m44s
+shipyard-controller           1/1     1            1           2m44s
+statistics-service            1/1     1            1           2m44s
 ```
 
 
