@@ -143,6 +143,8 @@ spec:
             - name: "action"
             - name: "evaluation"
               triggeredAfter: "10m"
+              properties:
+                timeframe: "10m"
 
 ```
 
