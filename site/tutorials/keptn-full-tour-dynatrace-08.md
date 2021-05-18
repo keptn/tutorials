@@ -1,7 +1,7 @@
-summary: Take a full tour on Keptn with Dynatrace
+summary: Full Keptn installation on a Kubernetes cluster (GKE recommended)
 id: keptn-full-tour-dynatrace-08
 categories: Dynatrace,aks,eks,gke,openshift,pks,minikube,full-tour,quality-gates,automated-operations
-tags: keptn08x
+tags: keptn08x,advanced
 status: Published 
 authors: Florian Bacher
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials

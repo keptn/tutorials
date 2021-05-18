@@ -1,7 +1,7 @@
-summary: Resilience evaluation with LitmusChaos, Prometheus, and Keptn
+summary: Full Keptn installation on a Kubernetes cluster (GKE recommended)
 id: keptn-litmus-08
 categories: Prometheus,aks,eks,gke,openshift,pks,minikube,quality-gates,litmus
-tags: keptn08x
+tags: keptn08x,advanced
 status: Published 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
