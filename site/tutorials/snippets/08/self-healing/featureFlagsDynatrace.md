@@ -136,7 +136,7 @@ As said, in this tutorial we can use the following command as it is:
     
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.3.0/deploy/service.yaml -n keptn
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.3.1/deploy/service.yaml -n keptn
     ```
 
 1. Switch to the carts example (`cd examples/onboarding-carts`) and add the following remediation instructions
