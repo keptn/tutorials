@@ -27,7 +27,8 @@ Duration: 6:00
 
     Take a look at this screenshot to double check the right token permissions for you.
 
-    ![Dynatrace API Token](./assets/dt_api_token.png)
+    ![Dynatrace API V1 Token](./assets/dt_apiv1_token.png)
+    ![Dynatrace API V2 Token](./assets/dt_apiv2_token.png)
 
 1. Create a Dynatrace PaaS Token
 
