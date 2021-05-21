@@ -18,7 +18,7 @@ Add the prepared SLO file for self-healing to the production stage using the Kep
 
 <!-- command -->
 ```
-keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
+keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing-prometheus.yaml --resourceUri=slo.yaml
 ```
 
 Note: The SLO file contains an objective for response_time_p90.
