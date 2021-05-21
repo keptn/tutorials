@@ -140,9 +140,9 @@ spec:
             - name: "get-action"
             - name: "action"
             - name: "evaluation"
-              triggeredAfter: "10m"
+              triggeredAfter: "15m"
               properties:
-                timeframe: "10m"
+                timeframe: "15m"
 
 ```
 
