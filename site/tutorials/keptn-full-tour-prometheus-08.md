@@ -52,8 +52,6 @@ The full setup that we are going to deploy is sketched in the following image.
 
 {{ snippets/08/monitoring/setupPrometheus.md }}
 
-{{ snippets/08/monitoring/install-sli-provider-prometheus.md }}
-
 {{ snippets/08/quality-gates/setupQualityGate.md }}
 
 <!--{ snippets/08/self-healing/upscalePrometheus.md }-->
