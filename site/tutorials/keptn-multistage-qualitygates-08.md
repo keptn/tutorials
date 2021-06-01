@@ -242,6 +242,8 @@ kubectl apply -f  https://raw.githubusercontent.com/keptn-contrib/prometheus-ser
 # Prometheus installed namespace
 kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_NS="monitoring"
 
+# Setup Prometheus Endpoint
+kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_ENDPOINT="http://prometheus-server.monitoring.svc.cluster.local:80"
 
 # Alert Manager installed namespace
 kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_NS="monitoring"
