@@ -6,7 +6,7 @@ The first step for our configuration automation for Istio is downloading the con
 
 <!-- command -->
 ```
-curl -o configure-istio.sh https://raw.githubusercontent.com/keptn/examples/release-0.8.0/istio-configuration/configure-istio.sh
+curl -o configure-istio.sh https://raw.githubusercontent.com/keptn/examples/release-0.8.3/istio-configuration/configure-istio.sh
 ```
 
 After that you need to make the file executable using the `chmod` command.
