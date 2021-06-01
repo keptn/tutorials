@@ -106,7 +106,7 @@ helm install prometheus prometheus-community/prometheus --namespace monitoring
 * Download the Keptn's Prometheus service manifest
 <!-- command -->
 ```
-kubectl apply -f  https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.5.0/deploy/service.yaml
+kubectl apply -f  https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.6.0/deploy/service.yaml
 ```
 
 * Replace the environment variable value according to the use case and apply the manifest
@@ -115,29 +115,8 @@ kubectl apply -f  https://raw.githubusercontent.com/keptn-contrib/prometheus-ser
 # Prometheus installed namespace
 kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_NS="monitoring"
 
-# Prometheus server configmap name
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_CM="prometheus-server"
-
-# Prometheus server app labels
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_LABELS="component=server"
-
-# Prometheus configmap data's config filename
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_CONFIG_FILENAME="prometheus.yml"
-
-# AlertManager configmap data's config filename
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_CONFIG_FILENAME="alertmanager.yml"
-
-# Alert Manager config map name
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_CM="prometheus-alertmanager"
-
-# Alert Manager app labels
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_LABELS="component=alertmanager"
-
 # Alert Manager installed namespace
 kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_NS="monitoring"
-
-# Alert Manager template configmap name
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_TEMPLATE_CM="alertmanager-templates"
 ```
 
 * Install Role and Rolebinding to permit Keptn's prometheus-service for performing operations in the Prometheus installed namespace.
@@ -158,15 +137,6 @@ sleep 10
 <!-- command -->
 ```
 kubectl port-forward svc/prometheus-server 8080:80 -n monitoring
-```
-
-Next, we are going to install the Prometheus SLI integration to be able to fetch the data from Prometheus
-
-To install the *prometheus-sli-service*, execute:
-
-<!-- command -->
-```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.3.0/deploy/service.yaml
 ```
 
 

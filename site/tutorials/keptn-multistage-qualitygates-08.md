@@ -242,29 +242,9 @@ kubectl apply -f  https://raw.githubusercontent.com/keptn-contrib/prometheus-ser
 # Prometheus installed namespace
 kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_NS="monitoring"
 
-# Prometheus server configmap name
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_CM="prometheus-server"
-
-# Prometheus server app labels
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_LABELS="component=server"
-
-# Prometheus configmap data's config filename
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_CONFIG_FILENAME="prometheus.yml"
-
-# AlertManager configmap data's config filename
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_CONFIG_FILENAME="alertmanager.yml"
-
-# Alert Manager config map name
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_CM="prometheus-alertmanager"
-
-# Alert Manager app labels
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_LABELS="component=alertmanager"
 
 # Alert Manager installed namespace
 kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_NS="monitoring"
-
-# Alert Manager template configmap name
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_TEMPLATE_CM="alertmanager-templates"
 ```
 
 * Install Role and Rolebinding to permit Keptn's prometheus-service for performing operations in the Prometheus installed namespace.
@@ -300,17 +280,9 @@ kubectl port-forward svc/prometheus-server 8080:80 -n monitoring
 Prometheus is then available on [localhost:8080/targets](http://localhost:8080/targets) where you can see the targets for the service:
 ![Prometheus targets](./assets/prometheus-targets.png")
 
-## Setup Prometheus SLI provider
-Duration: 2:00
+### Setup Prometheus SLI provider
 
-During the evaluation of a quality gate, the Prometheus SLI provider is required that is implemented by an internal Keptn service, the *prometheus-sli-service*. This service will _fetch the values_ for the SLIs that are referenced in an SLO configuration file.
-
-To install the *prometheus-sli-service*, execute:
-
-<!-- command -->
-```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-sli-service/release-0.3.0/deploy/service.yaml
-```
+During the evaluation of a quality gate, the Prometheus provider is required that is implemented by an internal Keptn service, the *prometheus-service*. This service will _fetch the values_ for the SLIs that are referenced in an SLO configuration file.
 
 We are going to add the configuration for our SLIs in terms of an SLI file that maps the _name_ of an indicator to a PromQL statement how to actually query it.
 

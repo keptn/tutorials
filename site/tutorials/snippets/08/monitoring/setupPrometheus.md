@@ -28,29 +28,8 @@ kubectl apply -f  https://raw.githubusercontent.com/keptn-contrib/prometheus-ser
 # Prometheus installed namespace
 kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_NS="monitoring"
 
-# Prometheus server configmap name
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_CM="prometheus-server"
-
-# Prometheus server app labels
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_LABELS="component=server"
-
-# Prometheus configmap data's config filename
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_CONFIG_FILENAME="prometheus.yml"
-
-# AlertManager configmap data's config filename
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_CONFIG_FILENAME="alertmanager.yml"
-
-# Alert Manager config map name
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_CM="prometheus-alertmanager"
-
-# Alert Manager app labels
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_LABELS="component=alertmanager"
-
 # Alert Manager installed namespace
 kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_NS="monitoring"
-
-# Alert Manager template configmap name
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_TEMPLATE_CM="alertmanager-templates"
 ```
 
 * Install Role and Rolebinding to permit Keptn's prometheus-service for performing operations in the Prometheus installed namespace.
@@ -85,3 +64,28 @@ kubectl port-forward svc/prometheus-server 8080:80 -n monitoring
 
 Prometheus is then available on [localhost:8080/targets](http://localhost:8080/targets) where you can see the targets for the service:
 ![Prometheus targets](./assets/prometheus-targets.png")
+
+We are going to add the configuration for our SLIs in terms of an SLI file that maps the _name_ of an indicator to a PromQL statement how to actually query it. Please make sure you are in the correct folder `examples/onboarding-carts`.
+
+### Prometheus SLI provider 
+
+During the evaluation of a quality gate, the Prometheus  provider is required that is implemented by an internal Keptn service, the *prometheus-service*. This service will _fetch the values_ for the SLIs that are referenced in an SLO configuration file.
+
+We are going to add the configuration for our SLIs in terms of an SLI file that maps the _name_ of an indicator to a PromQL statement how to actually query it. Please make sure you are in the correct folder `examples/onboarding-carts`.
+
+<!-- bash cd ../../onboarding-carts -->
+
+<!-- command -->
+```
+keptn add-resource --project=sockshop --stage=staging --service=carts --resource=sli-config-prometheus-bg.yaml --resourceUri=prometheus/sli.yaml 
+```
+
+For your information, the contents of the file are as follows:
+```
+---
+spec_version: '1.0'
+indicators:
+  response_time_p50: histogram_quantile(0.5, sum by(le) (rate(http_response_time_milliseconds_bucket{handler="ItemsController.addToCart",job="$SERVICE-$PROJECT-$STAGE-canary"}[$DURATION_SECONDS])))
+  response_time_p90: histogram_quantile(0.9, sum by(le) (rate(http_response_time_milliseconds_bucket{handler="ItemsController.addToCart",job="$SERVICE-$PROJECT-$STAGE-canary"}[$DURATION_SECONDS])))
+  response_time_p95: histogram_quantile(0.95, sum by(le) (rate(http_response_time_milliseconds_bucket{handler="ItemsController.addToCart",job="$SERVICE-$PROJECT-$STAGE-canary"}[$DURATION_SECONDS])))
+```
