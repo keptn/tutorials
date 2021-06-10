@@ -265,7 +265,7 @@ sleep 10
 * Execute the following command to install Prometheus and set up the rules for the *Prometheus Alerting Manager*:
 <!-- command -->
 ```
-keptn configure monitoring prometheus --project=sockshop --service=carts
+keptn configure monitoring prometheus --project=pod-tato-head --service=helloservice
 ```
 
 <!-- bash wait_for_deployment_in_namespace "alertmanager" "monitoring" -->
