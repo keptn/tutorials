@@ -35,6 +35,8 @@ Now let's create the project using the `keptn create project` command.
 keptn create project sockshop --shipyard=./shipyard.yaml --git-user=$GIT_USER --git-token=$GIT_TOKEN --git-remote-url=$GIT_REMOTE_URL
 ```
 
+Negative
+: Please note that the Git repo **must not** be initialized - it has to be an empty repository without any branch or commit. [See the docs for more details](https://keptn.sh/docs/0.8.0/manage/git_upstream/).
 
 **Alternatively:** If you don't want to use a Git upstream, you can create a new project without it but please note that this is not the recommended way:
 
