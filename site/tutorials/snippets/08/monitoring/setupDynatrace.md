@@ -9,7 +9,7 @@ Positive
 
 If you don't have a Dynatrace tenant yet, sign up for a [free trial](https://www.dynatrace.com/trial/) or a [developer account](https://www.dynatrace.com/developer/).
 
-## Gather Dynatrace tokens
+## Create Dynatrace tokens
 Duration: 6:00
 
 1. Create a Dynatrace API Token
@@ -34,32 +34,6 @@ Duration: 6:00
 
     In your Dynatrace tenant, go to **Settings > Integration > Platform as a Service**, and create a new PaaS Token.
 
-1. Store your credentials in a Kubernetes secret by executing the following command. The `DT_TENANT` has to be set according to the appropriate pattern:
-  - Dynatrace SaaS tenant (this format is most likely for you): `{your-environment-id}.live.dynatrace.com`
-  - Dynatrace-managed tenant: `{your-domain}/e/{your-environment-id}`
-
-    If running on a Unix/Linux based system, you can use variables for ease of use. Naturally, it is also fine to just replace the values in the `kubectl` command itself.
-
-    <!-- var DT_TENANT -->
-    <!-- var DT_API_TOKEN -->
-    <!-- var DT_PAAS_TOKEN -->
-
-    ```
-    export DT_TENANT=yourtenant.live.dynatrace.com
-    export DT_API_TOKEN=yourAPItoken
-    export DT_PAAS_TOKEN=yourPAAStoken
-    ```
-
-    Negative
-    : Please make sure your DT_TENANT does _not contain_ any trailing slashes nor a https:// in the beginning.
-
-    If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.
-    
-    <!-- command -->
-    ```
-    kubectl -n keptn create secret generic dynatrace --from-literal="DT_TENANT=$DT_TENANT" --from-literal="DT_API_TOKEN=$DT_API_TOKEN"  --from-literal="DT_PAAS_TOKEN=$DT_PAAS_TOKEN" --from-literal="KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/api" --from-literal="KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath='{.data.keptn-api-token}' | base64 --decode)" --from-literal="KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge" 
-    ```
-
 ## Deploy Dynatrace OneAgent Operator
 
 To monitor a Kubernetes environment using Dynatrace, please setup dynatrace-operator as described below, or visit the [official Dynatrace documentation](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/deploy-oneagent-k8/).
@@ -76,6 +50,7 @@ For setting up dynatrace-operator, perform the following steps:
    **Note**: Please make sure to tick *Enable volume storage* if you are on GKE, Anthos, CaaS and PKS.
 
    ![Dynatrace Kubernetes Monitoring](./assets/dt-kubernetes-monitor.png)
+
 1. Copy the generated code and run it in a terminal/bash
 1. Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.
 
@@ -114,8 +89,24 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.14.0/deploy/service.yaml -n keptn
+    helm upgrade \
+    --install dynatrace-service \
+    -n keptn \
+    --set dynatraceService.config.keptnApiUrl=$KEPTN_ENDPOINT/api \
+    --set dynatraceService.config.keptnBridgeUrl=$KEPTN_ENDPOINT/bridge \
+    https://github.com/keptn-contrib/dynatrace-service/releases/download/0.15.0/dynatrace-service-0.15.0.tgz
     ```
+
+1. Once the *dynatrace-service* has been installed, create the `dynatrace` secret in the Keptn Bridge by navigating to **Projects > *Dynatrace* > Uniform > Secrets** and clicking **Add Secret**. Enter `dynatrace` as the name and add two key-value pairs with the keys `DT_TENANT` and `DT_API_TOKEN` as well as their respective values.
+
+  - The `DT_TENANT` has to be set according to the appropriate pattern:
+    - Dynatrace SaaS tenant (this format is most likely for you): `{your-environment-id}.live.dynatrace.com`
+    - Dynatrace-managed tenant: `{your-domain}/e/{your-environment-id}`
+
+  - `DT_API_TOKEN` should be set to the Dynatrace API token created earlier.
+
+    ![Creating the Dynatrace secret](./assets/dt_add_secret.png)
+
 
 1. When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.
 
