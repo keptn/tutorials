@@ -71,15 +71,19 @@ For the 😎 ultimate experience you could get a `t2.2xlarge` with 8 Cores, 32 G
 
 ### AWS sizings for reference 
 
+
+Negative
+: Warning, a self-hosted Git Service ([Gitea](https://gitea.io/)) has been added to and makes Keptn-in-a-Box a bit chubby 🐖, [here is the issue](https://github.com/keptn-sandbox/keptn-in-a-box/issues/12). This is for teaching and exposing the GitOps approach Keptn uses. You can either disable deploying Gitea with this variables  `git_deploy=false`  &  `git_migrate=false` (In the Advanced Features section is explained with more detail how to add or remove modules). I highly recommend just to add more resources so all your pods can be deployed succesfully (a Default installation needs atm xlarge).  
+
 Below is a table for the sizing reference.
 
 |    |           |           |                  |
 |----|-----------|-----------|------------------|
 | -  |**Size**   |**vCPUs**  | **Memory (GiB)** |
-| 😓 | t2.medium | 2         | 4                |
-| 🙂 | t2.large  | 2         | 8                |
-| 😊 | t2.xlarge | 4         | 16               |
-| 🤓 | t2.2xlarge| 8         | 32               |
+| 😓 | t3.medium | 2         | 4                |
+| 🙂 | t3.large  | 2         | 8                |
+| 😊 | t3.xlarge | 4         | 16               |
+| 🤓 | t3.2xlarge| 8         | 32               |
 
 ### ☎️ Open ports
 If you define security rules in the Cloud provider or on your datacenter, your instance only needs to have the following ports accessible: 
@@ -103,7 +107,7 @@ ssh yourusername@the-bind-ip-or-dns
 ### Download `keptn-in-a-box.sh`
 Now let's download the `keptn-in-a-box.sh` file and make it executable.
 ```bash
-curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.8.2/keptn-in-a-box.sh
+curl -O https://raw.githubusercontent.com/keptn-sandbox/keptn-in-a-box/release-0.8.3/keptn-in-a-box.sh
 chmod +x keptn-in-a-box.sh
 ```
 
