@@ -9,7 +9,7 @@ To get all files you need for this tutorial, please clone the example repo to yo
 <!-- command -->
 
 ```
-git clone --branch release-0.8.0 https://github.com/keptn/examples.git --single-branch
+git clone --branch release-0.8.4 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 ```
@@ -131,6 +131,21 @@ spec:
               properties:
                 deploymentstrategy: "direct"
             - name: "release"
+
+        - name: "remediation"
+          triggeredOn:
+            - event: "production.remediation.finished"
+              selector:
+                match:
+                  evaluation.result: "fail"
+          tasks:
+            - name: "get-action"
+            - name: "action"
+            - name: "evaluation"
+              triggeredAfter: "15m"
+              properties:
+                timeframe: "15m"
+
 ```
 
 This shipyard contains three stages: dev, staging, and production. This results in the three Kubernetes namespaces: sockshop-dev, sockshop-staging, and sockshop-production.

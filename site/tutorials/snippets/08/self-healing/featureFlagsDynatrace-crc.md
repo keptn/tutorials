@@ -131,7 +131,7 @@ As said, in this tutorial we can use the following command as it is:
     
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.3.0/deploy/service.yaml
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/unleash-service/release-0.3.2/deploy/service.yaml
     ```
 
 1. Switch to the carts example (`cd examples/onboarding-carts`) and add the following remediation instructions
@@ -173,7 +173,7 @@ As said, in this tutorial we can use the following command as it is:
 1. We are also going to add an SLO file so that Keptn can evaluate if the remediation action was successful.
     <!-- command -->
     ```
-    keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing.yaml --resourceUri=slo.yaml
+    keptn add-resource --project=sockshop --stage=production --service=carts --resource=slo-self-healing-dynatrace.yaml --resourceUri=slo.yaml
     ```
 
 1. Start the load generation script for this use case:
@@ -210,7 +210,7 @@ Duration: 5:00
 
 1. Finally, take a look into the Keptn's Bridge to see that an open problem has been resolved. You might notice that also the other stages like _dev_, and _staging_ received the error. The reason is that they all receive the same feature flag configuration and all receive traffic from the load generator. However, for _dev_ and _staging_ there is no `remediation.yaml` added and thus, no remediation will be performed if problems in this stages are detected. If you want to change this behaviour, go ahead and also add the `remediation.yaml` file to the other stages by executing another `keptn add-resource` command. For this tutorial, we are fine by only having self-healing for our production stage!
     
-    ![bridge unleash](./assets/bridge-unleash-remediation.png)
+    ![bridge unleash](./assets/bridge-unleash-remediation-keptn083.png)
 
 1. 10 minutes after Keptn disables the feature flag, Keptn will also trigger another evaluation to make sure the trigger remediation action did actually resolve the problem. In case the problem is not resolved and the remediation file would hold more remediation actions, Keptn would go ahead and trigger them. For our tutorial Keptn has resolved the issue already, so no need for a second try!
 

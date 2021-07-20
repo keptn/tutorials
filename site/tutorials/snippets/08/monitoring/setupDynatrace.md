@@ -27,7 +27,8 @@ Duration: 6:00
 
     Take a look at this screenshot to double check the right token permissions for you.
 
-    ![Dynatrace API Token](./assets/dt_api_token.png)
+    ![Dynatrace API V1 Token](./assets/dt_apiv1_token.png)
+    ![Dynatrace API V2 Token](./assets/dt_apiv2_token.png)
 
 1. Create a Dynatrace PaaS Token
 
@@ -70,7 +71,10 @@ For setting up dynatrace-operator, perform the following steps:
 1. Within Dynatrace Hub, search for Kubernetes
    ![Dynatrace Hub](./assets/dt-hub-kubernetes.png)
 1. Click on Kubernetes, and select **Monitor Kubernetes** at the bottom of the screen
-1. In the following screen, select the Platform, a PaaS and API Token, and the oenagent installation options (e.g., for GKE you need to enable volume storage).
+1. In the following screen, select the Platform, a PaaS and API Token, and the OneAgent installation options.
+
+   **Note**: Please make sure to tick *Enable volume storage* if you are on GKE, Anthos, CaaS and PKS.
+
    ![Dynatrace Kubernetes Monitoring](./assets/dt-kubernetes-monitor.png)
 1. Copy the generated code and run it in a terminal/bash
 1. Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.
@@ -89,6 +93,18 @@ For setting up dynatrace-operator, perform the following steps:
     oneagent-gc2lc                                1/1     Running   0          35h
     oneagent-w7msm                                1/1     Running   0          35h
     ```
+   
+    Note: If you are on newer versions of OneAgent / Dynatrace Operator, pods might look as follows:
+    ```
+    NAME                                          READY   STATUS    RESTARTS   AGE
+    dynakube-classic-d2ckw                        1/1     Running   0          1d13h
+    dynakube-kubemon-0                            1/1     Running   0          15h
+    dynakube-routing-0                            1/1     Running   0          23h
+    dynatrace-operator-fb56f7f59-pf5sg            1/1     Running   0          1d13h
+    ```
+
+    **Note**: In case any pods are crashing with `CrashLoopBackOff` or `Error`, please double check that you ticked *Enable volume storage*. Alternatively, please take a look at [the official OneAgent troubleshooting guide](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/maintenance/troubleshoot-deployment-and-connectivity/#anchor_deploy).
+   
 1. Optional: Verify in your Dynatrace Environment under the section *Kubernetes* that your cluster is monitored.
 
 ## Install Dynatrace integration
@@ -98,7 +114,7 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.11.0/deploy/service.yaml -n keptn
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.14.0/deploy/service.yaml -n keptn
     ```
 
 1. When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.
@@ -139,42 +155,3 @@ Since Keptn has configured your Dynatrace tenant, let us take a look what has be
 - *Alerting profile:* An alerting profile with all problems set to *0 minutes* (immediate) is created. You can review this profile by navigating to **Settings > Alerting > Alerting profiles**.
 
 - *Dashboard and Mangement zone:* When creating a new Keptn project or executing the [keptn configure monitoring](https://keptn.sh/docs/0.6.0/reference/cli/commands/keptn_configure_monitoring/) command for a particular project (see Note 1), a dashboard and management zone will be generated reflecting the environment as specified in the shipyard file.
-
-
-Negative
-: If the nodes in your cluster run on *Container-Optimized OS (cos)* (default for GKE), the Dynatrace OneAgent might not work properly, the next steps are necessary. 
-
-Follow the next steps only if your Dynatrace OneAgent does not work properly.
-
-<!-- bash kubectl get pods -n dynatrace -->
-
-1. To check if the OneAgent does not work properly, the output of `kubectl get pods -n dynatrace` might look as follows:
-
-  ```
-  NAME                                           READY   STATUS             RESTARTS   AGE
-  dynatrace-oneagent-operator-7f477bf78d-dgwb6   1/1     Running            0          8m21s
-  oneagent-b22m4                                 0/1     Error              6          8m15s
-  oneagent-k7jn6                                 0/1     CrashLoopBackOff   6          8m15s
-  ```
-
-1. This means that after the initial setup you need to edit the OneAgent custom resource in the Dynatrace namespace and add the following entry to the env section:
-
-        env:
-        - name: ONEAGENT_ENABLE_VOLUME_STORAGE
-          value: "true"
-
-1. To edit the OneAgent custom resource: 
-
-    ```
-    kubectl edit oneagent -n dynatrace
-    ```
-
-
-At the end of your installation, please verify that all Dynatrace resources are in a Ready and Running status by executing `kubectl get pods -n dynatrace`:
-
-```
-NAME                                           READY   STATUS       RESTARTS   AGE
-dynatrace-oneagent-operator-7f477bf78d-dgwb6   1/1     Running      0          8m21s
-oneagent-b22m4                                 1/1     Running      0          8m21s
-oneagent-k7jn6                                 1/1     Running      0          8m21s
-```

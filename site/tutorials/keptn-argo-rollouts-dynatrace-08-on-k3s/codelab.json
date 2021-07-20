@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
-  "updated": "2021-04-27T13:54:19+02:00",
-  "id": "keptn-quality-gates-dynatrace-08-on-k3s",
-  "duration": 36,
-  "title": "Keptn Quality Gates with Dynatrace using k3s",
+  "updated": "2021-04-27T13:54:09+02:00",
+  "id": "keptn-argo-rollouts-dynatrace-08-on-k3s",
+  "duration": 34,
+  "title": "Keptn Multi Stage Delivery with Argo Rollouts and Dynatrace on k3s",
   "authors": "Andreas Grabner",
   "summary": "5 minute installation. All running on K3s with a single line installation. No Kubernetes cluster needed.",
-  "source": "keptn-quality-gates-dynatrace-08-on-k3s_gen.md",
+  "source": "keptn-argo-rollouts-dynatrace-08-on-k3s_gen.md",
   "theme": "",
   "status": [
     "published"
@@ -17,12 +17,13 @@
   "category": [
     "dynatrace",
     "k3s",
-    "quality-gates"
+    "argo",
+    "canary"
   ],
   "tags": [
     "introduction",
     "keptn08x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
-  "url": "keptn-quality-gates-dynatrace-08-on-k3s"
+  "url": "keptn-argo-rollouts-dynatrace-08-on-k3s"
 }
