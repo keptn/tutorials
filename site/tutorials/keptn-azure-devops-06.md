@@ -45,7 +45,7 @@ Duration: 2:00
 ## Install Keptn
 Duration: 7:00
 
-Once we have the cluser for Keptn, we are going to install Keptn on it.
+Once we have the cluster for Keptn, we are going to install Keptn on it.
 Open your favourite terminal and execute the following steps.
 
 1. Get the Keptn CLI from [Keptn.sh](https://keptn.sh)

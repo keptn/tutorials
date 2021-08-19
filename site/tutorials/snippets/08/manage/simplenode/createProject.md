@@ -32,7 +32,7 @@ stages:
 This shipyard contains two stages: staging, and prod. This results in the three Kubernetes namespaces: simplenodeproject-staging, and simplenodeproject-prod.
 
 * **staging** will have a direct (big bang) deployment strategy and performance tests are executed. If tests are good and SLI/SLO based quality gates are passed Keptn will promote it to the *prod* stage
-* **prod** will have a blue/green deployment strategy also using performance tests to validate that deployment and eventually switch between blue/green in case performance testing has revelead a problem
+* **prod** will have a blue/green deployment strategy also using performance tests to validate that deployment and eventually switch between blue/green in case performance testing has revealed a problem
 
 Positive
 : To learn more about a *shipyard* file, please take a look at the [Shipyard specification](https://github.com/keptn/spec/blob/master/shipyard.md).

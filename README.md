@@ -4,7 +4,7 @@ This repo serves as the place for all Keptn tutorials hosted on https://tutorial
 
 ## Want to contribute? :bulb:
 
-**If you want to contribute your own tutorial or foud a bug and want to fix it - [please start here](site/tutorials)!**
+**If you want to contribute your own tutorial or found a bug and want to fix it - [please start here](site/tutorials)!**
 
 ## Structure
 

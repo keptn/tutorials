@@ -17,7 +17,7 @@ Keptn didn't come up with these concepts. They have been around for a while and 
 
 In this tutorial we teach you how you can use Keptn Quality Gates to automatically analyze important metrics (SLIs) that Dynatrace captures while your system is under load, e.g: during a load test and compare them against your expected behavior (SLOs). This comparison can either be against well defined thresholds, e.g: 200ms response time but can also be a comparison against previous test results, e.g: response time should not get slower than 10% of our previous build.
 
-The real benefit is visulized in the following animation. Keptn Quality Gates help you automate the manual task of analyzing or comparing data on dashboards to determine whether a build meets your quality criteria.
+The real benefit is visualized in the following animation. Keptn Quality Gates help you automate the manual task of analyzing or comparing data on dashboards to determine whether a build meets your quality criteria.
 
 ![](./assets/dynatrace_qualitygates/dynatrace_keptn_sli_automation.gif)
 
@@ -53,6 +53,6 @@ As you have now learned how to setup Keptn for pulling metrics out of Dynatrace 
 - Prepare Dynatrace to act as a data source for Quality Gate evaluation
 - Learn how to define and use service-level indicators (SLIs) and service-level objectives (SLOs)
 - How to trigger a Keptn Quality Gate evaluation using the CLI and the API
-- How to use the Keptns Bridge to inspect your Quality Gate Results
+- How to use the Keptn's Bridge to inspect your Quality Gate Results
 
 {{ snippets/07/community/feedback.md }}

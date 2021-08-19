@@ -6,7 +6,7 @@ Keptn Quality Gates are based on the concepts of
 * SLIs (Service Level Indicators): what metrics (=indicators) are important and how do we query them
 * SLOs (Service Level Objectives): what conditions (=objectives) must be met to consider this a good or a bad value per indicator
 
-In Keptn we therefore need to provide an `sli.yaml` that defines how to query certain metrics from a specific tool, e.g: Dynatrace. We also need to provide an `slo.yaml` that defines the conditions - this file is tool independant. 
+In Keptn we therefore need to provide an `sli.yaml` that defines how to query certain metrics from a specific tool, e.g: Dynatrace. We also need to provide an `slo.yaml` that defines the conditions - this file is tool independent. 
 To learn more about the *sli.yaml* and *slo.yaml* files, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.3/sre.md).
 
 Our example comes with a basic and an extended set of SLIs and SLOs. In this step we focus on the basic version.

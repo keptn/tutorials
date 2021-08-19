@@ -37,7 +37,7 @@ echo $KEPTN_API_TOKEN
 
 Copy that value, navigate to your Swagger UI in your browser, make sure you have selected the *api-service* and then click Authorize. Now paste in your token and login!
 
-Now we are ready to send a start-evaluation event just as we did before through the CLI. The only difference is that the API expects a start & time timestamp and doesnt provide the convenient option of a timeframe. Thats why you have to make sure to put in timestamps where you know you have data in your Dynatrace environment. Here is my prepared POST body including the JSON object for start-evaluation:
+Now we are ready to send a start-evaluation event just as we did before through the CLI. The only difference is that the API expects a start & time timestamp and doesnt provide the convenient option of a timeframe. That's why you have to make sure to put in timestamps where you know you have data in your Dynatrace environment. Here is my prepared POST body including the JSON object for start-evaluation:
 
 ```
 {
@@ -72,7 +72,7 @@ curl -X POST "$KEPTN_ENDPOINT/v1/event" -H "accept: application/json" -H "x-toke
 
 5. Query for evaluation-done
 
-Remember from when we ran through this excercise with the Keptn CLI? The evaluation may take up to a minute. In order to check whether the evaluation is done and what the result was we can now call the GET /events API endpoint and query the existence of an sh.keptn.events.evaluation-done event for the keptnContext we retrieved earlier:
+Remember from when we ran through this exercise with the Keptn CLI? The evaluation may take up to a minute. In order to check whether the evaluation is done and what the result was we can now call the GET /events API endpoint and query the existence of an sh.keptn.events.evaluation-done event for the keptnContext we retrieved earlier:
 
 You can execute this through the Swagger UI or - as it is rather simple and straight forward - using the following CURL:
 

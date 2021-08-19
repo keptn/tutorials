@@ -1,6 +1,6 @@
 ## Connect your Keptn CLI to the Keptn installation
 
-In this section we are referring to the Linux/MacOS derivates of the commands. If you are using a Windows host, please [follow the official instructions](https://keptn.sh/docs/0.7.x/operate/install/#authenticate-keptn-cli).
+In this section we are referring to the Linux/MacOS derivatives of the commands. If you are using a Windows host, please [follow the official instructions](https://keptn.sh/docs/0.7.x/operate/install/#authenticate-keptn-cli).
 
 <!-- command -->
 ```

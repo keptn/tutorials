@@ -6,7 +6,7 @@ Keptn Quality Gates are based on the concepts of
 * SLIs (Service Level Indicators): what metrics (=indicators) are important and how do we query them
 * SLOs (Service Level Objectives): what conditions (=objectives) must be met to consider this a good or a bad value per indicator
 
-In Keptn we therefore need to provide an `sli.yaml` that defines how to query certain metrics from a specific tool, e.g: Dynatrace. We also need to provide an `slo.yaml` that defines the conditions - this file is tool independant. 
+In Keptn we therefore need to provide an `sli.yaml` that defines how to query certain metrics from a specific tool, e.g: Dynatrace. We also need to provide an `slo.yaml` that defines the conditions - this file is tool independent. 
 To learn more about the *sli.yaml* and *slo.yaml* files, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.3/sre.md).
 
 Our example comes with a basic and an extended set of SLIs and SLOs. In this step we focus on the basic version.
@@ -85,7 +85,7 @@ Duration: 3:00
 
 Uploading SLIs & SLOs alone is not enough. What we need are some tests, e.g: simple API performance tests that get executed by Keptn. After those tests are executed Keptn will evaluate the SLIs/SLOs for the timeframe of the test execution.
 
-Keptn comes with a JMeter-Service that can execute JMeter tests when a new deployment happened. In our tutorial we are however using the JMeter-Extended-Service as it gives us some more flexibilty with different workloads. 
+Keptn comes with a JMeter-Service that can execute JMeter tests when a new deployment happened. In our tutorial we are however using the JMeter-Extended-Service as it gives us some more flexibility with different workloads. 
 1. We simply "upgrade" from JMeter-Service to JMeter-Extended-Service by replacing the image:
 
 ```

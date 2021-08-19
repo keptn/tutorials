@@ -183,7 +183,7 @@ Next, we set up an Argo app. Therefore, this tutorial assumes that you have comp
 ## Add Argo Hook for triggering Keptn
 Duration: 2:00
 
-In order to infrom Keptn when Argo CD does the deployment,
+In order to inform Keptn when Argo CD does the deployment,
 an [Argo Resource Hook](https://argoproj.github.io/argo-cd/user-guide/resource_hooks/) is configured. This hook is triggered when Argo CD applies the manifests. This hook executes a script which sends a [`sh.keptn.events.deployment-finished`](https://github.com/keptn/spec/blob/master/cloudevents.md#deployment-finished) event to the Keptn API.
 
 Therefore, this hook needs to access the Keptn API and, hence, requires the Keptn endpoint as well as the api-token.
@@ -272,7 +272,7 @@ You will see these events in the Keptn's Bridge:
 
 Next, we will deploy a slow version of the carts service, which contains an artificial slowdown of 2 second in each request. This version must not pass the quality gate and, hence, should not be promoted to serve real-user traffic.
 
-1. In your Git reposititory containing the Argo resources, go to the folder `carts/argo/carts` and open the `values.yaml` file.
+1. In your Git repository containing the Argo resources, go to the folder `carts/argo/carts` and open the `values.yaml` file.
 
 1. Edit the `tag` from `0.11.1` to `0.11.2`. 
 
@@ -308,7 +308,7 @@ Next, we will deploy a slow version of the carts service, which contains an arti
 Finally, we will deploy a version which does _not_ contain the slowdown anymore.
 This version should now again pass the quality gate and, hence, should be promoted to serve real-user traffic.
 
-1. In your Git reposititory containing the Argo resources, go to the folder `carts/argo/carts` and open the `values.yaml` file.
+1. In your Git repository containing the Argo resources, go to the folder `carts/argo/carts` and open the `values.yaml` file.
 
 1. Edit the `tag` from `0.11.2` to `0.11.3`. 
 

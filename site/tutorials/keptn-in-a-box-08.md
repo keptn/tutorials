@@ -15,7 +15,7 @@ Duration: 2:00
 
 In this tutorial you'll learn how to run and customize [Keptn-in-a-Box](https://github.com/keptn-sandbox/keptn-in-a-box). Keptn-In-A-Box is a Bash script that will convert a plain Ubuntu machine in a Single Node Kubernetes Cluster with Keptn installed and configured (among other cool features which will set sail for your autonomous cloud journey). The script is programmed in a modular way so you can select the 🧩 **installationBundle** that better suits your needs.
 
-*Keptn-in-a-Box is a 🚀 rocket launcher for enabling tutorials or workshops in an easy, fast and ressource efficient way.*
+*Keptn-in-a-Box is a 🚀 rocket launcher for enabling tutorials or workshops in an easy, fast and resource efficient way.*
 
 In a matter of minutes you'll have a fully configured **Single Node Kubernetes Cluster** for learning [Keptn tutorials](https://tutorials.keptn.sh), trying out new functionalities, building your own pipeline or even delivering **Performance-as-a-Self-Service**. 
 
@@ -73,7 +73,7 @@ For the 😎 ultimate experience you could get a `t2.2xlarge` with 8 Cores, 32 G
 
 
 Negative
-: Warning, a self-hosted Git Service ([Gitea](https://gitea.io/)) has been added to and makes Keptn-in-a-Box a bit chubby 🐖, [here is the issue](https://github.com/keptn-sandbox/keptn-in-a-box/issues/12). This is for teaching and exposing the GitOps approach Keptn uses. You can either disable deploying Gitea with this variables  `git_deploy=false`  &  `git_migrate=false` (In the Advanced Features section is explained with more detail how to add or remove modules). I highly recommend just to add more resources so all your pods can be deployed succesfully (a Default installation needs atm xlarge).  
+: Warning, a self-hosted Git Service ([Gitea](https://gitea.io/)) has been added to and makes Keptn-in-a-Box a bit chubby 🐖, [here is the issue](https://github.com/keptn-sandbox/keptn-in-a-box/issues/12). This is for teaching and exposing the GitOps approach Keptn uses. You can either disable deploying Gitea with this variables  `git_deploy=false`  &  `git_migrate=false` (In the Advanced Features section is explained with more detail how to add or remove modules). I highly recommend just to add more resources so all your pods can be deployed successfully (a Default installation needs atm xlarge).  
 
 Below is a table for the sizing reference.
 
@@ -185,7 +185,7 @@ Positive
 Negative
 : If your box does **not** have a public ip, you'll have to configure the domain so you can access the services from outside the box.  
 
-For example, I want to run Keptn-in-a-Box inside my home network and the VM get's the ip `192.168.0.10`. I will convert the IP to a magic domain. This way the requests to any subdomain, for example to [https://keptn.192.168.0.10.nip.io/api](https://keptn.192.168.0.10.nip.io/api) will get resolved to `192.168.0.10` and then kubernetes will take care of forwarding the request internally to the Keptn API service.
+For example, I want to run Keptn-in-a-Box inside my home network and the VM gets the ip `192.168.0.10`. I will convert the IP to a magic domain. This way the requests to any subdomain, for example to [https://keptn.192.168.0.10.nip.io/api](https://keptn.192.168.0.10.nip.io/api) will get resolved to `192.168.0.10` and then kubernetes will take care of forwarding the request internally to the Keptn API service.
 
 Just enter the IP in a magic domain notation as shown below. The ip can contain dashes (-) or dots (.). I just like dashes more, they are prettier 💄.
 
@@ -217,7 +217,7 @@ create_workshop_user=true
 needs to be active and defined after the installation bundles section. More about **functions**, **control flags** and **installationBundles** in the step **select the Installation Bundle**.
 
 Negative
-: ⚠️ This function will enable password authentication in `/etc/ssh/sshd_config` and restart the `sshd` service. The workshop user will also be part of the suders group.
+: ⚠️ This function will enable password authentication in `/etc/ssh/sshd_config` and restart the `sshd` service. The workshop user will also be part of the sudoers group.
 
 ## Select the installation Bundle
 Duration: 7:00
@@ -225,7 +225,7 @@ Duration: 7:00
 ### ↳ Programs logic
 Before selecting the installation Bundle, let's understand how `Keptn-in-a-box.sh` works and what it will do.
 
-[keptn-in-a-box.sh](https://github.com/keptn-sandbox/keptn-in-a-box/blob/master/keptn-in-a-box.sh) is the controller. Here we have been defining our variables. When executing this script, it will download and load the functions defined in [functions.sh](https://github.com/keptn-sandbox/keptn-in-a-box/blob/master/functions.sh). Which **⨍ functions** to execute are controled by their **🚦control flags**. Now, an **🧩installation Bundle** is the enablement for multiple **control flags**. 
+[keptn-in-a-box.sh](https://github.com/keptn-sandbox/keptn-in-a-box/blob/master/keptn-in-a-box.sh) is the controller. Here we have been defining our variables. When executing this script, it will download and load the functions defined in [functions.sh](https://github.com/keptn-sandbox/keptn-in-a-box/blob/master/functions.sh). Which **⨍ functions** to execute are controlled by their **🚦control flags**. Now, an **🧩installation Bundle** is the enablement for multiple **control flags**. 
 
 ### 🧩installation Bundles & 🚦control flags
 Now that we have understood the delegation of the program's logic and it's main components, here is a table of the installation Bundles and their respective enabled flags:
@@ -319,7 +319,7 @@ Run the script with sudo rights and send the process to the background.
 sudo bash -c './keptn-in-a-box.sh &'
 ```
 
-Why run it in the background and where is the output of the program you say? Well, keptn-in-a-box is actually optimized to be executed for non-interactive shells at the initialization of an instance. This is done programatically passing the script as [user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) while creating dynatrace environments and spininning multiple instances for each student. This is achieved with the [Dynatrace Rest Tenant Automation](https://github.com/sergiohinojosa/Dynatrace-REST-Tenant-Automation) programm. Yes, we love ❤️ automation 🤖and the customization, creation and configuration of environments and instances is done programatically.
+Why run it in the background and where is the output of the program you say? Well, keptn-in-a-box is actually optimized to be executed for non-interactive shells at the initialization of an instance. This is done programmatically passing the script as [user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) while creating dynatrace environments and spinning multiple instances for each student. This is achieved with the [Dynatrace Rest Tenant Automation](https://github.com/sergiohinojosa/Dynatrace-REST-Tenant-Automation) program. Yes, we love ❤️ automation 🤖and the customization, creation and configuration of environments and instances is done programmatically.
 
 ### What happens in the background
 The script will clone the keptn-in-a-box repository in the 🏠home directory of the user that executed it. It will execute the functions marked as `true`. The installation will take between 4 and 10 minutes, depending on the amount of features, internet connection speed and computing power available.

@@ -5,7 +5,7 @@ Duration: 2:00
 Once Keptn has deployed our application and we have successfully validated that the app is indeed running by accessing the app through its URL we can also validate that Dynatrace is monitoring not only your k8s cluster but also the app we have deployed.
 
 In Dynatrace use the navigation menu on the left and navigate to the Host view. You should find an entry for each of your k8s cluster nodes. Click one of them. You should see host metrics, list of processes & containers, events ...
-Via the `...` button you can access the Smartscape view which gives you full stack visiblity of everything that is hosted on that k8s cluster node. You should also see our deployed Node.js services which you can click on and navigate to the detailed view:
+Via the `...` button you can access the Smartscape view which gives you full stack visibility of everything that is hosted on that k8s cluster node. You should also see our deployed Node.js services which you can click on and navigate to the detailed view:
 
 ![](./assets/simplenode/validatemonitoring.png)
 

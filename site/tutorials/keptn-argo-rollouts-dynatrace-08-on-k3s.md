@@ -221,10 +221,10 @@ Every keptn project internally holds a git repository containing all relevant fi
 5. Any other random files, e.g: we will find some helper html & json files for our tutorial
 
 The tutorial comes with Gitea as a Git Web Service and every created Keptn project is linked to an upstream git repository in Gitea.
-The easiest to access Gitea is therefore through the keptns project overview page and then follow the link to the upstream git as shown here:
+The easiest to access Gitea is therefore through Keptn's project overview page and then follow the link to the upstream git as shown here:
 ![](./assets/argo_rollout/0.8/bridge_project_overview_giteaaccess.png)
 
-There is one helper file in the root directory of the main branch which is called `viewsimplenodeapp.html`. Please download that html file content locally and open that HTML in a browser. It will show us the actual deployed status of our simplenode app in staging and production. Initially it will not look like much because we havent deployed anything yet. But - this is what you should see!
+There is one helper file in the root directory of the main branch which is called `viewsimplenodeapp.html`. Please download that html file content locally and open that HTML in a browser. It will show us the actual deployed status of our simplenode app in staging and production. Initially it will not look like much because we haven't deployed anything yet. But - this is what you should see!
 ![](./assets/argo_rollout/0.8/simplenode_htmlview_empty.png)
 
 ## Deploy version #1
@@ -236,7 +236,7 @@ We simply copy/paste the command that was given to us by the installation script
 keptn trigger delivery --project=demo-rollout --stage=staging --service=simplenode --image=docker.io/grabnerandi/simplenodeservice --tag=1.0.0
 ```
 
-Once this is triggered we can watch the progress in the Keptns Bridge. The best is to follow the event-driven sequences in the sequences screen. If everything goes according to plan the following steps happen:
+Once this is triggered we can watch the progress in the Keptn's Bridge. The best is to follow the event-driven sequences in the sequences screen. If everything goes according to plan the following steps happen:
 1. Deployment will trigger a helm deployment including the Argo Rollout Blue/Green definition
 2. Release will promote the Argo Rollout to become the active deployment
 3. Tests will trigger a short JMeter test to test the application
@@ -318,7 +318,7 @@ In the Swagger UI use the API Token for the authorization of the POST Event API 
 Here is a rough overview of how this workflow looks like - below you find the details on the body to post into the edit field:
 ![](./assets/argo_rollout/0.8/trigger_build4_via_swaggerui.png)
 
-The Keptn CLI we used for our first three deployments basically sends a Keptn Cloud Event to the Keptn API endpoint. And thats exactly what we are doing here. We are triggering a sequence in a particular project, stage and for a particular service and we pass some additional meta data such as the new image we want to deploy or also some labels (which we can also pass through the CLI but haven't done yet).
+The Keptn CLI we used for our first three deployments basically sends a Keptn Cloud Event to the Keptn API endpoint. And that's exactly what we are doing here. We are triggering a sequence in a particular project, stage and for a particular service and we pass some additional meta data such as the new image we want to deploy or also some labels (which we can also pass through the CLI but haven't done yet).
 
 To find the body please navigate to your Gitea UI for the demo-rollout project. In the main branch you will find a file called `staging.deployment.triggered.json`. This file contains the event that we want to send - already customized for your installation! It should look something like this:
 
