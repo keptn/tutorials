@@ -22,4 +22,4 @@ Positive
 
 Besides the Keptn's Bridge, please consider also taking a look at the Keptn API endpoint if you are interested to interact with Keptn via the API. Keptn comes with a fully documented swagger-API that can be found under the `/api` endpoint.
 
-![api](./assets/keptn-api.png)
+![api](./assets/keptn-api-087.png)
