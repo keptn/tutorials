@@ -99,7 +99,7 @@
            1000);
         var myAnimation = document.timeline.play(myEffect);
 
-    and this should be used insead:
+    and this should be used instead:
 
         var myEffect = new KeyframeEffect(element, [], 1000);
         effect.onsample = function(timeFraction, effect, animation) {

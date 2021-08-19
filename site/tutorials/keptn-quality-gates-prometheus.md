@@ -199,7 +199,7 @@ The Keptn's bridge gives you insights about everything that is going on inside y
 kubectl port-forward svc/bridge -n keptn 8080
 ```
 
-Open up a brower on http://localhost:8080 and you will be able to inspect all evaluations of the quality gates in the Keptn's bridge.
+Open up a browser on http://localhost:8080 and you will be able to inspect all evaluations of the quality gates in the Keptn's bridge.
 
 ![bridge](./assets/kqg-bridge-prometheus.png)
 
@@ -264,4 +264,3 @@ In this tutorial, you have learned how to use Keptn to validate the quality of y
   ```
 - How to use the Keptn's Bridge to inspect quality gate evaluations
   ![bridge](./assets/kqg-bridge-prometheus.png)
-  

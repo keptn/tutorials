@@ -44,7 +44,7 @@ If not, please [follow one of these tutorials to install Keptn](../../?cat=insta
 What you need in order to complete this tutorial is
 1: keptn status needs to successfully connect to your keptn instance
 2: kubectl needs to be configured to connect to your k8s cluster
-3: you have access to the Keptns Bridge. If you have not yet exposed it please do so as described in [Expose Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/#expose-lockdown-bridge)
+3: you have access to the Keptn's Bridge. If you have not yet exposed it please do so as described in [Expose Keptn's Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/#expose-lockdown-bridge)
 
 <!-- include other files -->
 

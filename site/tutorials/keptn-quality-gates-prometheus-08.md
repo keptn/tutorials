@@ -25,7 +25,7 @@ Positive
 
 ### What we will cover in this tutorial
 
-- Setup a demo with Prometheus and Keptn
+- Set up a demo with Prometheus and Keptn
 - Trigger Keptn Quality Gate evaluations
 - Manage SLOs via the Keptn
 
@@ -42,7 +42,7 @@ Everything you need to run for this tutorial is provided on Github and you'll ru
 ### What you need
 
 You should have a Linux machine with at least 2vCPUs and 8GB of RAM, e.g: EC2 t3.large. This tutorial was tested on a EC2 with Amazon Linux, size t3.large instance, if you can bring this one please do so as it will give you a smooth experience.
-If you want to run additional tutorials later, e.g: performance testing, continuous delivery .. then we suggest you get a machine with 8vCPUs and 32GB RAM, e.g: EC2 t3.2xlarge.
+If you want to run additional tutorials later, e.g: performance testing, continuous delivery ... then we suggest you get a machine with 8vCPUs and 32GB RAM, e.g: EC2 t3.2xlarge.
 As we will be accessing Keptn that we install on that machine via HTTP and HTTPS make sure that both ports (80 & 443) are allowed by your firewall.
 What we will need is SSH access to this machine and sudo rights so we can execute our scripts.
 
@@ -52,7 +52,7 @@ Here is our checklist:
 ✅ Ports 22, 80 & 443 are open
 ✅ SSH access and sudo rights
 
-In the following steps, we are making use of resources that are provided on Github. If you want to explore them, have a look at our repo [Keptn on k3s](https://github.com/keptn-sandbox/keptn-on-k3s)!
+In the following steps, we are making use of resources that are provided on GitHub. If you want to explore them, have a look at our repo [Keptn on k3s](https://github.com/keptn-sandbox/keptn-on-k3s)!
 
 ## Set up the tutorial
 Duration: 2:00
@@ -122,7 +122,7 @@ While the installation is running, let's have a look what will be installed.
 
 - **Prometheus**: In this demo we are using Prometheus as our monitoring tool and datastore. Therefore, Prometheus will be installed along with the [Prometheus integrations](https://github.com/keptn-contrib/prometheus-service) for Keptn. 
 
-- **Podtatohead demo application**: We are going to use the CNCF [podtatohead demo application](https://github.com/cncf/podtato-head) for this demo with a custom built image that serves our purpose. The demo application will be ready for you after the installation. 
+- **Podtatohead demo application**: We are going to use the CNCF [podtatohead demo application](https://github.com/cncf/podtato-head) for this demo with a custom-built image that serves our purpose. The demo application will be ready for you after the installation. 
 
 - **Gitea**: A user interface to browse the Keptn managed Git repo will be installed.
 
@@ -273,7 +273,7 @@ keptn trigger evaluation --project=prometheus-qg --stage=quality-gate --service=
 ```
 
 
-Now it is time to have a look at the quality gate evaluation. Switch back to your Keptn Bridge and you'll see that a new evaluation event is coming in.
+Now it is time to have a look at the quality gate evaluation. Switch back to your Keptn's Bridge and you'll see that a new evaluation event is coming in.
 
 ![](./assets/prometheus-qg/bridge-sequence2.png)
 

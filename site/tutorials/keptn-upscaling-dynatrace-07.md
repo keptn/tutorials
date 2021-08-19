@@ -18,7 +18,7 @@ In this tutorial, you will learn how to use the capabilities of Keptn to provide
 - How to create a sample project
 - How to onboard a first microservice
 - How to deploy your first microservice with blue/green deployments
-- How to define a remedation file 
+- How to define a remediation file 
 - How Keptn can automatically execute remediation actions based on issues detected by Dynatrace
 
 You'll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.

@@ -11,7 +11,7 @@ Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 ## Welcome  
 Duration: 2:00 
 
-In this turorial you'll learn how to run and customize [Keptn-in-a-Box](https://github.com/keptn-sandbox/keptn-in-a-box). Keptn-In-A-Box is a Bash script that will convert a plain Ubuntu machine in a Single Node Kubernetes Cluster with Keptn installed and configured (among other cool features which will set sail for your autonomous cloud journey). The script is programmed in a modular way so you can select the 🧩 **installationBundle** that better suits your needs.
+In this tutorial you'll learn how to run and customize [Keptn-in-a-Box](https://github.com/keptn-sandbox/keptn-in-a-box). Keptn-In-A-Box is a Bash script that will convert a plain Ubuntu machine in a Single Node Kubernetes Cluster with Keptn installed and configured (among other cool features which will set sail for your autonomous cloud journey). The script is programmed in a modular way so you can select the 🧩 **installationBundle** that better suits your needs.
 
 *Keptn-in-a-Box is a 🚀 rocket launcher for enabling tutorials or workshops in an easy, fast and ressource efficient way.*
 
@@ -211,7 +211,7 @@ create_workshop_user=true
 needs to be active and defined after the installation bundles section. More about **functions**, **control flags** and **installationBundles** in the step **select the Installation Bundle**.
 
 Negative
-: ⚠️ This function will enable password authentication in `/etc/ssh/sshd_config` and restart the `sshd` service. The workshop user will also be part of the suders group.
+: ⚠️ This function will enable password authentication in `/etc/ssh/sshd_config` and restart the `sshd` service. The workshop user will also be part of the sudoers group.
 
 ## Select the installation Bundle
 Duration: 7:00
@@ -313,7 +313,7 @@ Run the script with sudo rights and send the process to the background.
 sudo bash -c './keptn-in-a-box.sh &'
 ```
 
-Why run it in the background and where is the output of the program you say? Well, keptn-in-a-box is actually optimized to be executed for non-interactive shells at the initialization of an instance. This is done programatically passing the script as [user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) while creating dynatrace environments and spininning multiple instances for each student. This is achieved with the [Dynatrace Rest Tenant Automation](https://github.com/sergiohinojosa/Dynatrace-REST-Tenant-Automation) programm. Yes, we love ❤️ automation 🤖and the customization, creation and configuration of environments and instances is done programatically.
+Why run it in the background and where is the output of the program you say? Well, keptn-in-a-box is actually optimized to be executed for non-interactive shells at the initialization of an instance. This is done programmatically passing the script as [user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) while creating dynatrace environments and spinning multiple instances for each student. This is achieved with the [Dynatrace Rest Tenant Automation](https://github.com/sergiohinojosa/Dynatrace-REST-Tenant-Automation) program. Yes, we love ❤️ automation 🤖and the customization, creation and configuration of environments and instances is done programmatically.
 
 ### What happens in the background
 The script will clone the keptn-in-a-box repository in the 🏠home directory of the user that executed it. It will execute the functions marked as `true`. The installation will take between 4 and 10 minutes, depending on the amount of features, internet connection speed and computing power available.

@@ -2,7 +2,7 @@
 ## Open Keptn's Bridge & API
 Duration: 1:00
 
-Now that you have installed Keptn you can take a look at its user interace aka the Keptn's Bridge.
+Now that you have installed Keptn you can take a look at its user interface aka the Keptn's Bridge.
 
 ### Keptn's Bridge
 
@@ -22,4 +22,4 @@ Positive
 
 Besides the Keptn's Bridge, please consider also taking a look at the Keptn API endpoint if you are interested to interact with Keptn via the API. Keptn comes with a fully documented swagger-API that can be found under the `/api` endpoint.
 
-![api](./assets/keptn-api.png)
+![api](./assets/keptn-api-087.png)

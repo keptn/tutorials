@@ -2,7 +2,7 @@
 Duration: 5:00
 
 In the last steps we finished setting up tests and quality gates for both staging and production.
-Now its time to put this to the test. If you remember - the samplenodeservice app comes with 4 different builds. Every build has a unique characteristic, e.g: some builds are good all the way to production, some builds have a high failure rate and should be stopped by the stagging quality gate, some builds are only problematic in production and should therefore be rolled back during a blue/green validation phase.
+Now its time to put this to the test. If you remember - the samplenodeservice app comes with 4 different builds. Every build has a unique characteristic, e.g: some builds are good all the way to production, some builds have a high failure rate and should be stopped by the staging quality gate, some builds are only problematic in production and should therefore be rolled back during a blue/green validation phase.
 
 Here is what we are going to do in this step. We are going to deploy build 2, 3 and then 4 and validate if Keptn catches all problems as highlighted in the next image:
 ![](./assets/simplenode/simplenodeappoverview.png)
