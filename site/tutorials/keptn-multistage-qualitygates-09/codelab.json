@@ -1,0 +1,33 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2021-08-31T16:05:16+02:00",
+  "id": "keptn-multistage-qualitygates-09",
+  "duration": 57,
+  "title": "Multi-stage delivery with Quality Gates using Prometheus and Podtato-head application",
+  "authors": "Gabriel Tanner",
+  "summary": "Full Keptn installation on a Kubernetes cluster (GKE recommended)",
+  "source": "keptn-multistage-qualitygates-09_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "prometheus",
+    "aks",
+    "eks",
+    "gke",
+    "openshift",
+    "minikube",
+    "full-tour",
+    "quality-gates"
+  ],
+  "tags": [
+    "advanced",
+    "keptn09x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-multistage-qualitygates-09"
+}
