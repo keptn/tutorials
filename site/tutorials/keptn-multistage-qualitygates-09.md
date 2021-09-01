@@ -15,7 +15,7 @@ In this tutorial we'll set up the Podtato-head demo application which will featu
 
 ### What we will cover
 
-- How to create a sample project and onboard a sample service
+- How to create a sample project and create a sample service
 - How to setup quality gates
 - How to use Prometheus metrics in our SLIs & SLOs
 - How to prevent bad builds of your microservice to reach production
@@ -125,14 +125,15 @@ spec:
 
 In the `shipyard.yaml` shown above, we define two stages called *hardening* and *production* with a single sequence called *delivery*. The *hardening* stage defines a *delivery* sequence with a deployment, test, evaluation and release task (along with some other properties) while the *production* stage only includes a deployment and release task. The *production* stage also features a *triggeredOn* properties which defines when the stage will be executed (in this case after the hardening stage has finished the delivery sequence). With this, Keptn sets up the environment and makes sure, that tests are triggered after each deployment, and the tests are then evaluated by Keptn quality gates. Keptn performs a blue/green deployment (i.e., two deployments simultaneously with routing of traffic to only one deployment) and triggers a performance test in the hardening stage. Once the tests complete successfully, the deployment moves into the production stage using another blue/green deployment.
 
-## Onboard service
+## Create a service
 Duration: 2:00
 
-After creating the project, we can continue by onboarding the *helloserver* as a service to your project using the `keptn onboard service` command and passing the project you want to onboard the service to as well as the Helm chart of the service.
+After creating the project, we can continue by onboarding the *helloserver* as a service to your project using the `keptn create service` and `keptn add-resource` commands and pass the project where you want to onboard the service to, as well as the Helm chart of the service.
 
 <!-- command -->
 ```
-keptn onboard service helloservice --project="pod-tato-head" --chart=helm-charts/helloserver
+keptn create service helloserver --project="pod-tato-head"
+keptn add-resource --project="pod-tato-head" --service=helloserver --all-stages --resource=./helm-charts/helloserver --resourceUri=helm/helloserver.tgz
 ```
 
 After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates. We are using JMeter tests, as the JMeter service comes "batteries included" with our Keptn installation.

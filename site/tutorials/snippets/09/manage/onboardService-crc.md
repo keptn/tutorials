@@ -1,17 +1,18 @@
 
-## Onboard first microservice
+## Create first microservice
 Duration: 5:00
 
-After creating the project, services can be onboarded to our project.
+After creating the project, services can be created for our project.
 
-1. Onboard the **carts** service using the [keptn onboard service](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_onboard_service/) command:
+1. Create the **carts** service using the [keptn create service](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_add-resource/)commands:
 
     <!-- command -->
     ```
-    keptn onboard service carts --project=sockshop --chart=./carts
+    keptn create service carts --project=sockshop
+    keptn add-resource --project=sockshop --service=carts --all-stages --resource=./carts --resourceUri=helm/carts.tgz
     ```
 
-1. After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:
+1. After creating the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:
 
   * Functional tests for *dev* stage:
 

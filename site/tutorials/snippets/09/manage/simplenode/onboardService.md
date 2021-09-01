@@ -1,22 +1,23 @@
 
-## Onboard our microservice to our project
+## Create a microservice for our project
 Duration: 2:00
 
-After creating the project, services can be onboarded to our project.
+After creating the project, services can be created for our project.
 
-1. Onboard the **simplenode** service using the [keptn onboard service](https://keptn.sh/docs/0.9.x/reference/cli/#keptn-onboard-service) command:
+1. Create the **simplenode** service using the [keptn create service](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_add-resource/)commands:
 
 ```
-keptn onboard service simplenode --project=simplenodeproject --chart=./carts
+keptn create service simplenode --project=simplenodeproject
+keptn add-resource --project=simplenodeproject --service=simplenode --all-stages --resource=./carts --resourceUri=helm/simplenode.tgz
 ```
 
-We have passed a helm charts directory to onboard service. Keptn will use this Helm Chart for its delivery. It will also automatically create the respective deployments for our blue/green and direct deployment strategies in staging and prod. There is nothing we have to worry about
+We have passed a helm charts directory to create a service. Keptn will use this Helm Chart for its delivery. It will also automatically create the respective deployments for our blue/green and direct deployment strategies in staging and prod. There is nothing we have to worry about
 
 
 ## Deploy first build with Keptn 
 Duration: 2:00
 
-After onboarding our service we can immediately start using Keptn to deploy an artifact.
+After creating our service we can immediately start using Keptn to deploy an artifact.
 
 1. Lets deploy version 1 of our simplenode service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.9.x/reference/cli/#keptn-send-event-new-artifact) command:
 

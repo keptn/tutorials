@@ -5,7 +5,7 @@ Next, you will learn how to use the capabilities of Keptn to provide self-healin
 
 
 Positive
-: For the sake of this tutorial, we will onboard Unleash as a Keptn project. The carts microservice is already pre-configured for this.
+: For the sake of this tutorial, we will create an Unleash Keptn project. The carts microservice is already pre-configured for this.
 
 To quickly get an Unleash server up and running with Keptn, follow these instructions:
 
@@ -26,12 +26,15 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
     keptn create project unleash --shipyard=./shipyard.yaml
     ```
 
-1. Onboard unleash and unleash-db using the `keptn onboard service` command:
+1. Create a unleash and unleash-db service using the `keptn create service` and `keptn add-resource` commands:
 
     <!-- command -->
     ```
-    keptn onboard service unleash-db --project=unleash --chart=./unleash-db 
-    keptn onboard service unleash --project=unleash --chart=./unleash 
+    keptn create service unleash-db --project=unleash
+    keptn add-resource --project=unleash --service=unleash-db --all-stages --resource=./unleash-db --resourceUri=helm/unleash-db.tgz
+
+    keptn create service unleash --project=unleash
+    keptn add-resource --project=unleash --service=unleash --all-stages --./resource=unleash --resourceUri=helm/unleash.tgz
     ```
 
 1. Send new artifacts for unleash and unleash-db using the `keptn trigger delivery` command:

@@ -17,7 +17,7 @@ In this tutorial, we'll set up a demo application and have it undergo some chaos
 ![https://www.youtube.com/watch?v=Ac0DcT1SF3g](.)
 
 ### What we will cover
-- How to create a sample project and onboard a sample service
+- How to create a sample project and create a sample service
 - How to setup quality gates 
 - How to add the Litmus integration and execute chaos
 - How to evaluate application resilience
@@ -216,19 +216,20 @@ spec:
 
 In the `shipyard.yaml` shown above, we define a single stage called *chaos* with a single sequence called *delivery*. In this sequence, a *deployment*, *test*, and *evaluation*  task is defined (along with some properties). With this, Keptn sets up the environment and makes sure, that tests are triggered after each deployment, and the tests are then evaluated by Keptn quality gates. As we do not have a subsequent stage, we do not need an *approval* or *release* task.
 
-## Onboard service
+## Create a service
 Duration: 2:00
 
-After creating the project, services can be onboarded to our project.
+After creating the project, services can be created for our project.
 
-1. Onboard the **helloservice** service using the [keptn onboard service](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_onboard_service/) command:
+1. Create the **helloservice** service using the [keptn create service](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_add-resource/)commands:
 
     <!-- command -->
     ```
-    keptn onboard service helloservice --project=litmus --chart=./helloservice/helm
+    keptn create service helloservice --project=litmus
+    keptn add-resource --project=litmus --service=helloservice --all-stages --resource=./helloservice/helm --resourceUri=helm/helloservice.tgz
     ```
 
-1. After onboarding the service, tests need to be added as basis for quality gates. We are using JMeter tests, as the JMeter service comes "batteries included" with our Keptn installation. Although this could be changed to other testing tools, we are going with JMeter in this tutorial. Let's add some JMeter tests as well as a configuration file to Keptn.
+1. After creating the service, tests need to be added as basis for quality gates. We are using JMeter tests, as the JMeter service comes "batteries included" with our Keptn installation. Although this could be changed to other testing tools, we are going with JMeter in this tutorial. Let's add some JMeter tests as well as a configuration file to Keptn.
 
     <!-- command -->
     ```
