@@ -30,4 +30,4 @@ We are going to setup a Kubernetes cluster with [K3s](https://k3s.io). Please no
   ```
 
 
-Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.8.x/operate/k8s_support/).
+Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.9.x/operate/k8s_support/).

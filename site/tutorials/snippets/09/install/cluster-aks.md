@@ -19,4 +19,4 @@ We are going to setup a Kubernetes cluster in Azure. Therefore, please download 
   - Master version >= `1.15.x` (tested version: `1.16.10`)
   - Size of the cluster: One **D8s_v3** node. Please note that you might go for a smaller or larger size cluster depending on the concrete use case. The suggested sizing is based on the recommendation for the [full tour](../../?cat=full-tour) tutorials.
 
-Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.8.x/operate/k8s_support/).
+Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.9.x/operate/k8s_support/).

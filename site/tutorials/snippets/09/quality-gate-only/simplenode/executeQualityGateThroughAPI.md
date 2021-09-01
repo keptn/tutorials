@@ -1,8 +1,8 @@
 ## Run Quality Gate through Keptn API
 Duration: 2:00
 
-After we have executed the Quality Gate Evaluation through the CLI lets do the same through the [Keptn API](https://keptn.sh/docs/0.8.x/reference/api/).
-If you read through the [Keptn API documentation](https://keptn.sh/docs/0.8.x/reference/api/) you learn we have to get the API Endpoint and the Token first!
+After we have executed the Quality Gate Evaluation through the CLI lets do the same through the [Keptn API](https://keptn.sh/docs/0.9.x/reference/api/).
+If you read through the [Keptn API documentation](https://keptn.sh/docs/0.9.x/reference/api/) you learn we have to get the API Endpoint and the Token first!
 
 1. Get API Endpoint
 

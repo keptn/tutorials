@@ -16,10 +16,10 @@ keptn configure bridge --output
 ![empty bridge](./assets/bridge-empty.png)
 
 Positive
-: We are frequently providing early access versions of the Keptn's Bridge with new functionality - [learn more here](https://keptn.sh/docs/0.8.x/reference/bridge/#early-access-version-of-keptn-bridge)!
+: We are frequently providing new versions of the Keptn's Bridge with new functionality. - [learn more here](https://keptn.sh/docs/0.9.x/reference/bridge/)!
 
 ### Keptn API
 
 Besides the Keptn's Bridge, please consider also taking a look at the Keptn API endpoint if you are interested to interact with Keptn via the API. Keptn comes with a fully documented swagger-API that can be found under the `/api` endpoint.
 
-![api](./assets/keptn-api-087.png)
+![api](./assets/keptn-api.png)

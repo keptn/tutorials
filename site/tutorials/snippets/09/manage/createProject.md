@@ -9,7 +9,7 @@ To get all files you need for this tutorial, please clone the example repo to yo
 <!-- command -->
 
 ```
-git clone --branch release-0.8.4 https://github.com/keptn/examples.git --single-branch
+git clone --branch release-0.9.0 https://github.com/keptn/examples.git --single-branch
 
 cd examples/onboarding-carts
 ```
@@ -19,7 +19,7 @@ Create a new project for your services using the `keptn create project` command.
 
 **Recommended:** Create a new project with Git upstream:
 
-To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.8.0/manage/git_upstream/) where instructions for GitHub, GitLab, and Bitbucket are provided.
+To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.9.x/manage/git_upstream/) where instructions for GitHub, GitLab, and Bitbucket are provided.
 
 Let's define the variables before running the command:
 
@@ -36,7 +36,7 @@ keptn create project sockshop --shipyard=./shipyard.yaml --git-user=$GIT_USER --
 ```
 
 Negative
-: Please note that the Git repo **must not** be initialized - it has to be an empty repository without any branch or commit. [See the docs for more details](https://keptn.sh/docs/0.8.0/manage/git_upstream/).
+: Please note that the Git repo **must not** be initialized - it has to be an empty repository without any branch or commit. [See the docs for more details](https://keptn.sh/docs/0.9.x/manage/git_upstream/).
 
 **Alternatively:** If you don't want to use a Git upstream, you can create a new project without it but please note that this is not the recommended way:
 

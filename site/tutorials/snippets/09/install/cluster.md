@@ -1,6 +1,6 @@
 ## Bring your own Kubernetes cluster
 
-Keptn can be installed on a variety of Kubernetes distributions. Please find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.8.x/operate/k8s_support/).
+Keptn can be installed on a variety of Kubernetes distributions. Please find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.9.x/operate/k8s_support/).
 
 Positive
 :  For the sizing of the Kubernetes cluster we recommend a cluster with at least 6vCPUs (recommended: 8vCPUs) and 30 GB of memory.

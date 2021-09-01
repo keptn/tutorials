@@ -31,4 +31,4 @@ If you want, you can go ahead and take a look at the Keptn API by navigating to 
 echo $KEPTN_ENDPOINT
 ```
 
-![api](./assets/keptn-api-087.png)
+![api](./assets/keptn-api.png)

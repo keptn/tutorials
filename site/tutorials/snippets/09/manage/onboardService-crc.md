@@ -4,7 +4,7 @@ Duration: 5:00
 
 After creating the project, services can be onboarded to our project.
 
-1. Onboard the **carts** service using the [keptn onboard service](https://keptn.sh/docs/0.8.x/reference/cli/commands/keptn_onboard_service/) command:
+1. Onboard the **carts** service using the [keptn onboard service](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_onboard_service/) command:
 
     <!-- command -->
     ```
@@ -31,7 +31,7 @@ After creating the project, services can be onboarded to our project.
 
 Since the carts service requires a mongodb database, a second service needs to be onboarded.
 
-* Onboard the **carts-db** service using the [keptn onboard service](https://keptn.sh/docs/0.8.x/reference/cli/commands/keptn_onboard_service/) command.
+* Onboard the **carts-db** service using the [keptn onboard service](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_onboard_service/) command.
 
     <!-- command -->
     ```
@@ -47,7 +47,7 @@ Duration: 5:00
 
 After onboarding the services, a built artifact of each service can be deployed.
 
-1. Deploy the carts-db service by executing the [keptn trigger delivery](https://keptn.sh/docs/0.8.x/reference/cli/commands/keptn_trigger_delivery/) command:
+1. Deploy the carts-db service by executing the [keptn trigger delivery](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_trigger_delivery/) command:
 
     <!-- command -->
     ```
