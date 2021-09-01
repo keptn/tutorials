@@ -30,13 +30,14 @@ After creating the project, services can be created for our project.
 
     **Note:** You can adapt the tests in `basiccheck.jmx` as well as `load.jmx` for your service. However, you must not rename the files because there is a hardcoded dependency on these file names in the current implementation of Keptn's jmeter-service. 
 
-Since the carts service requires a mongodb database, a second service needs to be onboarded.
+Since the carts service requires a mongodb database, a second service needs to be created.
 
-* Onboard the **carts-db** service using the [keptn onboard service](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_onboard_service/) command.
+* Create the **carts-db** service using the [keptn create service](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_add-resource/)commands.
 
     <!-- command -->
     ```
-    keptn onboard service carts-db --project=sockshop --chart=./carts-db
+    keptn create service carts-db --project=sockshop
+    keptn add-resource --project=sockshop --service=carts-db --all-stages --resource=./carts-db --resourceUri=helm/carts-db.tgz
     ```
 
 Take a look in your Keptn's Bridge and see the newly onboarded services.
