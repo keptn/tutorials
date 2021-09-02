@@ -8,7 +8,7 @@ After creating the project, services can be created for our project.
 
 ```
 keptn create service simplenode --project=simplenodeproject
-keptn add-resource --project=simplenodeproject --service=simplenode --all-stages --resource=./carts --resourceUri=helm/simplenode.tgz
+keptn add-resource --project=simplenodeproject --service=simplenode --all-stages --resource=./carts.tgz --resourceUri=helm/simplenode.tgz
 ```
 
 We have passed a helm charts directory to create a service. Keptn will use this Helm Chart for its delivery. It will also automatically create the respective deployments for our blue/green and direct deployment strategies in staging and prod. There is nothing we have to worry about

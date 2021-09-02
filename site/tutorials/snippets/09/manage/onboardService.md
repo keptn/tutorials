@@ -9,7 +9,7 @@ After creating the project, services can be created for our project.
     <!-- command -->
     ```
     keptn create service carts --project=sockshop
-    keptn add-resource --project=sockshop --service=carts --all-stages --resource=./carts --resourceUri=helm/carts.tgz
+    keptn add-resource --project=sockshop --service=carts --all-stages --resource=./carts.tgz --resourceUri=helm/carts.tgz
     ```
 
 1. After creating the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates in the different stages:
@@ -37,7 +37,7 @@ Since the carts service requires a mongodb database, a second service needs to b
     <!-- command -->
     ```
     keptn create service carts-db --project=sockshop
-    keptn add-resource --project=sockshop --service=carts-db --all-stages --resource=./carts-db --resourceUri=helm/carts-db.tgz
+    keptn add-resource --project=sockshop --service=carts-db --all-stages --resource=./carts-db.tgz --resourceUri=helm/carts-db.tgz
     ```
 
 Take a look in your Keptn's Bridge and see the newly created services.

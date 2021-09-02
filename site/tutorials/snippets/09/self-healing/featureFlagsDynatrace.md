@@ -31,10 +31,10 @@ To quickly get an Unleash server up and running with Keptn, follow these instruc
     <!-- command -->
     ```
     keptn create service unleash-db --project=unleash
-    keptn add-resource --project=unleash --service=unleash-db --all-stages --resource=./unleash-db --resourceUri=helm/unleash-db.tgz
+    keptn add-resource --project=unleash --service=unleash-db --all-stages --resource=./unleash-db.tgz --resourceUri=helm/unleash-db.tgz
 
     keptn create service unleash --project=unleash
-    keptn add-resource --project=unleash --service=unleash --all-stages --./resource=unleash --resourceUri=helm/unleash.tgz
+    keptn add-resource --project=unleash --service=unleash --all-stages --./resource=unleash.tgz --resourceUri=helm/unleash.tgz
     ```
 
 1. Send new artifacts for unleash and unleash-db using the `keptn trigger delivery` command:

@@ -220,13 +220,19 @@ In the `shipyard.yaml` shown above, we define a single stage called *chaos* with
 Duration: 2:00
 
 After creating the project, services can be created for our project.
+For this purpose we need the helm charts as a tar.gz archive. To archive it use following command:
+
+<!-- command -->
+```
+tar cfvz ./helloservice/helm.tgz ./helloservice/helm
+```
 
 1. Create the **helloservice** service using the [keptn create service](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_add-resource/)commands:
 
     <!-- command -->
     ```
     keptn create service helloservice --project=litmus
-    keptn add-resource --project=litmus --service=helloservice --all-stages --resource=./helloservice/helm --resourceUri=helm/helloservice.tgz
+    keptn add-resource --project=litmus --service=helloservice --all-stages --resource=./helloservice/helm.tgz --resourceUri=helm/helloservice.tgz
     ```
 
 1. After creating the service, tests need to be added as basis for quality gates. We are using JMeter tests, as the JMeter service comes "batteries included" with our Keptn installation. Although this could be changed to other testing tools, we are going with JMeter in this tutorial. Let's add some JMeter tests as well as a configuration file to Keptn.

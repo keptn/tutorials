@@ -128,12 +128,19 @@ In the `shipyard.yaml` shown above, we define two stages called *hardening* and 
 ## Create a service
 Duration: 2:00
 
-After creating the project, we can continue by onboarding the *helloserver* as a service to your project using the `keptn create service` and `keptn add-resource` commands and pass the project where you want to onboard the service to, as well as the Helm chart of the service.
+After creating the project, we can continue by onboarding the *helloserver* as a service to your project using the `keptn create service` and `keptn add-resource` commands. You need to pass the project where you want to create the service, as well as the Helm chart of the service.
+For this purpose we need the helm charts as a tar.gz archive. To archive it use following command:
 
 <!-- command -->
 ```
+tar cfvz ./helm-charts/helloserver.tgz ./helm-charts/helloserver
+```
+
+Then the service can be created:
+<!-- command -->
+```
 keptn create service helloserver --project="pod-tato-head"
-keptn add-resource --project="pod-tato-head" --service=helloserver --all-stages --resource=./helm-charts/helloserver --resourceUri=helm/helloserver.tgz
+keptn add-resource --project="pod-tato-head" --service=helloserver --all-stages --resource=./helm-charts/helloserver.tgz --resourceUri=helm/helloserver.tgz
 ```
 
 After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates. We are using JMeter tests, as the JMeter service comes "batteries included" with our Keptn installation.
