@@ -124,7 +124,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             We suggest to start with a <a href="?cat=full-tour">full tour</a> to learn about all aspects of Keptn. But feel free to explore all other tutorials as well.
             <br>
-            The default overview shows tutorials for Keptn version 0.8 - but we provide tutorials for Keptn 0.7 as well that can be selected via the version dropdown.
+            The default overview shows tutorials for Keptn version 0.9 - but we provide tutorials for Keptn 0.8 and older versions as well that can be selected via the version dropdown.
           </p>
         {%- else -%}
           <div class="banner-description">
@@ -150,8 +150,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </paper-tabs>
         </div>
 
-      
-        {% if view.id == 'default' || view.id == 'keptn06x' || view.id == 'keptn07x' %}
         <paper-dropdown-menu
           label="Choose a version"
           class="dropdown-filter"
@@ -172,7 +170,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             {%- endfor %}
           </paper-listbox>
         </paper-dropdown-menu>
-        {% endif %}
       
 
         {%- if showcats -%}
