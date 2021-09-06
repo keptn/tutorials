@@ -60,6 +60,7 @@ Duration: 2:00
 Login to your Linux VM and prepare it for this tutorial by executing a couple of pre-requisite steps. 
 Let's prepare the machine with all needed utilities.
 
+<!-- command -->
 ```
 sudo yum update -y
 sudo yum install git -y
@@ -89,12 +90,14 @@ We need to provide a email address to create a certificate via Let's Encrypt. Yo
 ```
 export CERT_EMAIL=mykeptntutorial@certemail.com
 ```
+<!-- bash export CERT_EMAIL=keptn-tutorials@keptn.sh -->
 
 Let's go ahead and install Keptn and the demo:
 
 ```
 ./install-keptn-on-k3s.sh --controlplane --provider aws --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip
 ```
+<!-- bash ./install-keptn-on-k3s.sh --controlplane --provider gcp --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip -->
 
 In my tests, the full installation and setup usually takes less than 7 minutes to finish.
 
@@ -240,6 +243,7 @@ Therefore, let us deploy this alternative version.
 
 Execute the following commands that will deploy the new version.
 
+<!-- command -->
 ```
 k3s kubectl set image deploy/helloservice server=ghcr.io/podtato-head/podtatoserver:v0.1.2 --record -n prometheus-qg-quality-gate 
 ```
@@ -247,8 +251,9 @@ k3s kubectl set image deploy/helloservice server=ghcr.io/podtato-head/podtatoser
 If you want to take a look, you can retrieve the URL of your application via this command.
 
 ```
-echo https://$(k3s kubectl get ingress podtato-ingress -n prometheus-qg-quality-gate -ojsonpath='{.spec.rules[0].host}') 
+echo https://$(k3s kubectl get ingress podtato-ingress -n prometheus-qg-quality-gate -ojsonpath='{.spec.rules[0].host}')
 ```
+<!-- bash curl "https://$(k3s kubectl get ingress podtato-ingress -n prometheus-qg-quality-gate -ojsonpath='{.spec.rules[0].host}')" -->
 
 ![](./assets/prometheus-qg/podtato-12.png)
 
@@ -260,14 +265,16 @@ Duration: 2:00
 Now, before we are going to evaluate this version, we need to hit it with some load, otherwise the evaluation would not have enough data for it to query.
 Therefore, we are going to use the `hey` command line tool for load generation. This tool has been installed during the installation procedure of the tutorial and we can make us of it now.
 
+<!-- command -->
 ```
-./hey -z 90s -c 10 http://$(k3s kubectl get ingress podtato-ingress -n prometheus-qg-quality-gate -ojsonpath='{.spec.rules[0].host}')
+./hey -z 90s -c 10 "http://$(k3s kubectl get ingress podtato-ingress -n prometheus-qg-quality-gate -ojsonpath='{.spec.rules[0].host}')"
 ```
 
 This command will send requests to the publicly available endpoint of our application for 90 seconds.
 
 Once it is finished we can trigger an evaluation of the Keptn Quality Gate via the Keptn CLI.
 
+<!-- command -->
 ```
 keptn trigger evaluation --project=prometheus-qg --stage=quality-gate --service=helloservice --timeframe=3m
 ```
