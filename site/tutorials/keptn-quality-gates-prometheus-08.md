@@ -90,7 +90,7 @@ We need to provide a email address to create a certificate via Let's Encrypt. Yo
 ```
 export CERT_EMAIL=mykeptntutorial@certemail.com
 ```
-<!-- bash export CERT_EMAIL=keptn-tutorials@keptn.sh -->
+<!-- bash export CERT_EMAIL="keptn-tutorials@keptn.sh" -->
 
 Let's go ahead and install Keptn and the demo:
 
