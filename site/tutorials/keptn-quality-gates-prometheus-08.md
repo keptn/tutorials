@@ -62,11 +62,11 @@ Let's prepare the machine with all needed utilities.
 
 <!-- command -->
 ```
-sudo yum update -y
-sudo yum install git -y
-sudo yum install curl -y
-sudo yum install jq -y
-sudo yum install tree -y
+sudo apt update -y
+sudo apt install git -y
+sudo apt install curl -y
+sudo apt install jq -y
+sudo apt install tree -y
 sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
 
 git clone https://github.com/keptn-sandbox/keptn-on-k3s
