@@ -90,6 +90,7 @@ We need to provide a email address to create a certificate via Let's Encrypt. Yo
 ```
 export CERT_EMAIL=mykeptntutorial@certemail.com
 ```
+<!-- bash echo "Exporting email" --> 
 <!-- bash export CERT_EMAIL="keptn-tutorials@keptn.sh" -->
 
 Let's go ahead and install Keptn and the demo:
@@ -97,7 +98,7 @@ Let's go ahead and install Keptn and the demo:
 ```
 ./install-keptn-on-k3s.sh --controlplane --provider aws --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip
 ```
-<!-- echo "Installing keptn on k3s now..." -->
+<!-- bash echo "Installing keptn on k3s now..." -->
 <!-- bash ./install-keptn-on-k3s.sh --controlplane --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip -->
 
 In my tests, the full installation and setup usually takes less than 7 minutes to finish.
