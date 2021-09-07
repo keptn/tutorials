@@ -62,11 +62,11 @@ Let's prepare the machine with all needed utilities.
 
 <!-- command -->
 ```
-sudo apt update -y
-sudo apt install git -y
-sudo apt install curl -y
-sudo apt install jq -y
-sudo apt install tree -y
+sudo apt-get update -y
+sudo apt-get install git -y
+sudo apt-get install curl -y
+sudo apt-get install jq -y
+sudo apt-get install tree -y
 sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
 
 git clone https://github.com/keptn-sandbox/keptn-on-k3s
@@ -97,7 +97,7 @@ Let's go ahead and install Keptn and the demo:
 ```
 ./install-keptn-on-k3s.sh --controlplane --provider aws --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip
 ```
-<!-- bash ./install-keptn-on-k3s.sh --controlplane --provider gcp --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip -->
+<!-- bash ./install-keptn-on-k3s.sh --controlplane --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip -->
 
 In my tests, the full installation and setup usually takes less than 7 minutes to finish.
 
