@@ -97,6 +97,7 @@ Let's go ahead and install Keptn and the demo:
 ```
 ./install-keptn-on-k3s.sh --controlplane --provider aws --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip
 ```
+<!-- echo "Installing keptn on k3s now..." -->
 <!-- bash ./install-keptn-on-k3s.sh --controlplane --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip -->
 
 In my tests, the full installation and setup usually takes less than 7 minutes to finish.
