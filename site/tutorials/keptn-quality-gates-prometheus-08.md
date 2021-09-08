@@ -66,9 +66,9 @@ sudo apt-get update -y
 sudo apt-get install git curl jq tree -y
 sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
 
-git clone https://github.com/keptn-sandbox/keptn-on-k3s
+git clone https://github.com/mowies/keptn-on-k3s
 cd keptn-on-k3s
-git checkout release-0.8.0
+git checkout master
 ```
 
 This will install some tools that we are going to need for the tutorial and already download the tutorial files.
