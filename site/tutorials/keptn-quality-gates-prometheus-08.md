@@ -93,13 +93,13 @@ export CERT_EMAIL=mykeptntutorial@certemail.com
 Let's go ahead and install Keptn and the demo:
 
 ```
-./install-keptn-on-k3s.sh --controlplane --provider aws --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip 2>&1
+./install-keptn-on-k3s.sh --controlplane --provider aws --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip
 ```
 <!-- bash echo "Installing keptn on k3s now..." -->
 <!-- bash ls -la -->
 <!-- command -->
 ```
-./install-keptn-on-k3s.sh --controlplane --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip
+./install-keptn-on-k3s.sh --controlplane --with-prometheus --with-demo prometheus --with-gitea --letsencrypt --disable-bridge-auth --use-nip 2>&1
 ```
 
 In my tests, the full installation and setup usually takes less than 7 minutes to finish.
