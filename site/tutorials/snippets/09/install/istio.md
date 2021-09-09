@@ -6,16 +6,16 @@ Download the Istio command line tool by [following the official instructions](ht
 
 <!-- command -->
 ```
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.10.0 sh -
+curl -L https://istio.io/downloadIstio | sh -
 ```
 
-Check the version of Istio that has been downloaded and execute the installer from the corresponding folder, e.g.,
+Check the version of Istio that has been downloaded and execute the installer from the corresponding folder, e.g.:
 
 
-<!-- bash ./istio-1.10.0/bin/istioctl install -y -->
+<!-- command -->
 
 ```
-./istio-1.10.0/bin/istioctl install
+./istio-1.11.2/bin/istioctl install
 ```
 
 The installation of Istio should be finished within a couple of minutes.

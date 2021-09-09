@@ -149,7 +149,7 @@ spec:
 ```
 
 
-This shipyard contains three stages: dev, staging, and production. This results in the three Kubernetes namespaces: sockshop-dev, sockshop-staging, and sockshop-production.
+This shipyard contains three stages: dev, staging, and production. Later in the tutorial, deployments will be made in three corresponding Kubernetes namespaces: `sockshop-dev`, `sockshop-staging`, and `sockshop-production`.
 
 * **dev** will have a direct (big bang) deployment strategy and functional tests are executed
 * **staging** will have a blue/green deployment strategy with automated approvals for passing quality gates as well as quality gates which result in warnings. As configured, performance tests are executed.
@@ -159,19 +159,19 @@ This shipyard contains three stages: dev, staging, and production. This results 
 Positive
 : To learn more about a *shipyard* file, please take a look at the [Shipyard specification](https://github.com/keptn/spec/blob/master/shipyard.md).
 
-Let's take a look at the project that we have just created. We can find all this information in the Keptn's Bridge.
-Therefore, we need the credentials that have been automatically generated for us.
+Let's take a look at the project that we have just created in the Keptn's Bridge. To access it, visit the URL contained in `$KEPTN_BRIDGE_URL` using the command:
 
 <!-- command -->
 ```
-keptn configure bridge --output
+echo $KEPTN_BRIDGE_URL
 ```
 
-Now use these credentials to access it on your Keptn's Bridge.
+You can view the Keptn Bridge credentials using the following commands: 
 
 <!-- command -->
 ```
-echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge
+echo Username: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_USERNAME}" | base64 --decode)
+echo Password: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_PASSWORD}" | base64 --decode)
 ```
 
 You will find the just created project in the bridge with all stages.

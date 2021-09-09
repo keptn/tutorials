@@ -1,4 +1,4 @@
-## Configure Istio and Keptn
+## Configure Istio
 
 We are using Istio for traffic routing and as an ingress to our cluster. To make the setup experience as smooth as possible we have provided some scripts for your convenience. If you want to run the Istio configuration yourself step by step, please [take a look at the Keptn documentation](https://keptn.sh/docs/0.9.x/operate/install/#option-3-expose-keptn-via-an-ingress). 
 
@@ -26,7 +26,7 @@ Finally, let's run the configuration script to automatically create your Ingress
 ### What is actually created
 
 Positive
-: There is no need to copy the following resources, there are for information purposes only.
+: There is no need to copy the following resources, they are for information purposes only.
 
 With this script, you have created an Ingress based on the following manifest.
 
@@ -49,7 +49,7 @@ spec:
           servicePort: 80
 ```
 
-Besides, the script has created a gateway resource for you so that the onboarded services are also available publicly.
+In addition, the script has created a gateway resource for you so that the onboarded services are also available publicly.
 
 ```
 ---
@@ -70,4 +70,4 @@ spec:
     - '*'
 ```
 
-Besides, the `helm-service` pod of Keptn is restarted to fetch this new configuration.
+Finally, the script restarts the `helm-service` pod of Keptn to fetch this new configuration.

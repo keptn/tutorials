@@ -7,7 +7,7 @@ Every release of Keptn provides binaries for the Keptn CLI. These binaries are a
 
 There are multiple options how to get the Keptn CLI on your machine.
 
-- Easiest option (works Linux, Mac OS, Windows with Bash, WSL2): 
+- Easiest option (works on Linux, Mac OS, Windows with Bash and WSL2): 
 
     <!-- command -->
     ```
