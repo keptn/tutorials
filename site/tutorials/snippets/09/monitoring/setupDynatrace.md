@@ -55,7 +55,7 @@ For setting up dynatrace-operator, perform the following steps:
    
 1. Optional: Verify in your Dynatrace Environment under the section *Kubernetes* that your cluster is monitored.
 
-## Gather Dynatrace tokens
+## Create Dynatrace API token
 Duration: 6:00
 
 1. Create a Dynatrace API Token
