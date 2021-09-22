@@ -151,11 +151,11 @@ The file `dynatrace-slis.yaml` holds the following content, which are the API ca
 ---
 spec_version: '1.0'
 indicators:
-  throughput: "builtin:service.requestCount.total:merge(0):count?scope=tag(keptn-qualitygates)"
-  error_rate: "builtin:service.errors.total.count:merge(0):avg?scope=tag(keptn-qualitygates)"
-  response_time_p50: "builtin:service.response.time:merge(0):percentile(50)?scope=tag(keptn-qualitygates)"
-  response_time_p90: "builtin:service.response.time:merge(0):percentile(90)?scope=tag(keptn-qualitygates)"
-  response_time_p95: "builtin:service.response.time:merge(0):percentile(95)?scope=tag(keptn-qualitygates)"
+  throughput: "builtin:service.requestCount.total:merge(\"dt.entity.service\"):count?scope=tag(keptn-qualitygates)"
+  error_rate: "builtin:service.errors.total.count:merge(\"dt.entity.service\"):avg?scope=tag(keptn-qualitygates)"
+  response_time_p50: "builtin:service.response.time:merge(\"dt.entity.service\"):percentile(50)?scope=tag(keptn-qualitygates)"
+  response_time_p90: "builtin:service.response.time:merge(\"dt.entity.service\"):percentile(90)?scope=tag(keptn-qualitygates)"
+  response_time_p95: "builtin:service.response.time:merge(\"dt.entity.service\"):percentile(95)?scope=tag(keptn-qualitygates)"
 ```
 
 We are going to add the file via the Keptn CLI to our **carts** service in the **preprod** environment of our **sockshop** project.
@@ -461,11 +461,11 @@ Duration: 1:00
     ---
     spec_version: '1.0'
     indicators:
-    throughput: "builtin:service.requestCount.total:merge(0):count?scope=tag(keptn-qualitygates)"
-    error_rate: "builtin:service.errors.total.count:merge(0):avg?scope=tag(keptn-qualitygates)"
-    response_time_p50: "builtin:service.response.time:merge(0):percentile(50)?scope=tag(keptn-qualitygates)"
-    response_time_p90: "builtin:service.response.time:merge(0):percentile(90)?scope=tag(keptn-qualitygates)"
-    response_time_p95: "builtin:service.response.time:merge(0):percentile(95)?scope=tag(keptn-qualitygates)"
+    throughput: "builtin:service.requestCount.total:merge(\"dt.entity.service\"):count?scope=tag(keptn-qualitygates)"
+    error_rate: "builtin:service.errors.total.count:merge(\"dt.entity.service\"):avg?scope=tag(keptn-qualitygates)"
+    response_time_p50: "builtin:service.response.time:merge(\"dt.entity.service\"):percentile(50)?scope=tag(keptn-qualitygates)"
+    response_time_p90: "builtin:service.response.time:merge(\"dt.entity.service\"):percentile(90)?scope=tag(keptn-qualitygates)"
+    response_time_p95: "builtin:service.response.time:merge(\"dt.entity.service\"):percentile(95)?scope=tag(keptn-qualitygates)"
     ```
 1. We created a SLO file with the quality gate definition
     ```
