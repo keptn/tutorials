@@ -6,7 +6,7 @@ Download the Istio command line tool by [following the official instructions](ht
 
 <!-- command -->
 ```
-curl -L https://istio.io/downloadIstio | sh -
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.11.2 sh -
 ```
 
 Check the version of Istio that has been downloaded and execute the installer from the corresponding folder, e.g.:
