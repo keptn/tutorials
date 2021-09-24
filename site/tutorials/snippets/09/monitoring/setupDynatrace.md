@@ -77,11 +77,11 @@ Duration: 6:00
     ![Dynatrace API V2 Token](./assets/dt_apiv2_token.png)
     ![Dynatrace API V1 Token](./assets/dt_apiv1_token.png)
 
-1. Store your credentials in a Kubernetes secret by executing the following command. The `DT_TENANT` has to be set according to the appropriate pattern:
+1. Store your credentials in a Keptn-managed secret by executing the following command. The `DT_TENANT` has to be set according to the appropriate pattern:
   - Dynatrace SaaS tenant (this format is most likely for you): `{your-environment-id}.live.dynatrace.com`
   - Dynatrace-managed tenant: `{your-domain}/e/{your-environment-id}`
 
-    If running on a Unix/Linux based system, you can use variables for ease of use. Naturally, it is also fine to just replace the values in the `kubectl` command itself.
+    If running on a Unix/Linux based system, you can use variables for ease of use. Naturally, it is also fine to just replace the values in the `keptn` command itself.
 
     <!-- var DT_TENANT -->
     <!-- var DT_API_TOKEN -->
@@ -95,7 +95,7 @@ Duration: 6:00
     
     <!-- command -->
     ```
-    kubectl -n keptn create secret generic dynatrace --from-literal="DT_TENANT=$DT_TENANT" --from-literal="DT_API_TOKEN=$DT_API_TOKEN" 
+    keptn create secret dynatrace --from-literal="DT_TENANT=$DT_TENANT" --from-literal="DT_API_TOKEN=$DT_API_TOKEN" 
     ```
 
 ## Install Dynatrace integration
