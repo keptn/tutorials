@@ -21,8 +21,9 @@ For setting up dynatrace-operator, perform the following steps:
    ![Dynatrace Hub](./assets/dt-hub-kubernetes.png)
 1. Click on Kubernetes, and select **Monitor Kubernetes** at the bottom of the screen
 1. In the following screen, select the Platform and click on **Create tokens** to generate PaaS and API tokens.
-1. Please make sure to tick *Enable volume storage* if you are on GKE, Anthos, CaaS and PKS.
-
+1. Select options appropriate for your cluster:
+    - By default, most Kubernetes clusters will only offer a self-signed certificate. In such cases, please select *Skip SSL Security Check* when deploying the Dynatrace OneAgent Operator.
+    - When deploying the Dynatrace OneAgent Operator to a cluster running on a *Container-Optimized OS (cos)*, which includes GKE, Anthos, CaaS and PKS environments, please select the *Enable volume storage* option.
    ![Dynatrace Kubernetes Monitoring](./assets/dt-kubernetes-monitor.png)
 1. Copy the generated code and run it in a terminal/bash
 1. Optional: Verify if all pods in the `dynatrace` namespace are running. It might take up to 1-2 minutes for all pods to be up and running.
