@@ -79,8 +79,8 @@ To set up both feature flags, please use the following scripts to automatically 
 
 <!-- command -->
 ``` 
-export UNLEASH_TOKEN=$(echo -n keptn:keptn | base64)
-export UNLEASH_BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}'))
+UNLEASH_TOKEN=$(echo -n keptn:keptn | base64)
+UNLEASH_BASE_URL=$(echo http://unleash.unleash-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}'))
 
 curl --request POST \
   --url ${UNLEASH_BASE_URL}/api/admin/features/ \

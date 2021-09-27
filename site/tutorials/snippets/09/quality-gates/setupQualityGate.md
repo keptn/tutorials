@@ -4,9 +4,7 @@ Duration: 4:00
 
 Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/master/service_level_objective.md).
 
-Activate the quality gates for the carts service. Therefore, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_add-resource/) command:
-
-Make sure you are in the correct folder `examples/onboarding-carts`. If not, change the directory accordingly, e.g., `cd ../../onboarding-carts`.
+To activate the quality gates for the carts service, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.9.x/reference/cli/commands/keptn_add-resource/) command:
 
 <!-- command -->
 
@@ -88,7 +86,7 @@ Duration: 5:00
     sleep 60
     -->
 
-1. Go ahead and verify that the slow build has reached your `dev` and `staging` environments by opening a browser for both environments. Get the URLs with these commands:
+1. Verify that the slow build has reached your `dev` and `staging` environments by opening a browser for both environments. This may take 5 to 10 minutes. Get the URLs with these commands:
 
     <!-- command -->
     ```

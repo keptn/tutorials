@@ -22,9 +22,9 @@ In this tutorial you'll get a full tour through Keptn. Before we get started you
 - How to setup quality gates 
 - How to prevent bad builds of your microservice to reach production
 - How to trigger the changes of feature toggles in response to issues detected in a production system
-- How to integrate other tools like Slack, MS Team, etc in your Keptn integration
+<!-- How to integrate other tools like Slack, MS Team, etc in your Keptn integration -->
 
-You'll find a time estimate until the end of this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.
+You'll find a time estimate for completing this tutorial in the right top corner of your screen - this should give you guidance how much time is needed for each step.
 
 In this tutorial, we are going to install Keptn on a Kubernetes cluster, along with Istio for traffic routing and ingress control.
 
@@ -55,7 +55,7 @@ The full setup that we are going to deploy is sketched in the following image.
 
 {{ snippets/09/manage/onboardService.md }}
 
-{{ snippets/09/monitoring/install-sli-provider-dynatrace.md }}
+{{ snippets/09/monitoring/configureDynatraceSlis.md }}
 
 {{ snippets/09/quality-gates/setupQualityGate.md }}
 

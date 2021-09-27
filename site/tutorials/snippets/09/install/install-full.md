@@ -24,7 +24,7 @@ Positive
 
 ### Installation details 
 
-In the Keptn namespace, the following deployments should be found:
+By default Keptn installs into the `keptn` namespace. Once the installation is complete we can verify the deployments:
 
 <!-- command -->
 ```
