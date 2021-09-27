@@ -55,8 +55,8 @@ keptn add-resource --project=simplenodeproject --stage=staging --service=simplen
 Please explore the sli_perftest.yaml file yourself to see the new queries. For reference here are two of the queries that show you how the Dynatrace Metrics API allows us to query calculated service metrics for individual dimensions (e.g: Test Name):
 
 ```
-  rt_test_version:         "metricSelector=calc:service.teststepresponsetime:filter(eq(Test Step,version)):merge(0):avg&entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)"
-  rt_test_homepage:        "metricSelector=calc:service.teststepresponsetime:filter(eq(Test Step,homepage)):merge(0):avg&entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)"
+  rt_test_version:         "metricSelector=calc:service.teststepresponsetime:filter(eq(Test Step,version)):merge(\"dt.entity.service\"):avg&entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)"
+  rt_test_homepage:        "metricSelector=calc:service.teststepresponsetime:filter(eq(Test Step,homepage)):merge(\"dt.entity.service\"):avg&entitySelector=tag(keptn_project:$PROJECT),tag(keptn_stage:$STAGE),tag(keptn_service:$SERVICE),tag(keptn_deployment:$DEPLOYMENT),type(SERVICE)"
 ```
 
 2. Second, lets upload our `slo_perftest.yaml` as `slo.yaml`
