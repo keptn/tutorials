@@ -87,8 +87,8 @@ Duration: 6:00
     <!-- var DT_API_TOKEN -->
 
     ```
-    export DT_TENANT=yourtenant.live.dynatrace.com
-    export DT_API_TOKEN=yourAPItoken
+    DT_TENANT=yourtenant.live.dynatrace.com
+    DT_API_TOKEN=yourAPItoken
     ```
 
     If you used the variables, the next command can be copied and pasted without modifications. If you have not set the variables, please make sure to set the right values in the next command.
