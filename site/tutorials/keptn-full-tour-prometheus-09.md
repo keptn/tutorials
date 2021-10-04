@@ -54,7 +54,7 @@ The full setup that we are going to deploy is sketched in the following image.
 
 {{ snippets/09/quality-gates/setupQualityGate.md }}
 
-<!--{ snippets/09/self-healing/upscalePrometheus.md }-->
+{{ snippets/09/self-healing/upscalePrometheus.md }}
 
 
 ## Finish
