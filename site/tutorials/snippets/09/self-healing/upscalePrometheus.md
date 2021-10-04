@@ -111,9 +111,38 @@ To verify that an alert was fired, select the *Alerts* view where you should see
 
   ![Alert Manager](./assets/alert-manager.png)
 
-After receiving the problem notification, the *prometheus-service* will translate it into a Keptn CloudEvent. This event will eventually be received by the *remediation-service* that will look for a remediation action specified for this type of problem and, if found, execute it.
+
+After receiving the alert notification, the *prometheus-service* will translate it into a Keptn CloudEvent. This event will eventually be received by the *remediation-service* that will look for a remediation action specified for this type of problem and, if found, execute it.
 
 In this tutorial, the number of pods will be increased to remediate the issue of the response time increase. 
+
+1. (time saving opition) Instead of waiting 15 minutes for the *Alert Manager* to fire an alert, you can manually send the trigger of a remediation sequence by executing the following commands: 
+
+   ```
+   echo -e "{\"type\": \"sh.keptn.event.production.remediation.triggered\",\"specversion\":\"1.0\",\"source\":\"https:\/\/github.com\/keptn\/keptn\/prometheus-service\",\"id\": \"f2b878d3-03c0-4e8f-bc3f-454bc1b3d79d\",  \"time\": \"2019-06-07T07:02:15.64489Z\",  \"contenttype\": \"application\/json\", \"data\": {\"project\": \"sockshop\",\"stage\": \"production\",\"service\": \"carts\",\"problem\": { \"problemTitle\": \"response_time_p90\",\"rootCause\": \"Response time degradation\"}}}" > remediation_trigger.json | keptn send event -f remediation_trigger.json
+   ```
+
+   This command sends the following event to Keptn to: 
+
+   ```
+   {
+     "type": "sh.keptn.event.production.remediation.triggered",
+     "specversion": "1.0",
+     "source": "https://github.com/keptn/keptn/prometheus-service",
+     "id": "f2b878d3-03c0-4e8f-bc3f-454bc1b3d79d",
+     "time": "2019-06-07T07:02:15.64489Z",
+     "contenttype": "application/json",
+     "data": {
+       "project": "sockshop",
+       "stage": "production",
+       "service": "carts",
+       "problem": {
+         "problemTitle": "response_time_p90",
+         "rootCause": "Response time degradation"
+       }
+     }
+   }
+   ```
 
 1. Check the executed remediation actions by executing:
 
