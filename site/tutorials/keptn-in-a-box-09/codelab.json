@@ -2,14 +2,14 @@
   "environment": "web",
   "format": "html",
   "prefix": "https://storage.googleapis.com",
-  "mainga": "UA-133584243-1",
-  "updated": "2021-08-31T16:05:11+02:00",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-10-15T01:11:15+02:00",
   "id": "keptn-in-a-box-09",
   "duration": 36,
   "title": "Keptn in a Box",
   "authors": "Sergio Hinojosa",
   "summary": "5 minute installation. All running on MicroK8s with a single line installation. No Kubernetes cluster needed.",
-  "source": "keptn-in-a-box-09_gen.md",
+  "source": "keptn-in-a-box-09.md",
   "theme": "",
   "status": [
     "published"
