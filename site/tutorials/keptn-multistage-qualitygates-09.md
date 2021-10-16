@@ -49,14 +49,14 @@ The demo resources can be found on Github for a convenient experience. Let's clo
 
 <!-- command -->
 ```
-git clone https://github.com/cncf/podtato-head.git
+git clone https://github.com/keptn/examples --single-branch
 ```
 
 Now, let's switch to the directory including the demo resources.
 
 <!-- command -->
 ```
-cd podtato-head/delivery/keptn
+cd examples/quickstart/demo
 ```
 
 ## Create project
@@ -80,14 +80,14 @@ GIT_REMOTE_URL=remoteurl
 Now let's create the project using the `keptn create project` command.
 
 ```
-keptn create project pod-tato-head --shipyard=./shipyard.yaml --git-user=$GIT_USER --git-token=$GIT_TOKEN --git-remote-url=$GIT_REMOTE_URL
+keptn create project podtatohead --shipyard=./shipyard.yaml --git-user=$GIT_USER --git-token=$GIT_TOKEN --git-remote-url=$GIT_REMOTE_URL
 ```
 
 **Alternatively:** If you don't want to use a Git upstream, you can create a new project without it but please note that this is not the recommended way:
 
 <!-- command -->
 ```
-keptn create project pod-tato-head --shipyard=./shipyard.yaml
+keptn create project podtatohead --shipyard=./shipyard.yaml
 ```
 
 For creating the project, the tutorial relies on a `shipyard.yaml` file as shown below:
@@ -128,30 +128,37 @@ In the `shipyard.yaml` shown above, we define two stages called *hardening* and 
 ## Create a service
 Duration: 2:00
 
-After creating the project, we can continue by onboarding the *helloserver* as a service to your project using the `keptn create service` and `keptn add-resource` commands. You need to pass the project where you want to create the service, as well as the Helm chart of the service.
-For this purpose we need the helm charts as a tar.gz archive. To archive it use following command:
+After creating the project, we can continue by onboarding the *helloservice* as a service to your project using the `keptn create service` and `keptn add-resource` commands. You need to pass the project where you want to create the service, as well as the Helm chart of the service.
+For this purpose we need the helm charts as a tar.gz archive. Our repository already contains a tar.gz archive of our helm chart but normally you could use the following command for the conversion:
 
 <!-- command -->
 ```
-tar cfvz ./helm-charts/helloserver.tgz ./helm-charts/helloserver
+tar cfvz ./helm/helloservice.tgz ./helm/helloservice
 ```
 
 Then the service can be created:
 <!-- command -->
 ```
-keptn create service helloserver --project="pod-tato-head"
-keptn add-resource --project="pod-tato-head" --service=helloserver --all-stages --resource=./helm-charts/helloserver.tgz --resourceUri=helm/helloserver.tgz
+keptn create service helloservice --project="podtatohead"
+keptn add-resource --project=podtatohead --service=helloservice --all-stages --resource=helm/helloservice.tgz --resourceUri=helm/helloservice.tgz
 ```
 
 After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates. We are using JMeter tests, as the JMeter service comes "batteries included" with our Keptn installation.
 
 <!-- command -->
 ```
-keptn add-resource --project=pod-tato-head --stage=hardening --service=helloservice --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-keptn add-resource --project=pod-tato-head --stage=hardening --service=helloservice --resource=jmeter/jmeter.conf.yaml --resourceUri=jmeter/jmeter.conf.yaml
+keptn add-resource --project=podtatohead --stage=hardening --service=helloservice --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+keptn add-resource --project=podtatohead --stage=hardening --service=helloservice --resource=jmeter/jmeter.conf.yaml --resourceUri=jmeter/jmeter.conf.yaml
 ```
 
 Now each time Keptn triggers the test execution, the JMeter service will pick up both files and execute the tests.
+
+Lastly before deploying our first build we also need to define the endpoint the requests should be made against:
+
+<!-- command -->
+```
+keptn add-resource --project=podtatohead --service=helloservice --stage=hardening --resource=helm/endpoints.yaml --resourceUri=helm/endpoints.yaml
+```
 
 ## Deploy first build with Keptn
 Duration: 4:00
@@ -162,12 +169,12 @@ We are now ready to kick off a new deployment of our test application with Keptn
 
     <!-- command -->
     ```
-    keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.1
+    keptn trigger delivery --project="podtatohead" --service=helloservice --image="docker.io/jetzlstorfer/helloserver" --tag=0.1.1
     ```
 
     <!-- bash
     verify_test_step $? "trigger delivery for helloservice failed"
-    wait_for_deployment_with_image_in_namespace "helloservice" "pod-tato-head-production" "gabrieltanner/hello-server:v0.1.1"
+    wait_for_deployment_with_image_in_namespace "helloservice" "podtatohead-production" "docker.io/jetzlstorfer/helloserver/hello-server:0.1.1"
     verify_test_step $? "Deployment helloservice not available, exiting..."
     -->
 
@@ -182,7 +189,8 @@ We are now ready to kick off a new deployment of our test application with Keptn
 
     <!-- command -->
     ```
-    keptn configure bridge --output
+    kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_USERNAME}" | base64 --decode
+    kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_PASSWORD}" | base64 --decode
     ```
 
     ![](./assets/keptn-multistage-podtatohead/podtato-head-first-deployment-bridge.png)
@@ -195,8 +203,8 @@ We are now ready to kick off a new deployment of our test application with Keptn
     ```
 
     ```
-    pod-tato-head-hardening    helloservice-primary-5f779966f9-vjjh4                        2/2     Running   0          4m55s
-    pod-tato-head-production   helloservice-primary-5f779966f9-kbhz5                        2/2     Running   0          2m52s
+    podtatohead-hardening    helloservice-primary-5f779966f9-vjjh4                        2/2     Running   0          4m55s
+    podtatohead-production   helloservice-primary-5f779966f9-kbhz5                        2/2     Running   0          2m52s
     ```
 
 ## View helloservice
@@ -207,14 +215,14 @@ Hardening:
 
 <!-- command -->
 ```
-echo http://helloservice.pod-tato-head-hardening.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+echo http://helloservice.podtatohead-hardening.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
 ```
 
 Production:
 
 <!-- command -->
 ```
-echo http://helloservice.pod-tato-head-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+echo http://helloservice.podtatohead-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
 ```
 
 Navigating to the URLs should result in the following output:
@@ -273,7 +281,7 @@ sleep 10
 * Execute the following command to install Prometheus and set up the rules for the *Prometheus Alerting Manager*:
 <!-- command -->
 ```
-keptn configure monitoring prometheus --project=pod-tato-head --service=helloservice
+keptn configure monitoring prometheus --project=podtatohead --service=helloservice
 ```
 
 <!-- bash wait_for_deployment_in_namespace "alertmanager" "monitoring" -->
@@ -298,7 +306,7 @@ We are going to add the configuration for our SLIs in terms of an SLI file that 
 
 <!-- command -->
 ```
-keptn add-resource --project=pod-tato-head --stage=hardening --service=helloservice --resource=prometheus/sli.yaml --resourceUri=prometheus/sli.yaml
+keptn add-resource --project=podtatohead --stage=hardening --service=helloservice --resource=prometheus/sli.yaml --resourceUri=prometheus/sli.yaml
 ```
 
 For your information, the contents of the file are as follows:
@@ -323,7 +331,7 @@ Activate the quality gates for the helloservice. Therefore, navigate to the `del
 <!-- command -->
 
 ```
-keptn add-resource --project=pod-tato-head --stage=hardening --service=helloservice --resource=slo.yaml --resourceUri=slo.yaml
+keptn add-resource --project=podtatohead --stage=hardening --service=helloservice --resource=slo.yaml --resourceUri=slo.yaml
 ```
 
 This will add the `slo.yaml` file to your Keptn - which is the declarative definition of a quality gate. Let's take a look at the file contents:
@@ -364,12 +372,12 @@ You can now deploy another artifact and see the quality gates in action.
 
 <!-- command -->
 ```
-keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.1
+keptn trigger delivery --project="podtatohead" --service=helloservice --image="docker.io/jetzlstorfer/helloserver" --tag=0.1.1
 ```
 
 <!-- bash 
 verify_test_step $? "trigger delivery for helloservice failed"
-wait_for_deployment_with_image_in_namespace "helloservice" "pod-tato-head-production" "gabrieltanner/hello-server:v0.1.1"
+wait_for_deployment_with_image_in_namespace "helloservice" "podtatohead-production" "docker.io/jetzlstorfer/helloserver:0.1.1"
 verify_test_step $? "Deployment helloservice not available, exiting..."
 -->
 
@@ -384,15 +392,15 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.2
+    keptn trigger delivery --project="podtatohead" --service=helloservice --image="docker.io/jetzlstorfer/helloserver" --tag=0.1.2
     ```
 
     <!-- bash 
     verify_test_step $? "trigger delivery for helloservice failed"
-    wait_for_deployment_with_image_in_namespace "helloservice" "pod-tato-head-hardening" "gabrieltanner/hello-server:v0.1.2"
+    wait_for_deployment_with_image_in_namespace "helloservice" "podtatohead-hardening" "docker.io/jetzlstorfer/helloserver:0.1.2"
     verify_test_step $? "Deployment helloservice not available, exiting..."
     echo "Waiting for a little bit!"
-    wait_for_event_with_field_output "sh.keptn.event.release.finished" ".data.result" "fail" "pod-tato-head"
+    wait_for_event_with_field_output "sh.keptn.event.release.finished" ".data.result" "fail" "podtatohead"
     sleep 60
     -->
 
@@ -400,7 +408,7 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    echo http://helloservice.pod-tato-head-hardening.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+    echo http://helloservice.podtatohead-hardening.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
     ```
 
 ## Quality gate in action
@@ -415,7 +423,7 @@ After triggering the deployment of the *helloservice* in version v0.1.2, the fol
   - To verify, navigate to:
   <!-- command -->
   ```
-  echo http://helloservice.pod-tato-head-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
+  echo http://helloservice.podtatohead-production.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
   ```
 
 ## Verify the quality gate in Keptn's Bridge
