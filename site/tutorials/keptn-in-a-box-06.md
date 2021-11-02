@@ -121,7 +121,7 @@ By **only** providing your Dynatrace credentials, Keptn-in-a-Box will:
 Positive
 : You have to bring your own Dynatrace tenant
 
-If you don't have a Dynatrace tenant yet, sign up for a [free trial](https://www.dynatrace.com/trial/) or a [developer account](https://www.dynatrace.com/developer/).
+If you don't have a Dynatrace tenant yet, sign up for a [free trial](https://www.dynatrace.com/trial?utm_campaign=keptn) or a [developer account](https://www.dynatrace.com/developer/).
 
 Negative
 : If you don't want to empower your Box with Dynatrace, skip to <a href="./#5" target="_self">Configure your Domain</a>
