@@ -38,7 +38,7 @@ Duration: 2:00
 
 - Access to [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) and permissions to create a project
 
-- Have a Dynatrace tenant to monitor the application and we will use the Dynatrace data to validate the quality gate. You can [sign up for a free trial](https://www.dynatrace.com/trial/) (no credit card required).
+- Have a Dynatrace tenant to monitor the application and we will use the Dynatrace data to validate the quality gate. You can [sign up for a free trial](https://www.dynatrace.com/trial?utm_campaign=keptn) (no credit card required).
 
 {{ snippets/06/install/cluster-aks.md }}
 

@@ -72,7 +72,7 @@ So - here is our checklist:
 - [x] SSH access and SUDO rights
 
 **Dynatrace Environment**
-Next thing we need is a Dynatrace environment. If you don't have one - just sign up for a [Dynatrace SaaS Trial](https://dynatrace.com/trial). As this is a tutorial includes automated rollout decisions based on SLOs (Service Level Objectives) we use Keptn to pull this data from Dynatrace as Dynatrace will automatically monitor our k3s cluster including every app we deploy on it. 
+Next thing we need is a Dynatrace environment. If you don't have one - just sign up for a [Dynatrace SaaS Trial](https://dynatrace.com/trial?utm_campaign=keptn). As this is a tutorial includes automated rollout decisions based on SLOs (Service Level Objectives) we use Keptn to pull this data from Dynatrace as Dynatrace will automatically monitor our k3s cluster including every app we deploy on it. 
 
 *1: API Token: DT_API_TOKEN*
 For our Keptn installation we need a Dynatrace API Token that Keptn can use to query data as well as push some dashboards. 
