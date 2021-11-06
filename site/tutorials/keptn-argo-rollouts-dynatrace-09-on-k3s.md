@@ -381,28 +381,6 @@ You can access this via the Keptn CLI. Just execute this:
 keptn configure bridge -o
 ``` 
 
-### Sometimes get Keptn CLI Errors
-
-If you execute the Keptn CLI and receive an error like this ...
-```
-* Warning: could not check Keptn server version: Error connecting to server: Head https://keptn.YOUR.IP.nip.io/api: dial tcp: lookup keptn.YOUR.IP.nip.io on :53: no such host
-Possible reasons:
-* The Keptn API server is currently not available. Check if your Kubernetes cluster is available.
-* Your Keptn CLI points to the wrong API server (verify using 'keptn status')
-Starting to deliver the service simplenode in project demo-rollout in version docker.io/grabnerandi/simplenodeservice:2.0.0
-Error: Error connecting to server: Head https://keptn.YOUR.IP.nip.io/api: dial tcp: lookup keptn.YOUR.IP.nip.io on :53: no such host
-Possible reasons:
-* The Keptn API server is currently not available. Check if your Kubernetes cluster is available.
-* Your Keptn CLI points to the wrong API server (verify using 'keptn status')
-```
-
-This is most likely caused by a temporary issue with the free nip.io DNS resolver service we use. Simply try it again!
-
-### Sometimes get browser errors when accessing bridge
-
-This is possible as we are using nip.io as a free service to resolve DNS. If that temporarily fails it can have impact to either you accessing the bridge or the API. It can also have impact on Keptn itself. In that case - just retry!
-To make this more stable - feel free to leverage your own DNS that you point to the public IP of your host and install the tutorial with the option --fqdn yourdomain.abc
-
 ### Installation of tutorial failed
 
 Please contact us through the [Keptn slack workspace](https://slack.keptn.sh). We have a channel called #keptn-docs where you can directly ping us about issues on the tutorials
