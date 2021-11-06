@@ -49,7 +49,7 @@ The demo resources can be found on Github for a convenient experience. Let's clo
 
 <!-- command -->
 ```
-git clone https://github.com/keptn/examples --single-branch
+git clone --branch release-0.9.0 https://github.com/keptn/examples.git --single-branch
 ```
 
 Now, let's switch to the directory including the demo resources.
@@ -129,14 +129,7 @@ In the `shipyard.yaml` shown above, we define two stages called *hardening* and 
 Duration: 2:00
 
 After creating the project, we can continue by onboarding the *helloservice* as a service to your project using the `keptn create service` and `keptn add-resource` commands. You need to pass the project where you want to create the service, as well as the Helm chart of the service.
-For this purpose we need the helm charts as a tar.gz archive. Our repository already contains a tar.gz archive of our helm chart but normally you could use the following command for the conversion:
 
-<!-- command -->
-```
-tar cfvz ./helm/helloservice.tgz ./helm/helloservice
-```
-
-Then the service can be created:
 <!-- command -->
 ```
 keptn create service helloservice --project="podtatohead"
@@ -157,7 +150,7 @@ Lastly before deploying our first build we also need to define the endpoint the 
 
 <!-- command -->
 ```
-keptn add-resource --project=podtatohead --service=helloservice --stage=hardening --resource=helm/endpoints.yaml --resourceUri=helm/endpoints.yaml
+keptn add-resource --project=podtatohead --service=helloservice --all-stages --resource=helm/endpoints.yaml --resourceUri=helm/endpoints.yaml
 ```
 
 ## Deploy first build with Keptn
