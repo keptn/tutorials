@@ -112,12 +112,11 @@ sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd6
 ```
 
 **Download (git clone) the tutorial**
-As mentioned, the [Keptn on k3s](https://github.com/keptn-sandbox/keptn-on-k3s) is a broad tutorial. While we are only using parts of it we simply download the whole thing locally which also includes the actual installation script. To do that we simply do a git clone and switch to the release-0.9.0 branch of that tutorial:
+As mentioned, the [Keptn on k3s](https://github.com/keptn-sandbox/keptn-on-k3s) is a broad tutorial. While we are only using parts of it we simply download the whole thing locally which also includes the actual installation script. To do that we clone the release-0.9.0 branch of that tutorial:
 
 ```console
-git clone https://github.com/keptn-sandbox/keptn-on-k3s
+git clone  --branch release-0.9.0 https://github.com/keptn-sandbox/keptn-on-k3s --single-branch
 cd keptn-on-k3s
-git checkout release-0.9.0
 ```
 
 ## Installing Keptn on k3s for Argo Rollouts use cases
@@ -139,11 +138,11 @@ The installation scripts has multiple options - here is the one that will instal
 **BE AWARE** there is an option called --provider. If you run on e.g: EC2 then specify aws. If your machine is hosted on GCP then specify gcp. If you just run on a local machine or a VM you can omit that parameter!
 
 ```console
-./install-keptn-on-k3s.sh --deliveryplane --provider aws --with-dynatrace --with-demo dynatrace --letsencrypt --with-gitea
+./install-keptn-on-k3s.sh --deliveryplane --provider aws --with-dynatrace --with-demo dynatrace --letsencrypt --with-gitea --use-nip
 ```
 
 **Use your own Domain Name (SUGGESTED)**
-By default the installation will use your local IP and a free DNS Resolution service from xip.io to use proper DNS names. That works well but we have learned that it might sometimes be a bit unstable. You can create your own DNS, eg.: using Route53 to point to your public IP and then pass this domain name via the parameter --fqdn. Here would be the installation option to install the quality gates with a custom domain!
+By default the installation will use your local IP and a free DNS Resolution service from nip.io to use proper DNS names. That works well but we have learned that it might sometimes be a bit unstable. You can create your own DNS, eg.: using Route53 to point to your public IP and then pass this domain name via the parameter --fqdn. Here would be the installation option to install the quality gates with a custom domain!
 ```console
 ./install-keptn-on-k3s.sh --deliveryplane --provider aws --with-dynatrace --with-demo dynatrace --letsencrypt --with-gitea --fqdn yourdomain.abc
 ```
@@ -157,12 +156,12 @@ At the end of the installation the script outputs information about the installa
 #######################################>
 # Keptn Deployment Summary
 #######################################>
-API URL   :      https://keptn.YOUR.IP.xip.io/api
-Bridge URL:      https://keptn.YOUR.IP.xip.io/bridge
+API URL   :      https://keptn.YOUR.IP.nip.io/api
+Bridge URL:      https://keptn.YOUR.IP.nip.io/bridge
 Bridge Username: keptn
 Bridge Password: YOURBRIDGEPASSWORD
 API Token :      YOURKEPTNAPITOKEN
-Git Server:      http://git.YOUR.IP.xip.io
+Git Server:      http://git.YOUR.IP.nip.io
 Git User:        keptn
 Git Password:    keptn#R0cks
 ```
@@ -181,7 +180,7 @@ To trigger a delivery simple do this
 1: Trigger a delivery through the Keptn CLI or the Keptn API as explained in the readme
    keptn trigger delivery --project=demo-rollout --stage=staging --service=simplenode --image=docker.io/grabnerandi/simplenodeservice --tag=1.0.0
 2: Watch the delivery progress in Keptn's bridge
-   Project URL: https://keptn.YOUR.IP.xip.io/bridge/project/demo-rollout
+   Project URL: https://keptn.YOUR.IP.nip.io/bridge/project/demo-rollout
    User / PWD: keptn / YOURBRIDGEPASSWORD
 3: To deliver the next version simply run
    keptn trigger delivery --project=demo-rollout --stage=staging --service=simplenode --image=docker.io/grabnerandi/simplenodeservice --tag=2.0.0
@@ -207,7 +206,7 @@ To validate the installation went fine lets open Keptn's bridge by following the
 
 We see that this Keptn project uses a 2-stage shipyard file. In staging we will later see a Blue/Green Argo Rollout and in Prod we will see a Canary Argo Rollout.
 
-You may notice that the URL ends with xip.io. We are using this free DNS service to leverage DNS names which also allows us to do some traffic routing on different domain names even though everything in the end resolves to your local IP. You will also notice that your browser tells you that the website is not secure even though you are accessing an https endpoint. This is because we created a temporary staging certificate using LetsEncrypt. If you want to use Keptn for production use cases you would need to create your own certificates. For our tutorial its OK though - you can just tell your browser to continue.
+You may notice that the URL ends with nip.io. We are using this free DNS service to leverage DNS names which also allows us to do some traffic routing on different domain names even though everything in the end resolves to your local IP. You will also notice that your browser tells you that the website is not secure even though you are accessing an https endpoint. This is because we created a temporary staging certificate using LetsEncrypt. If you want to use Keptn for production use cases you would need to create your own certificates. For our tutorial its OK though - you can just tell your browser to continue.
 When you are prompted for username and password simply use bridge username & password that you find in the installation script output.
 
 Now we are ready to do some actual deployments
@@ -381,28 +380,6 @@ You can access this via the Keptn CLI. Just execute this:
 ```
 keptn configure bridge -o
 ``` 
-
-### Sometimes get Keptn CLI Errors
-
-If you execute the Keptn CLI and receive an error like this ...
-```
-* Warning: could not check Keptn server version: Error connecting to server: Head https://keptn.YOUR.IP.xip.io/api: dial tcp: lookup keptn.YOUR.IP.xip.io on :53: no such host
-Possible reasons:
-* The Keptn API server is currently not available. Check if your Kubernetes cluster is available.
-* Your Keptn CLI points to the wrong API server (verify using 'keptn status')
-Starting to deliver the service simplenode in project demo-rollout in version docker.io/grabnerandi/simplenodeservice:2.0.0
-Error: Error connecting to server: Head https://keptn.YOUR.IP.xip.io/api: dial tcp: lookup keptn.YOUR.IP.xip.io on :53: no such host
-Possible reasons:
-* The Keptn API server is currently not available. Check if your Kubernetes cluster is available.
-* Your Keptn CLI points to the wrong API server (verify using 'keptn status')
-```
-
-This is most likely caused by a temporary issue with the free xip.io DNS resolver service we use. Simply try it again!
-
-### Sometimes get browser errors when accessing bridge
-
-This is possible as we are using xip.io as a free service to resolve DNS. If that temporarily fails it can have impact to either you accessing the bridge or the API. It can also have impact on Keptn itself. In that case - just retry!
-To make this more stable - feel free to leverage your own DNS that you point to the public IP of your host and install the tutorial with the option --fqdn yourdomain.abc
 
 ### Installation of tutorial failed
 
