@@ -150,7 +150,8 @@ Lastly before deploying our first build we also need to define the endpoint the 
 
 <!-- command -->
 ```
-keptn add-resource --project=podtatohead --service=helloservice --all-stages --resource=helm/endpoints.yaml --resourceUri=helm/endpoints.yaml
+keptn add-resource --project=$PROJECT --service=$SERVICE --stage=hardening --resource=helm/hardening_endpoints.yaml --resourceUri=helm/endpoints.yaml
+keptn add-resource --project=$PROJECT --service=$SERVICE --stage=production --resource=helm/production_endpoints.yaml --resourceUri=helm/endpoints.yaml
 ```
 
 ## Deploy first build with Keptn
