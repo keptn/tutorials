@@ -1,0 +1,28 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2021-11-19T10:46:53+01:00",
+  "id": "keptn-quality-gates-dynatrace-010-on-k3s",
+  "duration": 36,
+  "title": "Keptn Quality Gates with Dynatrace using k3s",
+  "authors": "Andreas Grabner",
+  "summary": "5 minute installation. All running on K3s with a single line installation. No Kubernetes cluster needed.",
+  "source": "keptn-quality-gates-dynatrace-010-on-k3s_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "dynatrace",
+    "k3s",
+    "quality-gates"
+  ],
+  "tags": [
+    "introduction",
+    "keptn010x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-quality-gates-dynatrace-010-on-k3s"
+}
