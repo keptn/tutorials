@@ -95,7 +95,7 @@ Duration: 6:00
     
     <!-- command -->
     ```
-    keptn create secret dynatrace --from-literal="DT_TENANT=$DT_TENANT" --from-literal="DT_API_TOKEN=$DT_API_TOKEN" 
+    keptn create secret dynatrace --scope=dynatrace-service --from-literal="DT_TENANT=$DT_TENANT" --from-literal="DT_API_TOKEN=$DT_API_TOKEN" 
     ```
 
 ## Install Dynatrace integration
