@@ -241,7 +241,7 @@ helm install prometheus prometheus-community/prometheus --namespace monitoring
 * Download the Keptn's Prometheus service manifest
 <!-- command -->
 ```
-kubectl apply -f  https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.6.0/deploy/service.yaml
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.7.1/deploy/service.yaml
 ```
 
 * Replace the environment variable value according to the use case and apply the manifest
@@ -260,7 +260,7 @@ kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-
 * Install Role and Rolebinding to permit Keptn's prometheus-service for performing operations in the Prometheus installed namespace.
 <!-- command -->
 ```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.6.0/deploy/role.yaml -n monitoring
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.7.1/deploy/role.yaml -n monitoring
 ```
 
 <!-- 
