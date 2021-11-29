@@ -377,9 +377,11 @@ Here some troubleshooting tips
 ### Lost your Keptn's bridge username / password
 
 You can access this via the Keptn CLI. Just execute this:
+<!-- command -->
 ```
-keptn configure bridge -o
-``` 
+echo Username: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_USERNAME}" | base64 --decode)
+echo Password: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_PASSWORD}" | base64 --decode)
+```
 
 ### Installation of tutorial failed
 

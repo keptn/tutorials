@@ -163,7 +163,8 @@ Therefore, we need the credentials that have been automatically generated for us
 
 <!-- command -->
 ```
-keptn configure bridge --output
+echo Username: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_USERNAME}" | base64 --decode)
+echo Password: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_PASSWORD}" | base64 --decode)
 ```
 
 Now use these credentials to access it on your [Keptn's Bridge](echo http://api-gateway-nginx-keptn.apps-crc.testing/bridge).
