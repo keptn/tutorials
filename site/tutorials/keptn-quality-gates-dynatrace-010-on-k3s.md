@@ -383,7 +383,7 @@ Here some troubleshooting tips
 
 ### Lost your Keptn's bridge username / password
 
-You can access this via the Keptn CLI. Just execute this:
+The credentials can be retrieved via the following commands:
 <!-- command -->
 ```
 echo Username: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_USERNAME}" | base64 --decode)
