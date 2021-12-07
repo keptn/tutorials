@@ -8,9 +8,11 @@ Now that you have installed Keptn you can take a look at its user interface aka 
 
 Open a browser and navigate to [http://localhost:8080](http://localhost:8080) to take look. The bridge will be empty at this point but when using Keptn it will be populated with events.
 
-If asked for credentials, you can get them by executing the following command.
+If asked for credentials, you can get them by executing the following commands.
+<!-- command -->
 ```
-keptn configure bridge --output
+echo Username: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_USERNAME}" | base64 --decode)
+echo Password: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_PASSWORD}" | base64 --decode)
 ```
 
 ![empty bridge](./assets/bridge-empty.png)

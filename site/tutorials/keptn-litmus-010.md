@@ -321,10 +321,12 @@ We are now ready to kick off a new deployment of our test application with Keptn
     echo http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge
     ```
 
-    The credentials can be retrieved via the Keptn CLI:
+    The credentials can be retrieved via the following commands:
 
+    <!-- command -->
     ```
-    keptn configure bridge --output
+    echo Username: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_USERNAME}" | base64 --decode)
+    echo Password: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.data.BASIC_AUTH_PASSWORD}" | base64 --decode)
     ```
 
     ![](./assets/keptn-litmus/litmus-first-run-started.png)
