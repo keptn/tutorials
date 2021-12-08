@@ -84,7 +84,7 @@ To simulate user traffic that is causing an unhealthy behavior in the carts serv
     - Make a port forward to access Prometheus:
 
     ```
-    kubectl port-forward svc/prometheus-service -n monitoring 8080:8080
+    kubectl port-forward svc/prometheus-server 8080:80 -n monitoring
     ```
     
     - Access Prometheus from your browser on [http://localhost:8080](http://localhost:8080).
