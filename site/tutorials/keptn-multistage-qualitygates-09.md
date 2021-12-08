@@ -163,12 +163,12 @@ We are now ready to kick off a new deployment of our test application with Keptn
 
     <!-- command -->
     ```
-    keptn trigger delivery --project="podtatohead" --service=helloservice --image="docker.io/jetzlstorfer/helloserver" --tag=0.1.1
+    keptn trigger delivery --project="podtatohead" --service=helloservice --image="ghcr.io/podtato-head/podtatoserver" --tag=v0.1.1
     ```
 
     <!-- bash
     verify_test_step $? "trigger delivery for helloservice failed"
-    wait_for_deployment_with_image_in_namespace "helloservice" "podtatohead-production" "docker.io/jetzlstorfer/helloserver/hello-server:0.1.1"
+    wait_for_deployment_with_image_in_namespace "helloservice" "podtatohead-production" "ghcr.io/podtato-head/podtatoserver:v0.1.1"
     verify_test_step $? "Deployment helloservice not available, exiting..."
     -->
 
@@ -366,12 +366,12 @@ You can now deploy another artifact and see the quality gates in action.
 
 <!-- command -->
 ```
-keptn trigger delivery --project="podtatohead" --service=helloservice --image="docker.io/jetzlstorfer/helloserver" --tag=0.1.1
+keptn trigger delivery --project="podtatohead" --service=helloservice --image="ghcr.io/podtato-head/podtatoserver" --tag=v0.1.1
 ```
 
 <!-- bash 
 verify_test_step $? "trigger delivery for helloservice failed"
-wait_for_deployment_with_image_in_namespace "helloservice" "podtatohead-production" "docker.io/jetzlstorfer/helloserver:0.1.1"
+wait_for_deployment_with_image_in_namespace "helloservice" "podtatohead-production" "ghcr.io/podtato-head/podtatoserver:v0.1.1"
 verify_test_step $? "Deployment helloservice not available, exiting..."
 -->
 
@@ -386,12 +386,12 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    keptn trigger delivery --project="podtatohead" --service=helloservice --image="docker.io/jetzlstorfer/helloserver" --tag=0.1.2
+    keptn trigger delivery --project="podtatohead" --service=helloservice --image="ghcr.io/podtato-head/podtatoserver" --tag=v0.1.2
     ```
 
     <!-- bash 
     verify_test_step $? "trigger delivery for helloservice failed"
-    wait_for_deployment_with_image_in_namespace "helloservice" "podtatohead-hardening" "docker.io/jetzlstorfer/helloserver:0.1.2"
+    wait_for_deployment_with_image_in_namespace "helloservice" "podtatohead-hardening" "ghcr.io/podtato-head/podtatoserver:v0.1.2"
     verify_test_step $? "Deployment helloservice not available, exiting..."
     echo "Waiting for a little bit!"
     wait_for_event_with_field_output "sh.keptn.event.release.finished" ".data.result" "fail" "podtatohead"
