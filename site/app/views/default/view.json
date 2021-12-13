@@ -1,7 +1,7 @@
 {
   "title": "Keptn Tutorials",
   "description": "We provide a collection of guided, hands-on tutorials to help you get started using Keptn",
-  "tags": ["keptn11x"],
+  "tags": ["keptn011x"],
   "categories": [],
   "exclude": [
     "^lang-.*"
