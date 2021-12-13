@@ -9,7 +9,7 @@
   "title": "Explore Keptn without installation",
   "authors": "Jürgen Etzlstorfer",
   "summary": "Explore Keptn on our hosted demo cluster - no installation needed.",
-  "source": "keptn-public-demo-011_gen.md",
+  "source": "keptn-public-demo-011.md",
   "theme": "",
   "status": [
     "published"

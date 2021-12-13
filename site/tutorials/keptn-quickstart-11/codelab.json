@@ -4,12 +4,12 @@
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-133584243-1",
   "updated": "2020-11-12T12:04:45+01:00",
-  "id": "keptn-quickstart-11",
+  "id": "keptn-quickstart-011",
   "duration": 88,
   "title": "Keptn Quickstart with Prometheus",
   "authors": "Jürgen Etzlstorfer",
   "summary": "Shows how to get started with Keptn and Prometheus in 5 minutes",
-  "source": "keptn-quickstart-11.md",
+  "source": "keptn-quickstart-011.md",
   "theme": "",
   "status": [
     "published"
@@ -20,8 +20,8 @@
     "k3s"
   ],
   "tags": [
-    "keptn11x"
+    "keptn011x"
   ],
   "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
-  "url": "keptn-quickstart-11"
+  "url": "keptn-quickstart-011"
 }
