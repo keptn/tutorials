@@ -1,7 +1,7 @@
 summary: 5 minute installation. All running on K3s with a single line installation. No Kubernetes cluster needed.
-id: keptn-argo-rollouts-dynatrace-20-on-k3s
+id: keptn-argo-rollouts-dynatrace-11-on-k3s
 categories: Dynatrace,k3s,argo,canary
-tags: keptn010x,introduction
+tags: keptn011x,introduction
 status: Published
 authors: Andreas Grabner
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
