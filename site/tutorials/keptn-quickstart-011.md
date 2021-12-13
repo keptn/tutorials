@@ -1,6 +1,6 @@
-summary: Automated Upscaling with Dynatrace
+summary: Quickstart: Keptn and Prometheus
 id: keptn-quickstart-11
-categories: quickstart,prometheus,k3s
+categories: Prometheus,quickstart,k3s
 tags: keptn11x
 status: Published 
 authors: Jürgen Etzlstorfer, Oleg Nenashev
