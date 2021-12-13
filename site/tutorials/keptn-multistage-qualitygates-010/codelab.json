@@ -21,7 +21,6 @@
     "gke",
     "openshift",
     "minikube",
-    "full-tour",
     "quality-gates"
   ],
   "tags": [
