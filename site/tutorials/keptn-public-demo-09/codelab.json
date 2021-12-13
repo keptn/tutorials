@@ -17,7 +17,8 @@
   "category": [
     "prometheus",
     "quality-gates",
-    "k3s"
+    "k3s",
+    "quickstart"
   ],
   "tags": [
     "introduction",
