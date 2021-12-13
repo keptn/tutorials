@@ -11,9 +11,7 @@ Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 ## Welcome 
 Duration: 0:30
 
-Learn how to get Keptn running in thirty minutes with Prometheus.
-We'll run Keptn on a local k3d cluster.
-This quickstart is designed for Linux-based systems. Consequently, use Linux, MacOS, or Windows subsystem for Linux (WSL).
+Learn how to get Keptn running in thirty minutes with Prometheus. We'll run Keptn on a local k3d cluster. This quickstart is designed for Linux-based systems. Consequently, use Linux, MacOS, or Windows subsystem for Linux (WSL2).
 
 ## Tutorial
 Follow the tutorial [here](https://keptn.sh/docs/quickstart/).
