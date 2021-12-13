@@ -1,7 +1,7 @@
 summary: Quickstart: Keptn and Prometheus
 id: keptn-quickstart-011
-categories: Prometheus,quickstart,k3s
-tags: keptn11x
+categories: prometheus,quickstart,k3s
+tags: prometheus,keptn11x,quickstart
 status: Published 
 authors: Jürgen Etzlstorfer, Oleg Nenashev
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials

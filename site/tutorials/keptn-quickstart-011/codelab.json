@@ -15,8 +15,8 @@
     "published"
   ],
   "category": [
-    "quickstart",
     "prometheus",
+    "quickstart",
     "k3s"
   ],
   "tags": [
