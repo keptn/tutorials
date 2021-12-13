@@ -1,0 +1,29 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2021-11-19T10:46:53+01:00",
+  "id": "keptn-public-demo-011",
+  "duration": 5,
+  "title": "Explore Keptn without installation",
+  "authors": "Jürgen Etzlstorfer",
+  "summary": "Explore Keptn on our hosted demo cluster - no installation needed.",
+  "source": "keptn-public-demo-011.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "prometheus",
+    "quality-gates",
+    "k3s",
+    "quickstart"
+  ],
+  "tags": [
+    "introduction",
+    "keptn011x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-public-demo-011"
+}

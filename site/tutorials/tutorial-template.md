@@ -1,7 +1,7 @@
 summary: My first tutorial
 id: my-first-tutorial-unique-id
 categories: prometheus,gke,quality-gates
-tags: keptn07x
+tags: keptn11x
 status: Draft 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials

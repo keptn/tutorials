@@ -1,0 +1,34 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2021-11-19T10:46:51+01:00",
+  "id": "keptn-litmus-011",
+  "duration": 44,
+  "title": "Resilience evaluation with LitmusChaos, Prometheus, and Keptn",
+  "authors": "Jürgen Etzlstorfer",
+  "summary": "Full Keptn installation on a Kubernetes cluster (GKE recommended)",
+  "source": "keptn-litmus-011_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "prometheus",
+    "aks",
+    "eks",
+    "gke",
+    "openshift",
+    "pks",
+    "minikube",
+    "quality-gates",
+    "litmus"
+  ],
+  "tags": [
+    "advanced",
+    "keptn011x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-litmus-011"
+}
