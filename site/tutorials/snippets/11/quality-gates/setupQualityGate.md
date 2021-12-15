@@ -4,7 +4,7 @@ Duration: 4:00
 
 Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/master/service_level_objective.md).
 
-To activate the quality gates for the carts service, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.10.x/reference/cli/commands/keptn_add-resource/) command:
+To activate the quality gates for the carts service, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_add-resource/) command:
 
 <!-- command -->
 
@@ -74,12 +74,12 @@ Duration: 5:00
 
     <!-- command -->
     ```
-    keptn trigger delivery --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.12.2
+    keptn trigger delivery --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.13.2
     ```
     
     <!-- bash 
     verify_test_step $? "trigger delivery for carts failed" 
-    wait_for_deployment_with_image_in_namespace "carts" "sockshop-staging" "docker.io/keptnexamples/carts:0.12.2"
+    wait_for_deployment_with_image_in_namespace "carts" "sockshop-staging" "docker.io/keptnexamples/carts:0.13.2"
     verify_test_step $? "Deployment carts not available, exiting..."
     echo "Waiting for a little bit!"
     wait_for_event_with_field_output "sh.keptn.event.release.finished" ".data.result" "fail" "sockshop"
@@ -107,7 +107,7 @@ Duration: 5:00
 ## Quality gate in action
 Duration: 7:00 
 
-After triggering the deployment of the carts service in version v0.12.2, the following status is expected:
+After triggering the deployment of the carts service in version v0.13.2, the following status is expected:
 
 * **Dev stage:** The new version is deployed in the dev stage and the functional tests passed.
   * To verify, open a browser and navigate to: 
@@ -116,10 +116,10 @@ After triggering the deployment of the carts service in version v0.12.2, the fol
   echo http://carts.sockshop-dev.$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')
   ```
 
-* **Staging stage:** In this stage, version v0.12.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.12.1 in this stage is conducted and the promotion to production is not triggered.
+* **Staging stage:** In this stage, version v0.13.2 will be deployed and the performance test starts to run for about 10 minutes. After the test is completed, Keptn triggers the test evaluation and identifies the slowdown. Consequently, a roll-back to version v0.13.1 in this stage is conducted and the promotion to production is not triggered.
 
 
-* **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.12.1 is expected to be in production.
+* **Production stage:** The slow version is **not promoted** to the production stage because of the active quality gate in place. Thus, still version v0.13.1 is expected to be in production.
   * To verify, navigate to: 
   <!-- command -->
   ```
@@ -131,7 +131,7 @@ Duration: 3:00
 
 Take a look in the Keptn's bridge and navigate to the last deployment. You will find a quality gate evaluation that got a `fail` result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won't be promoted to production but instead automatically rolled back.
 
-To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.10.x/reference/bridge/) shows the deployment of v0.12.2 and then the failed test in staging including the roll-back.
+To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.11.x/reference/bridge/) shows the deployment of v0.13.2 and then the failed test in staging including the roll-back.
 
 ![Keptn's bridge](./assets/bridge-quality-gate.png)
 
@@ -144,12 +144,12 @@ Duration: 3:00
 
     <!-- command -->
     ```
-    keptn trigger delivery --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.12.3
+    keptn trigger delivery --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.13.3
     ```
     
     <!-- bash 
     verify_test_step $? "trigger delivery for carts failed" 
-    wait_for_deployment_with_image_in_namespace "carts" "sockshop-production" "docker.io/keptnexamples/carts:0.12.3"
+    wait_for_deployment_with_image_in_namespace "carts" "sockshop-production" "docker.io/keptnexamples/carts:0.13.3"
     verify_test_step $? "Deployment carts not available, exiting..."
     -->
 
@@ -181,7 +181,7 @@ Duration: 3:00
     Labels:  app=carts-primary
     Containers:
       carts:
-        Image:      docker.io/keptnexamples/carts:0.12.3
+        Image:      docker.io/keptnexamples/carts:0.13.3
     ```
 
 1. Take another look into the Keptn's Bridge and you will see this new version passed the quality gate and thus, is now running in production!

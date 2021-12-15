@@ -30,17 +30,17 @@ If you are interested, please have a look at this article that explains the depl
 
 [Modern continuous delivery on Kubernetes for Developers - dev.to](https://dev.to/gabrieltanner/modern-continuous-delivery-on-kubernetes-for-developers-5chf)
 
-{{ snippets/010/install/cluster.md }}
+{{ snippets/11/install/cluster.md }}
 
-{{ snippets/010/install/istio.md }}
+{{ snippets/11/install/istio.md }}
 
-{{ snippets/010/install/download-keptnCLI.md }}
+{{ snippets/11/install/download-keptnCLI.md }}
 
-{{ snippets/010/install/install-full.md }}
+{{ snippets/11/install/install-full.md }}
 
-{{ snippets/010/install/configureIstio.md }}
+{{ snippets/11/install/configureIstio.md }}
 
-{{ snippets/010/install/authCLI-istio.md }}
+{{ snippets/11/install/authCLI-istio.md }}
 
 ## Download the demo resources
 Duration: 1:00
@@ -506,6 +506,6 @@ Although Keptn has even more to offer that should have given you a good overview
   ![](./assets/keptn-multistage-podtatohead/podtato-head-slowbuild.png)
 
 
-{{ snippets/010/integrations/gettingStarted.md }}
+{{ snippets/11/integrations/gettingStarted.md }}
 
-{{ snippets/010/community/feedback.md }}
+{{ snippets/11/community/feedback.md }}

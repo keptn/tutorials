@@ -1,7 +1,7 @@
 ## Run Quality Gate through Keptn CLI
 Duration: 2:00
 
-We should now have everything in place to let Keptn evaluate our quality gate. The only thing we need to do is ask Keptn to start an evaluation for our service and give it a timeframe. The easiest way to do this is by using the Keptn CLI using the command [keptn trigger evaluation](https://keptn.sh/docs/0.10.x/reference/cli/commands/keptn_trigger_evaluation/)
+We should now have everything in place to let Keptn evaluate our quality gate. The only thing we need to do is ask Keptn to start an evaluation for our service and give it a timeframe. The easiest way to do this is by using the Keptn CLI using the command [keptn trigger evaluation](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_trigger_evaluation/)
 
 1. Start the evaluation via the CLI
 
@@ -11,7 +11,7 @@ The following is an example to have Keptn evaluate the last 10 minutes by also a
 keptn trigger evaluation --project=qgproject --stage=qualitystage --service=evalservice --timeframe=10m --labels=gaterun=1,type=viacli
 ```
 
-Please explore all other options in the Keptn CLI Documentation for [keptn trigger evaluation](https://keptn.sh/docs/0.10.x/reference/cli/commands/keptn_trigger_evaluation/). You can also specify start and end timestamps or also combine start timestamp with a timeframe.
+Please explore all other options in the Keptn CLI Documentation for [keptn trigger evaluation](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_trigger_evaluation/). You can also specify start and end timestamps or also combine start timestamp with a timeframe.
 
 What will come back as an output is the Keptn Context. Something like:
 ```
@@ -20,7 +20,7 @@ ID of Keptn context: f628eb68-849c-4e77-ab69-a504af34a081
 
 2. Query status of the evaluation via the CLI
 
-As the evaluation is an asynchronous process it may take a while until the results are available. We can use that Keptn Context with a call [keptn get event evaluation-done](https://keptn.sh/docs/0.10.x/reference/cli/commands/keptn_get_event_evaluation-done/) to query the status of our request by asking Keptn whether the event evaluation-done is already available for a specific Keptn context.
+As the evaluation is an asynchronous process it may take a while until the results are available. We can use that Keptn Context with a call [keptn get event evaluation-done](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_get_event_evaluation-done/) to query the status of our request by asking Keptn whether the event evaluation-done is already available for a specific Keptn context.
 
 ```
 keptn get event sh.keptn.event.evaluation.finished --keptn-context=f628eb68-849c-4e77-ab69-a504af34a081

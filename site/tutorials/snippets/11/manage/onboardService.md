@@ -4,7 +4,7 @@ Duration: 5:00
 
 After creating the project, services can be created for our project.
 
-1. Create the **carts** service using the [keptn create service](https://keptn.sh/docs/0.10.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.10.x/reference/cli/commands/keptn_add-resource/)commands:
+1. Create the **carts** service using the [keptn create service](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_add-resource/)commands:
 
     <!-- command -->
     ```
@@ -32,7 +32,7 @@ After creating the project, services can be created for our project.
 
 Since the carts service requires a mongodb database, a second service needs to be created.
 
-* Create the **carts-db** service using the [keptn create service](https://keptn.sh/docs/0.10.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.10.x/reference/cli/commands/keptn_add-resource/)commands.
+* Create the **carts-db** service using the [keptn create service](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_add-resource/)commands.
 
     <!-- command -->
     ```
@@ -49,7 +49,7 @@ Duration: 5:00
 
 After creating the services, a built artifact of each service can be deployed.
 
-1. Deploy the carts-db service by executing the [keptn trigger delivery](https://keptn.sh/docs/0.10.x/reference/cli/commands/keptn_trigger_delivery/) command:
+1. Deploy the carts-db service by executing the [keptn trigger delivery](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_trigger_delivery/) command:
 
     <!-- command -->
     ```
@@ -62,16 +62,16 @@ After creating the services, a built artifact of each service can be deployed.
     verify_test_step $? "Deployment carts-db not available, exiting..."
     -->
 
-1. Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.12.1:
+1. Deploy the carts service by specifying the built artifact, which is stored on DockerHub and tagged with version 0.13.1:
 
     <!-- command -->
     ```
-    keptn trigger delivery --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.12.1
+    keptn trigger delivery --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.13.1
     ```
 
     <!-- bash 
     verify_test_step $? "trigger delivery for carts failed" 
-    wait_for_deployment_with_image_in_namespace "carts" "sockshop-production" "docker.io/keptnexamples/carts:0.12.1"
+    wait_for_deployment_with_image_in_namespace "carts" "sockshop-production" "docker.io/keptnexamples/carts:0.13.1"
     verify_test_step $? "Deployment carts not available, exiting..."
     -->
 

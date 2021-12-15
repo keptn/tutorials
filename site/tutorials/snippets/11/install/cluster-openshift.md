@@ -69,4 +69,4 @@ Negative
     fi
     ```
     
-Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.10.x/operate/k8s_support/).
+Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.11.x/operate/k8s_support/).

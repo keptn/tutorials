@@ -18,7 +18,7 @@ echo Password: $(kubectl get secret -n keptn bridge-credentials -o jsonpath="{.d
 ![empty bridge](./assets/bridge-empty.png)
 
 Positive
-: We are frequently providing new versions of the Keptn's Bridge with new functionality. - [learn more here](https://keptn.sh/docs/0.10.x/reference/bridge/)!
+: We are frequently providing new versions of the Keptn's Bridge with new functionality. - [learn more here](https://keptn.sh/docs/0.11.x/reference/bridge/)!
 
 ### Keptn API
 

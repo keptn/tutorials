@@ -1,12 +1,12 @@
 ## Configure Istio
 
-We are using Istio for traffic routing and as an ingress to our cluster. To make the setup experience as smooth as possible we have provided some scripts for your convenience. If you want to run the Istio configuration yourself step by step, please [take a look at the Keptn documentation](https://keptn.sh/docs/0.10.x/operate/install/#option-3-expose-keptn-via-an-ingress). 
+We are using Istio for traffic routing and as an ingress to our cluster. To make the setup experience as smooth as possible we have provided some scripts for your convenience. If you want to run the Istio configuration yourself step by step, please [take a look at the Keptn documentation](https://keptn.sh/docs/0.11.x/operate/install/#option-3-expose-keptn-via-an-ingress). 
 
 The first step for our configuration automation for Istio is downloading the configuration bash script from Github:
 
 <!-- command -->
 ```
-curl -o configure-istio.sh https://raw.githubusercontent.com/keptn/examples/0.10.0/istio-configuration/configure-istio.sh
+curl -o configure-istio.sh https://raw.githubusercontent.com/keptn/examples/0.11.0/istio-configuration/configure-istio.sh
 ```
 
 After that you need to make the file executable using the `chmod` command.

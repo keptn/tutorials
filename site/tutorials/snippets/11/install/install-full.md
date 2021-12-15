@@ -20,7 +20,7 @@ Positive
 : The installation process will take about 3-5 minutes.
 
 Positive
-: Please note that Keptn comes with different installation options, all of the described in detail in the [Keptn docs](https://keptn.sh/docs/0.10.x/operate/install/).
+: Please note that Keptn comes with different installation options, all of the described in detail in the [Keptn docs](https://keptn.sh/docs/0.11.x/operate/install/).
 
 ### Installation details 
 
