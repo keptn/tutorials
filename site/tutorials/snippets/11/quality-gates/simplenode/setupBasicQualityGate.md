@@ -10,7 +10,7 @@ In Keptn we therefore need to provide an `sli.yaml` that defines how to query ce
 To learn more about the *sli.yaml* and *slo.yaml* files, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.3/sre.md).
 
 Our example comes with a basic and an extended set of SLIs and SLOs. In this step we focus on the basic version.
-We have to upload two files using the [add-resource](https://keptn.sh/docs/0.10.x/reference/cli/#keptn-add-resource) command.
+We have to upload two files using the [add-resource](https://keptn.sh/docs/0.11.x/reference/cli/#keptn-add-resource) command.
 Ensure you navigate to the `examples/simplenode/keptn` folder.
 
 1. First, lets upload our `dynatrace/sli_basic.yaml` as `dynatrace/sli.yaml`!
