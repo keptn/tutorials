@@ -9,37 +9,19 @@ Keptn doesn't install or manage Prometheus and its components. Users need to ins
 * To install the Prometheus and Alert Manager, execute:
 <!-- command -->
 ```
-kubectl create ns monitoring
+kubectl create namespace monitoring
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm install prometheus prometheus-community/prometheus --namespace monitoring
+helm install prometheus prometheus-community/prometheus --namespace monitoring --wait
 ```
 
 ### Execute the following steps to install prometheus-service
 
-* Download the Keptn's Prometheus service manifest
-<!-- command -->
-```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.7.1/deploy/service.yaml
-```
+* The *prometheus-service* integrates Prometheus Alerts and Metrics into Keptn. The latest version may be installed using the helm chart available in the Releases section of the GitHub project. Please use the same namespace for the prometheus-service as you are using for Keptn, e.g. `keptn`:
 
-* Replace the environment variable value according to the use case and apply the manifest
-<!-- command -->
-```
-# Prometheus installed namespace
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_NS="monitoring"
-
-# Setup Prometheus Endpoint
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" PROMETHEUS_ENDPOINT="http://prometheus-server.monitoring.svc.cluster.local:80"
-
-# Alert Manager installed namespace
-kubectl set env deployment/prometheus-service -n keptn --containers="prometheus-service" ALERT_MANAGER_NS="monitoring"
-```
-
-* Install Role and Rolebinding to permit Keptn's prometheus-service for performing operations in the Prometheus installed namespace.
-<!-- command -->
-```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/release-0.7.1/deploy/role.yaml -n monitoring
-```
+    <!-- command bash -->
+    ```
+    helm install -n keptn prometheus-service https://github.com/keptn-contrib/prometheus-service/releases/download/0.7.2/prometheus-service-0.7.2.tgz --wait
+    ```
 
 <!-- 
 bash wait_for_deployment_in_namespace "prometheus-service" "keptn" 
@@ -47,8 +29,14 @@ bash wait_for_deployment_in_namespace "prometheus-service-monitoring-configure-d
 sleep 10
 -->
     
+* For prometheus-service to be allowed to communicate with prometheus directly, the following role binding needs to be installed in the same namespace as prometheus, e.g., `monitoring`
 
-* Execute the following command to install Prometheus and set up the rules for the *Prometheus Alerting Manager*:
+    <!-- command bash -->
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/0.7.2/deploy/role.yaml -n monitoring
+    ```
+
+* Execute the following command to configure Prometheus and set up the rules for the *Prometheus Alerting Manager*:
 <!-- command -->
 ```
 keptn configure monitoring prometheus --project=sockshop --service=carts
