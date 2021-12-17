@@ -15,7 +15,7 @@ Check the version of Istio that has been downloaded and execute the installer fr
 <!-- command -->
 
 ```
-./istio-1.11.2/bin/istioctl install
+./istio-1.12.1/bin/istioctl install
 ```
 
 The installation of Istio should be finished within a couple of minutes.
