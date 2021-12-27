@@ -6,6 +6,7 @@
   "toolbarBgColor": "#006bb8",
   "exclude": [
     ".*-about$",
-    "^lang-.*"
+    "^lang-.*",
+    "keptn-public-demo-011"
   ]
 }
