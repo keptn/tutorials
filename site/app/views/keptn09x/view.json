@@ -7,6 +7,6 @@
   "exclude": [
     ".*-about$",
     "^lang-.*",
-    "keptn-public-demo-011"
+    ".*keptn-public-demo-09.*"
   ]
 }
