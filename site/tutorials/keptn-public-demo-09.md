@@ -1,7 +1,7 @@
 summary: Explore Keptn on our hosted demo cluster - no installation needed.
 id: keptn-public-demo-09
 categories: prometheus,quality-gates,k3s
-tags: keptn09x,introduction,quickstart
+tags: introduction,quickstart
 status: Published 
 authors: Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
@@ -9,6 +9,9 @@ Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
 # Explore Keptn without installation
+
+| WARNING: Keptn Live Demo is currently unavailable. See [this GitHub Issue](https://github.com/keptn/community/issues/89) for more information about the reasons and the next steps. The video recording is still available as a quick Keptn overview. |
+| --- |
 
 ## Explore Keptn
 Duration: 5:00
