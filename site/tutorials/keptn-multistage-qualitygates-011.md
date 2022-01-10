@@ -133,14 +133,16 @@ For this purpose we need the helm charts as a tar.gz archive. To archive it use 
 
 <!-- command -->
 ```
-tar cfvz ./helm-charts/helloserver.tgz ./helm-charts/helloserver
+cd ./helm-charts
+tar cfvz helloservice.tgz ./helloservice
+cd ..
 ```
 
 Then the service can be created:
 <!-- command -->
 ```
-keptn create service helloserver --project="pod-tato-head"
-keptn add-resource --project="pod-tato-head" --service=helloserver --all-stages --resource=./helm-charts/helloserver.tgz --resourceUri=helm/helloserver.tgz
+keptn create service helloservice --project="pod-tato-head"
+keptn add-resource --project="pod-tato-head" --service=helloservice --all-stages --resource=./helm-charts/helloservice.tgz --resourceUri=helm/helloservice.tgz
 ```
 
 After onboarding the service, tests (i.e., functional- and performance tests) need to be added as basis for quality gates. We are using JMeter tests, as the JMeter service comes "batteries included" with our Keptn installation.
@@ -162,7 +164,7 @@ We are now ready to kick off a new deployment of our test application with Keptn
 
     <!-- command -->
     ```
-    keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="gabrieltanner/hello-server" --tag=v0.1.1
+    keptn trigger delivery --project="pod-tato-head" --service=helloservice --image="ghcr.io/podtato-head/podtatoserver" --tag=v0.1.1
     ```
 
     <!-- bash
