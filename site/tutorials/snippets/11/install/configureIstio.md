@@ -32,7 +32,7 @@ With this script, you have created an Ingress based on the following manifest.
 
 ```
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -44,9 +44,14 @@ spec:
   - host: <IP-ADDRESS>.nip.io
     http:
       paths:
-      - backend:
-          serviceName: api-gateway-nginx
-          servicePort: 80
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: api-gateway-nginx
+            port:
+              number: 80
+
 ```
 
 In addition, the script has created a gateway resource for you so that the onboarded services are also available publicly.
