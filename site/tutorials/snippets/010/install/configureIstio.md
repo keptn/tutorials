@@ -32,6 +32,31 @@ With this script, you have created an Ingress based on the following manifest.
 
 ```
 ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: istio
+  name: api-keptn-ingress
+  namespace: keptn
+spec:
+  rules:
+  - host: <IP-ADDRESS>.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: api-gateway-nginx
+            port:
+              number: 80
+```
+
+Please be aware, when using OpenShift 3.11, instead of using the above manifest, use the following one, as it uses an already deprecated apiVersion.
+
+```
+---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
