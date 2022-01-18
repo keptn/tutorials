@@ -53,7 +53,7 @@ spec:
               number: 80
 ```
 
-Please be aware, when using OpenShift 3.11, instead using the above manifest, use the following one, as it uses an already deprecated apiVersion.
+Please be aware, when using OpenShift 3.11, instead of using the above manifest, use the following one, as it uses an already deprecated apiVersion.
 
 ```
 ---
