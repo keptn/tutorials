@@ -1,4 +1,4 @@
-## Setup SLI provider
+## Set up SLI provider
 Duration: 2:00
 
 During the evaluation of a quality gate, the dynatrace-service can be used to fetch the values for the SLIs that are referenced in an SLO configuration. In our example, we are going to customize the SLIs made available to Keptn by adding an SLI configuration file.

@@ -1,5 +1,5 @@
 
-## Setup Dynatrace
+## Set up Dynatrace
 Duration: 7:00
 
 For enabling the Keptn Quality Gates and for production monitoring, we are going to use Dynatrace as the data provider. Therefore, we are going to setup Dynatrace in our Kubernetes cluster to have our sample application monitored and we can use the monitoring data for both the basis for evaluating quality gates as well as a trigger to start self-healing.
