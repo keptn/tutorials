@@ -53,6 +53,8 @@ The full setup that we are going to deploy is sketched in the following image.
 
 {{ snippets/12/manage/createProject.md }}
 
+{{ snippets/12/monitoring/setupDynatraceMonitoring.md }}
+
 {{ snippets/12/manage/onboardService.md }}
 
 {{ snippets/12/monitoring/configureDynatraceSlis.md }}
