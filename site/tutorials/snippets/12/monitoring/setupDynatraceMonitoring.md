@@ -1,8 +1,9 @@
-1. Once installed, use the following command to configure Keptn to use Dynatrace for monitoring. This will also set up monitoring in your Dynatrace environment.
+## Set up Dynatrace monitoring
+Once the *sockshop* project has been created, use the following command to configure the project to use Dynatrace for monitoring. This will also set up monitoring in your Dynatrace environment.
 
     <!-- command -->
     ```
-    keptn configure monitoring dynatrace
+    keptn configure monitoring dynatrace --project=sockshop
     ```
 
     The output of the command will tell you what has been set up in your Dynatrace environment:
