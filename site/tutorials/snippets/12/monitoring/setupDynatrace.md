@@ -76,12 +76,13 @@ Duration: 6:00
     ![Dynatrace API token scopes](./assets/dt_api_token_scopes.png)
 
     Name the token and then click **Generate token**. Copy and store the generated token securely.
-    
-1. Store your credentials in a Keptn-managed secret by executing the following command. The `DT_TENANT` has to be set according to the appropriate pattern:
-  - Dynatrace SaaS tenant (this format is most likely for you): `{your-environment-id}.live.dynatrace.com`
-  - Dynatrace-managed tenant: `{your-domain}/e/{your-environment-id}`
 
-    If running on a Unix/Linux based system, you can use variables for ease of use. Naturally, it is also fine to just replace the values in the `keptn` command itself.
+1. Determine the Dynatrace tenant URL. The value of `DT_TENANT` has to be set according to the appropriate pattern:
+    - Dynatrace SaaS tenant (this format is most likely for you): `{your-environment-id}.live.dynatrace.com`
+    - Dynatrace-managed tenant: `{your-domain}/e/{your-environment-id}`
+
+
+1. Store your credentials in a Keptn-managed secret by executing the following command. If running on a Unix/Linux based system, you can use variables for ease of use. Naturally, it is also fine to just replace the values in the `keptn` command itself.
 
     <!-- var DT_TENANT -->
     <!-- var DT_API_TOKEN -->
