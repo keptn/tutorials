@@ -56,10 +56,12 @@ For setting up dynatrace-operator, perform the following steps:
    
 1. Optional: Verify in your Dynatrace Environment under the section *Kubernetes* that your cluster is monitored.
 
-## Create Dynatrace API token
+## Create Dynatrace credentials secret
 Duration: 6:00
 
-1. Log in to your Dynatrace tenant and go to **Manage > Access tokens** and click **Generate token**. Then, select the following scopes:
+Next, create a Kubernetes secret containing the credentials for accessing the API of the Dynatrace tenant. The secret must have two components: a Dynatrace API token (`DT_API_TOKEN`) and a Dynatrace tenant URL (`DT_TENANT`).
+
+1. To create a Dynatrace API token, log in to your Dynatrace tenant and go to **Manage > Access tokens** and click **Generate token**. Then, select the following scopes:
 
     - Read entities (`entities.read`)
     - Read metrics (`metrics.read`)
