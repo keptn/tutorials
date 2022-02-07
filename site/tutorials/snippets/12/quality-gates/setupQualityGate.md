@@ -4,7 +4,7 @@ Duration: 4:00
 
 Keptn requires a performance specification for the quality gate. This specification is described in a file called `slo.yaml`, which specifies a Service Level Objective (SLO) that should be met by a service. To learn more about the *slo.yaml* file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/master/service_level_objective.md).
 
-To activate the quality gates for the carts service, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_add-resource/) command:
+To activate the quality gates for the carts service, navigate to the `examples/onboarding-carts` folder and upload the `slo-quality-gates.yaml` file using the [add-resource](https://keptn.sh/docs/0.12.x/reference/cli/commands/keptn_add-resource/) command:
 
 <!-- command -->
 
@@ -131,7 +131,7 @@ Duration: 3:00
 
 Take a look in the Keptn's bridge and navigate to the last deployment. You will find a quality gate evaluation that got a `fail` result when evaluation the SLOs of our carts microservice. Thanks to this quality gate the slow build won't be promoted to production but instead automatically rolled back.
 
-To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.11.x/reference/bridge/) shows the deployment of v0.13.2 and then the failed test in staging including the roll-back.
+To verify, the [Keptn's Bridge](https://keptn.sh/docs/0.12.x/reference/bridge/) shows the deployment of v0.13.2 and then the failed test in staging including the roll-back.
 
 ![Keptn's bridge](./assets/bridge-quality-gate.png)
 
