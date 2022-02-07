@@ -59,24 +59,24 @@ For setting up dynatrace-operator, perform the following steps:
 ## Create Dynatrace API token
 Duration: 6:00
 
-1. Create a Dynatrace API Token
+1. Log in to your Dynatrace tenant and go to **Manage > Access tokens** and click **Generate token**. Then, select the following scopes:
 
-    Log in to your Dynatrace tenant and go to **Settings > Integration > Dynatrace API**. Then, generate a new API token with the following permissions:
+    - Read entities (`entities.read`)
+    - Read metrics (`metrics.read`)
+    - Read problems (`problems.read`)
+    - Read security problems (`securityProblems.read`)
+    - Read SLO (`slo.read`)
+    - Access problem and event feed, metrics, and topology (`DataExport`)
+    - User sessions (`DTAQLAccess`)
+    - Read configuration (`ReadConfig`)
+    - Write configuration (`WriteConfig`)
 
-    - Access problem and event feed, metrics, and topology
-    - Read log content
-    - Read configuration
-    - Write configuration
-    - Capture request data
-    - Read metrics
-    - Ingest metrics
-    - Read entities
+    Take a look at following screenshot to double check the selected scopes.
 
-    Take a look at this screenshot to double check the right token permissions for you.
+    ![Dynatrace API token scopes](./assets/dt_api_token_scopes.png)
 
-    ![Dynatrace API V2 Token](./assets/dt_apiv2_token.png)
-    ![Dynatrace API V1 Token](./assets/dt_apiv1_token.png)
-
+    Name the token and then click **Generate token**. Copy and store the generated token securely.
+    
 1. Store your credentials in a Keptn-managed secret by executing the following command. The `DT_TENANT` has to be set according to the appropriate pattern:
   - Dynatrace SaaS tenant (this format is most likely for you): `{your-environment-id}.live.dynatrace.com`
   - Dynatrace-managed tenant: `{your-domain}/e/{your-environment-id}`
