@@ -1,23 +1,42 @@
 ## Set up Dynatrace monitoring
-Once the *sockshop* project has been created, use the following command to configure the project to use Dynatrace for monitoring. This will also set up monitoring in your Dynatrace environment.
 
-    <!-- command -->
-    ```
-    keptn configure monitoring dynatrace --project=sockshop
-    ```
+**Configure the Dynatrace integration**
 
-    The output of the command will tell you what has been set up in your Dynatrace environment:
-    ```
-    ID of Keptn context: 79f19c36-b718-4bb6-88d5-cb79f163289b
-    Dynatrace monitoring setup done.
-    The following entities have been configured:
-    
-    ...
-    ---Problem Notification:--- 
-      - Successfully set up Keptn Alerting Profile and Problem Notifications
-    ...
+Once the *sockshop* project has been created, we need to specify which credentials secret the Dynatrace integration should use when processing events. This is done by including a `dtCreds` entry in the project's `dynatrace/dynatrace.conf.yaml` configuration file, e.g.:
 
-    ```
+```
+spec_version: '0.1.0'
+dtCreds: dynatrace
+```
+
+To get started for this project, upload the `dynatrace/dynatrace.conf.yaml` provided in the `examples/onboarding-carts` folder:
+
+<!-- command -->
+```
+keptn add-resource --project=sockshop --resource=dynatrace/dynatrace.conf.yaml --resourceUri=dynatrace/dynatrace.conf.yaml 
+```
+
+**Configure Keptn to use Dynatrace as the SLI provider**
+
+To configure Keptn to use Dynatrace for monitoring in the project, execute the following command. This will also set up monitoring in your Dynatrace environment.
+
+<!-- command -->
+```
+keptn configure monitoring dynatrace --project=sockshop
+```
+
+The output of the command will tell you what has been set up in your Dynatrace environment:
+```
+ID of Keptn context: 79f19c36-b718-4bb6-88d5-cb79f163289b
+Dynatrace monitoring setup done.
+The following entities have been configured:
+
+...
+---Problem Notification:--- 
+    - Successfully set up Keptn Alerting Profile and Problem Notifications
+...
+
+```
 
 **Verify Dynatrace configuration**
 
