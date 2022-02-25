@@ -25,4 +25,4 @@ We are going to setup a Kubernetes cluster in EKS.
     eksctl create cluster --version=1.17 --name=keptn-cluster --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
     ```
 
-Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.11.x/operate/k8s_support/).
+Find a full compatibility matrix for supported Kubernetes versions [here](https://keptn.sh/docs/0.12.x/operate/k8s_support/).

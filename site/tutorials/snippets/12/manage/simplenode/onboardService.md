@@ -4,7 +4,7 @@ Duration: 2:00
 
 After creating the project, services can be created for our project.
 
-1. Create the **simplenode** service using the [keptn create service](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.11.x/reference/cli/commands/keptn_add-resource/)commands:
+1. Create the **simplenode** service using the [keptn create service](https://keptn.sh/docs/0.12.x/reference/cli/commands/keptn_create_service/) and [keptn add-resource](https://keptn.sh/docs/0.12.x/reference/cli/commands/keptn_add-resource/)commands:
 
 ```
 keptn create service simplenode --project=simplenodeproject
@@ -19,7 +19,7 @@ Duration: 2:00
 
 After creating our service we can immediately start using Keptn to deploy an artifact.
 
-1. Lets deploy version 1 of our simplenode service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.11.x/reference/cli/#keptn-send-event-new-artifact) command:
+1. Lets deploy version 1 of our simplenode service by executing the [keptn send event new-artifact](https://keptn.sh/docs/0.12.x/reference/cli/#keptn-send-event-new-artifact) command:
 
 ```
 keptn send event new-artifact --project=simplenodeproject --service=simplenode --image=grabnerandi/simplenodeservice --tag=1.0.0
