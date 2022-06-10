@@ -21,13 +21,13 @@ Keptn doesn't install or manage Prometheus and its components. Users need to ins
 * Install prometheus-service using `helm`:
 <!-- command -->
 ```
-helm upgrade --install -n keptn prometheus-service https://github.com/keptn-contrib/prometheus-service/releases/download/0.7.3/prometheus-service-0.7.3.tgz --reuse-values
+helm upgrade --install -n keptn prometheus-service https://github.com/keptn-contrib/prometheus-service/releases/download/0.7.5/prometheus-service-0.7.5.tgz --reuse-values
 ```
 
 * Install Role and RoleBinding to permit Keptn's prometheus-service for performing operations in the Prometheus installed namespace.
 <!-- command -->
 ```
-kubectl -n monitoring apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/0.7.3/deploy/role.yaml
+kubectl -n monitoring apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/0.7.5/deploy/role.yaml
 ```
 
 <!-- 
