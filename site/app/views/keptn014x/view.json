@@ -1,0 +1,12 @@
+{
+  "title": "Keptn 0.14.x",
+  "description": "A collection of tutorials for Keptn version 0.14.x",
+  "logoUrl": "/keptn014x/keptn-large.png",
+  "tags": ["keptn014x"],
+  "toolbarBgColor": "#006bb8",
+  "exclude": [
+    ".*-about$",
+    "^lang-.*",
+    ".*keptn-public-demo-011.*"
+  ]
+}

@@ -21,13 +21,13 @@ Keptn doesn't install or manage Prometheus and its components. Users need to ins
 * Install prometheus-service using `helm`:
 <!-- command -->
 ```
-helm upgrade --install -n keptn prometheus-service https://github.com/keptn-contrib/prometheus-service/releases/download/0.7.5/prometheus-service-0.7.5.tgz --reuse-values
+helm upgrade --install -n keptn prometheus-service https://github.com/keptn-contrib/prometheus-service/releases/download/0.8.0/prometheus-service-0.8.0.tgz --reuse-values
 ```
 
 * Install Role and RoleBinding to permit Keptn's prometheus-service for performing operations in the Prometheus installed namespace.
 <!-- command -->
 ```
-kubectl -n monitoring apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/0.7.5/deploy/role.yaml
+kubectl -n monitoring apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/0.8.0/deploy/role.yaml
 ```
 
 <!-- 
@@ -65,7 +65,7 @@ We are going to add the configuration for our SLIs in terms of an SLI file that 
 
 <!-- command -->
 ```
-keptn add-resource --project=sockshop --stage=staging --service=carts --resource=sli-config-prometheus-bg.yaml --resourceUri=prometheus/sli.yaml 
+keptn add-resource --project=sockshop --stage=staging --service=carts --resource=sli-config-prometheus.yaml --resourceUri=prometheus/sli.yaml 
 ```
 
 For your information, the contents of the file are as follows:
