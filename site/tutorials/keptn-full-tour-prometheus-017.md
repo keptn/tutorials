@@ -1,5 +1,5 @@
 summary: Full Keptn installation on a Kubernetes cluster (GKE recommended)
-id: keptn-full-tour-prometheus-014
+id: keptn-full-tour-prometheus-017
 categories: Prometheus,aks,eks,gke,openshift,pks,minikube,full-tour,quality-gates,automated-operations
 tags: keptn017x,advanced
 status: Published 
@@ -34,9 +34,9 @@ In this tutorial, we are going to install Keptn on a Kubernetes cluster, along w
 The full setup that we are going to deploy is sketched in the following image.
 ![demo setup](./assets/full-tour-prometheus.png)
 
-{{ snippets/14/install/cluster.md }}
+{{ snippets/17/install/cluster.md }}
 
-{{ snippets/14/install/istio.md }}
+{{ snippets/17/install/istio.md }}
 
 {{ snippets/17/install/download-keptnCLI.md }}
 
@@ -54,7 +54,7 @@ The full setup that we are going to deploy is sketched in the following image.
 
 {{ snippets/17/quality-gates/setupQualityGate.md }}
 
-{{ snippets/14/self-healing/upscalePrometheus.md }}
+{{ snippets/17/self-healing/upscalePrometheus.md }}
 
 
 ## Finish
