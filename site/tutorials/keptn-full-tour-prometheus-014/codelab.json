@@ -1,0 +1,35 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-133584243-1",
+  "updated": "2022-07-18T15:00:02+02:00",
+  "id": "keptn-full-tour-prometheus-014",
+  "duration": 86,
+  "title": "Keptn Full Tour on Prometheus",
+  "authors": "Florian Bacher",
+  "summary": "Full Keptn installation on a Kubernetes cluster (GKE recommended)",
+  "source": "keptn-full-tour-prometheus-017_gen.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "prometheus",
+    "aks",
+    "eks",
+    "gke",
+    "openshift",
+    "pks",
+    "minikube",
+    "full-tour",
+    "quality-gates",
+    "automated-operations"
+  ],
+  "tags": [
+    "advanced",
+    "keptn017x"
+  ],
+  "feedback": "https://github.com/keptn/tutorials/tree/master/site/tutorials",
+  "url": "keptn-full-tour-prometheus-014"
+}
