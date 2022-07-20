@@ -42,9 +42,9 @@ The full setup that we are going to deploy is sketched in the following image.
 
 {{ snippets/17/install/install-full.md }}
 
-{{ snippets/14/install/configureIstio.md }}
+{{ snippets/17/install/configureIstio.md }}
 
-{{ snippets/14/install/authCLI-istio.md }}
+{{ snippets/17/install/authCLI-istio.md }}
 
 {{ snippets/17/manage/createProject.md }}
 

@@ -11,7 +11,7 @@ There are multiple options how to get the Keptn CLI on your machine.
 
     <!-- command -->
     ```
-    curl -sL https://get.keptn.sh | KEPTN_VERSION=0.17.2 bash
+    curl -sL https://get.keptn.sh | KEPTN_VERSION=0.17.0 bash
     ```
     This will download and install the Keptn CLI in the specified version automatically.
 

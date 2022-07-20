@@ -36,7 +36,7 @@ keptn create project sockshop --shipyard=./shipyard.yaml --git-user=$GIT_USER --
 ```
 
 Negative
-: Please note that the Git repo **must not** be initialized - it has to be an empty repository without any branch or commit. [See the docs for more details](https://keptn.sh/docs/0.14.x/manage/git_upstream/).
+: Please note that the Git repo **must not** be initialized - it has to be an empty repository without any branch or commit. [See the docs for more details](https://keptn.sh/docs/0.17.x/manage/git_upstream/).
 
 **Alternatively:** If you don't want to manually create a Git repository and upstream, you can use the automatic provisioning feature. For that follow the [keptn-gitea-provisioner-service](https://github.com/keptn-sandbox/keptn-gitea-provisioner-service) install instructions.
 

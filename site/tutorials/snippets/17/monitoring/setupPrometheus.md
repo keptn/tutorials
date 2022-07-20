@@ -24,12 +24,6 @@ Keptn doesn't install or manage Prometheus and its components. Users need to ins
 helm upgrade --install -n keptn prometheus-service https://github.com/keptn-contrib/prometheus-service/releases/download/0.8.4/prometheus-service-0.8.4.tgz --reuse-values
 ```
 
-* Install Role and RoleBinding to permit Keptn's prometheus-service for performing operations in the Prometheus installed namespace.
-<!-- command -->
-```
-kubectl -n monitoring apply -f https://raw.githubusercontent.com/keptn-contrib/prometheus-service/0.8.4/deploy/role.yaml
-```
-
 <!-- 
 bash wait_for_deployment_in_namespace "prometheus-service" "keptn" 
 sleep 10
