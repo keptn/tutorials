@@ -202,6 +202,6 @@ spec:
   ![Bridge - Remediation](./assets/bridge-remediation-flow.png)
 -->
 
-{{ snippets/14/integrations/gettingStarted.md }}
+{{ snippets/17/integrations/gettingStarted.md }}
 
-{{ snippets/14/community/feedback.md }}
+{{ snippets/17/community/feedback.md }}
