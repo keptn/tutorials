@@ -19,7 +19,7 @@ Create a new project for your services using the `keptn create project` command.
 
 **Recommended:** Create a new project with Git upstream:
 
-To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.14.x/manage/git_upstream/) where instructions for GitHub, GitLab, and Bitbucket are provided.
+To configure a Git upstream for this tutorial, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [the Keptn documentation](https://keptn.sh/docs/0.17.x/manage/git_upstream/) where instructions for GitHub, GitLab, and Bitbucket are provided.
 
 Let's define the variables before running the command:
 

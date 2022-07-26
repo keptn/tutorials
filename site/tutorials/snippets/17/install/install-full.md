@@ -5,7 +5,7 @@ Duration: 5:00
 To install the latest release of Keptn with full _quality gate + continuous delivery capabilities_ in your Kubernetes cluster, execute the `helm install` command.
 
 ```
-helm install keptn keptn/keptn -n keptn --version=0.17.0 --create-namespace --set=continuous-delivery.enabled=true
+helm install keptn --version 0.17.0 -n keptn --repo=https://charts.keptn.sh --create-namespace --wait --set=continuousDelivery.enabled=true
 ```
 
 <!-- bash verify_test_step $? "keptn install failed" -->
