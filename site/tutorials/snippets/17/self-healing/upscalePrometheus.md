@@ -24,13 +24,6 @@ keptn add-resource --project=sockshop --stage=production --service=carts --resou
 Note: The SLO file contains an objective for response_time_p90.
 
 
-Configure Prometheus with the Keptn CLI (this configures the [Alert Manager](https://prometheus.io/docs/alerting/configuration/) based on the slo.yaml file):
-
-<!-- command -->
-```
-keptn configure monitoring prometheus --project=sockshop --service=carts
-```
-
 Configure remediation actions for up-scaling based on Prometheus alerts:
 
 <!-- command -->
@@ -59,6 +52,13 @@ spec:
           name: scaling
           description: Scale up
           value: 1
+```
+
+Configure Prometheus with the Keptn CLI (this configures the [Alert Manager](https://prometheus.io/docs/alerting/configuration/) based on the slo.yaml and remediation.yaml file):
+
+<!-- command -->
+```
+keptn configure monitoring prometheus --project=sockshop --service=carts
 ```
 
 ## Generate load for the service
