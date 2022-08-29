@@ -11,7 +11,7 @@ Negative
 For this usecase, we have prepared another version of the SLI file. Add it with the following command:
 <!-- command -->
 ```
-keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-prometheus-selfhealing.yaml --resourceUri=prometheus/sli.yaml 
+keptn add-resource --project=sockshop --stage=production --service=carts --resource=sli-config-prometheus.yaml --resourceUri=prometheus/sli.yaml 
 ```
 
 Add the prepared SLO file for self-healing to the production stage using the Keptn CLIs add-resource command:
