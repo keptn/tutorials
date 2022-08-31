@@ -22,7 +22,7 @@ Keptn doesn't install or manage Prometheus and its components. Users need to ins
 * Install prometheus-service using `helm`:
 <!-- command -->
 ```
-helm upgrade --install -n keptn prometheus-service https://github.com/keptn-contrib/prometheus-service/releases/download/0.8.5/prometheus-service-0.8.5.tgz --reuse-values --wait
+helm upgrade --install -n keptn prometheus-service https://github.com/keptn-contrib/prometheus-service/releases/download/0.8.6/prometheus-service-0.8.6.tgz --reuse-values --wait
 ```
 
 <!-- 
