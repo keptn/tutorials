@@ -1,6 +1,6 @@
 ## Configure Istio
 
-We are using Istio for traffic routing and as an ingress to our cluster. To make the setup experience as smooth as possible we have provided some scripts for your convenience. If you want to run the Istio configuration yourself step by step, please [take a look at the Keptn documentation](https://keptn.sh/docs/install/access/#option-3-expose-keptn-via-an-ingress). 
+We are using Istio for traffic routing and as an ingress to our cluster. To make the setup experience as smooth as possible we have provided some scripts for your convenience. If you want to run the Istio configuration yourself step by step, please [take a look at the Keptn documentation](https://keptn.sh/docs/install/istio/). 
 
 The first step for our configuration automation for Istio is downloading the configuration bash script from Github:
 
@@ -26,7 +26,7 @@ Finally, let's run the configuration script to automatically create your Ingress
 ### What is actually created
 
 Positive
-: There is no need to copy the following resources, they are for information purposes only.
+: There is no need to copy the following resources; they are for information purposes only.
 
 With this script, you have created an Ingress based on the following manifest.
 
@@ -53,7 +53,7 @@ spec:
               number: 80
 ```
 
-Please be aware, when using OpenShift 3.11, instead of using the above manifest, use the following one, as it uses an already deprecated apiVersion.
+Please be aware that, when using OpenShift 3.11, instead of using the above manifest, you should use the following one, as it uses an already deprecated apiVersion.
 
 ```
 ---
