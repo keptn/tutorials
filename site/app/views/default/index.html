@@ -153,109 +153,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <main>
       <div id="filters" class="site-width layout horizontal center justified">
-        <div id="sortby">
-          <paper-tabs selected="0" noink on-iron-activate="sortBy">
-            <paper-tab>A-Z</paper-tab>
-            <paper-tab>Recent</paper-tab>
-            <paper-tab>Duration</paper-tab>
-          </paper-tabs>
-        </div>
-
-        <paper-dropdown-menu
-          label="Choose a version"
-          class="dropdown-filter"
-          no-label-float
-          noink no-animations
-        >
-          <paper-listbox
-            id="eventList"
-            slot="dropdown-content"
-            class="dropdown-content"
-          >
-            {%- for view in views -%}
-              {%- if view.id != 'default' && !view.hidden -%}
-                <a href="/{{view.url}}/" tabindex="-1">
-                  <paper-item>{{view.title}}</paper-item>
-                </a>
-              {%- endif -%}
-            {%- endfor %}
-          </paper-listbox>
-        </paper-dropdown-menu>
-      
-
-        {%- if showcats -%}
-        <paper-dropdown-menu
-          label="Filter by category"
-          class="dropdown-filter"
-          no-label-float
-          noink no-animations
-        >
-          <paper-listbox
-            id="categorylist"
-            slot="dropdown-content"
-            class="dropdown-content"
-            on-iron-activate="onCategoryActivate"
-            attr-for-selected="filter"
-          >
-                  <paper-item filter="">all</paper-item>
-                  <paper-item filter="installation">installation</paper-item>
-                  <paper-item filter="quality-gates">quality-gates</paper-item>
-                  <paper-item filter="automated-operations">automated-operations</paper-item>
-              {% for category in categories -%}
-                {%- if categoryHasShowableCodelabs(category, codelabs) -%}
-                  <paper-item filter="{{category}}">{{category}}</paper-item>
-                {%- endif -%}
-              {%- endfor %}
-          </paper-listbox>
-        </paper-dropdown-menu>
-        {%- endif -%}
+        &nbsp;
       </div>
-
       <card-sorter id="cards" class="site-width">
-        {% for codelab in codelabs -%}
-
-          {# Only filter hidden codelabs from the default view.
-             All other views are explicitly opt-in via metadata. #}
-          {% if codelab.status.indexOf('hidden') === -1 || view.id !== 'default' %}
-            {% set cat = levelledCategory(codelab, view.catLevel) %}
-            <a href="{{codelabUrl(view, codelab)}}" on-tap="navigate"
-               class="codelab-card category-{{categoryClass(codelab, cat.level)}}"
-               data-category="{{codelab.category}}"
-               data-title="{{codelab.title}}"
-               data-duration="{{codelab.duration}}"
-               data-updated="{{codelab.updated}}"
-               data-tags="{{codelab.tags}}"
-               data-pin="{{codelabPin(view, codelab)}}">
-              {%- if codelabPin(view, codelab) -%}
-                <div class="card-pin"></div>
-              {%- endif -%}
-              <div class="description">{{codelab.title}}</div>
-              <div class="summary">{{codelab.summary}}</div>
-              <div class="card-duration">
-                <span>{%- if codelab.duration -%}{{codelab.duration}} min {%- endif -%}</span>
-                {% for tag in codelab.tags -%}
-                {%- if tag == "introduction" -%}
-                <span class="introduction">Level: {{tag}}</span>
-                {%- endif-%}
-                {%- if tag == "advanced" -%}
-                <span class="advanced">Level: {{tag}}</span>
-                {%- endif-%}
-              {%- endfor -%}
-                <span>{%- if codelab.updated -%}Updated {{codePrettyDate(codelab.updated)}}{%- endif -%}</span>
-              </div>
-              <div class="card-footer">
-                <div class="category-icon {{categoryClass(codelab, cat.level)}}-icon"></div>
-                <!--<paper-button class="{{categoryClass(codelab, cat.level)}}-bg">Start</paper-button>-->
-                <paper-button class="web-bg">Start</paper-button>
-              </div>
-            </a>
-          {%- endif %}
-        {%- endfor %}
+        <a href="https://killercoda.com/keptn/scenario/keptn-end-to-end-delivery" on-tap="navigate"
+            class="codelab-card category-keptn"
+            data-category="keptn"
+            data-title="Keptn End-to-End Delivery"
+            data-duration="45"
+            data-updated="2022-10-19T10:46:53+01:00"
+            data-tags=""
+            data-pin="16">
+          <div class="description">Keptn End-to-End Delivery</div>
+          <div class="summary">Exercise using Killercoda to quickly introduce you to Keptn without requiring you to install anything</div>
+          <div class="card-duration">
+            <span>&lt; 60 min</span>
+            <span class="introduction">Level: introduction</span>
+    
+          </div>
+          <div class="card-footer">
+            <div class="category-icon"></div>
+            <paper-button class="web-bg">Start</paper-button>
+          </div>
+        </a>
       </card-sorter>
-
-      <div id="loading-placeholder" class="site-width">
-        Loading Keptn Tutorials, please wait...
-      </div>
     </main>
 
     <footer id="footer">
