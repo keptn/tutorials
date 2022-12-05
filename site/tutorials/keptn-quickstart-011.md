@@ -60,4 +60,4 @@ Or delete it if you don’t need it anymore
 k3d cluster delete mykeptn
 ```
 
-{{ snippets/11/community/feedback.md }}
+{{ snippets/011/community/feedback.md }}

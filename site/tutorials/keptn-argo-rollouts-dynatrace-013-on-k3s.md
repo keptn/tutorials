@@ -419,4 +419,4 @@ While this tutorial has used tools such as JMeter and Dynatrace you can easily r
 - See SLO-based Evaluation in action
 - How Argo Rollouts can be integrated with Keptn in terms of delivery, promotion and abort
 
-{{ snippets/13/community/feedback.md }}
+{{ snippets/013/community/feedback.md }}

@@ -35,17 +35,17 @@ If you are interested, please have a look at this presentation from Litmus and K
 ![https://www.youtube.com/watch?v=aa5SzQmv4EQ](.)
 
 
-{{ snippets/12/install/cluster.md }}
+{{ snippets/012/install/cluster.md }}
 
-{{ snippets/12/install/istio.md }}
+{{ snippets/012/install/istio.md }}
 
-{{ snippets/12/install/download-keptnCLI.md }}
+{{ snippets/012/install/download-keptnCLI.md }}
 
-{{ snippets/12/install/install-full.md }}
+{{ snippets/012/install/install-full.md }}
 
-{{ snippets/12/install/configureIstio.md }}
+{{ snippets/012/install/configureIstio.md }}
 
-{{ snippets/12/install/authCLI-istio.md }}
+{{ snippets/012/install/authCLI-istio.md }}
 
 ## Download demo resources
 Duration: 1:00
@@ -404,4 +404,4 @@ Congratulations! You have successfully completed this tutorial and evaluated the
 
 
 
-{{ snippets/12/community/feedback.md }}
+{{ snippets/012/community/feedback.md }}
