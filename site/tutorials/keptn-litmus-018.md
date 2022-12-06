@@ -3,7 +3,7 @@ id: keptn-litmus-018
 categories: Prometheus,aks,eks,gke,openshift,pks,minikube,quality-gates,litmus
 tags: keptn018x,advanced
 status: Published 
-authors: Jürgen Etzlstorfer
+authors: Shubham Chaudhary, Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
