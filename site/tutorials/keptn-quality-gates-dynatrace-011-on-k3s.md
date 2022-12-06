@@ -433,4 +433,4 @@ As you have now learned how to setup Keptn for pulling metrics out of Dynatrace 
 - How to trigger a Keptn Quality Gate evaluation using the CLI and the API
 - How to use the Keptn's Bridge to inspect your Quality Gate Results
 
-{{ snippets/11/community/feedback.md }}
+{{ snippets/011/community/feedback.md }}

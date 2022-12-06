@@ -316,4 +316,4 @@ Please don't hesitate to reach out in our Slack channel to get help!
 Join us [in the Keptn slack](https://slack.keptn.sh) and ask your questions in the #help channel. We are happy to help!
 
 
-{{ snippets/12/community/feedback.md }}
+{{ snippets/012/community/feedback.md }}

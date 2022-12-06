@@ -3,7 +3,7 @@ id: keptn-litmus-018
 categories: Prometheus,aks,eks,gke,openshift,pks,minikube,quality-gates,litmus
 tags: keptn018x,advanced
 status: Published 
-authors: Jürgen Etzlstorfer
+authors: Shubham Chaudhary, Jürgen Etzlstorfer
 Feedback Link: https://github.com/keptn/tutorials/tree/master/site/tutorials
 
 
@@ -35,17 +35,17 @@ If you are interested, please have a look at this presentation from Litmus and K
 ![https://www.youtube.com/watch?v=aa5SzQmv4EQ](.)
 
 
-{{ snippets/18/install/cluster.md }}
+{{ snippets/018/install/cluster.md }}
 
-{{ snippets/18/install/istio.md }}
+{{ snippets/018/install/istio.md }}
 
-{{ snippets/18/install/download-keptnCLI.md }}
+{{ snippets/018/install/download-keptnCLI.md }}
 
-{{ snippets/18/install/install-full.md }}
+{{ snippets/018/install/install-full.md }}
 
-{{ snippets/18/install/configureIstio.md }}
+{{ snippets/018/install/configureIstio.md }}
 
-{{ snippets/18/install/authCLI-istio.md }}
+{{ snippets/018/install/authCLI-istio.md }}
 
 ## Download demo resources
 Duration: 1:00
@@ -354,4 +354,4 @@ Congratulations! You have successfully completed this tutorial and evaluated the
 
 
 
-{{ snippets/13/community/feedback.md }}
+{{ snippets/013/community/feedback.md }}

@@ -34,27 +34,27 @@ In this tutorial, we are going to install Keptn on a Kubernetes cluster, along w
 The full setup that we are going to deploy is sketched in the following image.
 ![demo setup](./assets/full-tour-prometheus.png)
 
-{{ snippets/17/install/cluster.md }}
+{{ snippets/017/install/cluster.md }}
 
-{{ snippets/17/install/istio.md }}
+{{ snippets/017/install/istio.md }}
 
-{{ snippets/17/install/download-keptnCLI.md }}
+{{ snippets/017/install/download-keptnCLI.md }}
 
-{{ snippets/17/install/install-full.md }}
+{{ snippets/017/install/install-full.md }}
 
-{{ snippets/17/install/configureIstio.md }}
+{{ snippets/017/install/configureIstio.md }}
 
-{{ snippets/17/install/authCLI-istio.md }}
+{{ snippets/017/install/authCLI-istio.md }}
 
-{{ snippets/17/manage/createProject.md }}
+{{ snippets/017/manage/createProject.md }}
 
-{{ snippets/17/manage/onboardService.md }}
+{{ snippets/017/manage/onboardService.md }}
 
-{{ snippets/17/monitoring/setupPrometheus.md }}
+{{ snippets/017/monitoring/setupPrometheus.md }}
 
-{{ snippets/17/quality-gates/setupQualityGate.md }}
+{{ snippets/017/quality-gates/setupQualityGate.md }}
 
-{{ snippets/17/self-healing/upscalePrometheus.md }}
+{{ snippets/017/self-healing/upscalePrometheus.md }}
 
 
 ## Finish
@@ -202,6 +202,6 @@ spec:
   ![Bridge - Remediation](./assets/bridge-remediation-flow.png)
 -->
 
-{{ snippets/17/integrations/gettingStarted.md }}
+{{ snippets/017/integrations/gettingStarted.md }}
 
-{{ snippets/17/community/feedback.md }}
+{{ snippets/017/community/feedback.md }}

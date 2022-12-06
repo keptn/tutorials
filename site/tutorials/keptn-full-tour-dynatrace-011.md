@@ -37,29 +37,29 @@ The full setup that we are going to deploy is sketched in the following image.
 ![demo setup](./assets/full-tour-dynatrace.png)
 
 
-{{ snippets/11/install/cluster.md }}
+{{ snippets/011/install/cluster.md }}
 
-{{ snippets/11/install/istio.md }}
+{{ snippets/011/install/istio.md }}
 
-{{ snippets/11/install/download-keptnCLI.md }}
+{{ snippets/011/install/download-keptnCLI.md }}
 
-{{ snippets/11/install/install-full.md }}
+{{ snippets/011/install/install-full.md }}
 
-{{ snippets/11/install/configureIstio.md }}
+{{ snippets/011/install/configureIstio.md }}
 
-{{ snippets/11/install/authCLI-istio.md }}
+{{ snippets/011/install/authCLI-istio.md }}
 
-{{ snippets/11/monitoring/setupDynatrace.md }}
+{{ snippets/011/monitoring/setupDynatrace.md }}
 
-{{ snippets/11/manage/createProject.md }}
+{{ snippets/011/manage/createProject.md }}
 
-{{ snippets/11/manage/onboardService.md }}
+{{ snippets/011/manage/onboardService.md }}
 
-{{ snippets/11/monitoring/configureDynatraceSlis.md }}
+{{ snippets/011/monitoring/configureDynatraceSlis.md }}
 
-{{ snippets/11/quality-gates/setupQualityGate.md }}
+{{ snippets/011/quality-gates/setupQualityGate.md }}
 
-{{ snippets/11/self-healing/featureFlagsDynatrace.md }}
+{{ snippets/011/self-healing/featureFlagsDynatrace.md }}
 
 
 
@@ -192,6 +192,6 @@ spec:
 - We have set up self-healing by automated toggling of feature flags in Unleash.
   ![unleash](./assets/unleash-promotion-toggle.png)
 
-{{ snippets/11/integrations/gettingStarted.md }}
+{{ snippets/011/integrations/gettingStarted.md }}
 
-{{ snippets/11/community/feedback.md }}
+{{ snippets/011/community/feedback.md }}
