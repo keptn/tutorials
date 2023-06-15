@@ -18,7 +18,6 @@ VERSION := $(shell cat VERSION)-$(DATE)-$(SHA)
 
 OUTDIRNAME := bin
 OUTDIR := ./$(OUTDIRNAME)
-OUTRELEASE := gs://claat
 RELEASES=$(OUTDIR)/claat-darwin-amd64 \
 	 $(OUTDIR)/claat-linux-amd64 \
 	 $(OUTDIR)/claat-linux-386 \
