@@ -1,5 +1,7 @@
 # Keptn Tutorials
 
+## Keptn V1 has reached end of life on December 22nd, 2023 and has been [replaced](https://github.com/keptn/lifecycle-toolkit).
+
 This repo serves as the place for all Keptn tutorials hosted on https://tutorials.keptn.sh. The repo bases on the [Google Codelab project](https://codelabs.developers.google.com/). 
 
 ## Want to contribute? :bulb:
